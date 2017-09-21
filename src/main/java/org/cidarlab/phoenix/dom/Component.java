@@ -5,6 +5,8 @@
  */
 package org.cidarlab.phoenix.dom;
 
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,6 +27,14 @@ public class Component {
     @Getter
     @Setter
     private ComponentRole role;
+    
+    @Getter
+    @Setter
+    private List<Interaction> interactions = new ArrayList<>();
+    
+    public void addInteraction(Interaction _interaction){
+        interactions.add(_interaction);
+    }
     
     public static enum ComponentRole{
         PROMOTER,

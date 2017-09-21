@@ -5,17 +5,17 @@
  */
 package org.cidarlab.phoenix.adaptors;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.cidarlab.minieugene.MiniEugene;
 import org.cidarlab.minieugene.dom.Component;
 import org.cidarlab.minieugene.dom.ComponentType;
 import org.cidarlab.minieugene.exception.MiniEugeneException;
-import org.cidarlab.minieugene.util.FileUtil;
+import org.cidarlab.minieugene.predicates.interaction.Interaction;
+import org.cidarlab.minieugene.predicates.interaction.Participation;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.Module.ModuleRole;
 import org.cidarlab.phoenix.dom.Orientation;
@@ -36,7 +36,6 @@ public class MiniEugeneAdaptor {
     //This method returns all structures for a given miniEugene file    
     public static List<Module> getStructures(String input, int size, Integer numSolutions, String nameRoot)  {
        
-        
         //Remove lines that are comments or empty lines
         ArrayList<String> rulesList = new ArrayList<>();
         for (String line : Utilities.getFileContentAsStringList(input)) {
@@ -59,7 +58,8 @@ public class MiniEugeneAdaptor {
             try {
                 mE.solve(rules, size, numSolutions);
                 List<Component[]> solutions = mE.getSolutions();
-                phoenixModules = componentToModule(solutions, nameRoot);
+                Set<Interaction> interactions = mE.getInteractions();
+                phoenixModules = componentToModule(solutions, interactions, nameRoot);
             } catch (MiniEugeneException ex) {
                 Logger.getLogger(MiniEugeneAdaptor.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -67,21 +67,20 @@ public class MiniEugeneAdaptor {
             try {
                 mE.solve(rules, size);
                 List<Component[]> solutions = mE.getSolutions();
-                phoenixModules = componentToModule(solutions, nameRoot);
+                Set<Interaction> interactions = mE.getInteractions();
+                phoenixModules = componentToModule(solutions, interactions, nameRoot);
             } catch (MiniEugeneException ex) {
                 Logger.getLogger(MiniEugeneAdaptor.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
         return phoenixModules;
     }
     
     //This method converts Eugene components to Clotho modules
-    public static List<Module> componentToModule(List<Component[]> eugeneDevices, String nameRoot) {
+    public static List<Module> componentToModule(List<Component[]> eugeneDevices, Set<Interaction> interactions, String nameRoot) {
         
         List<Module> phoenixModules = new ArrayList<>();
         int count = 0;
-        
         //For each device, translate all components to features
         //These will be features without a sequence, only a type and direction
         for (Component[] eugeneDevice : eugeneDevices) {
@@ -111,10 +110,36 @@ public class MiniEugeneAdaptor {
             
             phoenixModule.setRole(ModuleRole.HIGHER_FUNCTION);
             phoenixModule.setRoot(true);
+            addInteractions(phoenixModule, interactions);
             phoenixModules.add(phoenixModule);             
         }
         
         return phoenixModules;
+    }
+    
+    public static void addInteractions(Module module, Set<Interaction> interactions){
+        for(Interaction i:interactions){
+            org.cidarlab.phoenix.dom.Component from = null;
+            org.cidarlab.phoenix.dom.Component to = null;
+            for(Participation p:i.getParticipations()){
+                if(p.getRole().equals(Participation.Role.INDUCER) || p.getRole().equals(Participation.Role.REPRESSOR)){
+                    from = module.findComponent(p.getParticipant().getName());
+                } else if (p.getRole().equals(Participation.Role.INDUCEE) || p.getRole().equals(Participation.Role.REPRESSEE)){
+                    to = module.findComponent(p.getParticipant().getName());
+                }
+                else{
+                    //Throw an error for now?
+                    System.err.println(p.getRole().toString() + " not supported yet.");
+                }
+            }
+            if(from == null || to == null){
+                System.err.println("From or To node is null");
+                System.exit(-1);
+            }
+            org.cidarlab.phoenix.dom.Interaction phoenixInteraction = new org.cidarlab.phoenix.dom.Interaction(from,to,i.getType());
+            from.addInteraction(phoenixInteraction);
+            to.addInteraction(phoenixInteraction);
+        } 
     }
     
     //Determine primitive role from Eugene component types

@@ -45,6 +45,15 @@ public class Module {
     @Setter
     private boolean root;
     
+    public Component findComponent(String componentName){
+        for(Component c:this.components){
+            if(c.getName().equals(componentName)){
+                return c;
+            }
+        }
+        return null;
+    }
+    
     public void addComponent(Component c){
         this.components.add(c);
     }
@@ -62,7 +71,10 @@ public class Module {
         HIGHER_FUNCTION,
         TRANSCRIPTIONAL_UNIT,
         PROMOTER,
-        CDS
+        CDS, 
+        BIOCPS_INPUT,
+        BIOCPS_MODULE,
+        BIOCPS_OUTPUT
     }
     
     

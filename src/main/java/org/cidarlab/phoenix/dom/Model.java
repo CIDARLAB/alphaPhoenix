@@ -7,24 +7,21 @@ package org.cidarlab.phoenix.dom;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.sbml.jsbml.SBMLDocument;
 
 /**
  *
  * @author prash
  */
-public class Model {
+public abstract class Model {
     
     @Getter
     @Setter
     private ModelType type;
-
-    public Model() {
-        this.type = ModelType.MichaelisMenten;
-    }
-    
     
     public enum ModelType {
-        MichaelisMenten //Make this the default model.
+        MichaelisMenten, //Make this the default model.
+        BiologicalModules
     }
     
 }

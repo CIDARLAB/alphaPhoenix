@@ -6,15 +6,11 @@
 package org.cidarlab.phoenix.library;
 
 import org.cidarlab.phoenix.dom.DnaComponent;
-import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import org.sbolstandard.core2.ComponentDefinition;
-import org.sbolstandard.core2.ModuleDefinition;
 
 /**
  *

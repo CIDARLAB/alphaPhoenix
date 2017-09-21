@@ -11,7 +11,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.sbolstandard.core2.ComponentDefinition;
 import org.sbolstandard.core2.ModuleDefinition;
-import org.sbolstandard.core2.SBOLDocument;
 
 /**
  *
@@ -26,7 +25,7 @@ public class DnaComponent {
     
     @Getter
     @Setter
-    private List<ModuleDefinition> moduleDefinitions = new ArrayList<ModuleDefinition>();
+    private List<ModuleDefinition> moduleDefinitions = new ArrayList<>();
     
     @Getter
     @Setter
