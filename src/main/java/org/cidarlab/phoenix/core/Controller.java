@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Component.ComponentRole;
+import org.cidarlab.phoenix.dom.Model;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.Module.ModuleRole;
 import org.cidarlab.phoenix.dom.Orientation;
@@ -18,54 +19,53 @@ import org.cidarlab.phoenix.dom.Orientation;
  * @author prash
  */
 public class Controller {
-    
-    public static Module decompose(PhoenixMode mode, Module root){
+
+    //<editor-fold desc="Decompose a Phoenix Module based on the mode">
+    public static Module decompose(PhoenixMode mode, Module root) {
         boolean started = false;
         List<Component> components = null;
-        switch (mode){
-            case MODULE:
+        switch (mode) {
+            case BIOCPS:
                 //Forward Strand
                 started = false;
                 int forInp = 0;
                 int forMod = 0;
                 int forOut = 0;
-                
+
                 ModuleRole role = ModuleRole.BIOCPS_INPUT;
-                for(Component c:root.getComponents()){
-                    if(c.getOrientation().equals(Orientation.FORWARD)){
-                        if(!started){
-                            if(c.getRole().equals(ComponentRole.PROMOTER_INDUCIBLE)){
+                for (Component c : root.getComponents()) {
+                    if (c.getOrientation().equals(Orientation.FORWARD)) {
+                        if (!started) {
+                            if (c.getRole().equals(ComponentRole.PROMOTER_INDUCIBLE)) {
                                 role = ModuleRole.BIOCPS_INPUT;
                                 started = true;
                                 components = new ArrayList<>();
                                 components.add(c);
-                            }
-                            else if(isCDS(c)){
-                                if(isBioCPSModule(c)){
+                            } else if (isCDS(c)) {
+                                if (isBioCPSModule(c)) {
                                     //Create a BioCPS Module
                                     role = ModuleRole.BIOCPS_MODULE;
                                     started = true;
                                     components = new ArrayList<>();
                                     components.add(c);
-                                } else{
+                                } else {
                                     //Create a BioCPS Output
                                     role = ModuleRole.BIOCPS_OUTPUT;
                                     started = true;
                                     components = new ArrayList<>();
                                     components.add(c);
                                 }
-                            }
-                            else {
+                            } else {
                                 //This means wrong grammar.
                                 continue;
                             }
-                            
-                        } else{
+
+                        } else {
                             //In the middle of a module
                             components.add(c);
-                            switch(role){
+                            switch (role) {
                                 case BIOCPS_INPUT:
-                                    if(c.getRole().equals(ComponentRole.RBS)){
+                                    if (c.getRole().equals(ComponentRole.RBS)) {
                                         Module inp = new Module("In" + (forInp++));
                                         inp.setRole(role);
                                         inp.setComponents(components);
@@ -75,7 +75,7 @@ public class Controller {
                                     }
                                     break;
                                 case BIOCPS_MODULE:
-                                    if(c.getRole().equals(ComponentRole.RBS)){
+                                    if (c.getRole().equals(ComponentRole.RBS)) {
                                         Module mod = new Module("Mod" + (forMod++));
                                         mod.setRole(role);
                                         mod.setComponents(components);
@@ -85,7 +85,7 @@ public class Controller {
                                     }
                                     break;
                                 case BIOCPS_OUTPUT:
-                                    if(c.getRole().equals(ComponentRole.TERMINATOR)){
+                                    if (c.getRole().equals(ComponentRole.TERMINATOR)) {
                                         Module out = new Module("Out" + (forOut++));
                                         out.setRole(role);
                                         out.setComponents(components);
@@ -99,8 +99,7 @@ public class Controller {
                                     System.exit(-1);
                             }
                         }
-                    }
-                    else{
+                    } else {
                         //Do any of these make sense in the Forward TU units?
                         continue;
                     }
@@ -111,42 +110,40 @@ public class Controller {
                 int revOut = 0;
                 started = false;
                 components = null;
-                for(int i = (root.getComponents().size()-1); i >= 0; i--){
+                for (int i = (root.getComponents().size() - 1); i >= 0; i--) {
                     Component c = root.getComponents().get(i);
-                    if(c.getOrientation().equals(Orientation.REVERSE)){
-                        if(!started){
-                            if(c.getRole().equals(ComponentRole.PROMOTER_INDUCIBLE)){
+                    if (c.getOrientation().equals(Orientation.REVERSE)) {
+                        if (!started) {
+                            if (c.getRole().equals(ComponentRole.PROMOTER_INDUCIBLE)) {
                                 role = ModuleRole.BIOCPS_INPUT;
                                 started = true;
                                 components = new ArrayList<>();
                                 components.add(c);
-                            }
-                            else if(isCDS(c)){
-                                if(isBioCPSModule(c)){
+                            } else if (isCDS(c)) {
+                                if (isBioCPSModule(c)) {
                                     //Create a BioCPS Module
                                     role = ModuleRole.BIOCPS_MODULE;
                                     started = true;
                                     components = new ArrayList<>();
                                     components.add(c);
-                                } else{
+                                } else {
                                     //Create a BioCPS Output
                                     role = ModuleRole.BIOCPS_OUTPUT;
                                     started = true;
                                     components = new ArrayList<>();
                                     components.add(c);
                                 }
-                            }
-                            else {
+                            } else {
                                 //This means wrong grammar.
                                 continue;
                             }
-                            
-                        } else{
+
+                        } else {
                             //In the middle of a module
                             components.add(c);
-                            switch(role){
+                            switch (role) {
                                 case BIOCPS_INPUT:
-                                    if(c.getRole().equals(ComponentRole.RBS)){
+                                    if (c.getRole().equals(ComponentRole.RBS)) {
                                         Module inp = new Module("In" + (forInp++));
                                         inp.setRole(role);
                                         inp.setComponents(components);
@@ -156,7 +153,7 @@ public class Controller {
                                     }
                                     break;
                                 case BIOCPS_MODULE:
-                                    if(c.getRole().equals(ComponentRole.RBS)){
+                                    if (c.getRole().equals(ComponentRole.RBS)) {
                                         Module mod = new Module("Mod" + (forMod++));
                                         mod.setRole(role);
                                         mod.setComponents(components);
@@ -166,7 +163,7 @@ public class Controller {
                                     }
                                     break;
                                 case BIOCPS_OUTPUT:
-                                    if(c.getRole().equals(ComponentRole.TERMINATOR)){
+                                    if (c.getRole().equals(ComponentRole.TERMINATOR)) {
                                         Module out = new Module("Out" + (forOut++));
                                         out.setRole(role);
                                         out.setComponents(components);
@@ -180,40 +177,36 @@ public class Controller {
                                     System.exit(-1);
                             }
                         }
-                    }
-                    else{
+                    } else {
                         //Do any of these make sense in the Forward TU units?
                         continue;
                     }
                 }
                 return root;
-            case PARTS:
+            case MM:
                 //Forward Strand
                 started = false;
                 int forwardCount = 0;
-                for(Component c:root.getComponents()){
-                    if(!started){
-                        if(c.getOrientation().equals(Orientation.FORWARD)){
-                            if(isPromoter(c)){
+                for (Component c : root.getComponents()) {
+                    if (!started) {
+                        if (c.getOrientation().equals(Orientation.FORWARD)) {
+                            if (isPromoter(c)) {
                                 started = true;
                                 components = new ArrayList<>();
                                 components.add(c);
-                            }
-                            else{
+                            } else {
                                 //Throw an error?
                                 continue;
                             }
-                        } 
-                        else {
+                        } else {
                             //Reverse orientation. Wouldn't really make it a TU unless it is a part of the TU.
                             continue;
                         }
-                    }
-                    //Started Forward strand
-                    else{
-                        if(c.getOrientation().equals(Orientation.FORWARD)){
+                    } //Started Forward strand
+                    else {
+                        if (c.getOrientation().equals(Orientation.FORWARD)) {
                             components.add(c);
-                            if(isTerminator(c)){
+                            if (isTerminator(c)) {
                                 Module child = new Module("TU_F" + (forwardCount++));
                                 child.setComponents(components);
                                 child.setRole(ModuleRole.TRANSCRIPTIONAL_UNIT);
@@ -221,8 +214,8 @@ public class Controller {
                                 decomposeTU(child);
                                 root.addChild(child);
                                 started = false;
-                            }                         
-                        } else{
+                            }
+                        } else {
                             components.add(c); //Make this a wildcard?
                         }
                     }
@@ -231,30 +224,27 @@ public class Controller {
                 int reverseCount = 0;
                 started = false;
                 components = null;
-                for(int i = (root.getComponents().size()-1); i >= 0; i--){
+                for (int i = (root.getComponents().size() - 1); i >= 0; i--) {
                     Component c = root.getComponents().get(i);
-                    if(!started){
-                        if(c.getOrientation().equals(Orientation.REVERSE)){
-                            if(isPromoter(c)){
+                    if (!started) {
+                        if (c.getOrientation().equals(Orientation.REVERSE)) {
+                            if (isPromoter(c)) {
                                 started = true;
                                 components = new ArrayList<Component>();
                                 components.add(c);
-                            }
-                            else{
+                            } else {
                                 //Throw an error?
                                 continue;
                             }
-                        } 
-                        else {
+                        } else {
                             //Reverse orientation. Wouldn't really make it a TU unless it is a part of the TU.
                             continue;
                         }
-                    }
-                    //Started Forward strand
-                    else{
-                        if(c.getOrientation().equals(Orientation.REVERSE)){
+                    } //Started Forward strand
+                    else {
+                        if (c.getOrientation().equals(Orientation.REVERSE)) {
                             components.add(c);
-                            if(isTerminator(c)){
+                            if (isTerminator(c)) {
                                 Module child = new Module("TU_R" + (reverseCount++));
                                 child.setComponents(components);
                                 child.setRole(ModuleRole.TRANSCRIPTIONAL_UNIT);
@@ -262,8 +252,8 @@ public class Controller {
                                 decomposeTU(child);
                                 root.addChild(child);
                                 started = false;
-                            }                         
-                        } else{
+                            }
+                        } else {
                             components.add(c); //Make this a wildcard?
                         }
                     }
@@ -273,35 +263,37 @@ public class Controller {
                 return null;
         }
     }
-    
-    private static void decomposeTU(Module module){
+
+    private static void decomposeTU(Module module) {
         List<Component> components = new ArrayList<>();
         Module cds = null;
-        for(Component c:module.getComponents()){
-            if(isCDS(c)){
+        for (Component c : module.getComponents()) {
+            if (isCDS(c)) {
                 cds = new Module("CDS");
                 cds.addComponent(c);
                 cds.setRole(ModuleRole.CDS);
-                
+
                 Component test = new Component();
                 test.setOrientation(c.getOrientation());
                 test.setRole(ComponentRole.TESTING);
                 test.setName(c.getName());
                 components.add(test);
-            } else{
+            } else {
                 components.add(c);
             }
         }
         Module prom = new Module("Prom");
         prom.setRole(ModuleRole.PROMOTER);
         prom.setComponents(components);
-        
+
         module.addChild(prom);
         module.addChild(cds);
     }
-    
-    private static boolean isBioCPSModule(Component c){
-        switch(c.getRole()){
+    //</editor-fold>
+
+    //<editor-fold desc="Identify the Component Type">
+    private static boolean isBioCPSModule(Component c) {
+        switch (c.getRole()) {
             case CDS_REPRESSOR:
             case CDS_ACTIVATOR:
             case CDS_REPRESSIBLE_REPRESSOR:
@@ -325,14 +317,14 @@ public class Controller {
             case MARKER:
             case WILDCARD:
                 return false;
-            default: 
+            default:
                 return false;
-                
+
         }
     }
-    
-    private static boolean isCDS(Component c){
-        switch(c.getRole()){
+
+    private static boolean isCDS(Component c) {
+        switch (c.getRole()) {
             case CDS:
             case CDS_REPRESSOR:
             case CDS_ACTIVATOR:
@@ -356,14 +348,14 @@ public class Controller {
             case MARKER:
             case WILDCARD:
                 return false;
-            default: 
+            default:
                 return false;
-                
+
         }
     }
-    
-    private static boolean isTerminator(Component c){
-        switch(c.getRole()){
+
+    private static boolean isTerminator(Component c) {
+        switch (c.getRole()) {
             case TERMINATOR:
                 return true;
             case PROMOTER:
@@ -387,14 +379,14 @@ public class Controller {
             case MARKER:
             case WILDCARD:
                 return false;
-            default: 
+            default:
                 return false;
-                
+
         }
     }
-    
-    private static boolean isPromoter(Component c){
-        switch(c.getRole()){
+
+    private static boolean isPromoter(Component c) {
+        switch (c.getRole()) {
             case PROMOTER:
             case PROMOTER_REPRESSIBLE:
             case PROMOTER_INDUCIBLE:
@@ -418,10 +410,39 @@ public class Controller {
             case MARKER:
             case WILDCARD:
                 return false;
-            default: 
+            default:
                 return false;
-                
+
+        }
+    }
+    //</editor-fold>
+
+    public static void composeModels(PhoenixMode mode, Module root) {
+        switch (mode) {
+            case BIOCPS:
+                break;
+            case MM:
+                composePartModels(root);      
+                break;
+            default:
+                break;
         }
     }
     
+    private static void composePartModels(Module root){
+        
+        if(!root.getModel().isOverriden()){
+            List<Model> modelList = new ArrayList<>();
+            for (Module child : root.getChildren()) {
+                if (!child.getModel().isOverriden()) {
+                    composePartModels(child);
+                }
+                modelList.add(child.getModel());
+            }
+            //Do something with modelList?
+            //Model composedModel;
+            //root.setModel(composedModel);
+        } 
+    }
+
 }

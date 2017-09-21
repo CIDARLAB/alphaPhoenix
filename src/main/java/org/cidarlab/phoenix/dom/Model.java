@@ -23,6 +23,10 @@ public abstract class Model {
     @Setter
     private ModelType type;
     
+    @Getter
+    @Setter
+    private boolean overriden;
+    
     public enum ModelType {
         MichaelisMenten, //Make this the default model.
         BioCPS

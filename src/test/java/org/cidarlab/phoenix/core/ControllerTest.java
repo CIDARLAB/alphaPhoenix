@@ -49,7 +49,7 @@ public class ControllerTest {
         String eug = Utilities.getResourcesFilepath() + "miniEugeneFiles" + Utilities.getSeparater() + "inverter.eug";
         int size = 8;
         List<Module> modules = MiniEugeneAdaptor.getStructures(eug, size, "inverter");
-        Module test = Controller.decompose(PhoenixMode.MODULE, modules.get(1));
+        Module test = Controller.decompose(PhoenixMode.BIOCPS, modules.get(1));
         System.out.println("End of Test");
     }
     

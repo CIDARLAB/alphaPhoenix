@@ -10,6 +10,6 @@ package org.cidarlab.phoenix.core;
  * @author prash
  */
 public enum PhoenixMode {
-    MODULE,
-    PARTS
+    BIOCPS,
+    MM
 }
