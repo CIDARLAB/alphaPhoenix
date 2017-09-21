@@ -16,7 +16,7 @@ import org.sbolstandard.core2.ModuleDefinition;
  *
  * @author prash
  */
-public class DnaComponent {
+public class LibraryComponent {
     
     //Does this cover everything?
     @Getter
@@ -31,7 +31,7 @@ public class DnaComponent {
     @Setter
     private Model model;
     
-    public DnaComponent(){
+    public LibraryComponent(){
        
     }
            

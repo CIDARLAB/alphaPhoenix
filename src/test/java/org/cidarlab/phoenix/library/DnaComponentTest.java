@@ -5,7 +5,7 @@
  */
 package org.cidarlab.phoenix.library;
 
-import org.cidarlab.phoenix.dom.DnaComponent;
+import org.cidarlab.phoenix.dom.LibraryComponent;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -39,7 +39,7 @@ public class DnaComponentTest {
 
     @Test
     public void cdTest(){
-        DnaComponent dc = new DnaComponent();
+        LibraryComponent dc = new LibraryComponent();
         
     }
     

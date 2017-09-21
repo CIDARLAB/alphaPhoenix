@@ -9,6 +9,6 @@ package org.cidarlab.phoenix.dom;
  *
  * @author prash
  */
-public class ModelModule extends Model{
-    
+public class ModelBioCPS extends Model{
+    //????
 }

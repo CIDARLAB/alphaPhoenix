@@ -45,6 +45,8 @@ public class Module {
     @Setter
     private boolean root;
     
+    //Get all Interactions
+    
     public Component findComponent(String componentName){
         for(Component c:this.components){
             if(c.getName().equals(componentName)){

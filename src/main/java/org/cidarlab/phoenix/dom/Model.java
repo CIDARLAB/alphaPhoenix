@@ -17,11 +17,15 @@ public abstract class Model {
     
     @Getter
     @Setter
+    private SBMLDocument sbml;
+    
+    @Getter
+    @Setter
     private ModelType type;
     
     public enum ModelType {
         MichaelisMenten, //Make this the default model.
-        BiologicalModules
+        BioCPS
     }
     
 }

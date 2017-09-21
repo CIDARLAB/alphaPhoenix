@@ -186,6 +186,7 @@ public class Controller {
                         continue;
                     }
                 }
+                return root;
             case PARTS:
                 //Forward Strand
                 started = false;
@@ -422,7 +423,5 @@ public class Controller {
                 
         }
     }
-    
-    
     
 }

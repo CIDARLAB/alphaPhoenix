@@ -5,10 +5,27 @@
  */
 package org.cidarlab.phoenix.dom;
 
+import java.io.File;
+import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import org.sbml.jsbml.SBMLDocument;
+
 /**
  *
  * @author prash
  */
-public class ModelPart {
+public class ModelPart extends Model {
+    
+    public ModelPart(SBMLDocument _sbml){
+        this.setSbml(_sbml);
+        this.setType(ModelType.MichaelisMenten);
+    }
+    
+    //Get from Phoenix
+    public ModelPart(List<File> experiments){
+        //Time Series Data, Model, etc
+    }
+    
     
 }
