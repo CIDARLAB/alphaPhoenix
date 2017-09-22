@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class MainController {
     
-    @RequestMapping(value="/test", method=RequestMethod.POST)
+    /*@RequestMapping(value="/test", method=RequestMethod.POST)
     public void test(HttpServletRequest request, HttpServletResponse response){
         String val = request.getParameter("bar");
         String resp = val + " from foo!";
@@ -33,5 +33,5 @@ public class MainController {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-    }
+    }*/
 }
