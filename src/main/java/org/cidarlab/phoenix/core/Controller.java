@@ -434,9 +434,7 @@ public class Controller {
         if(!root.getModel().isOverriden()){
             List<Model> modelList = new ArrayList<>();
             for (Module child : root.getChildren()) {
-                if (!child.getModel().isOverriden()) {
-                    composePartModels(child);
-                }
+                composePartModels(child);
                 modelList.add(child.getModel());
             }
             //Do something with modelList?

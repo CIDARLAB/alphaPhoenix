@@ -1,0 +1,97 @@
+2017-09-21 20:27:46,763 INFO o.s.b.StartupInfoLogger [main] Starting Application on prash-CIDAR with PID 7976 (/home/prash/cidar/phoenix/alpha/target/classes started by prash in /home/prash/cidar/phoenix/alpha)
+2017-09-21 20:27:46,776 INFO o.s.b.SpringApplication [main] No active profile set, falling back to default profiles: default
+2017-09-21 20:27:46,951 INFO o.s.c.s.AbstractApplicationContext [main] Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7ec7ffd3: startup date [Thu Sep 21 20:27:46 EDT 2017]; root of context hierarchy
+2017-09-21 20:27:49,370 INFO o.s.b.c.e.t.TomcatEmbeddedServletContainer [main] Tomcat initialized with port(s): 9090 (http)
+2017-09-21 20:27:49,592 INFO o.s.b.c.e.EmbeddedWebApplicationContext [localhost-startStop-1] Root WebApplicationContext: initialization completed in 2660 ms
+2017-09-21 20:27:50,217 INFO o.s.b.c.e.ServletRegistrationBean [localhost-startStop-1] Mapping servlet: 'dispatcherServlet' to [/]
+2017-09-21 20:27:50,223 INFO o.s.b.c.e.AbstractFilterRegistrationBean [localhost-startStop-1] Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-09-21 20:27:50,224 INFO o.s.b.c.e.AbstractFilterRegistrationBean [localhost-startStop-1] Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2017-09-21 20:27:50,224 INFO o.s.b.c.e.AbstractFilterRegistrationBean [localhost-startStop-1] Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2017-09-21 20:27:50,225 INFO o.s.b.c.e.AbstractFilterRegistrationBean [localhost-startStop-1] Mapping filter: 'requestContextFilter' to: [/*]
+2017-09-21 20:27:50,778 INFO o.s.w.s.m.m.a.RequestMappingHandlerAdapter [main] Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7ec7ffd3: startup date [Thu Sep 21 20:27:46 EDT 2017]; root of context hierarchy
+2017-09-21 20:27:50,860 INFO o.s.w.s.h.AbstractHandlerMethodMapping$MappingRegistry [main] Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-09-21 20:27:50,861 INFO o.s.w.s.h.AbstractHandlerMethodMapping$MappingRegistry [main] Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2017-09-21 20:27:50,873 INFO o.s.b.a.w.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter [main] Adding welcome page: ServletContext resource [/index.html]
+2017-09-21 20:27:50,900 INFO o.s.w.s.h.AbstractUrlHandlerMapping [main] Root mapping to handler of type [class org.springframework.web.servlet.mvc.ParameterizableViewController]
+2017-09-21 20:27:50,912 INFO o.s.w.s.h.AbstractUrlHandlerMapping [main] Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-09-21 20:27:50,913 INFO o.s.w.s.h.AbstractUrlHandlerMapping [main] Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-09-21 20:27:50,957 INFO o.s.w.s.h.AbstractUrlHandlerMapping [main] Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-09-21 20:27:51,070 INFO o.s.j.e.MBeanExporter [main] Registering beans for JMX exposure on startup
+2017-09-21 20:27:51,126 INFO o.s.b.c.e.t.TomcatEmbeddedServletContainer [main] Tomcat started on port(s): 9090 (http)
+2017-09-21 20:27:51,130 INFO o.s.b.StartupInfoLogger [main] Started Application in 4.83 seconds (JVM running for 5.882)
+2017-09-21 20:28:00,317 INFO o.s.w.s.FrameworkServlet [http-nio-9090-exec-1] FrameworkServlet 'dispatcherServlet': initialization started
+2017-09-21 20:28:00,338 INFO o.s.w.s.FrameworkServlet [http-nio-9090-exec-1] FrameworkServlet 'dispatcherServlet': initialization completed in 21 ms
+2017-09-21 20:28:13,132 INFO o.s.c.s.AbstractApplicationContext [Thread-2] Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7ec7ffd3: startup date [Thu Sep 21 20:27:46 EDT 2017]; root of context hierarchy
+2017-09-22 13:58:34,696 INFO o.s.b.StartupInfoLogger [main] Starting Application on prash-CIDAR with PID 4863 (/home/prash/cidar/phoenix/alpha/target/classes started by prash in /home/prash/cidar/phoenix/alpha)
+2017-09-22 13:58:34,699 INFO o.s.b.SpringApplication [main] No active profile set, falling back to default profiles: default
+2017-09-22 13:58:34,760 INFO o.s.c.s.AbstractApplicationContext [main] Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7ec7ffd3: startup date [Fri Sep 22 13:58:34 EDT 2017]; root of context hierarchy
+2017-09-22 13:58:36,008 INFO o.s.b.c.e.t.TomcatEmbeddedServletContainer [main] Tomcat initialized with port(s): 9090 (http)
+2017-09-22 13:58:36,154 INFO o.s.b.c.e.EmbeddedWebApplicationContext [localhost-startStop-1] Root WebApplicationContext: initialization completed in 1398 ms
+2017-09-22 13:58:36,416 INFO o.s.b.c.e.ServletRegistrationBean [localhost-startStop-1] Mapping servlet: 'dispatcherServlet' to [/]
+2017-09-22 13:58:36,421 INFO o.s.b.c.e.AbstractFilterRegistrationBean [localhost-startStop-1] Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-09-22 13:58:36,422 INFO o.s.b.c.e.AbstractFilterRegistrationBean [localhost-startStop-1] Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2017-09-22 13:58:36,422 INFO o.s.b.c.e.AbstractFilterRegistrationBean [localhost-startStop-1] Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2017-09-22 13:58:36,422 INFO o.s.b.c.e.AbstractFilterRegistrationBean [localhost-startStop-1] Mapping filter: 'requestContextFilter' to: [/*]
+2017-09-22 13:58:36,723 INFO o.s.w.s.m.m.a.RequestMappingHandlerAdapter [main] Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7ec7ffd3: startup date [Fri Sep 22 13:58:34 EDT 2017]; root of context hierarchy
+2017-09-22 13:58:36,811 INFO o.s.w.s.h.AbstractHandlerMethodMapping$MappingRegistry [main] Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-09-22 13:58:36,813 INFO o.s.w.s.h.AbstractHandlerMethodMapping$MappingRegistry [main] Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2017-09-22 13:58:36,818 INFO o.s.b.a.w.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter [main] Adding welcome page: ServletContext resource [/index.html]
+2017-09-22 13:58:36,830 INFO o.s.w.s.h.AbstractUrlHandlerMapping [main] Root mapping to handler of type [class org.springframework.web.servlet.mvc.ParameterizableViewController]
+2017-09-22 13:58:36,843 INFO o.s.w.s.h.AbstractUrlHandlerMapping [main] Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-09-22 13:58:36,843 INFO o.s.w.s.h.AbstractUrlHandlerMapping [main] Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-09-22 13:58:36,885 INFO o.s.w.s.h.AbstractUrlHandlerMapping [main] Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-09-22 13:58:36,991 INFO o.s.j.e.MBeanExporter [main] Registering beans for JMX exposure on startup
+2017-09-22 13:58:37,041 INFO o.s.b.c.e.t.TomcatEmbeddedServletContainer [main] Tomcat started on port(s): 9090 (http)
+2017-09-22 13:58:37,045 INFO o.s.b.StartupInfoLogger [main] Started Application in 2.646 seconds (JVM running for 3.413)
+2017-09-22 13:59:32,166 INFO o.s.w.s.FrameworkServlet [http-nio-9090-exec-1] FrameworkServlet 'dispatcherServlet': initialization started
+2017-09-22 13:59:32,182 INFO o.s.w.s.FrameworkServlet [http-nio-9090-exec-1] FrameworkServlet 'dispatcherServlet': initialization completed in 16 ms
+2017-09-22 15:06:12,465 INFO o.s.c.s.AbstractApplicationContext [Thread-2] Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7ec7ffd3: startup date [Fri Sep 22 13:58:34 EDT 2017]; root of context hierarchy
+2017-09-22 18:41:59,153 INFO o.s.b.StartupInfoLogger [main] Starting Application on prash-CIDAR with PID 5742 (/home/prash/cidar/phoenix/alpha/target/classes started by prash in /home/prash/cidar/phoenix/alpha)
+2017-09-22 18:41:59,155 INFO o.s.b.SpringApplication [main] No active profile set, falling back to default profiles: default
+2017-09-22 18:41:59,214 INFO o.s.c.s.AbstractApplicationContext [main] Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7ec7ffd3: startup date [Fri Sep 22 18:41:59 EDT 2017]; root of context hierarchy
+2017-09-22 18:42:00,410 INFO o.s.b.c.e.t.TomcatEmbeddedServletContainer [main] Tomcat initialized with port(s): 9090 (http)
+2017-09-22 18:42:00,556 INFO o.s.b.c.e.EmbeddedWebApplicationContext [localhost-startStop-1] Root WebApplicationContext: initialization completed in 1346 ms
+2017-09-22 18:42:00,797 INFO o.s.b.c.e.ServletRegistrationBean [localhost-startStop-1] Mapping servlet: 'dispatcherServlet' to [/]
+2017-09-22 18:42:00,802 INFO o.s.b.c.e.AbstractFilterRegistrationBean [localhost-startStop-1] Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-09-22 18:42:00,802 INFO o.s.b.c.e.AbstractFilterRegistrationBean [localhost-startStop-1] Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2017-09-22 18:42:00,803 INFO o.s.b.c.e.AbstractFilterRegistrationBean [localhost-startStop-1] Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2017-09-22 18:42:00,803 INFO o.s.b.c.e.AbstractFilterRegistrationBean [localhost-startStop-1] Mapping filter: 'requestContextFilter' to: [/*]
+2017-09-22 18:42:01,122 INFO o.s.w.s.m.m.a.RequestMappingHandlerAdapter [main] Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7ec7ffd3: startup date [Fri Sep 22 18:41:59 EDT 2017]; root of context hierarchy
+2017-09-22 18:42:01,199 INFO o.s.w.s.h.AbstractHandlerMethodMapping$MappingRegistry [main] Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-09-22 18:42:01,204 INFO o.s.w.s.h.AbstractHandlerMethodMapping$MappingRegistry [main] Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2017-09-22 18:42:01,216 INFO o.s.b.a.w.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter [main] Adding welcome page: ServletContext resource [/index.html]
+2017-09-22 18:42:01,234 INFO o.s.w.s.h.AbstractUrlHandlerMapping [main] Root mapping to handler of type [class org.springframework.web.servlet.mvc.ParameterizableViewController]
+2017-09-22 18:42:01,247 INFO o.s.w.s.h.AbstractUrlHandlerMapping [main] Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-09-22 18:42:01,248 INFO o.s.w.s.h.AbstractUrlHandlerMapping [main] Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-09-22 18:42:01,290 INFO o.s.w.s.h.AbstractUrlHandlerMapping [main] Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-09-22 18:42:01,419 INFO o.s.j.e.MBeanExporter [main] Registering beans for JMX exposure on startup
+2017-09-22 18:42:01,538 INFO o.s.b.c.e.t.TomcatEmbeddedServletContainer [main] Tomcat started on port(s): 9090 (http)
+2017-09-22 18:42:01,542 INFO o.s.b.StartupInfoLogger [main] Started Application in 2.662 seconds (JVM running for 3.348)
+2017-09-22 18:42:01,618 INFO o.s.w.s.FrameworkServlet [http-nio-9090-exec-1] FrameworkServlet 'dispatcherServlet': initialization started
+2017-09-22 18:42:01,634 INFO o.s.w.s.FrameworkServlet [http-nio-9090-exec-1] FrameworkServlet 'dispatcherServlet': initialization completed in 16 ms
+2017-09-22 18:45:51,481 INFO o.s.c.s.AbstractApplicationContext [Thread-2] Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7ec7ffd3: startup date [Fri Sep 22 18:41:59 EDT 2017]; root of context hierarchy
+2017-09-23 01:28:09,227 INFO o.s.b.StartupInfoLogger [main] Starting Application on prash-CIDAR with PID 4970 (/home/prash/cidar/phoenix/alpha/target/classes started by prash in /home/prash/cidar/phoenix/alpha)
+2017-09-23 01:28:09,244 INFO o.s.b.SpringApplication [main] No active profile set, falling back to default profiles: default
+2017-09-23 01:28:09,319 INFO o.s.c.s.AbstractApplicationContext [main] Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7ec7ffd3: startup date [Sat Sep 23 01:28:09 EDT 2017]; root of context hierarchy
+2017-09-23 01:28:10,675 INFO o.s.b.c.e.t.TomcatEmbeddedServletContainer [main] Tomcat initialized with port(s): 9090 (http)
+2017-09-23 01:28:10,832 INFO o.s.b.c.e.EmbeddedWebApplicationContext [localhost-startStop-1] Root WebApplicationContext: initialization completed in 1517 ms
+2017-09-23 01:28:11,141 INFO o.s.b.c.e.ServletRegistrationBean [localhost-startStop-1] Mapping servlet: 'dispatcherServlet' to [/]
+2017-09-23 01:28:11,145 INFO o.s.b.c.e.AbstractFilterRegistrationBean [localhost-startStop-1] Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-09-23 01:28:11,146 INFO o.s.b.c.e.AbstractFilterRegistrationBean [localhost-startStop-1] Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2017-09-23 01:28:11,147 INFO o.s.b.c.e.AbstractFilterRegistrationBean [localhost-startStop-1] Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2017-09-23 01:28:11,147 INFO o.s.b.c.e.AbstractFilterRegistrationBean [localhost-startStop-1] Mapping filter: 'requestContextFilter' to: [/*]
+2017-09-23 01:28:11,469 INFO o.s.w.s.m.m.a.RequestMappingHandlerAdapter [main] Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7ec7ffd3: startup date [Sat Sep 23 01:28:09 EDT 2017]; root of context hierarchy
+2017-09-23 01:28:11,554 INFO o.s.w.s.h.AbstractHandlerMethodMapping$MappingRegistry [main] Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-09-23 01:28:11,555 INFO o.s.w.s.h.AbstractHandlerMethodMapping$MappingRegistry [main] Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2017-09-23 01:28:11,562 INFO o.s.b.a.w.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter [main] Adding welcome page: ServletContext resource [/index.html]
+2017-09-23 01:28:11,585 INFO o.s.w.s.h.AbstractUrlHandlerMapping [main] Root mapping to handler of type [class org.springframework.web.servlet.mvc.ParameterizableViewController]
+2017-09-23 01:28:11,605 INFO o.s.w.s.h.AbstractUrlHandlerMapping [main] Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-09-23 01:28:11,606 INFO o.s.w.s.h.AbstractUrlHandlerMapping [main] Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-09-23 01:28:11,660 INFO o.s.w.s.h.AbstractUrlHandlerMapping [main] Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-09-23 01:28:11,797 INFO o.s.j.e.MBeanExporter [main] Registering beans for JMX exposure on startup
+2017-09-23 01:28:11,862 INFO o.s.b.c.e.t.TomcatEmbeddedServletContainer [main] Tomcat started on port(s): 9090 (http)
+2017-09-23 01:28:11,867 INFO o.s.b.StartupInfoLogger [main] Started Application in 3.062 seconds (JVM running for 3.925)
+2017-09-23 01:28:19,039 INFO o.s.w.s.FrameworkServlet [http-nio-9090-exec-1] FrameworkServlet 'dispatcherServlet': initialization started
+2017-09-23 01:28:19,057 INFO o.s.w.s.FrameworkServlet [http-nio-9090-exec-1] FrameworkServlet 'dispatcherServlet': initialization completed in 18 ms
+2017-09-23 01:32:27,696 INFO o.s.c.s.AbstractApplicationContext [Thread-2] Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7ec7ffd3: startup date [Sat Sep 23 01:28:09 EDT 2017]; root of context hierarchy
+2017-09-23 01:32:27,698 INFO o.s.j.e.MBeanExporter [Thread-2] Unregistering JMX-exposed beans on shutdown
