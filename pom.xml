@@ -29,6 +29,16 @@
             <version>1.0</version>
         </dependency>
         <dependency>
+            <groupId>org.cidarlab</groupId>
+            <artifactId>GridTLI</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>SMC4STL</groupId>
+            <artifactId>SMC4STL</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.16.10</version>
