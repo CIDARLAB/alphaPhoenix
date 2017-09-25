@@ -8,7 +8,7 @@ package org.cidarlab.phoenix.core;
 import hyness.stl.grammar.sharp.STLSharp;
 import java.util.concurrent.ThreadLocalRandom;
 import lombok.Getter;
-import lombok.Setter;
+import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.utils.Utilities;
 
 /**
@@ -24,17 +24,21 @@ public class PhoenixProject {
     private String jobId;
     
     @Getter
+    private Module structure;
+    
+    @Getter
     private STLSharp stl;
     
     public String getJobFolder(){
         return (resultsFolder + jobId);
     }
     
-    public PhoenixProject(STLSharp _stl){
+    public PhoenixProject(STLSharp _stl, Module _structure){
         this.resultsFolder = Utilities.getFilepath() + Utilities.getSeparater() + "results" + Utilities.getSeparater();
         if(!Utilities.isDirectory(this.resultsFolder)){
             Utilities.makeDirectory(this.resultsFolder);
         }
+        this.structure = _structure;
         this.stl = _stl;
         executeProject();
     }
