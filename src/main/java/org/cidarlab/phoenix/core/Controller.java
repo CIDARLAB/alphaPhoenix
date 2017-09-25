@@ -7,11 +7,13 @@ package org.cidarlab.phoenix.core;
 
 import java.util.ArrayList;
 import java.util.List;
-import static org.cidarlab.phoenix.adaptors.SBMLAdaptor.composeExpressionModels;
+import org.cidarlab.phoenix.adaptors.SBMLAdaptor;
+import static org.cidarlab.phoenix.adaptors.SBMLAdaptor.composeModels;
 import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Component.ComponentRole;
 import org.cidarlab.phoenix.dom.Model;
 import org.cidarlab.phoenix.dom.ModelBioCPS;
+import org.cidarlab.phoenix.dom.ModelPart;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.Module.ModuleRole;
 import org.cidarlab.phoenix.dom.Orientation;
@@ -439,9 +441,7 @@ public class Controller {
                 composePartModels(child);
                 modelList.add(child.getModel().getSbml().getModel());
             }
-            Model composedModel = new ModelBioCPS();
-            composedModel.setSbml(composeExpressionModels(modelList));
-            composedModel.setType(Model.ModelType.BioCPS);
+            Model composedModel = new ModelPart(SBMLAdaptor.composeModels(modelList));
             root.setModel(composedModel);
         } 
     }
