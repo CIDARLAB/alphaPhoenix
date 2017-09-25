@@ -5,8 +5,8 @@
  */
 package org.cidarlab.phoenix.adaptors;
 
-import analysis.dynamicsim.flattened.SimulatorODERK;
-import analysis.dynamicsim.flattened.SimulatorSSADirect;
+import edu.utah.ece.async.ibiosim.analysis.simulation.flattened.SimulatorODERK;
+import edu.utah.ece.async.ibiosim.analysis.simulation.flattened.SimulatorSSADirect;
 import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.JFrame;
