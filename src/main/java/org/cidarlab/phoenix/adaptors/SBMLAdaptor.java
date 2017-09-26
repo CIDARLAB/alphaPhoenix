@@ -80,33 +80,10 @@ public class SBMLAdaptor {
             SBMLDocument doc = null; 
             try {
                 doc = SBMLReader.read(new File(filepath));
-                Model model = doc.getModel();
-                ListOf<Reaction> reactions = model.getListOfReactions();
-                for(Reaction reaction: reactions){
-                    KineticLaw kineticLaw = reaction.getKineticLaw();
-                    ListOf<LocalParameter> localParameters = kineticLaw.getListOfLocalParameters();
-                    
-                    for(LocalParameter localParameter: localParameters){
-                        String newId = reaction.getId() + "_" + localParameter.getId();
-                        Parameter newParam = new Parameter(localParameter);
-                        newParam.setId(newId);
-                        model.addParameter(newParam);
-                        replaceNameASTNode(kineticLaw.getMath(),localParameter.getId(),newParam.getId());
-                        //kineticLaw.removeLocalParameter(localParameter);
-                    }
-                    
-                    int size = kineticLaw.getLocalParameterCount();
-                    
-                    for(int i=size-1;i>=0;i--){
-                        kineticLaw.removeLocalParameter(i);
-                    }
-                   
-                    
-                }
             } catch (XMLStreamException | IOException ex) {
                 Logger.getLogger(SBMLAdaptor.class.getName()).log(Level.SEVERE, null, ex);
             }
-            return doc;
+            return convertParamsLocalToGlobal(doc);
         }
         
         private static void replaceNameASTNode(ASTNode node,String oldName, String newName){

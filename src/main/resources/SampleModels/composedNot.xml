@@ -9,6 +9,19 @@
       <species boundaryCondition="false" compartment="cell" constant="false" hasOnlySubstanceUnits="true" id="S2" initialAmount="0" name="S2" sboTerm="SBO:0000601"/>
     </listOfSpecies>
     <listOfReactions>
+      <reaction fast="false" id="S1_expression" name="S1_expression" reversible="false" sboTerm="SBO:0000589">
+                <listOfProducts>
+          <speciesReference constant="true" species="S1" stoichiometry="1"/>
+        </listOfProducts>
+                <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <ci> k_EXE </ci>
+          </math>
+                  <listOfLocalParameters>
+            <localParameter id="k_EXE" name="k_EXE" value="1"/>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
       <reaction fast="false" id="S1_degradation" name="S1_degradation" reversible="false" sboTerm="SBO:0000179">
         <listOfReactants>
           <speciesReference constant="true" species="S1" stoichiometry="1"/>
@@ -32,53 +45,6 @@
                 <apply>
                   <divide/>
                   <ci> S1 </ci>
-                  <ci> K_d </ci>
-                </apply>
-              </apply>
-            </apply>
-          </math>
-                  <listOfLocalParameters>
-            <localParameter id="y" name="y" value="1"/>
-            <localParameter id="K_d" name="K_d" value="1"/>
-          </listOfLocalParameters>
-        </kineticLaw>
-      </reaction>
-      <reaction fast="false" id="S1_expression" name="S1_expression" reversible="false" sboTerm="SBO:0000589">
-                <listOfProducts>
-          <speciesReference constant="true" species="S1" stoichiometry="1"/>
-        </listOfProducts>
-                <kineticLaw>
-          <math xmlns="http://www.w3.org/1998/Math/MathML">          
-            <ci> k_EXE </ci>
-          </math>
-                  <listOfLocalParameters>
-            <localParameter id="k_EXE" name="k_EXE" value="1"/>
-          </listOfLocalParameters>
-        </kineticLaw>
-      </reaction>
-      <reaction fast="false" id="S2_degradation" name="S2_degradation" reversible="false" sboTerm="SBO:0000179">
-        <listOfReactants>
-          <speciesReference constant="true" species="S2" stoichiometry="1"/>
-        </listOfReactants>
-                        <kineticLaw>
-          <math xmlns="http://www.w3.org/1998/Math/MathML">          
-            <apply>
-              <divide/>
-              <apply>
-                <divide/>
-                <apply>
-                  <times/>
-                  <ci> y </ci>
-                  <ci> S2 </ci>
-                </apply>
-                <ci> K_d </ci>
-              </apply>
-              <apply>
-                <plus/>
-                <cn type="integer"> 1 </cn>
-                <apply>
-                  <divide/>
-                  <ci> S2 </ci>
                   <ci> K_d </ci>
                 </apply>
               </apply>
@@ -121,6 +87,40 @@
             <localParameter id="k_EXR" name="k_EXR" value="1"/>
             <localParameter id="K_r" name="K_r" value="1"/>
             <localParameter id="n" name="n" value="2"/>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction fast="false" id="S2_degradation" name="S2_degradation" reversible="false" sboTerm="SBO:0000179">
+        <listOfReactants>
+          <speciesReference constant="true" species="S2" stoichiometry="1"/>
+        </listOfReactants>
+                        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <divide/>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> y </ci>
+                  <ci> S2 </ci>
+                </apply>
+                <ci> K_d </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <cn type="integer"> 1 </cn>
+                <apply>
+                  <divide/>
+                  <ci> S2 </ci>
+                  <ci> K_d </ci>
+                </apply>
+              </apply>
+            </apply>
+          </math>
+                  <listOfLocalParameters>
+            <localParameter id="y" name="y" value="1"/>
+            <localParameter id="K_d" name="K_d" value="1"/>
           </listOfLocalParameters>
         </kineticLaw>
       </reaction>

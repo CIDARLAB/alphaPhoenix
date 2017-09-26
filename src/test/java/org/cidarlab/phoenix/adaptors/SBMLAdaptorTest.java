@@ -96,8 +96,8 @@ public class SBMLAdaptorTest {
             IBioSimAdaptor.simulateStocastic(outNotTest, stochComp, 100, 1, 1, simCount);
             IBioSimAdaptor.simulateStocastic(not, stochOrg, 100, 1, 1, simCount);
             
-            String csvdetOrg = detOrg + "run-1.csv";
-            String csvdetComp = detComp + "run-1.csv";
+            
+
             List<Signal> stoOrgSig = new ArrayList<Signal>();
             List<Signal> stoComSig = new ArrayList<Signal>();
             File f;
@@ -105,11 +105,7 @@ public class SBMLAdaptorTest {
             for(int i=1;i<simCount;i++){
                 String csvstochOrg = stochOrg + "run-" + i + ".csv";
                 String csvstochComp = stochComp + "run-" + i + ".csv";
-                TSDParser tsdParser3 = new TSDParser(stochOrg + "run-" + i + ".tsd",false);
-                tsdParser3.outputCSV(csvstochOrg);
-            
-                TSDParser tsdParser4 = new TSDParser(stochComp + "run-" + i + ".tsd",false);
-                tsdParser4.outputCSV(csvstochComp);
+                
                 stoOrgSig.addAll(Utilities.getiBioSimSignals(csvstochOrg));
                 stoComSig.addAll(Utilities.getiBioSimSignals(csvstochComp));
                 
@@ -117,24 +113,11 @@ public class SBMLAdaptorTest {
                 f.delete();
                 f = new File(csvstochComp);
                 f.delete();
-                f = new File(stochOrg + "run-" + i + ".tsd");
-                f.delete();
-                f = new File(stochComp + "run-" + i + ".tsd");
-                f.delete();
                 
             }
-            
-            f = new File(stochOrg + "run-" + simCount + ".tsd");
-            f.delete();
-            f = new File(stochComp + "run-" + simCount + ".tsd");
-            f.delete();
-            
-            TSDParser tsdParser1 = new TSDParser(detOrg + "run-1.tsd",false);
-            tsdParser1.outputCSV(csvdetOrg);
-            
-            TSDParser tsdParser2 = new TSDParser(detComp + "run-1.tsd",false);
-            tsdParser2.outputCSV(csvdetComp);
-            
+                   
+            String csvdetOrg = detOrg + "run-1.csv";
+            String csvdetComp = detComp + "run-1.csv";
             List<Signal> odeOrgSig = Utilities.getiBioSimSignals(csvdetOrg);
             List<Signal> odeComSig = Utilities.getiBioSimSignals(csvdetComp);
             

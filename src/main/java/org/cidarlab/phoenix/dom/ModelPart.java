@@ -7,8 +7,6 @@ package org.cidarlab.phoenix.dom;
 
 import java.io.File;
 import java.util.List;
-import lombok.Getter;
-import lombok.Setter;
 import org.sbml.jsbml.SBMLDocument;
 
 /**
