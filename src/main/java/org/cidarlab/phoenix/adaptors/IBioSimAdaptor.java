@@ -77,11 +77,7 @@ public class IBioSimAdaptor {
      * @param timeStep - the time step of the simulation
      * @param printInterval - how often the simulation data should be written to
      * the output
-<<<<<<< HEAD
-     * @param numRuns - Number of runs 
-=======
      * @param numRuns - number of runs to perform
->>>>>>> c5b590649036985111b4babdc77a359fcd765b41
      * @param minTimeStep - the minimum time step of the simulation
      * @param rndSeed - a random seed for the simulation
      * @param stoichAmpValue - stoichiometry amplification value
