@@ -7,6 +7,8 @@ package org.cidarlab.phoenix.adaptors;
 
 import edu.utah.ece.async.ibiosim.analysis.simulation.flattened.SimulatorODERK;
 import edu.utah.ece.async.ibiosim.analysis.simulation.flattened.SimulatorSSADirect;
+import edu.utah.ece.async.ibiosim.dataModels.util.dataparser.TSDParser;
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.JFrame;
@@ -44,6 +46,9 @@ public class IBioSimAdaptor {
                 timeStep, rndSeed, progress, printInterval, stoichAmpValue, running,
                 new String[0], numSteps, relError, absError, "amount");
         simulator.simulate();
+        TSDParser tsdParser = new TSDParser(outDir + "run-1.tsd", false);
+        tsdParser.outputCSV(outDir + "run-1.csv");
+        new File(outDir + "run-1.tsd").delete();
     }
 
     /**
@@ -72,6 +77,7 @@ public class IBioSimAdaptor {
      * @param timeStep - the time step of the simulation
      * @param printInterval - how often the simulation data should be written to
      * the output
+     * @param numRuns - number of runs to perform
      * @param minTimeStep - the minimum time step of the simulation
      * @param rndSeed - a random seed for the simulation
      * @param stoichAmpValue - stoichiometry amplification value
@@ -87,9 +93,12 @@ public class IBioSimAdaptor {
         SimulatorSSADirect simulator = new SimulatorSSADirect(SBMLFileName, outDir,
                 timeLimit, timeStep, minTimeStep, rndSeed, progress, printInterval,
                 stoichAmpValue, running, new String[0], "amount");
-        for (int i = 1; i <= numRuns; i ++) {
+        for (int i = 2; i <= numRuns; i ++) {
             simulator.simulate();
-            simulator.setupForNewRun(i + 1);
+            TSDParser tsdParser = new TSDParser(outDir + "run-" + (i - 1) + ".tsd", false);
+            tsdParser.outputCSV(outDir + "run-" + (i - 1) + ".csv");
+            new File(outDir + "run-" + (i - 1) + ".tsd").delete();
+            simulator.setupForNewRun(i);
         }
 
     }

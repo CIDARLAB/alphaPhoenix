@@ -97,18 +97,18 @@ public class SBMLAdaptorTest {
             String csvdetComp = detComp + "run-1.csv";
             String csvstochOrg = stochOrg + "run-1.csv";
             String csvstochComp = stochComp + "run-1.csv";
-            
-            TSDParser tsdParser1 = new TSDParser(detOrg + "run-1.tsd",false);
-            tsdParser1.outputCSV(csvdetOrg);
-            
-            TSDParser tsdParser2 = new TSDParser(detComp + "run-1.tsd",false);
-            tsdParser2.outputCSV(csvdetComp);
-            
-            TSDParser tsdParser3 = new TSDParser(stochOrg + "run-1.tsd",false);
-            tsdParser3.outputCSV(csvstochOrg);
-            
-            TSDParser tsdParser4 = new TSDParser(stochComp + "run-1.tsd",false);
-            tsdParser4.outputCSV(csvstochComp);
+
+//            TSDParser tsdParser1 = new TSDParser(detOrg + "run-1.tsd",false);
+//            tsdParser1.outputCSV(csvdetOrg);
+//            
+//            TSDParser tsdParser2 = new TSDParser(detComp + "run-1.tsd",false);
+//            tsdParser2.outputCSV(csvdetComp);
+//            
+//            TSDParser tsdParser3 = new TSDParser(stochOrg + "run-1.tsd",false);
+//            tsdParser3.outputCSV(csvstochOrg);
+//            
+//            TSDParser tsdParser4 = new TSDParser(stochComp + "run-1.tsd",false);
+//            tsdParser4.outputCSV(csvstochComp);
             
             
             List<Signal> odeOrgSig = Utilities.getiBioSimSignals(csvdetOrg);
