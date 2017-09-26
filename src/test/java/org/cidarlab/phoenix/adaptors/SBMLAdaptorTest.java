@@ -8,6 +8,7 @@ package org.cidarlab.phoenix.adaptors;
 import edu.utah.ece.async.ibiosim.dataModels.util.dataparser.TSDParser;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -90,13 +91,43 @@ public class SBMLAdaptorTest {
             IBioSimAdaptor.simulateODE(outNotTest, detComp, 100, 1, 1);
             IBioSimAdaptor.simulateODE(not, detOrg, 100, 1, 1);
             
-            IBioSimAdaptor.simulateStocastic(outNotTest, stochComp, 100, 1, 1, 10);
-            IBioSimAdaptor.simulateStocastic(not, stochOrg, 100, 1, 1, 10);
+            int simCount = 10;
+            
+            IBioSimAdaptor.simulateStocastic(outNotTest, stochComp, 100, 1, 1, simCount);
+            IBioSimAdaptor.simulateStocastic(not, stochOrg, 100, 1, 1, simCount);
             
             String csvdetOrg = detOrg + "run-1.csv";
             String csvdetComp = detComp + "run-1.csv";
-            String csvstochOrg = stochOrg + "run-1.csv";
-            String csvstochComp = stochComp + "run-1.csv";
+            List<Signal> stoOrgSig = new ArrayList<Signal>();
+            List<Signal> stoComSig = new ArrayList<Signal>();
+            File f;
+            
+            for(int i=1;i<simCount;i++){
+                String csvstochOrg = stochOrg + "run-" + i + ".csv";
+                String csvstochComp = stochComp + "run-" + i + ".csv";
+                TSDParser tsdParser3 = new TSDParser(stochOrg + "run-" + i + ".tsd",false);
+                tsdParser3.outputCSV(csvstochOrg);
+            
+                TSDParser tsdParser4 = new TSDParser(stochComp + "run-" + i + ".tsd",false);
+                tsdParser4.outputCSV(csvstochComp);
+                stoOrgSig.addAll(Utilities.getiBioSimSignals(csvstochOrg));
+                stoComSig.addAll(Utilities.getiBioSimSignals(csvstochComp));
+                
+                f = new File(csvstochOrg);
+                f.delete();
+                f = new File(csvstochComp);
+                f.delete();
+                f = new File(stochOrg + "run-" + i + ".tsd");
+                f.delete();
+                f = new File(stochComp + "run-" + i + ".tsd");
+                f.delete();
+                
+            }
+            
+            f = new File(stochOrg + "run-" + simCount + ".tsd");
+            f.delete();
+            f = new File(stochComp + "run-" + simCount + ".tsd");
+            f.delete();
             
             TSDParser tsdParser1 = new TSDParser(detOrg + "run-1.tsd",false);
             tsdParser1.outputCSV(csvdetOrg);
@@ -104,17 +135,9 @@ public class SBMLAdaptorTest {
             TSDParser tsdParser2 = new TSDParser(detComp + "run-1.tsd",false);
             tsdParser2.outputCSV(csvdetComp);
             
-            TSDParser tsdParser3 = new TSDParser(stochOrg + "run-1.tsd",false);
-            tsdParser3.outputCSV(csvstochOrg);
-            
-            TSDParser tsdParser4 = new TSDParser(stochComp + "run-1.tsd",false);
-            tsdParser4.outputCSV(csvstochComp);
-            
-            
             List<Signal> odeOrgSig = Utilities.getiBioSimSignals(csvdetOrg);
             List<Signal> odeComSig = Utilities.getiBioSimSignals(csvdetComp);
-            List<Signal> stoOrgSig = Utilities.getiBioSimSignals(csvstochOrg);
-            List<Signal> stoComSig = Utilities.getiBioSimSignals(csvstochComp);
+            
             
             
             Grid odeOrgG = new Grid(odeOrgSig,1,1);
@@ -133,9 +156,7 @@ public class SBMLAdaptorTest {
             JavaPlotAdaptor.plotToFile(JavaPlotAdaptor.plotGrid(stoComG), stoComGfp);
             
             
-        } catch (XMLStreamException ex) {
-            Logger.getLogger(SBMLAdaptorTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (XMLStreamException | IOException ex) {
             Logger.getLogger(SBMLAdaptorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         

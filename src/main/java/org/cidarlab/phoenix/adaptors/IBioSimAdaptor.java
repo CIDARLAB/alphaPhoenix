@@ -72,6 +72,7 @@ public class IBioSimAdaptor {
      * @param timeStep - the time step of the simulation
      * @param printInterval - how often the simulation data should be written to
      * the output
+     * @param numRuns - Number of runs 
      * @param minTimeStep - the minimum time step of the simulation
      * @param rndSeed - a random seed for the simulation
      * @param stoichAmpValue - stoichiometry amplification value
@@ -87,9 +88,9 @@ public class IBioSimAdaptor {
         SimulatorSSADirect simulator = new SimulatorSSADirect(SBMLFileName, outDir,
                 timeLimit, timeStep, minTimeStep, rndSeed, progress, printInterval,
                 stoichAmpValue, running, new String[0], "amount");
-        for (int i = 1; i <= numRuns; i ++) {
+        for (int i = 2; i <= numRuns; i ++) {
             simulator.simulate();
-            simulator.setupForNewRun(i + 1);
+            simulator.setupForNewRun(i);
         }
 
     }
