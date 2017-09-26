@@ -5,7 +5,6 @@
 package org.cidarlab.phoenix.adaptors;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
@@ -30,7 +29,6 @@ import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
-import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
@@ -105,9 +103,7 @@ public class SBMLAdaptor {
                    
                     
                 }
-            } catch (XMLStreamException ex) {
-                Logger.getLogger(SBMLAdaptor.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
+            } catch (XMLStreamException | IOException ex) {
                 Logger.getLogger(SBMLAdaptor.class.getName()).log(Level.SEVERE, null, ex);
             }
             return doc;
@@ -125,7 +121,7 @@ public class SBMLAdaptor {
             }
         }
             
-	private static void testAdaptor() {
+	/*private static void testAdaptor() {
 		SBMLDocument degradationDoc = createDegradationModel("GFP");
 
 		SBMLDocument expressionDoc = createExpressionModel("GFP");
@@ -145,36 +141,36 @@ public class SBMLAdaptor {
 
 		SBMLDocument inductionInverterDoc1 = createInductionRepressionModel("IPTG", "LacI", "TetR");
 		SBMLDocument inductionInverterDoc2 = createInductionRepressionModel("aTc", "TetR", "LacI");
-		SBMLDocument toggleDoc = composeExpressionModels(inductionInverterDoc1.getModel(), inductionInverterDoc2.getModel());
+		SBMLDocument toggleDoc = SBMLAdaptor.composeModels(inductionInverterDoc1.getModel(), inductionInverterDoc2.getModel());
 
 		List<Model> inverterMods = new LinkedList<Model>();
 		inverterMods.add(createRepressionModel("LacI", "TetR").getModel());
 		inverterMods.add(createRepressionModel("TetR", "cI").getModel());
 		inverterMods.add(createRepressionModel("cI", "LacI").getModel());
-		SBMLDocument repressilatorDoc = composeExpressionModels(inverterMods);
-	}
+		SBMLDocument repressilatorDoc = SBMLAdaptor.composeModels(inverterMods);
+	}*/
 	       
         
 	/*
      * Methods for composing SBML models of gene expression
      */  
 	
-	public static SBMLDocument composeExpressionModels(Model mod1, Model mod2) {
-		return composeExpressionModels(mod1, mod2, new HashMap<String, String>());
+	public static SBMLDocument composeModels(Model mod1, Model mod2) {
+		return SBMLAdaptor.composeModels(mod1, mod2, new HashMap<String, String>());
 	}
 	
-	public static SBMLDocument composeExpressionModels(Model mod1, Model mod2, HashMap<String, String> substitutions) {
+	public static SBMLDocument composeModels(Model mod1, Model mod2, HashMap<String, String> substitutions) {
 		List<Model> mods = new LinkedList<Model>();
 		mods.add(mod1);
 		mods.add(mod2);
-		return composeExpressionModels(mods, substitutions);
+		return composeModels(mods, substitutions);
 	}
 	
-	public static SBMLDocument composeExpressionModels(List<Model> mods) {
-		return composeExpressionModels(mods, new HashMap<String, String>());
+	public static SBMLDocument composeModels(List<Model> mods) {
+		return composeModels(mods, new HashMap<String, String>());
 	}
 	
-	public static SBMLDocument composeExpressionModels(List<Model> mods, HashMap<String, String> substitutions) {
+	public static SBMLDocument composeModels(List<Model> mods, HashMap<String, String> substitutions) {
 		SBMLDocument composedDoc = createCompartmentModel("cell", "cell");
 		Model composedMod = composedDoc.getModel();
 		for (Model mod : mods) {
