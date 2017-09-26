@@ -17,7 +17,7 @@
             <ci> k_EXE </ci>
           </math>
                   <listOfLocalParameters>
-            <localParameter id="k_EXE" name="k_EXE" value="1"/>
+            <localParameter id="k_EXE" name="k_EXE" value="0.1"/>
           </listOfLocalParameters>
         </kineticLaw>
       </reaction>
