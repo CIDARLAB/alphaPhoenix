@@ -90,8 +90,8 @@ public class SBMLAdaptorTest {
             IBioSimAdaptor.simulateODE(outNotTest, detComp, 100, 1, 1);
             IBioSimAdaptor.simulateODE(not, detOrg, 100, 1, 1);
             
-            IBioSimAdaptor.simulateStocastic(outNotTest, stochComp, 100, 1, 1);
-            IBioSimAdaptor.simulateStocastic(not, stochOrg, 100, 1, 1);
+            IBioSimAdaptor.simulateStocastic(outNotTest, stochComp, 100, 1, 1, 10);
+            IBioSimAdaptor.simulateStocastic(not, stochOrg, 100, 1, 1, 10);
             
             String csvdetOrg = detOrg + "run-1.csv";
             String csvdetComp = detComp + "run-1.csv";

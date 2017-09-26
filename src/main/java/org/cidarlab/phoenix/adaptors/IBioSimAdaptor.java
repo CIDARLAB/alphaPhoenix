@@ -78,8 +78,8 @@ public class IBioSimAdaptor {
      * @throws IOException
      */
     public static void simulateStocastic(String SBMLFileName, String outDir,
-            double timeLimit, double timeStep, double printInterval, double minTimeStep,
-            long rndSeed, double stoichAmpValue) throws IOException {
+            double timeLimit, double timeStep, double printInterval, int numRuns,
+            double minTimeStep, long rndSeed, double stoichAmpValue) throws IOException {
 
         JProgressBar progress = new JProgressBar();
         JFrame running = new JFrame();
@@ -87,7 +87,10 @@ public class IBioSimAdaptor {
         SimulatorSSADirect simulator = new SimulatorSSADirect(SBMLFileName, outDir,
                 timeLimit, timeStep, minTimeStep, rndSeed, progress, printInterval,
                 stoichAmpValue, running, new String[0], "amount");
-        simulator.simulate();
+        for (int i = 1; i <= numRuns; i ++) {
+            simulator.simulate();
+            simulator.setupForNewRun(i + 1);
+        }
 
     }
 
@@ -100,12 +103,13 @@ public class IBioSimAdaptor {
      * @param timeStep - the time step of the simulation
      * @param printInterval - how often the simulation data should be written to
      * the output
+     * @param numRuns - number of runs to perform
      * @throws IOException
      */
     public static void simulateStocastic(String SBMLFileName, String outDir,
-            double timeLimit, double timeStep, double printInterval) throws IOException {
+            double timeLimit, double timeStep, double printInterval, int numRuns) throws IOException {
         
-        simulateStocastic(SBMLFileName, outDir, timeLimit, timeStep, printInterval, 0.0, ThreadLocalRandom.current().nextLong(), 2.0);
+        simulateStocastic(SBMLFileName, outDir, timeLimit, timeStep, printInterval, numRuns, 0.0, ThreadLocalRandom.current().nextLong(), 2.0);
 
     }
 }
