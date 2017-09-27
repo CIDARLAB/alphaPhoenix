@@ -18,7 +18,7 @@
             <ci> k_EXE </ci>
           </math>
                   <listOfLocalParameters>
-            <localParameter id="k_EXE" name="k_EXE" value="1"/>
+            <localParameter id="k_EXE" name="k_EXE" value="0.1"/>
           </listOfLocalParameters>
         </kineticLaw>
       </reaction>
@@ -51,7 +51,7 @@
             </apply>
           </math>
                   <listOfLocalParameters>
-            <localParameter id="y" name="y" value="1"/>
+            <localParameter id="y" name="y" value="0.005"/>
             <localParameter id="K_d" name="K_d" value="1"/>
           </listOfLocalParameters>
         </kineticLaw>
@@ -84,8 +84,8 @@
             </apply>
           </math>
                   <listOfLocalParameters>
-            <localParameter id="k_EXR" name="k_EXR" value="1"/>
-            <localParameter id="K_r" name="K_r" value="1"/>
+            <localParameter id="k_EXR" name="k_EXR" value="0.01"/>
+            <localParameter id="K_r" name="K_r" value="0.5"/>
             <localParameter id="n" name="n" value="2"/>
           </listOfLocalParameters>
         </kineticLaw>
@@ -119,7 +119,7 @@
             </apply>
           </math>
                   <listOfLocalParameters>
-            <localParameter id="y" name="y" value="1"/>
+            <localParameter id="y" name="y" value="0.005"/>
             <localParameter id="K_d" name="K_d" value="1"/>
           </listOfLocalParameters>
         </kineticLaw>

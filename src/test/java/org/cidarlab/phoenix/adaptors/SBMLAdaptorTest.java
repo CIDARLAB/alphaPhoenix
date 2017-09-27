@@ -102,7 +102,7 @@ public class SBMLAdaptorTest {
             List<Signal> stoComSig = new ArrayList<Signal>();
             File f;
             
-            for(int i=1;i<simCount;i++){
+            for(int i=1;i<=simCount;i++){
                 String csvstochOrg = stochOrg + "run-" + i + ".csv";
                 String csvstochComp = stochComp + "run-" + i + ".csv";
                 
