@@ -8,6 +8,7 @@ package org.cidarlab.phoenix.core;
 import hyness.stl.grammar.sharp.STLSharp;
 import java.util.concurrent.ThreadLocalRandom;
 import lombok.Getter;
+import lombok.Setter;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.utils.Utilities;
 
@@ -23,9 +24,11 @@ public class PhoenixProject {
     @Getter
     private String jobId;
     
+    @Setter
     @Getter
     private Module structure;
     
+    @Setter
     @Getter
     private STLSharp stl;
     
@@ -33,28 +36,25 @@ public class PhoenixProject {
         return (resultsFolder + jobId);
     }
     
-    public PhoenixProject(STLSharp _stl, Module _structure){
+    public PhoenixProject(){
         this.resultsFolder = Utilities.getFilepath() + Utilities.getSeparater() + "results" + Utilities.getSeparater();
         if(!Utilities.isDirectory(this.resultsFolder)){
             Utilities.makeDirectory(this.resultsFolder);
         }
-        this.structure = _structure;
-        this.stl = _stl;
-        executeProject();
+        createJob();
     }
     
-    public PhoenixProject(String _resultsFolder, STLSharp _stl){
+    public PhoenixProject(String _resultsFolder){
         if(!Utilities.isDirectory(_resultsFolder)){
             System.err.println("Error! Directory " + _resultsFolder + " does not exist");
             System.exit(-1);
         }
         this.resultsFolder = _resultsFolder;
-        this.stl = _stl;
-        executeProject();
+        createJob();
     }
     
     private void executeProject(){
-        createJob();
+        
     }
     
     private int getNextPositiveId(){

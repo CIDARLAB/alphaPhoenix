@@ -39,7 +39,7 @@ public class PhoenixProjectTest {
     @Test
     public void testCreateProject(){
         for(int i=0;i<10;i++){
-            PhoenixProject proj = new PhoenixProject("",null);
+            PhoenixProject proj = new PhoenixProject();
             System.out.println(proj.getJobId());
             System.out.println(proj.getJobFolder());
             System.out.println(proj.getResultsFolder());
