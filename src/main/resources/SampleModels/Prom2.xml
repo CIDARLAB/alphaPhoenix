@@ -37,8 +37,8 @@
             </apply>
           </math>
                   <listOfLocalParameters>
-            <localParameter id="k_EXR" name="k_EXR" value="0.01"/>
-            <localParameter id="K_r" name="K_r" value="0.5"/>
+            <localParameter id="k_EXR" name="k_EXR" value="0.1"/>
+            <localParameter id="K_r" name="K_r" value="0.65"/>
             <localParameter id="n" name="n" value="2"/>
           </listOfLocalParameters>
         </kineticLaw>

@@ -37,8 +37,8 @@
             </apply>
           </math>
                   <listOfLocalParameters>
-            <localParameter id="y" name="y" value="0.005"/>
-            <localParameter id="K_d" name="K_d" value="1"/>
+            <localParameter id="y" name="y" value="0.1"/>
+            <localParameter id="K_d" name="K_d" value="0.0075"/>
           </listOfLocalParameters>
         </kineticLaw>
       </reaction>
