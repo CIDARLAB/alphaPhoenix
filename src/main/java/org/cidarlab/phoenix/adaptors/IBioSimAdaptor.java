@@ -77,11 +77,7 @@ public class IBioSimAdaptor {
      * @param timeStep - the time step of the simulation
      * @param printInterval - how often the simulation data should be written to
      * the output
-<<<<<<< HEAD
-     * @param numRuns - Number of runs 
-=======
      * @param numRuns - number of runs to perform
->>>>>>> c5b590649036985111b4babdc77a359fcd765b41
      * @param minTimeStep - the minimum time step of the simulation
      * @param rndSeed - a random seed for the simulation
      * @param stoichAmpValue - stoichiometry amplification value
@@ -97,12 +93,16 @@ public class IBioSimAdaptor {
         SimulatorSSADirect simulator = new SimulatorSSADirect(SBMLFileName, outDir,
                 timeLimit, timeStep, minTimeStep, rndSeed, progress, printInterval,
                 stoichAmpValue, running, new String[0], "amount");
+        simulator.simulate();
+        TSDParser tsdParser = new TSDParser(outDir + "run-1.tsd", false);
+        tsdParser.outputCSV(outDir + "run-1.csv");
+        new File(outDir + "run-1.tsd").delete();
         for (int i = 2; i <= numRuns; i ++) {
-            simulator.simulate();
-            TSDParser tsdParser = new TSDParser(outDir + "run-" + (i - 1) + ".tsd", false);
-            tsdParser.outputCSV(outDir + "run-" + (i - 1) + ".csv");
-            new File(outDir + "run-" + (i - 1) + ".tsd").delete();
             simulator.setupForNewRun(i);
+            simulator.simulate();
+            tsdParser = new TSDParser(outDir + "run-" + i + ".tsd", false);
+            tsdParser.outputCSV(outDir + "run-" + i + ".csv");
+            new File(outDir + "run-" + i + ".tsd").delete();
         }
 
     }
