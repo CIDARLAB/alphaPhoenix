@@ -1,0 +1,1053 @@
+<?xml version="1.0" ?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sbh="http://wiki.synbiohub.org/wiki/Terms/synbiohub#" xmlns:sbol="http://sbols.org/v2#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:prov="http://www.w3.org/ns/prov#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <sbol:Collection rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/PhoenixModels_collection/1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/PhoenixModels_collection"/>
+    <sbol:displayId>PhoenixModels_collection</sbol:displayId>
+    <sbol:version>1</sbol:version>
+    <dcterms:title>PhoenixModels</dcterms:title>
+    <dcterms:description>Models used in Phoenix</dcterms:description>
+    <dc:creator>Prashant Vaidyanathan</dc:creator>
+    <dcterms:created>2017-09-28T17:17:35.658Z</dcterms:created>
+    <dcterms:created>2017-09-28T19:42:16.728Z</dcterms:created>
+    <sbh:attachment rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz51rh38Z8lz1NTKy/1"/>
+    <sbh:attachment rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz51riT3IH63Q2bY0/1"/>
+    <sbh:attachment rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz52a3wApanakQN7Y/1"/>
+    <sbh:attachment rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz52a4e8C9xcwkwE4/1"/>
+    <sbh:attachment rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NVyJO8Gxsux7Y/1"/>
+    <sbh:attachment rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NVyJO8Gxsux7Z/1"/>
+    <sbh:attachment rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NWgGkhR05FWE4/1"/>
+    <sbh:attachment rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NX2FQz11BPnmK/1"/>
+    <sbh:attachment rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz54Aerb7MNNeSFHc/1"/>
+    <sbh:attachment rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz54AfZYTvXPqmoO8/1"/>
+    <sbh:attachment rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz54AgHVqUhS37NUe/1"/>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/PhoenixModels_collection/1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#Collection"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pSrpR/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rfpmd/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpR_model/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/bfpmd/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp1_model/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRmd/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz54Aerb7MNNeSFHc/1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp1/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz52a4e8C9xcwkwE4/1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pLas/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasR_model/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTetmd/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasR/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpR/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp2_model/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetR_model/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp2/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp2md/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRmd/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRmd/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRProtein/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTet/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz54AgHVqUhS37NUe/1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpRmd/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRProtein/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRProtein/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rfp_model/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/ter1/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/gfp_model/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/plasRmd/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NVyJO8Gxsux7Y/1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/bfp_model/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rbs2/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rfp/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpR_model/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetR/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/ter2/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz54AfZYTvXPqmoO8/1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NWgGkhR05FWE4/1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/bfp/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rbs1/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTet_model/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/gfpmd/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz51rh38Z8lz1NTKy/1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz51riT3IH63Q2bY0/1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/gfp/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp1md/0.1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NVyJO8Gxsux7Z/1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz52a3wApanakQN7Y/1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NX2FQz11BPnmK/1"/>
+    <sbol:member rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pLas_model/0.1"/>
+  </sbol:Collection>
+  <sbol:ModuleDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp1md/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp1md"/>
+    <sbol:displayId>cp1md</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp1md/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ModuleDefinition"/>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp1md/cp2/0.1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp1md/cp2"/>
+        <sbol:displayId>cp2</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+        <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp1md/0.1"/>
+        <rdf:type rdf:resource="http://sbols.org/v2#FunctionalComponent"/>
+        <sbol:definition rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp2/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp1md/cp1/0.1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp1md/cp1"/>
+        <sbol:displayId>cp1</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+        <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp1md/0.1"/>
+        <rdf:type rdf:resource="http://sbols.org/v2#FunctionalComponent"/>
+        <sbol:definition rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp1/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:model rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp1_model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpRmd/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpRmd"/>
+    <sbol:displayId>psrpRmd</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpRmd/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ModuleDefinition"/>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpRmd/psrpR/0.1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpRmd/psrpR"/>
+        <sbol:displayId>psrpR</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+        <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpRmd/0.1"/>
+        <rdf:type rdf:resource="http://sbols.org/v2#FunctionalComponent"/>
+        <sbol:definition rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pSrpR/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpRmd/srpR_prot_rep/0.1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpRmd/srpR_prot_rep"/>
+        <sbol:displayId>srpR_prot_rep</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+        <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpRmd/0.1"/>
+        <rdf:type rdf:resource="http://sbols.org/v2#FunctionalComponent"/>
+        <sbol:definition rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRProtein/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpRmd/srpR_repression/0.1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpRmd/srpR_repression"/>
+        <sbol:displayId>srpR_repression</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+        <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpRmd/0.1"/>
+        <rdf:type rdf:resource="http://sbols.org/v2#Interaction"/>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000169"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpRmd/srpR_repression/psrpR_int/0.1">
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpRmd/srpR_repression/psrpR_int"/>
+            <sbol:displayId>psrpR_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+            <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpRmd/0.1"/>
+            <rdf:type rdf:resource="http://sbols.org/v2#Participation"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000642"/>
+            <sbol:participant rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpRmd/psrpR/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpRmd/srpR_repression/srpR_prot_rep_int/0.1">
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpRmd/srpR_repression/srpR_prot_rep_int"/>
+            <sbol:displayId>srpR_prot_rep_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+            <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpRmd/0.1"/>
+            <rdf:type rdf:resource="http://sbols.org/v2#Participation"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000020"/>
+            <sbol:participant rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpRmd/srpR_prot_rep/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpR_model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRmd/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRmd"/>
+    <sbol:displayId>tetRmd</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRmd/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ModuleDefinition"/>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRmd/tetR/0.1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRmd/tetR"/>
+        <sbol:displayId>tetR</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+        <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRmd/0.1"/>
+        <rdf:type rdf:resource="http://sbols.org/v2#FunctionalComponent"/>
+        <sbol:definition rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetR/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRmd/tetR_prot/0.1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRmd/tetR_prot"/>
+        <sbol:displayId>tetR_prot</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+        <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRmd/0.1"/>
+        <rdf:type rdf:resource="http://sbols.org/v2#FunctionalComponent"/>
+        <sbol:definition rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRProtein/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRmd/tetR_production/0.1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRmd/tetR_production"/>
+        <sbol:displayId>tetR_production</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+        <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRmd/0.1"/>
+        <rdf:type rdf:resource="http://sbols.org/v2#Interaction"/>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000589"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRmd/tetR_production/tetR_int/0.1">
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRmd/tetR_production/tetR_int"/>
+            <sbol:displayId>tetR_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+            <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRmd/0.1"/>
+            <rdf:type rdf:resource="http://sbols.org/v2#Participation"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000645"/>
+            <sbol:participant rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRmd/tetR/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRmd/tetR_production/tetR_prot_int/0.1">
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRmd/tetR_production/tetR_prot_int"/>
+            <sbol:displayId>tetR_prot_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+            <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRmd/0.1"/>
+            <rdf:type rdf:resource="http://sbols.org/v2#Participation"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000011"/>
+            <sbol:participant rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRmd/tetR_prot/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetR_model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/plasRmd/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/plasRmd"/>
+    <sbol:displayId>plasRmd</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/plasRmd/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ModuleDefinition"/>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/plasRmd/plasR_prot_rep/0.1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/plasRmd/plasR_prot_rep"/>
+        <sbol:displayId>plasR_prot_rep</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+        <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/plasRmd/0.1"/>
+        <rdf:type rdf:resource="http://sbols.org/v2#FunctionalComponent"/>
+        <sbol:definition rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRProtein/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/plasRmd/plasR/0.1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/plasRmd/plasR"/>
+        <sbol:displayId>plasR</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+        <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/plasRmd/0.1"/>
+        <rdf:type rdf:resource="http://sbols.org/v2#FunctionalComponent"/>
+        <sbol:definition rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTet/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/plasRmd/lasR_repression/0.1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/plasRmd/lasR_repression"/>
+        <sbol:displayId>lasR_repression</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+        <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/plasRmd/0.1"/>
+        <rdf:type rdf:resource="http://sbols.org/v2#Interaction"/>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/plasRmd/lasR_repression/lasR_prot_rep_int/0.1">
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/plasRmd/lasR_repression/lasR_prot_rep_int"/>
+            <sbol:displayId>lasR_prot_rep_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+            <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/plasRmd/0.1"/>
+            <rdf:type rdf:resource="http://sbols.org/v2#Participation"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
+            <sbol:participant rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/plasRmd/plasR_prot_rep/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/plasRmd/lasR_repression/plasR_int/0.1">
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/plasRmd/lasR_repression/plasR_int"/>
+            <sbol:displayId>plasR_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+            <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/plasRmd/0.1"/>
+            <rdf:type rdf:resource="http://sbols.org/v2#Participation"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
+            <sbol:participant rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/plasRmd/plasR/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pLas_model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRmd/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRmd"/>
+    <sbol:displayId>lasRmd</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRmd/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ModuleDefinition"/>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRmd/lasR/0.1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRmd/lasR"/>
+        <sbol:displayId>lasR</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+        <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRmd/0.1"/>
+        <rdf:type rdf:resource="http://sbols.org/v2#FunctionalComponent"/>
+        <sbol:definition rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetR/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRmd/lasR_prot/0.1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRmd/lasR_prot"/>
+        <sbol:displayId>lasR_prot</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+        <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRmd/0.1"/>
+        <rdf:type rdf:resource="http://sbols.org/v2#FunctionalComponent"/>
+        <sbol:definition rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRProtein/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRmd/lasR_production/0.1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRmd/lasR_production"/>
+        <sbol:displayId>lasR_production</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+        <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRmd/0.1"/>
+        <rdf:type rdf:resource="http://sbols.org/v2#Interaction"/>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000589"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRmd/lasR_production/lasR_int/0.1">
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRmd/lasR_production/lasR_int"/>
+            <sbol:displayId>lasR_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+            <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRmd/0.1"/>
+            <rdf:type rdf:resource="http://sbols.org/v2#Participation"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000645"/>
+            <sbol:participant rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRmd/lasR/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRmd/lasR_production/lasR_prot_int/0.1">
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRmd/lasR_production/lasR_prot_int"/>
+            <sbol:displayId>lasR_prot_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+            <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRmd/0.1"/>
+            <rdf:type rdf:resource="http://sbols.org/v2#Participation"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000011"/>
+            <sbol:participant rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRmd/lasR_prot/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasR_model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rfpmd/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rfpmd"/>
+    <sbol:displayId>rfpmd</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rfpmd/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ModuleDefinition"/>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rfpmd/rfp/0.1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rfpmd/rfp"/>
+        <sbol:displayId>rfp</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+        <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rfpmd/0.1"/>
+        <rdf:type rdf:resource="http://sbols.org/v2#FunctionalComponent"/>
+        <sbol:definition rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rfp/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:model rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rfp_model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/gfpmd/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/gfpmd"/>
+    <sbol:displayId>gfpmd</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/gfpmd/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ModuleDefinition"/>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/gfpmd/gfp/0.1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/gfpmd/gfp"/>
+        <sbol:displayId>gfp</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+        <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/gfpmd/0.1"/>
+        <rdf:type rdf:resource="http://sbols.org/v2#FunctionalComponent"/>
+        <sbol:definition rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/gfp/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:model rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/gfp_model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/bfpmd/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/bfpmd"/>
+    <sbol:displayId>bfpmd</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/bfpmd/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ModuleDefinition"/>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/bfpmd/bfp/0.1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/bfpmd/bfp"/>
+        <sbol:displayId>bfp</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+        <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/bfpmd/0.1"/>
+        <rdf:type rdf:resource="http://sbols.org/v2#FunctionalComponent"/>
+        <sbol:definition rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/bfp/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:model rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/bfp_model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTetmd/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTetmd"/>
+    <sbol:displayId>pTetmd</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTetmd/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ModuleDefinition"/>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTetmd/pTet/0.1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTetmd/pTet"/>
+        <sbol:displayId>pTet</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+        <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTetmd/0.1"/>
+        <rdf:type rdf:resource="http://sbols.org/v2#FunctionalComponent"/>
+        <sbol:definition rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTet/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTetmd/tetR_prot_rep/0.1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTetmd/tetR_prot_rep"/>
+        <sbol:displayId>tetR_prot_rep</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+        <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTetmd/0.1"/>
+        <rdf:type rdf:resource="http://sbols.org/v2#FunctionalComponent"/>
+        <sbol:definition rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRProtein/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTetmd/tetR_repression/0.1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTetmd/tetR_repression"/>
+        <sbol:displayId>tetR_repression</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+        <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTetmd/0.1"/>
+        <rdf:type rdf:resource="http://sbols.org/v2#Interaction"/>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000169"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTetmd/tetR_repression/pTet_int/0.1">
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTetmd/tetR_repression/pTet_int"/>
+            <sbol:displayId>pTet_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+            <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTetmd/0.1"/>
+            <rdf:type rdf:resource="http://sbols.org/v2#Participation"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000642"/>
+            <sbol:participant rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTetmd/pTet/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTetmd/tetR_repression/tetR_prot_rep_int/0.1">
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTetmd/tetR_repression/tetR_prot_rep_int"/>
+            <sbol:displayId>tetR_prot_rep_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+            <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTetmd/0.1"/>
+            <rdf:type rdf:resource="http://sbols.org/v2#Participation"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000020"/>
+            <sbol:participant rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTetmd/tetR_prot_rep/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTet_model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp2md/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp2md"/>
+    <sbol:displayId>cp2md</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp2md/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ModuleDefinition"/>
+    <sbol:model rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp2_model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRmd/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRmd"/>
+    <sbol:displayId>srpRmd</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRmd/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ModuleDefinition"/>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRmd/srpR_prot/0.1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRmd/srpR_prot"/>
+        <sbol:displayId>srpR_prot</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+        <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRmd/0.1"/>
+        <rdf:type rdf:resource="http://sbols.org/v2#FunctionalComponent"/>
+        <sbol:definition rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRProtein/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRmd/srpR/0.1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRmd/srpR"/>
+        <sbol:displayId>srpR</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+        <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRmd/0.1"/>
+        <rdf:type rdf:resource="http://sbols.org/v2#FunctionalComponent"/>
+        <sbol:definition rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpR/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRmd/srpR_production/0.1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRmd/srpR_production"/>
+        <sbol:displayId>srpR_production</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+        <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRmd/0.1"/>
+        <rdf:type rdf:resource="http://sbols.org/v2#Interaction"/>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000589"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRmd/srpR_production/srpR_int/0.1">
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRmd/srpR_production/srpR_int"/>
+            <sbol:displayId>srpR_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+            <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRmd/0.1"/>
+            <rdf:type rdf:resource="http://sbols.org/v2#Participation"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000645"/>
+            <sbol:participant rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRmd/srpR/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRmd/srpR_production/srpR_prot_int/0.1">
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRmd/srpR_production/srpR_prot_int"/>
+            <sbol:displayId>srpR_prot_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+            <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRmd/0.1"/>
+            <rdf:type rdf:resource="http://sbols.org/v2#Participation"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000011"/>
+            <sbol:participant rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRmd/srpR_prot/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpR_model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:Model rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp2_model/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp2_model"/>
+    <sbol:displayId>cp2_model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp2_model/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#Model"/>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz51riT3IH63Q2bY0/1"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/gfp_model/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/gfp_model"/>
+    <sbol:displayId>gfp_model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/gfp_model/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#Model"/>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz54Aerb7MNNeSFHc/1"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rfp_model/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rfp_model"/>
+    <sbol:displayId>rfp_model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rfp_model/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#Model"/>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz54AgHVqUhS37NUe/1"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpR_model/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpR_model"/>
+    <sbol:displayId>srpR_model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpR_model/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#Model"/>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NVyJO8Gxsux7Y/1"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pLas_model/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pLas_model"/>
+    <sbol:displayId>pLas_model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pLas_model/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#Model"/>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz52a3wApanakQN7Y/1"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/bfp_model/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/bfp_model"/>
+    <sbol:displayId>bfp_model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/bfp_model/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#Model"/>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz54AfZYTvXPqmoO8/1"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasR_model/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasR_model"/>
+    <sbol:displayId>lasR_model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasR_model/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#Model"/>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz52a4e8C9xcwkwE4/1"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetR_model/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetR_model"/>
+    <sbol:displayId>tetR_model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetR_model/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#Model"/>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NX2FQz11BPnmK/1"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTet_model/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTet_model"/>
+    <sbol:displayId>pTet_model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTet_model/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#Model"/>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NWgGkhR05FWE4/1"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpR_model/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpR_model"/>
+    <sbol:displayId>psrpR_model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/psrpR_model/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#Model"/>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NVyJO8Gxsux7Z/1"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp1_model/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp1_model"/>
+    <sbol:displayId>cp1_model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp1_model/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#Model"/>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz51rh38Z8lz1NTKy/1"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetR/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetR"/>
+    <sbol:displayId>tetR</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>TetR</dcterms:title>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetR/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ComponentDefinition"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rbs1/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rbs1"/>
+    <sbol:displayId>rbs1</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>RBS 1</dcterms:title>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rbs1/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ComponentDefinition"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000139"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpR/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpR"/>
+    <sbol:displayId>srpR</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>SrpR</dcterms:title>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpR/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ComponentDefinition"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/bfp/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/bfp"/>
+    <sbol:displayId>bfp</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>BFP</dcterms:title>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/bfp/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ComponentDefinition"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTet/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTet"/>
+    <sbol:displayId>pTet</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>pTet</dcterms:title>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pTet/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ComponentDefinition"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRProtein/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRProtein"/>
+    <sbol:displayId>lasRProtein</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>LasR Protein</dcterms:title>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasRProtein/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ComponentDefinition"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/gfp/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/gfp"/>
+    <sbol:displayId>gfp</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>GFP</dcterms:title>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/gfp/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ComponentDefinition"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rbs2/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rbs2"/>
+    <sbol:displayId>rbs2</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>RBS 2</dcterms:title>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rbs2/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ComponentDefinition"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000139"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/ter2/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/ter2"/>
+    <sbol:displayId>ter2</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>Terminator 2</dcterms:title>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/ter2/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ComponentDefinition"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000141"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rfp/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rfp"/>
+    <sbol:displayId>rfp</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>RFP</dcterms:title>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/rfp/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ComponentDefinition"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp1/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp1"/>
+    <sbol:displayId>cp1</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>Constitutive Promoter 1</dcterms:title>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp1/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ComponentDefinition"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002050"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasR/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasR"/>
+    <sbol:displayId>lasR</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>LasR</dcterms:title>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/lasR/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ComponentDefinition"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pLas/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pLas"/>
+    <sbol:displayId>pLas</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>pLas</dcterms:title>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pLas/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ComponentDefinition"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pSrpR/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pSrpR"/>
+    <sbol:displayId>pSrpR</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>pSrpR</dcterms:title>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/pSrpR/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ComponentDefinition"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/ter1/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/ter1"/>
+    <sbol:displayId>ter1</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>Terminator 1</dcterms:title>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/ter1/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ComponentDefinition"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000141"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp2/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp2"/>
+    <sbol:displayId>cp2</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>Constitutive Promoter 2</dcterms:title>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/cp2/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ComponentDefinition"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002050"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRProtein/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRProtein"/>
+    <sbol:displayId>tetRProtein</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>TetR Protein</dcterms:title>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/tetRProtein/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ComponentDefinition"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRProtein/0.1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRProtein"/>
+    <sbol:displayId>srpRProtein</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>SrpR Protein</dcterms:title>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/srpRProtein/0.1"/>
+    <rdf:type rdf:resource="http://sbols.org/v2#ComponentDefinition"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
+  </sbol:ComponentDefinition>
+  <sbh:Attachment rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NX2FQz11BPnmK/1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NX2FQz11BPnmK"/>
+    <sbol:displayId>attachment_00009Oz53NX2FQz11BPnmK</sbol:displayId>
+    <sbol:version>1</sbol:version>
+    <dcterms:title>tetR.xml</dcterms:title>
+    <dcterms:description></dcterms:description>
+    <sbh:attachmentHash>e0dc5a8793b00936875f070dd46bb956216eb344</sbh:attachmentHash>
+    <sbh:attachmentSize>1691</sbh:attachmentSize>
+    <sbh:attachmentType rdf:resource="http://wiki.synbiohub.org/wiki/Terms/synbiohub#unknownAttachment"/>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NX2FQz11BPnmK/1"/>
+  </sbh:Attachment>
+  <sbh:Attachment rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NWgGkhR05FWE4/1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NWgGkhR05FWE4"/>
+    <sbol:displayId>attachment_00009Oz53NWgGkhR05FWE4</sbol:displayId>
+    <sbol:version>1</sbol:version>
+    <dcterms:title>pTet.xml</dcterms:title>
+    <dcterms:description></dcterms:description>
+    <sbh:attachmentHash>3d915b930c47c38471d797b56da504b17d3d999a</sbh:attachmentHash>
+    <sbh:attachmentSize>1947</sbh:attachmentSize>
+    <sbh:attachmentType rdf:resource="http://wiki.synbiohub.org/wiki/Terms/synbiohub#unknownAttachment"/>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NWgGkhR05FWE4/1"/>
+  </sbh:Attachment>
+  <sbh:Attachment rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz51rh38Z8lz1NTKy/1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz51rh38Z8lz1NTKy"/>
+    <sbol:displayId>attachment_00009Oz51rh38Z8lz1NTKy</sbol:displayId>
+    <sbol:version>1</sbol:version>
+    <dcterms:title>cp1.xml</dcterms:title>
+    <dcterms:description></dcterms:description>
+    <sbh:attachmentHash>da1dbf439c0feb9b3b290d32684ccb6c8859add0</sbh:attachmentHash>
+    <sbh:attachmentSize>1099</sbh:attachmentSize>
+    <sbh:attachmentType rdf:resource="http://wiki.synbiohub.org/wiki/Terms/synbiohub#unknownAttachment"/>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz51rh38Z8lz1NTKy/1"/>
+  </sbh:Attachment>
+  <sbh:Attachment rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz52a4e8C9xcwkwE4/1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz52a4e8C9xcwkwE4"/>
+    <sbol:displayId>attachment_00009Oz52a4e8C9xcwkwE4</sbol:displayId>
+    <sbol:version>1</sbol:version>
+    <dcterms:title>lasR.xml</dcterms:title>
+    <dcterms:description></dcterms:description>
+    <sbh:attachmentHash>d4b6ecee9fcf1f49c6398668431583321ec35e23</sbh:attachmentHash>
+    <sbh:attachmentSize>1694</sbh:attachmentSize>
+    <sbh:attachmentType rdf:resource="http://wiki.synbiohub.org/wiki/Terms/synbiohub#unknownAttachment"/>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz52a4e8C9xcwkwE4/1"/>
+  </sbh:Attachment>
+  <sbh:Attachment rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NVyJO8Gxsux7Z/1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NVyJO8Gxsux7Z"/>
+    <sbol:displayId>attachment_00009Oz53NVyJO8Gxsux7Z</sbol:displayId>
+    <sbol:version>1</sbol:version>
+    <dcterms:title>pSrpR.xml</dcterms:title>
+    <dcterms:description></dcterms:description>
+    <sbh:attachmentHash>398f1d174611373be06ff29cc4961d43ea52b992</sbh:attachmentHash>
+    <sbh:attachmentSize>1949</sbh:attachmentSize>
+    <sbh:attachmentType rdf:resource="http://wiki.synbiohub.org/wiki/Terms/synbiohub#unknownAttachment"/>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NVyJO8Gxsux7Z/1"/>
+  </sbh:Attachment>
+  <sbh:Attachment rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz54AfZYTvXPqmoO8/1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz54AfZYTvXPqmoO8"/>
+    <sbol:displayId>attachment_00009Oz54AfZYTvXPqmoO8</sbol:displayId>
+    <sbol:version>1</sbol:version>
+    <dcterms:title>bfp.xml</dcterms:title>
+    <dcterms:description></dcterms:description>
+    <sbh:attachmentHash>52b120cf6b58392c4213747a03ad06335d7be4bc</sbh:attachmentHash>
+    <sbh:attachmentSize>1690</sbh:attachmentSize>
+    <sbh:attachmentType rdf:resource="http://wiki.synbiohub.org/wiki/Terms/synbiohub#unknownAttachment"/>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz54AfZYTvXPqmoO8/1"/>
+  </sbh:Attachment>
+  <sbh:Attachment rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz54Aerb7MNNeSFHc/1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz54Aerb7MNNeSFHc"/>
+    <sbol:displayId>attachment_00009Oz54Aerb7MNNeSFHc</sbol:displayId>
+    <sbol:version>1</sbol:version>
+    <dcterms:title>gfp.xml</dcterms:title>
+    <dcterms:description></dcterms:description>
+    <sbh:attachmentHash>52b120cf6b58392c4213747a03ad06335d7be4bc</sbh:attachmentHash>
+    <sbh:attachmentSize>1690</sbh:attachmentSize>
+    <sbh:attachmentType rdf:resource="http://wiki.synbiohub.org/wiki/Terms/synbiohub#unknownAttachment"/>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz54Aerb7MNNeSFHc/1"/>
+  </sbh:Attachment>
+  <sbh:Attachment rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz51riT3IH63Q2bY0/1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz51riT3IH63Q2bY0"/>
+    <sbol:displayId>attachment_00009Oz51riT3IH63Q2bY0</sbol:displayId>
+    <sbol:version>1</sbol:version>
+    <dcterms:title>cp2.xml</dcterms:title>
+    <dcterms:description></dcterms:description>
+    <sbh:attachmentHash>db724907d52c1c166c70d46bc8bdf0094f097889</sbh:attachmentHash>
+    <sbh:attachmentSize>1098</sbh:attachmentSize>
+    <sbh:attachmentType rdf:resource="http://wiki.synbiohub.org/wiki/Terms/synbiohub#unknownAttachment"/>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz51riT3IH63Q2bY0/1"/>
+  </sbh:Attachment>
+  <sbh:Attachment rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz52a3wApanakQN7Y/1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz52a3wApanakQN7Y"/>
+    <sbol:displayId>attachment_00009Oz52a3wApanakQN7Y</sbol:displayId>
+    <sbol:version>1</sbol:version>
+    <dcterms:title>pLas.xml</dcterms:title>
+    <dcterms:description></dcterms:description>
+    <sbh:attachmentHash>2b2d57266a4fe66b45018bff49cf4daf16a909b1</sbh:attachmentHash>
+    <sbh:attachmentSize>1950</sbh:attachmentSize>
+    <sbh:attachmentType rdf:resource="http://wiki.synbiohub.org/wiki/Terms/synbiohub#unknownAttachment"/>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz52a3wApanakQN7Y/1"/>
+  </sbh:Attachment>
+  <sbh:Attachment rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz54AgHVqUhS37NUe/1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz54AgHVqUhS37NUe"/>
+    <sbol:displayId>attachment_00009Oz54AgHVqUhS37NUe</sbol:displayId>
+    <sbol:version>1</sbol:version>
+    <dcterms:title>rfp.xml</dcterms:title>
+    <dcterms:description></dcterms:description>
+    <sbh:attachmentHash>52b120cf6b58392c4213747a03ad06335d7be4bc</sbh:attachmentHash>
+    <sbh:attachmentSize>1690</sbh:attachmentSize>
+    <sbh:attachmentType rdf:resource="http://wiki.synbiohub.org/wiki/Terms/synbiohub#unknownAttachment"/>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz54AgHVqUhS37NUe/1"/>
+  </sbh:Attachment>
+  <sbh:Attachment rdf:about="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NVyJO8Gxsux7Y/1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NVyJO8Gxsux7Y"/>
+    <sbol:displayId>attachment_00009Oz53NVyJO8Gxsux7Y</sbol:displayId>
+    <sbol:version>1</sbol:version>
+    <dcterms:title>SrpR.xml</dcterms:title>
+    <dcterms:description></dcterms:description>
+    <sbh:attachmentHash>ecd7cecaf081d8e9de9f13b18a358b19925ca447</sbh:attachmentHash>
+    <sbh:attachmentSize>1694</sbh:attachmentSize>
+    <sbh:attachmentType rdf:resource="http://wiki.synbiohub.org/wiki/Terms/synbiohub#unknownAttachment"/>
+    <sbh:ownedBy rdf:resource="https://synbiohub.cidarlab.org/user/prash"/>
+    <sbh:topLevel rdf:resource="https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NVyJO8Gxsux7Y/1"/>
+  </sbh:Attachment>
+</rdf:RDF>

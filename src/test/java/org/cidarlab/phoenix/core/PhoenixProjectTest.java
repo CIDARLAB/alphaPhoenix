@@ -5,27 +5,38 @@
  */
 package org.cidarlab.phoenix.core;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.stream.XMLStreamException;
 import org.cidarlab.phoenix.utils.Utilities;
+import org.codehaus.plexus.util.FileUtils;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLReader;
 import org.sbolstandard.core2.AccessType;
 import org.sbolstandard.core2.ComponentDefinition;
 import org.sbolstandard.core2.DirectionType;
 import org.sbolstandard.core2.FunctionalComponent;
 import org.sbolstandard.core2.Interaction;
+import org.sbolstandard.core2.Model;
 import org.sbolstandard.core2.ModuleDefinition;
 import org.sbolstandard.core2.Participation;
 import org.sbolstandard.core2.SBOLConversionException;
 import org.sbolstandard.core2.SBOLDocument;
 import org.sbolstandard.core2.SBOLValidationException;
+import org.synbiohub.frontend.IdentifiedMetadata;
+import org.synbiohub.frontend.SynBioHubException;
+import org.synbiohub.frontend.SynBioHubFrontend;
 
 /**
  *
@@ -62,8 +73,60 @@ public class PhoenixProjectTest {
         }
     }
     
+    //@Test
+    public void testCreateEmptySBOL(){
+        String basefp = Utilities.getResourcesFilepath() + "example" + Utilities.getSeparater();
+        SBOLDocument sbol = new SBOLDocument();
+        try {
+            sbol.write(basefp + "empty.xml");
+        } catch (IOException | SBOLConversionException ex) {
+            Logger.getLogger(PhoenixProjectTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     @Test
-    public void testPhoenix() {
+    public void testGetSBOLfromSynbiohub(){
+        String synbiohuburl = "https://synbiohub.cidarlab.org";
+        String phoenixliburl = "https://synbiohub.cidarlab.org/public/PhoenixModels/PhoenixModels_collection/1";
+        
+        SynBioHubFrontend shub = new SynBioHubFrontend(synbiohuburl);
+        try {
+            URI u = new URI(phoenixliburl);
+            SBOLDocument sbol = shub.getSBOL(u);
+            List<IdentifiedMetadata> ids = shub.getRootCollectionMetadata();
+            for(IdentifiedMetadata id:ids){
+                System.out.println(id.getUri());
+            }
+        } catch (SynBioHubException ex) {
+            Logger.getLogger(PhoenixProjectTest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(PhoenixProjectTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /*
+    @Test
+    public void testPhoenix(){
+        try {
+            
+            String basefp = Utilities.getResourcesFilepath() + "example" + Utilities.getSeparater();
+            String sbolfp = basefp + "PhoenixModels_collection.xml";
+            String tempfp = basefp + "temp.xml";
+            SBOLDocument sbol = new SBOLDocument();
+            sbol.read(sbolfp);
+            SBMLReader sbmlread = new SBMLReader();
+            FileUtils.copyURLToFile(new URL("https://synbiohub.cidarlab.org/public/PhoenixModels/attachment_00009Oz54AgHVqUhS37NUe/1/download"),new File(tempfp));
+            SBMLDocument sbml = sbmlread.readSBML(new File(tempfp));
+            System.out.println(sbml.getChildCount());
+        } catch (SBOLValidationException | IOException | SBOLConversionException | XMLStreamException ex) {
+            Logger.getLogger(PhoenixProjectTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }*/
+    
+    
+    
+    //@Test
+    public void testCreateSampleLib() {
         
         String so = "http://identifiers.org/so/";
         String sbo = "http://identifiers.org/biomodels.sbo/";
@@ -104,6 +167,9 @@ public class PhoenixProjectTest {
             URI stimulationURI = new URI(stimulationSO);
             URI stimulatorURI = new URI(stimulatorSO);
             URI stimulatedURI = new URI(stimulatedSO);
+            
+            URI sbmlURI = new URI("http://identifiers.org/edam/format_2585");
+            URI frameworkURI = new URI("http://www.ebi.ac.uk/sbo/main/SBO:0000062");
             
             //<editor-fold desc="Create a library">
             
@@ -161,6 +227,16 @@ public class PhoenixProjectTest {
             ComponentDefinition lasProt = sbol.createComponentDefinition(baseurl,"lasRProtein", version, proteinURI);
             lasProt.setName("LasR Protein");
             
+            //Component Definition for 3 FPs (choose 1). 
+            ComponentDefinition gfp = sbol.createComponentDefinition(baseurl, "gfp", version, dnaRegionURI);
+            gfp.setName("GFP");
+            
+            ComponentDefinition bfp = sbol.createComponentDefinition(baseurl, "bfp", version, dnaRegionURI);
+            bfp.setName("BFP");
+            
+            ComponentDefinition rfp = sbol.createComponentDefinition(baseurl, "rfp", version, dnaRegionURI);
+            rfp.setName("RFP");
+                        
             //Component Definition for 2 terminators (choose 2). 
             ComponentDefinition ter1 = sbol.createComponentDefinition(baseurl,"ter1", version, dnaRegionURI);
             ter1.addRole(new URI(terSO));
@@ -219,6 +295,47 @@ public class PhoenixProjectTest {
             ModuleDefinition cp2md = sbol.createModuleDefinition(baseurl,"cp2md",version);
             FunctionalComponent fc14 = cp1md.createFunctionalComponent("cp2", AccessType.PRIVATE, cp2.getIdentity(), DirectionType.IN);
             
+            ModuleDefinition gfpmd = sbol.createModuleDefinition(baseurl, "gfpmd", version);
+            FunctionalComponent fc15 = gfpmd.createFunctionalComponent("gfp", AccessType.PRIVATE, gfp.getIdentity(), DirectionType.OUT);
+            
+            ModuleDefinition bfpmd = sbol.createModuleDefinition(baseurl, "bfpmd", version);
+            FunctionalComponent fc16 = bfpmd.createFunctionalComponent("bfp", AccessType.PRIVATE, bfp.getIdentity(), DirectionType.OUT);
+            
+            ModuleDefinition rfpmd = sbol.createModuleDefinition(baseurl, "rfpmd", version);
+            FunctionalComponent fc17 = rfpmd.createFunctionalComponent("rfp", AccessType.PRIVATE, rfp.getIdentity(), DirectionType.OUT);            
+            
+            Model cp1model = sbol.createModel(baseurl, "cp1_model", version, new URI("https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz51rh38Z8lz1NTKy/1"), sbmlURI, frameworkURI);
+            Model cp2model = sbol.createModel(baseurl, "cp2_model", version, new URI("https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz51riT3IH63Q2bY0/1"), sbmlURI, frameworkURI);
+            
+            Model gfpmodel = sbol.createModel(baseurl, "gfp_model", version, new URI("https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz54Aerb7MNNeSFHc/1"), sbmlURI, frameworkURI);
+            Model rfpmodel = sbol.createModel(baseurl, "rfp_model", version, new URI("https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz54AgHVqUhS37NUe/1"), sbmlURI, frameworkURI);
+            Model bfpmodel = sbol.createModel(baseurl, "bfp_model", version, new URI("https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz54AfZYTvXPqmoO8/1"), sbmlURI, frameworkURI);
+            
+            Model tetmodel = sbol.createModel(baseurl, "tetR_model", version, new URI("https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NX2FQz11BPnmK/1"), sbmlURI, frameworkURI);
+            Model ptetmodel = sbol.createModel(baseurl, "pTet_model", version, new URI("https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NWgGkhR05FWE4/1"), sbmlURI, frameworkURI);
+            
+            Model lasmodel = sbol.createModel(baseurl, "lasR_model", version, new URI("https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz52a4e8C9xcwkwE4/1"), sbmlURI, frameworkURI);
+            Model pLasmodel = sbol.createModel(baseurl, "pLas_model", version, new URI("https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz52a3wApanakQN7Y/1"), sbmlURI, frameworkURI);
+            
+            Model srpRmodel = sbol.createModel(baseurl, "srpR_model", version, new URI("https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NVyJO8Gxsux7Y/1"), sbmlURI, frameworkURI);
+            Model pSrpRmodel = sbol.createModel(baseurl, "psrpR_model", version, new URI("https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NVyJO8Gxsux7Z/1"), sbmlURI, frameworkURI);
+
+            
+            gfpmd.addModel(gfpmodel);
+            rfpmd.addModel(rfpmodel);
+            bfpmd.addModel(bfpmodel);
+            
+            cp1md.addModel(cp1model);
+            cp2md.addModel(cp2model);
+            
+            tetmd.addModel(tetmodel);
+            ptetmd.addModel(ptetmodel);
+            
+            lasRmd.addModel(lasmodel);
+            plasmd.addModel(pLasmodel);
+            
+            srprmd.addModel(srpRmodel);
+            psrprmd.addModel(pSrpRmodel);
             
             sbol.write(basefp + "test.xml");
             
