@@ -1,0 +1,456 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sbol="http://sbols.org/v2#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:prov="http://www.w3.org/ns/prov#">
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/lasRmd/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/lasRmd"/>
+    <sbol:displayId>lasRmd</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/lasRmd/lasR/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/lasRmd/lasR"/>
+        <sbol:displayId>lasR</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/tetR/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/lasRmd/lasR_prot/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/lasRmd/lasR_prot"/>
+        <sbol:displayId>lasR_prot</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/tetRProtein/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/sample/lasRmd/lasR_production/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/lasRmd/lasR_production"/>
+        <sbol:displayId>lasR_production</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000589"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/sample/lasRmd/lasR_production/lasR_prot_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/lasRmd/lasR_production/lasR_prot_int"/>
+            <sbol:displayId>lasR_prot_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000011"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/sample/lasRmd/lasR_prot/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/sample/lasRmd/lasR_production/lasR_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/lasRmd/lasR_production/lasR_int"/>
+            <sbol:displayId>lasR_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000645"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/sample/lasRmd/lasR/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/plasRmd/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/plasRmd"/>
+    <sbol:displayId>plasRmd</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/plasRmd/plasR/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/plasRmd/plasR"/>
+        <sbol:displayId>plasR</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/pTet/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/plasRmd/plasR_prot_rep/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/plasRmd/plasR_prot_rep"/>
+        <sbol:displayId>plasR_prot_rep</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/tetRProtein/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/sample/plasRmd/lasR_repression/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/plasRmd/lasR_repression"/>
+        <sbol:displayId>lasR_repression</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/sample/plasRmd/lasR_repression/lasR_prot_rep_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/plasRmd/lasR_repression/lasR_prot_rep_int"/>
+            <sbol:displayId>lasR_prot_rep_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/sample/plasRmd/plasR_prot_rep/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/sample/plasRmd/lasR_repression/plasR_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/plasRmd/lasR_repression/plasR_int"/>
+            <sbol:displayId>plasR_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/sample/plasRmd/plasR/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/psrpRmd/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/psrpRmd"/>
+    <sbol:displayId>psrpRmd</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/psrpRmd/srpR_prot_rep/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/psrpRmd/srpR_prot_rep"/>
+        <sbol:displayId>srpR_prot_rep</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/srpRProtein/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/psrpRmd/psrpR/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/psrpRmd/psrpR"/>
+        <sbol:displayId>psrpR</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/pSrpR/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/sample/psrpRmd/srpR_repression/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/psrpRmd/srpR_repression"/>
+        <sbol:displayId>srpR_repression</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000169"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/sample/psrpRmd/srpR_repression/psrpR_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/psrpRmd/srpR_repression/psrpR_int"/>
+            <sbol:displayId>psrpR_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000642"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/sample/psrpRmd/psrpR/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/sample/psrpRmd/srpR_repression/srpR_prot_rep_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/psrpRmd/srpR_repression/srpR_prot_rep_int"/>
+            <sbol:displayId>srpR_prot_rep_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000020"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/sample/psrpRmd/srpR_prot_rep/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/cp1md/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cp1md"/>
+    <sbol:displayId>cp1md</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/cp1md/cp1/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cp1md/cp1"/>
+        <sbol:displayId>cp1</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/cp1/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/cp1md/cp2/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cp1md/cp2"/>
+        <sbol:displayId>cp2</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/cp2/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/tetRmd/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/tetRmd"/>
+    <sbol:displayId>tetRmd</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/tetRmd/tetR_prot/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/tetRmd/tetR_prot"/>
+        <sbol:displayId>tetR_prot</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/tetRProtein/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/tetRmd/tetR/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/tetRmd/tetR"/>
+        <sbol:displayId>tetR</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/tetR/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/sample/tetRmd/tetR_production/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/tetRmd/tetR_production"/>
+        <sbol:displayId>tetR_production</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000589"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/sample/tetRmd/tetR_production/tetR_prot_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/tetRmd/tetR_production/tetR_prot_int"/>
+            <sbol:displayId>tetR_prot_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000011"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/sample/tetRmd/tetR_prot/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/sample/tetRmd/tetR_production/tetR_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/tetRmd/tetR_production/tetR_int"/>
+            <sbol:displayId>tetR_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000645"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/sample/tetRmd/tetR/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/cp2md/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cp2md"/>
+    <sbol:displayId>cp2md</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/pTetmd/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/pTetmd"/>
+    <sbol:displayId>pTetmd</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/pTetmd/pTet/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/pTetmd/pTet"/>
+        <sbol:displayId>pTet</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/pTet/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/pTetmd/tetR_prot_rep/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/pTetmd/tetR_prot_rep"/>
+        <sbol:displayId>tetR_prot_rep</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/tetRProtein/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/sample/pTetmd/tetR_repression/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/pTetmd/tetR_repression"/>
+        <sbol:displayId>tetR_repression</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000169"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/sample/pTetmd/tetR_repression/pTet_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/pTetmd/tetR_repression/pTet_int"/>
+            <sbol:displayId>pTet_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000642"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/sample/pTetmd/pTet/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/sample/pTetmd/tetR_repression/tetR_prot_rep_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/pTetmd/tetR_repression/tetR_prot_rep_int"/>
+            <sbol:displayId>tetR_prot_rep_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000020"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/sample/pTetmd/tetR_prot_rep/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/srpRmd/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/srpRmd"/>
+    <sbol:displayId>srpRmd</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/srpRmd/srpR/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/srpRmd/srpR"/>
+        <sbol:displayId>srpR</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/srpR/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/srpRmd/srpR_prot/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/srpRmd/srpR_prot"/>
+        <sbol:displayId>srpR_prot</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/srpRProtein/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/sample/srpRmd/srpR_production/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/srpRmd/srpR_production"/>
+        <sbol:displayId>srpR_production</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000589"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/sample/srpRmd/srpR_production/srpR_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/srpRmd/srpR_production/srpR_int"/>
+            <sbol:displayId>srpR_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000645"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/sample/srpRmd/srpR/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/sample/srpRmd/srpR_production/srpR_prot_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/srpRmd/srpR_production/srpR_prot_int"/>
+            <sbol:displayId>srpR_prot_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000011"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/sample/srpRmd/srpR_prot/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+  </sbol:ModuleDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/sample/tetRProtein/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/tetRProtein"/>
+    <sbol:displayId>tetRProtein</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>TetR Protein</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/sample/tetR/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/tetR"/>
+    <sbol:displayId>tetR</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>TetR</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/sample/pTet/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/pTet"/>
+    <sbol:displayId>pTet</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>pTet</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/sample/pLas/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/pLas"/>
+    <sbol:displayId>pLas</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>pLas</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/sample/lasRProtein/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/lasRProtein"/>
+    <sbol:displayId>lasRProtein</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>LasR Protein</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/sample/ter1/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ter1"/>
+    <sbol:displayId>ter1</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>Terminator 1</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000141"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/sample/rbs1/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/rbs1"/>
+    <sbol:displayId>rbs1</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>RBS 1</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000139"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/sample/cp2/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cp2"/>
+    <sbol:displayId>cp2</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>Constitutive Promoter 2</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002050"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/sample/srpRProtein/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/srpRProtein"/>
+    <sbol:displayId>srpRProtein</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>SrpR Protein</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/sample/cp1/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cp1"/>
+    <sbol:displayId>cp1</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>Constitutive Promoter 1</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002050"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/sample/ter2/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ter2"/>
+    <sbol:displayId>ter2</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>Terminator 2</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000141"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/sample/lasR/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/lasR"/>
+    <sbol:displayId>lasR</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>LasR</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/sample/srpR/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/srpR"/>
+    <sbol:displayId>srpR</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>SrpR</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/sample/pSrpR/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/pSrpR"/>
+    <sbol:displayId>pSrpR</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>pSrpR</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/sample/rbs2/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/rbs2"/>
+    <sbol:displayId>rbs2</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>RBS 2</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000139"/>
+  </sbol:ComponentDefinition>
+</rdf:RDF>
