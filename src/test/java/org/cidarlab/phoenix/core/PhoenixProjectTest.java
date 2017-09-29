@@ -5,24 +5,17 @@
  */
 package org.cidarlab.phoenix.core;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.stream.XMLStreamException;
 import org.cidarlab.phoenix.utils.Utilities;
-import org.codehaus.plexus.util.FileUtils;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.SBMLReader;
 import org.sbolstandard.core2.AccessType;
 import org.sbolstandard.core2.ComponentDefinition;
 import org.sbolstandard.core2.DirectionType;
@@ -34,7 +27,6 @@ import org.sbolstandard.core2.Participation;
 import org.sbolstandard.core2.SBOLConversionException;
 import org.sbolstandard.core2.SBOLDocument;
 import org.sbolstandard.core2.SBOLValidationException;
-import org.synbiohub.frontend.IdentifiedMetadata;
 import org.synbiohub.frontend.SynBioHubException;
 import org.synbiohub.frontend.SynBioHubFrontend;
 
@@ -93,13 +85,8 @@ public class PhoenixProjectTest {
         try {
             URI u = new URI(phoenixliburl);
             SBOLDocument sbol = shub.getSBOL(u);
-            List<IdentifiedMetadata> ids = shub.getRootCollectionMetadata();
-            for(IdentifiedMetadata id:ids){
-                System.out.println(id.getUri());
-            }
-        } catch (SynBioHubException ex) {
-            Logger.getLogger(PhoenixProjectTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (URISyntaxException ex) {
+            
+        } catch (SynBioHubException | URISyntaxException ex) {
             Logger.getLogger(PhoenixProjectTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

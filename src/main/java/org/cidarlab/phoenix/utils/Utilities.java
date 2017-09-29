@@ -110,7 +110,11 @@ public class Utilities {
         filepath += getSeparater() + "src" + getSeparater() + "main" + getSeparater() + "resources" + getSeparater();
         return filepath;
     }
-
+    
+    public static String getResultsFilepath(){
+        return (getFilepath() + getSeparater() + "results" + getSeparater());
+    }
+    
     //</editor-fold>
     
     //<editor-fold desc="File content">
