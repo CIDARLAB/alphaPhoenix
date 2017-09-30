@@ -22,7 +22,9 @@ import org.cidarlab.phoenix.dom.ModelPart;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.Module.ModuleRole;
 import org.cidarlab.phoenix.dom.Orientation;
+import org.cidarlab.phoenix.library.Library;
 import org.cidarlab.phoenix.utils.Utilities;
+import org.sbolstandard.core2.SBOLDocument;
 
 /**
  *
@@ -42,6 +44,13 @@ public class Controller {
         STLParser parser = new STLParser(tokens);
         ParserRuleContext t = parser.property();
         return new STLAbstractSyntaxTreeExtractor().visit(t);
+    }
+    
+    public static void assignLeafCandidates(Module root, Library lib, SBOLDocument sbol){
+    
+        for(Component c:root.getComponents()){
+            System.out.println(c.getName());
+        }
     }
     
     //<editor-fold desc="Decompose a Phoenix Module based on the mode">

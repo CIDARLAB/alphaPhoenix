@@ -9,6 +9,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -19,6 +20,7 @@ import org.cidarlab.phoenix.dom.Component.ComponentRole;
 import org.cidarlab.phoenix.dom.LibraryComponent;
 import org.sbolstandard.core2.ComponentDefinition;
 import org.sbolstandard.core2.FunctionalComponent;
+import org.sbolstandard.core2.Interaction;
 import org.sbolstandard.core2.Model;
 import org.sbolstandard.core2.ModuleDefinition;
 import org.sbolstandard.core2.SBOLDocument;
@@ -71,50 +73,136 @@ public class Library {
     private Map<URI,LibraryComponent> proteins = new HashMap<>();
     
     public Library(SBOLDocument doc){
-        Map<URI,LibraryComponent> promoters = new HashMap<>();
-        Map<URI,LibraryComponent> cds = new HashMap<>();
-        for(ComponentDefinition cd: doc.getComponentDefinitions()){
-            switch(getRole(cd)){
-                case PROMOTER_CONSTITUTIVE:
-                    constitutivePromoters.put(cd.getIdentity(),new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
-                    break;
-                case PROMOTER:
-                    promoters.put(cd.getIdentity(), new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
-                    break;
-                case RBS:
-                    rbs.put(cd.getIdentity(), new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
-                    break;
-                case CDS:
-                    cds.put(cd.getIdentity(), new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
-                    break;
-                case TERMINATOR:
-                    terminators.put(cd.getIdentity(),new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
-                    break;
-                case PROTEIN: 
-                    proteins.put(cd.getIdentity(),new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
-                    break;
+        try {
+            URI productionURI = new URI(productionSBO);
+            URI inhibitionURI = new URI(inhibitionSO);
+            URI stimulationURI = new URI(stimulationSO);
+            Map<URI,LibraryComponent> promoters = new HashMap<>();
+            Map<URI,LibraryComponent> cds = new HashMap<>();
+            for(ComponentDefinition cd: doc.getComponentDefinitions()){
+                switch(getRole(cd)){
+                    case PROMOTER_CONSTITUTIVE:
+                        constitutivePromoters.put(cd.getIdentity(),new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
+                        break;
+                    case PROMOTER:
+                        promoters.put(cd.getIdentity(), new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
+                        break;
+                    case RBS:
+                        rbs.put(cd.getIdentity(), new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
+                        break;
+                    case CDS:
+                        cds.put(cd.getIdentity(), new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
+                        break;
+                    case TERMINATOR:
+                        terminators.put(cd.getIdentity(),new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
+                        break;
+                    case PROTEIN:
+                        proteins.put(cd.getIdentity(),new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
+                        break;
+                }
             }
-        }
-        for(ModuleDefinition md:doc.getModuleDefinitions()){
-            int fcsize = md.getFunctionalComponents().size();
-            List<URI> modelList = getAllModels(md);
-            //If this is for FP/output or Constitutive Promoter.
-            if(fcsize == 1){
-                for(FunctionalComponent fc:md.getFunctionalComponents()){
-                    if(constitutivePromoters.containsKey(fc.getDefinitionURI())){
-                        for(URI uri:modelList){
-                            constitutivePromoters.get(fc.getDefinitionURI()).addModel(uri);
+            Set<URI> activatingProteins = new HashSet<URI>();
+            Set<URI> repressingProteins = new HashSet<URI>();
+            
+            for(ModuleDefinition md:doc.getModuleDefinitions()){
+                int fcsize = md.getFunctionalComponents().size();
+                
+                //If this is for FP/output or Constitutive Promoter.
+                if(fcsize == 1){
+                    List<URI> modelList = getAllModels(md);
+                    for(FunctionalComponent fc:md.getFunctionalComponents()){
+                        if(constitutivePromoters.containsKey(fc.getDefinitionURI())){
+                            for(URI uri:modelList){
+                                constitutivePromoters.get(fc.getDefinitionURI()).addModel(uri);
+                            }
+                            constitutivePromoters.get(fc.getDefinitionURI()).addModuleDefinition(md.getIdentity());
+                        } else if(cds.containsKey(fc.getDefinitionURI())){
+                            outputCDS.put(fc.getDefinitionURI(), cds.get(fc.getDefinitionURI()));
+                            for(URI uri:modelList){
+                                outputCDS.get(fc.getDefinitionURI()).addModel(uri);
+                            }
+                            outputCDS.get(fc.getDefinitionURI()).addModuleDefinition(md.getIdentity());
                         }
-                    } else if(cds.containsKey(fc.getDefinitionURI())){
-                        outputCDS.put(fc.getDefinitionURI(), cds.get(fc.getDefinitionURI()));
-                        for(URI uri:modelList){
-                            outputCDS.get(fc.getDefinitionURI()).addModel(uri);
+                    }
+                } else if(fcsize == 2) {
+                    //Models for Activatible and Repressible Promoters and CDS.
+                    for(FunctionalComponent fc:md.getFunctionalComponents()){
+                        if(proteins.containsKey(fc.getDefinitionURI())){
+                            proteins.get(fc.getDefinitionURI()).addModuleDefinition(md.getIdentity());
+                            for(Interaction interaction:md.getInteractions()){
+                                for(URI type:interaction.getTypes()){
+                                    if(type.equals(inhibitionURI)){
+                                        repressingProteins.add(fc.getDefinitionURI());
+                                    } else if(type.equals(stimulationURI)){
+                                        activatingProteins.add(fc.getDefinitionURI());
+                                    }
+                                }
+                            }
+                        } else if(promoters.containsKey(fc.getDefinitionURI())){
+                            List<URI> modelList = getAllModels(md);
+                            for(Interaction interaction:md.getInteractions()){
+                                for(URI type:interaction.getTypes()){
+                                    if(type.equals(inhibitionURI)){
+                                        repressiblePromoters.put(fc.getDefinitionURI(), promoters.get(fc.getDefinitionURI()));
+                                        for (URI uri : modelList) {
+                                            repressiblePromoters.get(fc.getDefinitionURI()).addModel(uri);
+                                        }
+                                        repressiblePromoters.get(fc.getDefinitionURI()).addModuleDefinition(md.getIdentity());
+                                    } else if(type.equals(stimulationURI)){
+                                        activatiblePromoters.put(fc.getDefinitionURI(), promoters.get(fc.getDefinitionURI()));
+                                        for (URI uri : modelList) {
+                                            activatiblePromoters.get(fc.getDefinitionURI()).addModel(uri);
+                                        }
+                                        activatiblePromoters.get(fc.getDefinitionURI()).addModuleDefinition(md.getIdentity());
+                                    }
+                                }
+                            }
+                        } else if(cds.containsKey(fc.getDefinitionURI())){
+                            //Do nothing for now. 
+                        } else {
+                            System.out.println("Unknown ModuleDefinition");
                         }
                     }
                 }
-            } else if(fcsize == 2) {
-                //Models for Activatible and Repressible Promoters and CDS. 
             }
+            
+            for(ModuleDefinition md:doc.getModuleDefinitions()){
+                int fcsize = md.getFunctionalComponents().size();
+                if(fcsize == 2){
+                    URI protURI = null;
+                    URI cdsURI = null;
+                    boolean production = false;
+                    for(FunctionalComponent fc:md.getFunctionalComponents()){
+                        if(proteins.containsKey(fc.getDefinitionURI())){
+                            protURI = fc.getDefinitionURI();
+                        }
+                        if(cds.containsKey(fc.getDefinitionURI())){
+                            cdsURI = fc.getDefinitionURI();
+                            production = true;
+                        }
+                    }
+                    if(production){
+                        List<URI> modelList = getAllModels(md);
+                        if(repressingProteins.contains(protURI)){
+                            repressorCDS.put(cdsURI, cds.get(cdsURI));
+                            for (URI uri : modelList) {
+                                repressorCDS.get(cdsURI).addModel(uri);
+                            }
+                            repressorCDS.get(cdsURI).addModuleDefinition(md.getIdentity());
+                        }
+                        else if(activatingProteins.contains(cdsURI)){
+                            activatorCDS.put(cdsURI, cds.get(cdsURI));
+                            for (URI uri : modelList) {
+                                activatorCDS.get(cdsURI).addModel(uri);
+                            }
+                            activatorCDS.get(cdsURI).addModuleDefinition(md.getIdentity());
+                        }
+                    }
+                }
+            }
+            
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(Library.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -135,9 +223,7 @@ public class Library {
             URI terURI = new URI(terSO);
             URI proteinURI = new URI(proteinSO);
             
-            URI productionURI = new URI(productionSBO);
-            URI inhibitionURI = new URI(inhibitionSO);
-            URI stimulationURI = new URI(stimulationSO);
+            
             
             Set<URI> roles = cd.getRoles();
             for(URI uri: roles){

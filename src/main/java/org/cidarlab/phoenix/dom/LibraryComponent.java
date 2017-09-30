@@ -43,6 +43,10 @@ public class LibraryComponent {
         this.models.add(uri);
     }
     
+    public void addModuleDefinition(URI uri){
+        this.moduleDefinitions.add(uri);
+    }
+    
     public LibraryComponent(String _name, String _displayId, URI _cd){
         this.name = _name;
         this.displayId = _displayId;

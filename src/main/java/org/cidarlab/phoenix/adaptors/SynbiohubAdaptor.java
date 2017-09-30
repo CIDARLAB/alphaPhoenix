@@ -36,12 +36,13 @@ public class SynbiohubAdaptor {
         try {
             u = new URI(collection);
             return shub.getSBOL(u);
-    
         } catch (URISyntaxException | SynBioHubException ex) {
             Logger.getLogger(SynbiohubAdaptor.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
+    
+    
     
     public static void gunzip(String inputzip, String outputfile) {        
         FileOutputStream out = null;

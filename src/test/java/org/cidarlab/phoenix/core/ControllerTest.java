@@ -10,6 +10,7 @@ import hyness.stl.TreeNode;
 import hyness.stl.grammar.sharp.STLSharp;
 import java.util.List;
 import org.cidarlab.phoenix.adaptors.MiniEugeneAdaptor;
+import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.utils.Utilities;
 import org.junit.After;
@@ -69,6 +70,9 @@ public class ControllerTest {
         int size = 8;
         List<Module> modules = MiniEugeneAdaptor.getStructures(eug, size, "inverter");
         Module test = Controller.decompose(PhoenixMode.BIOCPS, modules.get(1));
+        for(Component c:test.getComponents()){
+            System.out.println(c.getName());
+        }
         System.out.println("End of Test");
     }
     
