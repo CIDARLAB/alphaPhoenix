@@ -5,6 +5,9 @@
  */
 package org.cidarlab.phoenix.core;
 
+import hyness.stl.ConjunctionNode;
+import hyness.stl.TreeNode;
+import hyness.stl.grammar.sharp.STLSharp;
 import java.util.List;
 import org.cidarlab.phoenix.adaptors.MiniEugeneAdaptor;
 import org.cidarlab.phoenix.dom.Module;
@@ -40,6 +43,22 @@ public class ControllerTest {
     public void tearDown() {
     }
 
+    @Test
+    public void testSTLfromFile(){
+        
+        String job =  Utilities.getResultsFilepath() + "job1515520793" + Utilities.getSeparater();
+        String stlfp = job + "stl.txt";
+        TreeNode stl = Controller.getSTL(stlfp);
+        if(stl instanceof ConjunctionNode){
+            ConjunctionNode root = (ConjunctionNode) stl;
+            System.out.println("Input  :: " + root.left);
+            System.out.println("Output :: " + root.right);
+        } else {
+            System.out.println("Error!!");
+        }
+        //System.out.println(stl.toString());
+    }
+    
     /**
      * Test of decompose method, of class Controller.
      */

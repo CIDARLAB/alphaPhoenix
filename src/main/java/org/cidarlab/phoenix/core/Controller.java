@@ -5,8 +5,15 @@
  */
 package org.cidarlab.phoenix.core;
 
+import hyness.stl.TreeNode;
+import hyness.stl.grammar.STLAbstractSyntaxTreeExtractor;
+import hyness.stl.grammar.STLLexer;
+import hyness.stl.grammar.STLParser;
 import java.util.ArrayList;
 import java.util.List;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.cidarlab.phoenix.adaptors.SBMLAdaptor;
 import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Component.ComponentRole;
@@ -15,6 +22,7 @@ import org.cidarlab.phoenix.dom.ModelPart;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.Module.ModuleRole;
 import org.cidarlab.phoenix.dom.Orientation;
+import org.cidarlab.phoenix.utils.Utilities;
 
 /**
  *
@@ -22,6 +30,20 @@ import org.cidarlab.phoenix.dom.Orientation;
  */
 public class Controller {
 
+    public static TreeNode getSTL(String filepath){
+        List<String> stlFileContent = Utilities.getFileContentAsStringList(filepath);
+        String stlString = "";
+        for(String str:stlFileContent){
+            stlString += str;
+        }
+        STLLexer lexer = new STLLexer(new ANTLRInputStream(stlString));
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        
+        STLParser parser = new STLParser(tokens);
+        ParserRuleContext t = parser.property();
+        return new STLAbstractSyntaxTreeExtractor().visit(t);
+    }
+    
     //<editor-fold desc="Decompose a Phoenix Module based on the mode">
     public static Module decompose(PhoenixMode mode, Module root) {
         boolean started = false;

@@ -37,6 +37,7 @@ public class Component {
     }
     
     public static enum ComponentRole{
+        PROTEIN,
         PROMOTER,
         PROMOTER_REPRESSIBLE,
         PROMOTER_INDUCIBLE,
