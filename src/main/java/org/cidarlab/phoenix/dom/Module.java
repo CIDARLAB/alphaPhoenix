@@ -32,7 +32,7 @@ public class Module {
     @Getter
     @Setter
     private List<Component> components = new ArrayList<>();
-    
+        
     @Getter
     @Setter
     private String id;
@@ -46,6 +46,20 @@ public class Module {
     private boolean root;
     
     //Get all Interactions
+    
+    public String getComponentString(){
+        String cstring = "";
+        for(Component c: this.components){
+            if(c.getOrientation().equals(Orientation.REVERSE)){
+                cstring += "r";
+            } else {
+                cstring += "f";
+            }
+            cstring += (c.getRole().toString() + ";");
+        }
+        return cstring;
+    }
+    
     
     public Component findComponent(String componentName){
         for(Component c:this.components){

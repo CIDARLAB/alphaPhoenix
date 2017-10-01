@@ -31,6 +31,20 @@ import org.sbolstandard.core2.SBOLDocument;
  */
 public class Library {
     
+    
+    @Getter
+    private LibraryComponent promoterTest;
+    
+    @Getter
+    private LibraryComponent rbsTest;
+    
+    @Getter
+    private LibraryComponent cdsTest;
+    
+    @Getter
+    private LibraryComponent terTest;
+    
+    
     private final static String so = "http://identifiers.org/so/";
     private final static String sbo = "http://identifiers.org/biomodels.sbo/";
     
@@ -70,6 +84,9 @@ public class Library {
     private Map<URI,LibraryComponent> terminators = new HashMap<>();
     
     @Getter
+    private Map<URI,LibraryComponent> testers = new HashMap<>();
+    
+    @Getter
     private Map<URI,LibraryComponent> proteins = new HashMap<>();
     
     public Library(SBOLDocument doc){
@@ -82,21 +99,47 @@ public class Library {
             for(ComponentDefinition cd: doc.getComponentDefinitions()){
                 switch(getRole(cd)){
                     case PROMOTER_CONSTITUTIVE:
-                        constitutivePromoters.put(cd.getIdentity(),new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
+                        System.out.println("Found Constitutive Promoter");
+                        if(cd.getDisplayId().startsWith("test")){
+                            this.promoterTest = new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity());
+                        } else {
+                            constitutivePromoters.put(cd.getIdentity(),new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
+                        }
                         break;
                     case PROMOTER:
-                        promoters.put(cd.getIdentity(), new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
+                        System.out.println("Found Promoter");
+                        if(cd.getDisplayId().startsWith("test")){
+                            this.promoterTest = new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity());
+                        } else {
+                            promoters.put(cd.getIdentity(), new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
+                        }
                         break;
                     case RBS:
-                        rbs.put(cd.getIdentity(), new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
+                        System.out.println("Found RBS");
+                        if(cd.getDisplayId().startsWith("test")){
+                            this.rbsTest = new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity());
+                        } else{
+                            rbs.put(cd.getIdentity(), new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
+                        }
                         break;
                     case CDS:
-                        cds.put(cd.getIdentity(), new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
+                        System.out.println("Found CDS");
+                        if(cd.getDisplayId().startsWith("test")){
+                            this.cdsTest = new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity());
+                        } else {
+                            cds.put(cd.getIdentity(), new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
+                        }
                         break;
                     case TERMINATOR:
-                        terminators.put(cd.getIdentity(),new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
+                        System.out.println("Found Terminator");
+                        if(cd.getDisplayId().startsWith("test")){
+                            this.terTest = new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity());
+                        } else {
+                            terminators.put(cd.getIdentity(),new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
+                        }
                         break;
                     case PROTEIN:
+                        System.out.println("Found a Protein!");
                         proteins.put(cd.getIdentity(),new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
                         break;
                 }
@@ -159,7 +202,12 @@ public class Library {
                             }
                         } else if(cds.containsKey(fc.getDefinitionURI())){
                             //Do nothing for now. 
-                        } else {
+                        } else if(proteins.containsKey(fc.getDefinitionURI())){
+                            //Do nothing for now.
+                        } 
+                        else {
+                            System.out.println("MD :: " + md.getIdentity());
+                            System.out.println("FC :: " + fc.getDefinitionURI());
                             System.out.println("Unknown ModuleDefinition");
                         }
                     }
@@ -223,7 +271,11 @@ public class Library {
             URI terURI = new URI(terSO);
             URI proteinURI = new URI(proteinSO);
             
-            
+            for(URI uri:cd.getTypes()){
+                if(uri.equals(proteinURI)){
+                    return ComponentRole.PROTEIN;
+                }
+            }
             
             Set<URI> roles = cd.getRoles();
             for(URI uri: roles){
@@ -237,9 +289,7 @@ public class Library {
                     return ComponentRole.PROMOTER;
                 } else if(uri.equals(cdsURI)){
                     return ComponentRole.CDS;
-                } else if(uri.equals(proteinURI)){
-                    return ComponentRole.PROTEIN;
-                }
+                } 
             }
         } catch (URISyntaxException ex) {
             Logger.getLogger(Library.class.getName()).log(Level.SEVERE, null, ex);

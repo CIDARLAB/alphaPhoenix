@@ -80,7 +80,7 @@ public class PhoenixProjectTest {
         }
     }
     
-    @Test
+    //@Test
     public void testGetSBOLfromSynbiohub(){
         String synbiohuburl = "https://synbiohub.cidarlab.org";
         String phoenixliburl = "https://synbiohub.cidarlab.org/public/AlphaPhoenix/AlphaPhoenix_collection/1";
@@ -96,24 +96,11 @@ public class PhoenixProjectTest {
         }
     }
     
-    /*
+    
     @Test
     public void testPhoenix(){
-        try {
-            
-            String basefp = Utilities.getResourcesFilepath() + "example" + Utilities.getSeparater();
-            String sbolfp = basefp + "PhoenixModels_collection.xml";
-            String tempfp = basefp + "temp.xml";
-            SBOLDocument sbol = new SBOLDocument();
-            sbol.read(sbolfp);
-            SBMLReader sbmlread = new SBMLReader();
-            FileUtils.copyURLToFile(new URL("https://synbiohub.cidarlab.org/public/PhoenixModels/attachment_00009Oz54AgHVqUhS37NUe/1/download"),new File(tempfp));
-            SBMLDocument sbml = sbmlread.readSBML(new File(tempfp));
-            System.out.println(sbml.getChildCount());
-        } catch (SBOLValidationException | IOException | SBOLConversionException | XMLStreamException ex) {
-            Logger.getLogger(PhoenixProjectTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }*/
+        
+    }
     
     
     //@Test
@@ -251,6 +238,21 @@ public class PhoenixProjectTest {
             ter2.addRole(new URI(terSO));
             ter2.setName("Terminator 2");
             
+            ComponentDefinition testprom = sbol.createComponentDefinition(baseurl,"testProm", version, dnaRegionURI);
+            testprom.addRole(new URI(constitutivePromSO));
+            testprom.setName("Test Promoter");
+            
+            ComponentDefinition testrbs = sbol.createComponentDefinition(baseurl,"testRBS", version, dnaRegionURI);
+            testrbs.addRole(new URI(rbsSO));
+            testrbs.setName("Test RBS");
+            
+            ComponentDefinition testcds = sbol.createComponentDefinition(baseurl,"testCDS", version, dnaRegionURI);
+            testcds.addRole(new URI(cdsSO));
+            testcds.setName("Test CDS");
+            
+            ComponentDefinition testter = sbol.createComponentDefinition(baseurl,"testTer", version, dnaRegionURI);
+            testter.addRole(new URI(terSO));
+            testter.setName("Test Ter");
             
             ModuleDefinition tetmd = sbol.createModuleDefinition(baseurl,"tetRmd",version);
             FunctionalComponent fc1 = tetmd.createFunctionalComponent("tetR", AccessType.PRIVATE, tetR.getIdentity(), DirectionType.OUT);
@@ -281,15 +283,15 @@ public class PhoenixProjectTest {
             Participation part8 = int4.createParticipation("psrpR_int", fc8.getIdentity(),inhibitedURI);
 
             ModuleDefinition lasRmd = sbol.createModuleDefinition(baseurl,"lasRmd",version);
-            FunctionalComponent fc9 = lasRmd.createFunctionalComponent("lasR", AccessType.PRIVATE, tetR.getIdentity(), DirectionType.OUT);
-            FunctionalComponent fc10 = lasRmd.createFunctionalComponent("lasR_prot", AccessType.PRIVATE, tetProt.getIdentity(), DirectionType.IN);
+            FunctionalComponent fc9 = lasRmd.createFunctionalComponent("lasR", AccessType.PRIVATE, lasR.getIdentity(), DirectionType.OUT);
+            FunctionalComponent fc10 = lasRmd.createFunctionalComponent("lasR_prot", AccessType.PRIVATE, lasProt.getIdentity(), DirectionType.IN);
             Interaction int5 = lasRmd.createInteraction("lasR_production", productionURI);
             Participation part9 = int5.createParticipation("lasR_int", fc9.getIdentity(), templateURI);
             Participation part10 = int5.createParticipation("lasR_prot_int", fc10.getIdentity(), productURI);
             
             ModuleDefinition plasmd = sbol.createModuleDefinition(baseurl,"plasRmd",version);
-            FunctionalComponent fc11 = plasmd.createFunctionalComponent("plasR_prot_rep", AccessType.PRIVATE, tetProt.getIdentity(), DirectionType.OUT);
-            FunctionalComponent fc12 = plasmd.createFunctionalComponent("plasR", AccessType.PRIVATE, pTet.getIdentity(), DirectionType.IN);
+            FunctionalComponent fc11 = plasmd.createFunctionalComponent("plasR_prot_rep", AccessType.PRIVATE, lasProt.getIdentity(), DirectionType.OUT);
+            FunctionalComponent fc12 = plasmd.createFunctionalComponent("plasR", AccessType.PRIVATE, pLas.getIdentity(), DirectionType.IN);
             Interaction int6 = plasmd.createInteraction("lasR_repression", stimulationURI);
             Participation part11 = int6.createParticipation("lasR_prot_rep_int", fc11.getIdentity() , stimulationURI);
             Participation part12 = int6.createParticipation("plasR_int", fc12.getIdentity(),stimulationURI);

@@ -32,6 +32,10 @@ public class Component {
     @Setter
     private List<Interaction> interactions = new ArrayList<>();
     
+    @Getter
+    @Setter
+    private List<LibraryComponent> candidates = new ArrayList<>();
+    
     public void addInteraction(Interaction _interaction){
         interactions.add(_interaction);
     }
