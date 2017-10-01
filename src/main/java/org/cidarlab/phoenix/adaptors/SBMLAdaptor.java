@@ -83,7 +83,12 @@ public class SBMLAdaptor {
             } catch (XMLStreamException | IOException ex) {
                 Logger.getLogger(SBMLAdaptor.class.getName()).log(Level.SEVERE, null, ex);
             }
-            return convertParamsLocalToGlobal(doc);
+            if (doc != null){
+                return convertParamsLocalToGlobal(doc);
+            }
+            else {
+                return null;
+            }
         }
         
         private static void replaceNameASTNode(ASTNode node,String oldName, String newName){
@@ -281,133 +286,86 @@ public class SBMLAdaptor {
      * Methods for creating SBML models of gene expression
      */
 	
-	public static SBMLDocument createCompartmentModel(String compID) {
-    	return createCompartmentModel(compID, compID);
-	}
-	
-	public static SBMLDocument createCompartmentModel(String compID, String compName) {
-		SBMLDocument compartmentDoc = new SBMLDocument(3, 1);
-    	Model compartmentMod = compartmentDoc.createModel();
-    	Compartment cell = compartmentMod.createCompartment(compID);
-    	cell.setName(compName);
-    	cell.setConstant(false);
-        cell.setSize(1);
-    	return compartmentDoc;
-	}
-	
-	public static SBMLDocument createDegradationModel(String degradedID) {
-    	return createDegradationModel(degradedID, degradedID);
+    public static SBMLDocument createCompartmentModel(String compID) {
+        return createCompartmentModel(compID, compID);
     }
-    
-    public static SBMLDocument createDegradationModel(String degradedID, String degradedName) {
-    	SBMLDocument degradationDoc = createCompartmentModel("cell", "cell");
-    	Species degraded = createSpecies(degradedID, degradedName, degradationDoc.getModel());
-    	degraded.setSBOTerm(SBOTerm.OUTPUT.getID());
-    	createDegradationReaction(degraded, degradationDoc.getModel());
-    	return degradationDoc;
-    }
-    
 
-    public static SBMLDocument createExpressionModel(String expressedID) {
-    	return createExpressionModel(expressedID, expressedID);
+    public static SBMLDocument createCompartmentModel(String compID, String compName) {
+        SBMLDocument compartmentDoc = new SBMLDocument(3, 1);
+        Model compartmentMod = compartmentDoc.createModel();
+        Compartment cell = compartmentMod.createCompartment(compID);
+        cell.setName(compName);
+        cell.setConstant(false);
+        cell.setSize(1);
+        return compartmentDoc;
     }
     
-    public static SBMLDocument createExpressionModel(String expressedID, String expressedName) {
-    	SBMLDocument expressionDoc = createDegradationModel(expressedID, expressedName);
+    public static SBMLDocument createCDSModel(String proteinID) {
+        return createCDSModel(proteinID, proteinID);
+    }
+    
+    public static SBMLDocument createCDSModel(String proteinID, String proteinName) {
+    	SBMLDocument cdsDoc = createCompartmentModel("cell", "cell");
+    	Species degraded = createSpecies(proteinID, proteinName, cdsDoc.getModel());
+    	degraded.setSBOTerm(SBOTerm.OUTPUT.getID());
+    	createDegradationReaction(degraded, cdsDoc.getModel());
+    	return cdsDoc;
+    }
+    
+    public static SBMLDocument createConstituativePromoterModel(String expressedID) {
+    	return createConstituativePromoterModel(expressedID, expressedID);
+    }
+    
+    public static SBMLDocument createConstituativePromoterModel(String expressedID, String expressedName) {
+    	SBMLDocument expressionDoc = createCompartmentModel("cell", "cell");
+    	Species expressed = createSpecies(expressedID, expressedName, expressionDoc.getModel());
+    	expressed.setSBOTerm(SBOTerm.OUTPUT.getID());
     	createExpressionReaction(expressionDoc.getModel().getSpecies(expressedID), expressionDoc.getModel());
     	return expressionDoc;
     }
-   
-    public static SBMLDocument createRepressionModel(String repressorID, String expressedID) {
-    	return createRepressionModel(repressorID, expressedID, repressorID, expressedID, 2.0);
+    
+    public static SBMLDocument createRepressedPromoterModel(String repressorID, String expressedID) {
+    	return createRepressedPromoterModel(repressorID, expressedID, repressorID, expressedID);
     }
     
-    public static SBMLDocument createRepressionModel(String repressorID, String expressedID, double cooperativity) {
-    	return createRepressionModel(repressorID, expressedID, repressorID, expressedID, cooperativity);
-    }
-    
-    public static SBMLDocument createRepressionModel(String repressorID, String expressedID, String repressorName, String expressedName) {
-    	return createRepressionModel(repressorID, expressedID, repressorName, expressedName, 2.0);
-    }
-    
-    public static SBMLDocument createRepressionModel(String repressorID, String expressedID, String repressorName, String expressedName, 
-    		double cooperativity) {
-    	SBMLDocument repressionDoc = createDegradationModel(expressedID, expressedName);
+    public static SBMLDocument createRepressedPromoterModel(String repressorID, String expressedID, String repressorName, String expressedName) {
+    	SBMLDocument repressionDoc = createCompartmentModel("cell", "cell");
+    	Species expressed = createSpecies(expressedID, expressedName, repressionDoc.getModel());
+    	expressed.setSBOTerm(SBOTerm.OUTPUT.getID());
     	Species repressor = createSpecies(repressorID, repressorName, repressionDoc.getModel());
     	repressor.setSBOTerm(SBOTerm.INPUT.getID());
-    	createRepressibleExpressionReaction(repressor, repressionDoc.getModel().getSpecies(expressedID), cooperativity, repressionDoc.getModel());
+    	createRepressibleExpressionReaction(repressor, repressionDoc.getModel().getSpecies(expressedID), repressionDoc.getModel());
     	return repressionDoc;
     }
     
-    public static SBMLDocument createActivationModel(String activatorID, String expressedID) {
-    	return createActivationModel(activatorID, expressedID, activatorID, expressedID, 2.0);
+    public static SBMLDocument createActivatedPromoterModel(String activatorID, String expressedID) {
+    	return createActivatedPromoterModel(activatorID, expressedID, activatorID, expressedID);
     }
     
-    public static SBMLDocument createActivationModel(String activatorID, String expressedID, double cooperativity) {
-    	return createActivationModel(activatorID, expressedID, activatorID, expressedID, cooperativity);
-    }
-    
-    public static SBMLDocument createActivationModel(String activatorID, String expressedID, String activatorName, String expressedName) {
-    	return createActivationModel(activatorID, expressedID, activatorName, expressedName, 2.0);
-    }
-    
-    public static SBMLDocument createActivationModel(String activatorID, String expressedID, String activatorName, String expressedName,
-    		double cooperativity) {
-    	SBMLDocument activationDoc = createDegradationModel(expressedID, expressedName);
+    public static SBMLDocument createActivatedPromoterModel(String activatorID, String expressedID, String activatorName, String expressedName) {
+    	SBMLDocument activationDoc = createCompartmentModel("cell", "cell");
+    	Species expressed = createSpecies(expressedID, expressedName, activationDoc.getModel());
+    	expressed.setSBOTerm(SBOTerm.OUTPUT.getID());
     	Species activator = createSpecies(activatorID, activatorName, activationDoc.getModel());
     	activator.setSBOTerm(SBOTerm.INPUT.getID());
-    	createActivatableExpressionReaction(activator, activationDoc.getModel().getSpecies(expressedID), cooperativity, activationDoc.getModel());
+    	createActivatableExpressionReaction(activator, activationDoc.getModel().getSpecies(expressedID), activationDoc.getModel());
     	return activationDoc;
     }
     
-    public static SBMLDocument createInductionRepressionModel(String inducerID, String repressorID, String expressedID) {
-    	return createInductionRepressionModel(inducerID, repressorID, expressedID, inducerID, repressorID, expressedID, 2.0);
+    public static SBMLDocument createRepressedModuleModel(String repressorID, String expressedID) {
+    	return createRepressedModuleModel(repressorID, expressedID, repressorID, expressedID);
     }
     
-    public static SBMLDocument createInductionRepressionModel(String inducerID, String repressorID, String expressedID, double cooperativity) {
-    	return createInductionRepressionModel(inducerID, repressorID, expressedID, inducerID, repressorID, expressedID, cooperativity);
+    public static SBMLDocument createRepressedModuleModel(String repressorID, String expressedID, String repressorName, String expressedName) {
+    	return composeModels(createRepressedPromoterModel(repressorID, expressedID, repressorName, expressedName).getModel(), createCDSModel(expressedID, expressedName).getModel());
     }
     
-    public static SBMLDocument createInductionRepressionModel(String inducerID, String repressorID, String expressedID,   
-    		String inducerName, String repressorName, String expressedName) {
-    	return createInductionRepressionModel(inducerID, repressorID, expressedID, inducerName, repressorName, expressedName, 2.0);
+    public static SBMLDocument createActivatedModuleModel(String activatorID, String expressedID) {
+    	return createActivatedModuleModel(activatorID, expressedID, activatorID, expressedID);
     }
     
-    public static SBMLDocument createInductionRepressionModel(String inducerID, String repressorID, String expressedID,   
-    		String inducerName, String repressorName, String expressedName, double cooperativity) {
-    	SBMLDocument inductionRepressionDoc = createDegradationModel(expressedID, expressedName);
-    	Species repressor = createSpecies(repressorID, repressorName, inductionRepressionDoc.getModel());
-    	repressor.setSBOTerm(SBOTerm.INPUT.getID());
-    	Species inducer = createSpecies(inducerID, inducerName, inductionRepressionDoc.getModel());
-    	inducer.setSBOTerm(SBOTerm.INPUT.getID());
-    	createInducibleRepressibleExpressionReaction(inducer, repressor, inductionRepressionDoc.getModel().getSpecies(expressedID), cooperativity,
-    			inductionRepressionDoc.getModel());
-    	return inductionRepressionDoc;
-    }
-    
-    public static SBMLDocument createInductionActivationModel(String inducerID, String activatorID, String expressedID) {
-    	return createInductionActivationModel(inducerID, activatorID, expressedID, inducerID, activatorID, expressedID, 2.0);
-    }
-    
-    public static SBMLDocument createInductionActivationModel(String inducerID, String activatorID, String expressedID, double cooperativity) {
-    	return createInductionActivationModel(inducerID, activatorID, expressedID, inducerID, activatorID, expressedID);
-    }
-    
-    public static SBMLDocument createInductionActivationModel(String inducerID, String activatorID, String expressedID, 
-    		String inducerName, String activatorName, String expressedName) {
-    	return createInductionActivationModel(inducerID, activatorID, expressedID, inducerName, activatorName, expressedName, 2.0);
-    }
-    
-    public static SBMLDocument createInductionActivationModel(String inducerID, String activatorID, String expressedID, 
-    		String inducerName, String activatorName, String expressedName, double cooperativity) {
-    	SBMLDocument inductionActivationDoc = createDegradationModel(expressedID, expressedName);
-    	Species activator = createSpecies(activatorID, activatorName, inductionActivationDoc.getModel());
-    	activator.setSBOTerm(SBOTerm.INPUT.getID());
-    	Species inducer = createSpecies(inducerID, inducerName, inductionActivationDoc.getModel());
-    	inducer.setSBOTerm(SBOTerm.INPUT.getID());
-    	createInducibleActivatableExpressionReaction(inducer, activator, inductionActivationDoc.getModel().getSpecies(expressedID),   
-    			cooperativity, inductionActivationDoc.getModel());
-    	return inductionActivationDoc;
+    public static SBMLDocument createActivatedModuleModel(String activatorID, String expressedID, String activatorName, String expressedName) {
+    	return composeModels(createRepressedPromoterModel(activatorID, expressedID, activatorName, expressedName).getModel(), createCDSModel(expressedID, expressedName).getModel());
     }
     
     public static Species createSpecies(String specID, Model mod) {
@@ -459,15 +417,10 @@ public class SBMLAdaptor {
     	reactant.setStoichiometry(1.0);
     	reactant.setConstant(true);
     	KineticLaw degradationLaw = degradation.createKineticLaw();
-    	LocalParameter maxDegradationRate = degradationLaw.createLocalParameter("y");
-    	maxDegradationRate.setName("y");
-    	maxDegradationRate.setValue(1.0);
-    	LocalParameter degradationBindingEqulibrium = degradationLaw.createLocalParameter("K_d");
-    	degradationBindingEqulibrium.setName("K_d");
-    	degradationBindingEqulibrium.setValue(1.0);
-    	degradationLaw.setMath(parseFormula(maxDegradationRate.getId() 
-    			+ "*" + degraded.getId() + "/" + degradationBindingEqulibrium.getId() 
-    			+ "/(1+" + degraded.getId() + "/" + degradationBindingEqulibrium.getId() + ")"));
+        LocalParameter degradationRate = degradationLaw.createLocalParameter("k_d");
+    	degradationRate.setName("k_d");
+    	degradationRate.setValue(1.0);
+    	degradationLaw.setMath(parseFormula(degradationRate.getId() + "*" + degraded.getId()));
     	return degradation;
     }
     
@@ -477,7 +430,10 @@ public class SBMLAdaptor {
 		LocalParameter expressionRate = expressionLaw.createLocalParameter("k_EXE");
 		expressionRate.setName("k_EXE");
 		expressionRate.setValue(1.0);
-		expressionLaw.setMath(parseFormula(expressionRate.getId()));
+                LocalParameter activePromoterFraction = expressionLaw.createLocalParameter("y");
+		activePromoterFraction.setName("y");
+		activePromoterFraction.setValue(1.0);
+		expressionLaw.setMath(parseFormula(expressionRate.getId() + "*" + activePromoterFraction.getId()));
     	return expression;
     }
     
@@ -493,20 +449,24 @@ public class SBMLAdaptor {
     	return expression;
     }
     
-    private static Reaction createRepressibleExpressionReaction(Species repressor, Species expressed, double cooperativity, Model mod) {
+    private static Reaction createRepressibleExpressionReaction(Species repressor, Species expressed, Model mod) {
     	Reaction repressibleExpression = createRatelessRepressibleExpressionReaction(repressor, expressed, mod);
     	KineticLaw repressibleExpressionLaw = repressibleExpression.createKineticLaw();
 		LocalParameter maxExpressionRate = repressibleExpressionLaw.createLocalParameter("k_EXR");
 		maxExpressionRate.setName("k_EXR");
 		maxExpressionRate.setValue(1.0);
-		LocalParameter repressionBindingEquilibrium = repressibleExpressionLaw.createLocalParameter("K_r");
-		repressionBindingEquilibrium.setName("K_r");
-		repressionBindingEquilibrium.setValue(1.0);
-		LocalParameter coop = repressibleExpressionLaw.createLocalParameter("n");
-		coop.setName("n");
-		coop.setValue(cooperativity);
-		repressibleExpressionLaw.setMath(parseFormula(maxExpressionRate.getId() 
-				+ "/(1+"+ repressionBindingEquilibrium.getId() + "*" + repressor.getId() + "^" + coop.getId() + ")"));
+		LocalParameter dissociation = repressibleExpressionLaw.createLocalParameter("d");
+		dissociation.setName("d");
+		dissociation.setValue(1.0);
+		LocalParameter coop = repressibleExpressionLaw.createLocalParameter("h");
+		coop.setName("h");
+		coop.setValue(2.0);
+                LocalParameter activePromoterFraction = repressibleExpressionLaw.createLocalParameter("y");
+		activePromoterFraction.setName("y");
+		activePromoterFraction.setValue(1.0);
+		repressibleExpressionLaw.setMath(parseFormula(maxExpressionRate.getId()
+                        + "*((1-" + activePromoterFraction.getId() + ")*(1/(1+("+ repressor.getId() + "/"
+                        + dissociation.getId() + ")^" + coop.getId() + "))+" + activePromoterFraction.getId() + ")"));
     	return repressibleExpression;
     }
     
@@ -517,21 +477,25 @@ public class SBMLAdaptor {
     	return repressibleExpression;
     }
     
-    private static Reaction createActivatableExpressionReaction(Species activator, Species expressed, double cooperativity, Model mod) {
+    private static Reaction createActivatableExpressionReaction(Species activator, Species expressed, Model mod) {
     	Reaction activatableExpression = createRatelessActivatableExpressionReaction(activator, expressed, mod);
     	KineticLaw activatableExpressionLaw = activatableExpression.createKineticLaw();
 		LocalParameter maxExpressionRate = activatableExpressionLaw.createLocalParameter("k_EXA");
 		maxExpressionRate.setName("k_EXA");
 		maxExpressionRate.setValue(1.0);
-		LocalParameter activationBindingEquilibrium = activatableExpressionLaw.createLocalParameter("K_a");
-		activationBindingEquilibrium.setName("K_a");
-		activationBindingEquilibrium.setValue(1.0);
-		LocalParameter coop = activatableExpressionLaw.createLocalParameter("n");
-		coop.setName("n");
-		coop.setValue(cooperativity);
-		activatableExpressionLaw.setMath(parseFormula(maxExpressionRate.getId() 
-				+ "*" + activationBindingEquilibrium.getId() + "*" + activator.getId() + "^" + coop.getId()
-				+  "/(1+"+ activationBindingEquilibrium.getId() + "*" + activator.getId() + "^" + coop.getId() + ")"));
+		LocalParameter dissociation = activatableExpressionLaw.createLocalParameter("d");
+		dissociation.setName("d");
+		dissociation.setValue(1.0);
+		LocalParameter coop = activatableExpressionLaw.createLocalParameter("h");
+		coop.setName("h");
+		coop.setValue(2.0);
+                LocalParameter activePromoterFraction = activatableExpressionLaw.createLocalParameter("y");
+		activePromoterFraction.setName("y");
+		activePromoterFraction.setValue(1.0);
+                activatableExpressionLaw.setMath(parseFormula(maxExpressionRate.getId()
+                        + "*((1-" + activePromoterFraction.getId() + ")*(("+ activator.getId() + "/"
+                        + dissociation.getId() + ")^" + coop.getId() + "/(1+("+ activator.getId() + "/"
+                        + dissociation.getId() + ")^" + coop.getId() + "))+" + activePromoterFraction.getId() + ")"));
     	return activatableExpression;
     }
     
@@ -540,66 +504,6 @@ public class SBMLAdaptor {
     	ModifierSpeciesReference modifier = activatableExpression.createModifier(activator);
     	modifier.setSBOTerm(SBOTerm.ACTIVATOR.getID());
     	return activatableExpression;
-    }
-    
-    private static Reaction createInducibleRepressibleExpressionReaction(Species inducer, Species repressor, Species expressed, 
-    		double cooperativity, Model mod) {
-    	Reaction inducibleRepressibleExpression = createRatelessInducibleRepressibleExpressionReaction(inducer, repressor, expressed, mod);
-    	KineticLaw inducibleRepressibleExpressionLaw = inducibleRepressibleExpression.createKineticLaw();
-    	LocalParameter maxExpressionRate = inducibleRepressibleExpressionLaw.createLocalParameter("k_EXR");
-    	maxExpressionRate.setName("k_EXR");
-    	maxExpressionRate.setValue(1.0);
-    	LocalParameter repressionBindingEqulibrium = inducibleRepressibleExpressionLaw.createLocalParameter("K_r");
-    	repressionBindingEqulibrium.setName("K_r");
-    	repressionBindingEqulibrium.setValue(1.0);
-    	LocalParameter inducibleBindingEquilibrium = inducibleRepressibleExpressionLaw.createLocalParameter("K_i");
-    	inducibleBindingEquilibrium.setName("K_i");
-    	inducibleBindingEquilibrium.setValue(1.0);
-    	LocalParameter coop = inducibleRepressibleExpressionLaw.createLocalParameter("n");
-		coop.setName("n");
-		coop.setValue(cooperativity);
-    	inducibleRepressibleExpressionLaw.setMath(parseFormula(maxExpressionRate.getId() 
-    			+ "/(1+"+ repressionBindingEqulibrium.getId() + "*" + repressor.getId() + "^" + coop.getId() 
-    			+ "/(1+" + inducibleBindingEquilibrium.getId() + "*" + inducer.getId() + "))"));
-    	return inducibleRepressibleExpression;
-    }
-    
-    private static Reaction createRatelessInducibleRepressibleExpressionReaction(Species inducer, Species repressor, Species expressed, Model mod) {
-    	Reaction inducibleRepressibleExpression = createRatelessRepressibleExpressionReaction(repressor, expressed, mod);
-    	ModifierSpeciesReference modifier = inducibleRepressibleExpression.createModifier(inducer);
-    	modifier.setSBOTerm(SBOTerm.ACTIVATOR.getID());
-    	return inducibleRepressibleExpression;
-    }
-    
-    private static Reaction createInducibleActivatableExpressionReaction(Species inducer, Species activator, Species expressed, 
-    		double cooperativity, Model mod) {
-    	Reaction inducibleActivatableExpression = createRatelessInducibleActivatableExpressionReaction(inducer, activator, expressed, mod);
-    	KineticLaw inducibleActivatableExpressionLaw = inducibleActivatableExpression.createKineticLaw();
-    	LocalParameter maxExpressionRate = inducibleActivatableExpressionLaw.createLocalParameter("k_EXA");
-    	maxExpressionRate.setName("k_EXA");
-    	maxExpressionRate.setValue(1.0);
-    	LocalParameter activationBindingEqulibrium = inducibleActivatableExpressionLaw.createLocalParameter("K_a");
-    	activationBindingEqulibrium.setName("K_a");
-    	activationBindingEqulibrium.setValue(1.0);
-    	LocalParameter inducibleBindingEquilibrium = inducibleActivatableExpressionLaw.createLocalParameter("K_i");
-    	inducibleBindingEquilibrium.setName("K_i");
-    	inducibleBindingEquilibrium.setValue(1.0);
-    	LocalParameter coop = inducibleActivatableExpressionLaw.createLocalParameter("n");
-		coop.setName("n");
-		coop.setValue(cooperativity);
-    	inducibleActivatableExpressionLaw.setMath(parseFormula(maxExpressionRate.getId() 
-    			+ "*" + activationBindingEqulibrium.getId() + "*" + activator.getId() + "^" + coop.getId() + "*" + inducibleBindingEquilibrium.getId() + "*" + inducer.getId() 
-    			+ "/(1+" + inducibleBindingEquilibrium.getId() + "*" + inducer.getId() + ")"
-    			+ "/(1+"+ activationBindingEqulibrium.getId() + "*" + activator.getId() + "^" + coop.getId() + "*" + inducibleBindingEquilibrium.getId() + "*" + inducer.getId()
-    			+ "/(1+" + inducibleBindingEquilibrium.getId() + "*" + inducer.getId() + "))"));
-    	return inducibleActivatableExpression;
-    }
-    
-    private static Reaction createRatelessInducibleActivatableExpressionReaction(Species inducer, Species activator, Species expressed, Model mod) {
-    	Reaction inducibleActivatableExpression = createRatelessActivatableExpressionReaction(activator, expressed, mod);
-    	ModifierSpeciesReference modifier = inducibleActivatableExpression.createModifier(inducer);
-    	modifier.setSBOTerm(SBOTerm.ACTIVATOR.getID());
-    	return inducibleActivatableExpression;
     }
 	
 	/*
