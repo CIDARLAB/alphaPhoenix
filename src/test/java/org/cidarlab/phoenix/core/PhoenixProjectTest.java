@@ -11,6 +11,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.cidarlab.phoenix.adaptors.MiniEugeneAdaptor;
@@ -129,6 +130,7 @@ public class PhoenixProjectTest {
             Controller.assignPromCandidates(prom, lib, sbol, prom.getOrientation());
             Controller.assignCDSCandidates(cds);
             Controller.assignTUCandidates(tu1, lib, sbol, tu1.getOrientation());
+            List<Map<String,CandidateComponent>> finalAssignments = Controller.assignCircuitCandidates(test, lib, sbol);
             System.out.println("Promoter Assignment :");
             for(List<CandidateComponent> assignment: prom.getAssignments()){
                 for(CandidateComponent cc:assignment){
@@ -156,16 +158,20 @@ public class PhoenixProjectTest {
                 System.out.println("");
             }
             System.out.println("\n");
-            /*
-            List<List<CandidateComponent>> assignments = Controller.getTUCandidates(tu1, lib, sbol, tu1.getOrientation());
-            System.out.println(tu1.getRole().toString() + " :: " + tu1.getComponentString());
-            System.out.println("TU Assignment:");
-            for(List<CandidateComponent> assignment: assignments){
-                for(CandidateComponent cc:assignment){
-                    System.out.print(cc.getCandidate().getDisplayId() + ";");
+            System.out.println("Output CDS count :: " + lib.getOutputCDS().size());
+            System.out.println("CIRCUIT :: " + test.getComponentString());
+            System.out.println("CIRCUIT Assignment");
+            for(Map<String,CandidateComponent> assignment:finalAssignments){
+                for(Component c:test.getComponents()){
+                    System.out.print(assignment.get(c.getName()).getCandidate().getDisplayId() + ";");
                 }
                 System.out.println("");
-            }*/
+            }
+            /*for(Component c:test.getComponents()){
+                System.out.print(c.getName()+";");
+            }
+            System.out.println("");*/
+            
         } catch (SynBioHubException | URISyntaxException ex) {
             Logger.getLogger(PhoenixProjectTest.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -290,12 +296,15 @@ public class PhoenixProjectTest {
             
             //Component Definition for 3 FPs (choose 1). 
             ComponentDefinition gfp = sbol.createComponentDefinition(baseurl, "gfp", version, dnaRegionURI);
+            gfp.addRole(new URI(cdsSO));
             gfp.setName("GFP");
             
             ComponentDefinition bfp = sbol.createComponentDefinition(baseurl, "bfp", version, dnaRegionURI);
+            bfp.addRole(new URI(cdsSO));
             bfp.setName("BFP");
             
             ComponentDefinition rfp = sbol.createComponentDefinition(baseurl, "rfp", version, dnaRegionURI);
+            rfp.addRole(new URI(cdsSO));
             rfp.setName("RFP");
                         
             //Component Definition for 2 terminators (choose 2). 

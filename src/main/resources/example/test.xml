@@ -526,6 +526,14 @@
     <dcterms:title>LasR Protein</dcterms:title>
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
   </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/sample/gfp/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/gfp"/>
+    <sbol:displayId>gfp</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>GFP</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
+  </sbol:ComponentDefinition>
   <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/sample/testTer/0.1">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/testTer"/>
     <sbol:displayId>testTer</sbol:displayId>
@@ -589,11 +597,27 @@
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
     <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
   </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/sample/rfp/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/rfp"/>
+    <sbol:displayId>rfp</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>RFP</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
+  </sbol:ComponentDefinition>
   <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/sample/srpR/0.1">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/srpR"/>
     <sbol:displayId>srpR</sbol:displayId>
     <sbol:version>0.1</sbol:version>
     <dcterms:title>SrpR</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/sample/bfp/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/bfp"/>
+    <sbol:displayId>bfp</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>BFP</dcterms:title>
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
     <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
   </sbol:ComponentDefinition>
@@ -621,20 +645,6 @@
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
     <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
   </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/sample/rfp/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/rfp"/>
-    <sbol:displayId>rfp</sbol:displayId>
-    <sbol:version>0.1</sbol:version>
-    <dcterms:title>RFP</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/sample/bfp/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/bfp"/>
-    <sbol:displayId>bfp</sbol:displayId>
-    <sbol:version>0.1</sbol:version>
-    <dcterms:title>BFP</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
-  </sbol:ComponentDefinition>
   <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/sample/rbs2/0.1">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/rbs2"/>
     <sbol:displayId>rbs2</sbol:displayId>
@@ -642,12 +652,5 @@
     <dcterms:title>RBS 2</dcterms:title>
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
     <sbol:role rdf:resource="http://identifiers.org/so/SO:0000139"/>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/sample/gfp/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/gfp"/>
-    <sbol:displayId>gfp</sbol:displayId>
-    <sbol:version>0.1</sbol:version>
-    <dcterms:title>GFP</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
   </sbol:ComponentDefinition>
 </rdf:RDF>

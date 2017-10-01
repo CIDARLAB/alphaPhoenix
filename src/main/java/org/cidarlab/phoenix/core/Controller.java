@@ -12,6 +12,7 @@ import hyness.stl.grammar.STLParser;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -19,6 +20,7 @@ import java.util.logging.Logger;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.cidarlab.minieugene.predicates.interaction.Interaction.InteractionType;
 import org.cidarlab.phoenix.adaptors.SBMLAdaptor;
 import org.cidarlab.phoenix.dom.CandidateComponent;
 import org.cidarlab.phoenix.dom.Component;
@@ -66,6 +68,138 @@ public class Controller {
                 return null;
         }
     }
+    
+    
+    public static List<Map<String,CandidateComponent>> assignCircuitCandidates(Module module, Library lib, SBOLDocument doc){
+        List<Map<String,CandidateComponent>> tempAssignments;
+        List<Map<String,CandidateComponent>> loopAssignments = new ArrayList<>();
+        for(int i=0;i<module.getComponents().size();i++){
+            tempAssignments = new ArrayList<>();
+            Component c = module.getComponents().get(i);
+            
+                if(loopAssignments.isEmpty()){
+                    for(LibraryComponent lc:c.getCandidates()){ 
+                        Map<String,CandidateComponent> assignment = new HashMap<>();
+                        assignment.put(c.getName(),new CandidateComponent(c,lc));
+                        tempAssignments.add(assignment);
+                    }
+                } else {
+                    
+                    for(Map<String,CandidateComponent> lassignment:loopAssignments){
+                        //Do checks to see if you can assign this specific Component....
+                        if (isCDS(c)) {
+                            if (c.getInteractions().isEmpty()) {
+                                for (LibraryComponent lc : c.getCandidates()) {
+                                    Map<String, CandidateComponent> assignment = new HashMap<>();
+                                    assignment.putAll(lassignment);
+                                    assignment.put(c.getName(), new CandidateComponent(c, lc));
+                                    tempAssignments.add(assignment);
+                                }
+                            } else {
+                                for (Interaction inter : c.getInteractions()) {
+                                    Component prom = inter.getTo();
+                                    if (lassignment.containsKey(prom.getName())) {
+                                        CandidateComponent promcc = lassignment.get(prom.getName());
+                                        for (LibraryComponent lc : c.getCandidates()) {//This is CDS
+                                            if (inter.getType().equals(InteractionType.INDUCES)) {
+                                                if (activates(lc, promcc.getCandidate(), doc)) {
+                                                    Map<String, CandidateComponent> assignment = new HashMap<>();
+                                                    assignment.putAll(lassignment);
+                                                    assignment.put(c.getName(), new CandidateComponent(c, lc));
+                                                    tempAssignments.add(assignment);
+                                                }
+                                            } else if (inter.getType().equals(InteractionType.REPRESSES)) {
+                                                if (represses(lc, promcc.getCandidate(), doc)) {
+                                                    Map<String, CandidateComponent> assignment = new HashMap<>();
+                                                    assignment.putAll(lassignment);
+                                                    assignment.put(c.getName(), new CandidateComponent(c, lc));
+                                                    tempAssignments.add(assignment);
+                                                }
+                                            } else {
+                                                System.err.println("Not supported yet");
+                                            }
+                                        }
+                                    } else {
+                                        for (LibraryComponent lc : c.getCandidates()) {
+                                            CandidateComponent cc = new CandidateComponent(c, lc);
+                                            if(!lassignment.values().contains(cc)){
+                                                Map<String, CandidateComponent> assignment = new HashMap<>();
+                                                assignment.putAll(lassignment);
+                                                assignment.put(c.getName(), cc);
+                                                tempAssignments.add(assignment);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }  
+                        else if(isPromoter(c)) {
+                            if(c.getInteractions().isEmpty()){
+                               for (LibraryComponent lc : c.getCandidates()) {
+                                    Map<String, CandidateComponent> assignment = new HashMap<>();
+                                    assignment.putAll(lassignment);
+                                    assignment.put(c.getName(), new CandidateComponent(c, lc));
+                                    tempAssignments.add(assignment);
+                                } 
+                            } else {
+                                for (Interaction inter : c.getInteractions()) {
+                                    Component cds = inter.getFrom();
+                                    if (lassignment.containsKey(cds.getName())) {
+                                        CandidateComponent cdscc = lassignment.get(cds.getName());
+                                        for (LibraryComponent lc : c.getCandidates()) {//This is CDS
+                                            if (inter.getType().equals(InteractionType.INDUCES)) {
+                                                if (activates(cdscc.getCandidate(), lc, doc)) {
+                                                    Map<String, CandidateComponent> assignment = new HashMap<>();
+                                                    assignment.putAll(lassignment);
+                                                    assignment.put(c.getName(), new CandidateComponent(c, lc));
+                                                    tempAssignments.add(assignment);
+                                                }
+                                            } else if (inter.getType().equals(InteractionType.REPRESSES)) {
+                                                if (represses(cdscc.getCandidate(), lc, doc)) {
+                                                    Map<String, CandidateComponent> assignment = new HashMap<>();
+                                                    assignment.putAll(lassignment);
+                                                    assignment.put(c.getName(), new CandidateComponent(c, lc));
+                                                    tempAssignments.add(assignment);
+                                                }
+                                            } else {
+                                                System.err.println("Not supported yet");
+                                            }
+                                        }
+                                    } else {
+                                        for (LibraryComponent lc : c.getCandidates()) {
+                                            CandidateComponent cc = new CandidateComponent(c, lc);
+                                            if(!lassignment.values().contains(cc)){
+                                                Map<String, CandidateComponent> assignment = new HashMap<>();
+                                                assignment.putAll(lassignment);
+                                                assignment.put(c.getName(), cc);
+                                                tempAssignments.add(assignment);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            
+                        } else{
+                            if (!lassignment.containsKey(c.getName())) {
+                                for (LibraryComponent lc : c.getCandidates()) {
+                                    CandidateComponent cc = new CandidateComponent(c, lc);
+                                    if (!lassignment.values().contains(cc)) {
+                                        Map<String, CandidateComponent> assignment = new HashMap<>();
+                                        assignment.putAll(lassignment);
+                                        assignment.put(c.getName(), cc);
+                                        tempAssignments.add(assignment);
+                                    }
+                                }
+                            } 
+                        }                       
+                    }
+                }
+            loopAssignments = new ArrayList<>();
+            loopAssignments.addAll(tempAssignments);
+        }
+        return loopAssignments;
+    }
+    
     
     public static void assignPromCandidates(Module module, Library lib, SBOLDocument doc, Orientation o){
         List<List<CandidateComponent>> tempAssignments;

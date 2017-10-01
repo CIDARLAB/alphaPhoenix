@@ -37,10 +37,5 @@ public class DnaComponentTest {
     public void tearDown() {
     }
 
-    @Test
-    public void cdTest(){
-        LibraryComponent dc = new LibraryComponent();
-        
-    }
     
 }

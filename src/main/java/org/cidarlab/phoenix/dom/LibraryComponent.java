@@ -8,6 +8,7 @@ package org.cidarlab.phoenix.dom;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -51,8 +52,24 @@ public class LibraryComponent {
         this.componentDefintion = _cd;
     }
     
-    public LibraryComponent(){
-       
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof LibraryComponent){
+            LibraryComponent lc = (LibraryComponent)o;
+            if(lc.componentDefintion.equals(this.componentDefintion)){
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 83 * hash + Objects.hashCode(this.componentDefintion);
+        return hash;
     }
            
 }
