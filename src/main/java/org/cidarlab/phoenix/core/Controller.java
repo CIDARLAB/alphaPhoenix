@@ -67,8 +67,7 @@ public class Controller {
         }
     }
     
-    public static void getTUCandidates(Module module, Library lib, SBOLDocument doc, Orientation o){
-        List<List<CandidateComponent>> assignments = new ArrayList<>();
+    public static List<List<CandidateComponent>> getTUCandidates(Module module, Library lib, SBOLDocument doc, Orientation o){
         int revCount = 0;
         int totCount = 1;
         for(Component c:module.getComponents()){
@@ -83,27 +82,41 @@ public class Controller {
         for(int i=0;i<module.getComponents().size();i++){
             Component c = module.getComponents().get(i);
             if(c.getOrientation().equals(getOppositeOrientation(o))){
-                //Assign test here.....
+                //Assign test here for all Reverse strand weirdness.
                 if(isPromoter(c)){
-                    List<CandidateComponent> assignment = new ArrayList<>();
-                    assignment.add(new CandidateComponent(c,lib.getPromoterTest()));
-                    tempAssignments.add(assignment);
+                    for(List<CandidateComponent> lassignment:loopAssignments){
+                        List<CandidateComponent> assignment = new ArrayList<>();
+                        assignment.addAll(lassignment);
+                        assignment.add(new CandidateComponent(c,lib.getPromoterTest()));
+                        tempAssignments.add(assignment);
+                    }
+                    
                 } else if(isRBS(c)){
-                    List<CandidateComponent> assignment = new ArrayList<>();
-                    assignment.add(new CandidateComponent(c,lib.getRbsTest()));
-                    tempAssignments.add(assignment);
+                    for(List<CandidateComponent> lassignment:loopAssignments){
+                        List<CandidateComponent> assignment = new ArrayList<>();
+                        assignment.addAll(lassignment);
+                        assignment.add(new CandidateComponent(c,lib.getRbsTest()));
+                        tempAssignments.add(assignment);
+                    }
                 } else if(isCDS(c)){
-                    List<CandidateComponent> assignment = new ArrayList<>();
-                    assignment.add(new CandidateComponent(c,lib.getRbsTest()));
-                    tempAssignments.add(assignment);
+                    for(List<CandidateComponent> lassignment:loopAssignments){
+                        List<CandidateComponent> assignment = new ArrayList<>();
+                        assignment.addAll(lassignment);
+                        assignment.add(new CandidateComponent(c,lib.getCdsTest()));
+                        tempAssignments.add(assignment);
+                    }
+                    
                 } else if(isTerminator(c)){
-                    List<CandidateComponent> assignment = new ArrayList<>();
-                    assignment.add(new CandidateComponent(c,lib.getTerTest()));
-                    tempAssignments.add(assignment);
+                    for(List<CandidateComponent> lassignment:loopAssignments){
+                        List<CandidateComponent> assignment = new ArrayList<>();
+                        assignment.addAll(lassignment);
+                        assignment.add(new CandidateComponent(c,lib.getTerTest()));
+                        tempAssignments.add(assignment);
+                    }
                 }
             } else {
                 if(loopAssignments.isEmpty()){
-                    for(LibraryComponent lc:c.getCandidates()){
+                    for(LibraryComponent lc:c.getCandidates()){ 
                         List<CandidateComponent> assignment = new ArrayList<>();
                         assignment.add(new CandidateComponent(c,lc));
                         tempAssignments.add(assignment);
@@ -137,37 +150,52 @@ public class Controller {
                     }
                     for(List<CandidateComponent> lassignment:loopAssignments){
                         //Do checks to see if you can assign this specific Component....
-                        for (LibraryComponent lc : c.getCandidates()) {
-                            LibraryComponent promlc = lassignment.get(0).getCandidate();
-                            if (selfLoop) {
-                                if(rep){
-                                    if(represses(lc,promlc,doc)){
+                        if (module.getRole().equals(ModuleRole.PROMOTER) && (c.getRole().equals(ComponentRole.TESTING))) {
+                                List<CandidateComponent> assignment = new ArrayList<>();
+                                assignment.addAll(lassignment);
+                                assignment.add(new CandidateComponent(c, lib.getCdsTest()));
+                                tempAssignments.add(assignment);
+                        } else {
+                            for (LibraryComponent lc : c.getCandidates()) {
+                                LibraryComponent promlc = lassignment.get(0).getCandidate();
+                                if (isCDS(c)) {
+                                    if (selfLoop) {
+                                        if (rep) {
+                                            if (represses(lc, promlc, doc)) {
+                                                List<CandidateComponent> assignment = new ArrayList<>();
+                                                assignment.addAll(lassignment);
+                                                assignment.add(new CandidateComponent(c, lc));
+                                                tempAssignments.add(assignment);
+                                            }
+                                        } else {
+                                            if (activates(lc, promlc, doc)) {
+                                                List<CandidateComponent> assignment = new ArrayList<>();
+                                                assignment.addAll(lassignment);
+                                                assignment.add(new CandidateComponent(c, lc));
+                                                tempAssignments.add(assignment);
+                                            }
+                                        }
+                                    } else {
                                         List<CandidateComponent> assignment = new ArrayList<>();
                                         assignment.addAll(lassignment);
                                         assignment.add(new CandidateComponent(c, lc));
                                         tempAssignments.add(assignment);
                                     }
                                 } else {
-                                    if(activates(lc,promlc,doc)){
-                                        List<CandidateComponent> assignment = new ArrayList<>();
-                                        assignment.addAll(lassignment);
-                                        assignment.add(new CandidateComponent(c, lc));
-                                        tempAssignments.add(assignment);
-                                    }
+                                    List<CandidateComponent> assignment = new ArrayList<>();
+                                    assignment.addAll(lassignment);
+                                    assignment.add(new CandidateComponent(c, lc));
+                                    tempAssignments.add(assignment);
                                 }
-                            } else {
-                                List<CandidateComponent> assignment = new ArrayList<>();
-                                assignment.addAll(lassignment);
-                                assignment.add(new CandidateComponent(c,lc));
-                                tempAssignments.add(assignment);
                             }
-                        }
+                        }                        
                     }
                 }
             }
             loopAssignments = new ArrayList<>(tempAssignments);
             tempAssignments = new ArrayList<>();
         }
+        return loopAssignments;
     }
     
     
@@ -198,7 +226,7 @@ public class Controller {
                         component.setCandidates(new ArrayList<>(lib.getActivatorCDS().values()));
                     } else if(component.getRole().equals(ComponentRole.CDS_REPRESSOR)){
                         component.setCandidates(new ArrayList<>(lib.getRepressorCDS().values()));
-                    } else if(component.getRole().equals(ComponentRole.CDS_FLUORESCENT)){
+                    } else if(component.getRole().equals(ComponentRole.CDS_FLUORESCENT) || component.getRole().equals(ComponentRole.CDS) ){
                         component.setCandidates(new ArrayList<>(lib.getOutputCDS().values()));
                     } else {
                         System.out.println("Not supported yet.");
@@ -330,6 +358,7 @@ public class Controller {
         boolean started = false;
         List<Component> components = null;
         switch (mode) {
+            //<editor-fold desc="BioCPS decomposition">
             case BIOCPS:
                 //Forward Strand
                 started = false;
@@ -488,6 +517,7 @@ public class Controller {
                     }
                 }
                 return root;
+            //</editor-fold>
             case MM:
                 //Forward Strand
                 started = false;
@@ -516,6 +546,7 @@ public class Controller {
                                 child.setComponents(components);
                                 child.setRole(ModuleRole.TRANSCRIPTIONAL_UNIT);
                                 child.setRoot(false);
+                                child.setOrientation(Orientation.FORWARD);
                                 decomposeTU(child);
                                 root.addChild(child);
                                 started = false;
@@ -554,6 +585,7 @@ public class Controller {
                                 child.setComponents(components);
                                 child.setRole(ModuleRole.TRANSCRIPTIONAL_UNIT);
                                 child.setRoot(false);
+                                child.setOrientation(Orientation.REVERSE);
                                 decomposeTU(child);
                                 root.addChild(child);
                                 started = false;
@@ -577,7 +609,8 @@ public class Controller {
                 cds = new Module("CDS");
                 cds.addComponent(c);
                 cds.setRole(ModuleRole.CDS);
-
+                cds.setOrientation(module.getOrientation());
+                
                 Component test = new Component();
                 test.setOrientation(c.getOrientation());
                 test.setRole(ComponentRole.TESTING);
@@ -590,7 +623,8 @@ public class Controller {
         Module prom = new Module("Prom");
         prom.setRole(ModuleRole.PROMOTER);
         prom.setComponents(components);
-
+        prom.setOrientation(module.getOrientation());
+        
         module.addChild(prom);
         module.addChild(cds);
     }
@@ -641,6 +675,7 @@ public class Controller {
             case CDS_FLUORESCENT:
             case CDS_FLUORESCENT_FUSION:
                 return true;
+            case TESTING:    
             case TERMINATOR:
             case PROMOTER:
             case PROMOTER_REPRESSIBLE:
@@ -649,7 +684,6 @@ public class Controller {
             case RBS:
             case ORIGIN:
             case VECTOR:
-            case TESTING:
             case MARKER:
             case WILDCARD:
                 return false;

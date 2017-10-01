@@ -9,9 +9,16 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.cidarlab.phoenix.adaptors.MiniEugeneAdaptor;
 import org.cidarlab.phoenix.adaptors.SynbiohubAdaptor;
+import org.cidarlab.phoenix.dom.CandidateComponent;
+import org.cidarlab.phoenix.dom.Component;
+import org.cidarlab.phoenix.dom.Module;
+import org.cidarlab.phoenix.dom.Orientation;
 import org.cidarlab.phoenix.library.Library;
 import org.cidarlab.phoenix.utils.Utilities;
 import org.junit.After;
@@ -99,7 +106,47 @@ public class PhoenixProjectTest {
     
     @Test
     public void testPhoenix(){
+        String synbiohuburl = "https://synbiohub.cidarlab.org";
+        String phoenixliburl = "https://synbiohub.cidarlab.org/public/AlphaPhoenix/AlphaPhoenix_collection/1";
         
+        SynBioHubFrontend shub = new SynBioHubFrontend(synbiohuburl);
+        try {
+            URI u = new URI(phoenixliburl);
+            SBOLDocument sbol = shub.getSBOL(u);
+            Library lib = new Library(sbol);
+            
+            String eug = Utilities.getResourcesFilepath() + "miniEugeneFiles" + Utilities.getSeparater() + "inverterCP.eug";
+            int size = 8;
+            List<Module> modules = MiniEugeneAdaptor.getStructures(eug, size, "inverter");
+            Module test = Controller.decompose(PhoenixMode.MM, modules.get(1));
+            Controller.assignLeafCandidates(test, lib, new HashMap<String,Component>());
+            Module tu1 = test.getChildren().get(0);
+            List<List<CandidateComponent>> assignments = Controller.getTUCandidates(tu1, lib, sbol, tu1.getOrientation());
+            System.out.println(tu1.getRole().toString() + " :: " + tu1.getComponentString());
+            
+            Module prom = tu1.getChildren().get(0);
+            Module cds = tu1.getChildren().get(1);
+            System.out.println(prom.getRole().toString() + " :: " + prom.getComponentString() );
+            List<List<CandidateComponent>> assignmentsprom = Controller.getTUCandidates(prom, lib, sbol, prom.getOrientation());
+            
+            System.out.println("Promoter Assignment :");
+            for(List<CandidateComponent> assignment: assignmentsprom){
+                for(CandidateComponent cc:assignment){
+                    System.out.print(cc.getCandidate().getDisplayId() + ";");
+                }
+                System.out.println("");
+            }
+            System.out.println("\n\n");
+            System.out.println("TU :");
+            for(List<CandidateComponent> assignment: assignments){
+                for(CandidateComponent cc:assignment){
+                    System.out.print(cc.getCandidate().getDisplayId() + ";");
+                }
+                System.out.println("");
+            }
+        } catch (SynBioHubException | URISyntaxException ex) {
+            Logger.getLogger(PhoenixProjectTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     

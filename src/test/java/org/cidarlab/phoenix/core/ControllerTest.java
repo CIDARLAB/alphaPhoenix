@@ -66,10 +66,10 @@ public class ControllerTest {
     @Test
     public void testDecompose() {
         
-        String eug = Utilities.getResourcesFilepath() + "miniEugeneFiles" + Utilities.getSeparater() + "inverter.eug";
+        String eug = Utilities.getResourcesFilepath() + "miniEugeneFiles" + Utilities.getSeparater() + "inverterCP.eug";
         int size = 8;
         List<Module> modules = MiniEugeneAdaptor.getStructures(eug, size, "inverter");
-        Module test = Controller.decompose(PhoenixMode.BIOCPS, modules.get(1));
+        Module test = Controller.decompose(PhoenixMode.MM, modules.get(1));
         for(Component c:test.getComponents()){
             System.out.println(c.getName());
         }

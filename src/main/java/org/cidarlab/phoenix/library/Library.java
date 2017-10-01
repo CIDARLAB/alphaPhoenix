@@ -99,7 +99,7 @@ public class Library {
             for(ComponentDefinition cd: doc.getComponentDefinitions()){
                 switch(getRole(cd)){
                     case PROMOTER_CONSTITUTIVE:
-                        System.out.println("Found Constitutive Promoter");
+                        //System.out.println("Found Constitutive Promoter");
                         if(cd.getDisplayId().startsWith("test")){
                             this.promoterTest = new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity());
                         } else {
@@ -107,7 +107,7 @@ public class Library {
                         }
                         break;
                     case PROMOTER:
-                        System.out.println("Found Promoter");
+                        //System.out.println("Found Promoter");
                         if(cd.getDisplayId().startsWith("test")){
                             this.promoterTest = new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity());
                         } else {
@@ -115,7 +115,7 @@ public class Library {
                         }
                         break;
                     case RBS:
-                        System.out.println("Found RBS");
+                        //System.out.println("Found RBS");
                         if(cd.getDisplayId().startsWith("test")){
                             this.rbsTest = new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity());
                         } else{
@@ -123,7 +123,7 @@ public class Library {
                         }
                         break;
                     case CDS:
-                        System.out.println("Found CDS");
+                        //System.out.println("Found CDS");
                         if(cd.getDisplayId().startsWith("test")){
                             this.cdsTest = new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity());
                         } else {
@@ -131,7 +131,7 @@ public class Library {
                         }
                         break;
                     case TERMINATOR:
-                        System.out.println("Found Terminator");
+                        //System.out.println("Found Terminator");
                         if(cd.getDisplayId().startsWith("test")){
                             this.terTest = new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity());
                         } else {
@@ -139,7 +139,7 @@ public class Library {
                         }
                         break;
                     case PROTEIN:
-                        System.out.println("Found a Protein!");
+                        //System.out.println("Found a Protein!");
                         proteins.put(cd.getIdentity(),new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
                         break;
                 }
@@ -206,8 +206,8 @@ public class Library {
                             //Do nothing for now.
                         } 
                         else {
-                            System.out.println("MD :: " + md.getIdentity());
-                            System.out.println("FC :: " + fc.getDefinitionURI());
+                            //System.out.println("MD :: " + md.getIdentity());
+                            //System.out.println("FC :: " + fc.getDefinitionURI());
                             System.out.println("Unknown ModuleDefinition");
                         }
                     }

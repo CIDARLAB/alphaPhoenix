@@ -18,6 +18,10 @@ public class Module {
     
     @Getter
     @Setter
+    private Orientation orientation;
+    
+    @Getter
+    @Setter
     private Model model;
 
     //This is the part where it gets decomposed
