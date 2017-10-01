@@ -352,6 +352,22 @@ public class SBMLAdaptor {
     	return activationDoc;
     }
     
+    public static SBMLDocument createRepressedModuleModel(String repressorID, String expressedID) {
+    	return createRepressedModuleModel(repressorID, expressedID, repressorID, expressedID);
+    }
+    
+    public static SBMLDocument createRepressedModuleModel(String repressorID, String expressedID, String repressorName, String expressedName) {
+    	return composeModels(createRepressedPromoterModel(repressorID, expressedID, repressorName, expressedName).getModel(), createCDSModel(expressedID, expressedName).getModel());
+    }
+    
+    public static SBMLDocument createActivatedModuleModel(String activatorID, String expressedID) {
+    	return createActivatedModuleModel(activatorID, expressedID, activatorID, expressedID);
+    }
+    
+    public static SBMLDocument createActivatedModuleModel(String activatorID, String expressedID, String activatorName, String expressedName) {
+    	return composeModels(createRepressedPromoterModel(activatorID, expressedID, activatorName, expressedName).getModel(), createCDSModel(expressedID, expressedName).getModel());
+    }
+    
     public static Species createSpecies(String specID, Model mod) {
     	return createSpecies(specID, specID, mod);
     }
