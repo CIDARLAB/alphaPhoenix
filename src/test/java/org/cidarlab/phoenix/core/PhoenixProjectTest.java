@@ -8,14 +8,26 @@ package org.cidarlab.phoenix.core;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.cidarlab.phoenix.adaptors.MiniEugeneAdaptor;
+import org.cidarlab.phoenix.adaptors.SynbiohubAdaptor;
+import org.cidarlab.phoenix.dom.CandidateComponent;
+import org.cidarlab.phoenix.dom.Component;
+import org.cidarlab.phoenix.dom.Module;
+import org.cidarlab.phoenix.dom.Orientation;
+import org.cidarlab.phoenix.library.Library;
 import org.cidarlab.phoenix.utils.Utilities;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbolstandard.core2.AccessType;
 import org.sbolstandard.core2.ComponentDefinition;
 import org.sbolstandard.core2.DirectionType;
@@ -76,41 +88,109 @@ public class PhoenixProjectTest {
         }
     }
     
-    @Test
+    //@Test
     public void testGetSBOLfromSynbiohub(){
         String synbiohuburl = "https://synbiohub.cidarlab.org";
-        String phoenixliburl = "https://synbiohub.cidarlab.org/public/PhoenixModels/PhoenixModels_collection/1";
+        String phoenixliburl = "https://synbiohub.cidarlab.org/public/AlphaPhoenix/AlphaPhoenix_collection/1";
         
         SynBioHubFrontend shub = new SynBioHubFrontend(synbiohuburl);
         try {
             URI u = new URI(phoenixliburl);
             SBOLDocument sbol = shub.getSBOL(u);
+            Library lib = new Library(sbol);
+            System.out.println("Lib Constitutive Proms ::" + lib.getConstitutivePromoters().size());
+        } catch (SynBioHubException | URISyntaxException ex) {
+            Logger.getLogger(PhoenixProjectTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    @Test
+    public void testPhoenix(){
+        String synbiohuburl = "https://synbiohub.cidarlab.org";
+        String phoenixliburl = "https://synbiohub.cidarlab.org/public/AlphaPhoenix/AlphaPhoenix_collection/1";
+        
+        SynBioHubFrontend shub = new SynBioHubFrontend(synbiohuburl);
+        try {
+            URI u = new URI(phoenixliburl);
+            SBOLDocument sbol = shub.getSBOL(u);
+            Library lib = new Library(sbol);
+            
+            String eug = Utilities.getResourcesFilepath() + "miniEugeneFiles" + Utilities.getSeparater() + "inverterCP.eug";
+            int size = 8;
+            List<Module> modules = MiniEugeneAdaptor.getStructures(eug, size, "inverter");
+            Module test = Controller.decompose(PhoenixMode.MM, modules.get(1));
+            Controller.assignLeafCandidates(test, lib, new HashMap<String,Component>());
+            Module tu1 = test.getChildren().get(0);
+            
+            
+            Module prom = tu1.getChildren().get(0);
+            Module cds = tu1.getChildren().get(1);
+            System.out.println(prom.getRole().toString() + " :: " + prom.getComponentString() );
+            Controller.assignPromCandidates(prom, lib, sbol, prom.getOrientation());
+            Controller.assignCDSCandidates(cds);
+            Controller.assignTUCandidates(tu1, lib, sbol, tu1.getOrientation());
+            List<Map<String,CandidateComponent>> finalAssignments = Controller.assignCircuitCandidates(test, lib, sbol);
+            System.out.println("Promoter Assignment :");
+            for(List<CandidateComponent> assignment: prom.getAssignments()){
+                for(CandidateComponent cc:assignment){
+                    System.out.print(cc.getCandidate().getDisplayId() + ";");
+                }
+                System.out.println("");
+            }
+            System.out.println("\n");
+            
+            System.out.println("CDS Assignment :");
+            for(List<CandidateComponent> assignment: cds.getAssignments()){
+                for(CandidateComponent cc:assignment){
+                    System.out.print(cc.getCandidate().getDisplayId() + ";");
+                }
+                System.out.println("");
+            }
+            System.out.println("\n");
+            
+            System.out.println(tu1.getRole().toString() + " :: " + tu1.getComponentString() );
+            System.out.println("TU Assignment :");
+            for(List<CandidateComponent> assignment: tu1.getAssignments()){
+                for(CandidateComponent cc:assignment){
+                    System.out.print(cc.getCandidate().getDisplayId() + ";");
+                }
+                System.out.println("");
+            }
+            System.out.println("\n");
+            System.out.println("Output CDS count :: " + lib.getOutputCDS().size());
+            System.out.println("CIRCUIT :: " + test.getComponentString());
+            System.out.println("CIRCUIT Assignment");
+            for(Map<String,CandidateComponent> assignment:finalAssignments){
+                for(Component c:test.getComponents()){
+                    System.out.print(assignment.get(c.getName()).getCandidate().getDisplayId() + ";");
+                }
+                System.out.println("");
+            }
+            /*for(Component c:test.getComponents()){
+                System.out.print(c.getName()+";");
+            }
+            System.out.println("");*/
             
         } catch (SynBioHubException | URISyntaxException ex) {
             Logger.getLogger(PhoenixProjectTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    /*
-    @Test
-    public void testPhoenix(){
+    
+    //@Test
+    public void testGetSBMLModel(){
+        String url = "https://synbiohub.cidarlab.org/public/PhoenixModels/attachment_00009Oz51rh38Z8lz1NTKy/1/download";
+        String fp = Utilities.getResultsFilepath();
         try {
+            URL downloadlurl = new URL(url);           
+            SBMLDocument sbml = SynbiohubAdaptor.getModel(downloadlurl,fp);
             
-            String basefp = Utilities.getResourcesFilepath() + "example" + Utilities.getSeparater();
-            String sbolfp = basefp + "PhoenixModels_collection.xml";
-            String tempfp = basefp + "temp.xml";
-            SBOLDocument sbol = new SBOLDocument();
-            sbol.read(sbolfp);
-            SBMLReader sbmlread = new SBMLReader();
-            FileUtils.copyURLToFile(new URL("https://synbiohub.cidarlab.org/public/PhoenixModels/attachment_00009Oz54AgHVqUhS37NUe/1/download"),new File(tempfp));
-            SBMLDocument sbml = sbmlread.readSBML(new File(tempfp));
-            System.out.println(sbml.getChildCount());
-        } catch (SBOLValidationException | IOException | SBOLConversionException | XMLStreamException ex) {
+            System.out.println("End of Test!");
+        } catch (IOException ex) {
             Logger.getLogger(PhoenixProjectTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }*/
-    
-    
+        } 
+    }
     
     //@Test
     public void testCreateSampleLib() {
@@ -216,12 +296,15 @@ public class PhoenixProjectTest {
             
             //Component Definition for 3 FPs (choose 1). 
             ComponentDefinition gfp = sbol.createComponentDefinition(baseurl, "gfp", version, dnaRegionURI);
+            gfp.addRole(new URI(cdsSO));
             gfp.setName("GFP");
             
             ComponentDefinition bfp = sbol.createComponentDefinition(baseurl, "bfp", version, dnaRegionURI);
+            bfp.addRole(new URI(cdsSO));
             bfp.setName("BFP");
             
             ComponentDefinition rfp = sbol.createComponentDefinition(baseurl, "rfp", version, dnaRegionURI);
+            rfp.addRole(new URI(cdsSO));
             rfp.setName("RFP");
                         
             //Component Definition for 2 terminators (choose 2). 
@@ -233,6 +316,21 @@ public class PhoenixProjectTest {
             ter2.addRole(new URI(terSO));
             ter2.setName("Terminator 2");
             
+            ComponentDefinition testprom = sbol.createComponentDefinition(baseurl,"testProm", version, dnaRegionURI);
+            testprom.addRole(new URI(constitutivePromSO));
+            testprom.setName("Test Promoter");
+            
+            ComponentDefinition testrbs = sbol.createComponentDefinition(baseurl,"testRBS", version, dnaRegionURI);
+            testrbs.addRole(new URI(rbsSO));
+            testrbs.setName("Test RBS");
+            
+            ComponentDefinition testcds = sbol.createComponentDefinition(baseurl,"testCDS", version, dnaRegionURI);
+            testcds.addRole(new URI(cdsSO));
+            testcds.setName("Test CDS");
+            
+            ComponentDefinition testter = sbol.createComponentDefinition(baseurl,"testTer", version, dnaRegionURI);
+            testter.addRole(new URI(terSO));
+            testter.setName("Test Ter");
             
             ModuleDefinition tetmd = sbol.createModuleDefinition(baseurl,"tetRmd",version);
             FunctionalComponent fc1 = tetmd.createFunctionalComponent("tetR", AccessType.PRIVATE, tetR.getIdentity(), DirectionType.OUT);
@@ -263,15 +361,15 @@ public class PhoenixProjectTest {
             Participation part8 = int4.createParticipation("psrpR_int", fc8.getIdentity(),inhibitedURI);
 
             ModuleDefinition lasRmd = sbol.createModuleDefinition(baseurl,"lasRmd",version);
-            FunctionalComponent fc9 = lasRmd.createFunctionalComponent("lasR", AccessType.PRIVATE, tetR.getIdentity(), DirectionType.OUT);
-            FunctionalComponent fc10 = lasRmd.createFunctionalComponent("lasR_prot", AccessType.PRIVATE, tetProt.getIdentity(), DirectionType.IN);
+            FunctionalComponent fc9 = lasRmd.createFunctionalComponent("lasR", AccessType.PRIVATE, lasR.getIdentity(), DirectionType.OUT);
+            FunctionalComponent fc10 = lasRmd.createFunctionalComponent("lasR_prot", AccessType.PRIVATE, lasProt.getIdentity(), DirectionType.IN);
             Interaction int5 = lasRmd.createInteraction("lasR_production", productionURI);
             Participation part9 = int5.createParticipation("lasR_int", fc9.getIdentity(), templateURI);
             Participation part10 = int5.createParticipation("lasR_prot_int", fc10.getIdentity(), productURI);
             
             ModuleDefinition plasmd = sbol.createModuleDefinition(baseurl,"plasRmd",version);
-            FunctionalComponent fc11 = plasmd.createFunctionalComponent("plasR_prot_rep", AccessType.PRIVATE, tetProt.getIdentity(), DirectionType.OUT);
-            FunctionalComponent fc12 = plasmd.createFunctionalComponent("plasR", AccessType.PRIVATE, pTet.getIdentity(), DirectionType.IN);
+            FunctionalComponent fc11 = plasmd.createFunctionalComponent("plasR_prot_rep", AccessType.PRIVATE, lasProt.getIdentity(), DirectionType.OUT);
+            FunctionalComponent fc12 = plasmd.createFunctionalComponent("plasR", AccessType.PRIVATE, pLas.getIdentity(), DirectionType.IN);
             Interaction int6 = plasmd.createInteraction("lasR_repression", stimulationURI);
             Participation part11 = int6.createParticipation("lasR_prot_rep_int", fc11.getIdentity() , stimulationURI);
             Participation part12 = int6.createParticipation("plasR_int", fc12.getIdentity(),stimulationURI);
@@ -280,7 +378,7 @@ public class PhoenixProjectTest {
             FunctionalComponent fc13 = cp1md.createFunctionalComponent("cp1", AccessType.PRIVATE, cp1.getIdentity(), DirectionType.IN);
             
             ModuleDefinition cp2md = sbol.createModuleDefinition(baseurl,"cp2md",version);
-            FunctionalComponent fc14 = cp1md.createFunctionalComponent("cp2", AccessType.PRIVATE, cp2.getIdentity(), DirectionType.IN);
+            FunctionalComponent fc14 = cp2md.createFunctionalComponent("cp2", AccessType.PRIVATE, cp2.getIdentity(), DirectionType.IN);
             
             ModuleDefinition gfpmd = sbol.createModuleDefinition(baseurl, "gfpmd", version);
             FunctionalComponent fc15 = gfpmd.createFunctionalComponent("gfp", AccessType.PRIVATE, gfp.getIdentity(), DirectionType.OUT);
@@ -291,23 +389,22 @@ public class PhoenixProjectTest {
             ModuleDefinition rfpmd = sbol.createModuleDefinition(baseurl, "rfpmd", version);
             FunctionalComponent fc17 = rfpmd.createFunctionalComponent("rfp", AccessType.PRIVATE, rfp.getIdentity(), DirectionType.OUT);            
             
-            Model cp1model = sbol.createModel(baseurl, "cp1_model", version, new URI("https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz51rh38Z8lz1NTKy/1"), sbmlURI, frameworkURI);
-            Model cp2model = sbol.createModel(baseurl, "cp2_model", version, new URI("https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz51riT3IH63Q2bY0/1"), sbmlURI, frameworkURI);
+            Model cp1model = sbol.createModel(baseurl, "cp1_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P1dsgbqrXrPiGE00m/1"), sbmlURI, frameworkURI);
+            Model cp2model = sbol.createModel(baseurl, "cp2_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P1dsgcunai9lYiqfY/1"), sbmlURI, frameworkURI);
             
-            Model gfpmodel = sbol.createModel(baseurl, "gfp_model", version, new URI("https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz54Aerb7MNNeSFHc/1"), sbmlURI, frameworkURI);
-            Model rfpmodel = sbol.createModel(baseurl, "rfp_model", version, new URI("https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz54AgHVqUhS37NUe/1"), sbmlURI, frameworkURI);
-            Model bfpmodel = sbol.createModel(baseurl, "bfp_model", version, new URI("https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz54AfZYTvXPqmoO8/1"), sbmlURI, frameworkURI);
+            Model gfpmodel = sbol.createModel(baseurl, "gfp_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P1dqcHtxZqZjJuG92/1"), sbmlURI, frameworkURI);
+            Model rfpmodel = sbol.createModel(baseurl, "rfp_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P1dqcIbuwPjlWEpFZ/1"), sbmlURI, frameworkURI);
+            Model bfpmodel = sbol.createModel(baseurl, "bfp_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P1dqcIbuwPjlWEpFY/1"), sbmlURI, frameworkURI);
             
-            Model tetmodel = sbol.createModel(baseurl, "tetR_model", version, new URI("https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NX2FQz11BPnmK/1"), sbmlURI, frameworkURI);
-            Model ptetmodel = sbol.createModel(baseurl, "pTet_model", version, new URI("https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NWgGkhR05FWE4/1"), sbmlURI, frameworkURI);
+            Model tetmodel = sbol.createModel(baseurl, "tetR_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P1drJFEFOG6xTzERs/1"), sbmlURI, frameworkURI);
+            Model ptetmodel = sbol.createModel(baseurl, "pTet_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P1drJEsGhyWwNowtc/1"), sbmlURI, frameworkURI);
             
-            Model lasmodel = sbol.createModel(baseurl, "lasR_model", version, new URI("https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz52a4e8C9xcwkwE4/1"), sbmlURI, frameworkURI);
-            Model pLasmodel = sbol.createModel(baseurl, "pLas_model", version, new URI("https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz52a3wApanakQN7Y/1"), sbmlURI, frameworkURI);
+            Model lasmodel = sbol.createModel(baseurl, "lasR_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P1ds8qYONQ100qGCu/1"), sbmlURI, frameworkURI);
+            Model pLasmodel = sbol.createModel(baseurl, "pLas_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P1ds8pqR0qqxoVh6O/1"), sbmlURI, frameworkURI);
             
-            Model srpRmodel = sbol.createModel(baseurl, "srpR_model", version, new URI("https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NVyJO8Gxsux7Y/1"), sbmlURI, frameworkURI);
-            Model pSrpRmodel = sbol.createModel(baseurl, "psrpR_model", version, new URI("https://synbiohub.cidarlab.org/user/prash/PhoenixModels/attachment_00009Oz53NVyJO8Gxsux7Z/1"), sbmlURI, frameworkURI);
+            Model srpRmodel = sbol.createModel(baseurl, "srpR_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P1drJEAJLPMuBUNn6/1"), sbmlURI, frameworkURI);
+            Model pSrpRmodel = sbol.createModel(baseurl, "psrpR_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P1drJEAJLPMuBUNn7/1"), sbmlURI, frameworkURI);
 
-            
             gfpmd.addModel(gfpmodel);
             rfpmd.addModel(rfpmodel);
             bfpmd.addModel(bfpmodel);

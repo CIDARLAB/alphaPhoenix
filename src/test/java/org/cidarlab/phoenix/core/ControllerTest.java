@@ -5,8 +5,12 @@
  */
 package org.cidarlab.phoenix.core;
 
+import hyness.stl.ConjunctionNode;
+import hyness.stl.TreeNode;
+import hyness.stl.grammar.sharp.STLSharp;
 import java.util.List;
 import org.cidarlab.phoenix.adaptors.MiniEugeneAdaptor;
+import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.utils.Utilities;
 import org.junit.After;
@@ -40,16 +44,35 @@ public class ControllerTest {
     public void tearDown() {
     }
 
+    @Test
+    public void testSTLfromFile(){
+        
+        String job =  Utilities.getResultsFilepath() + "job1515520793" + Utilities.getSeparater();
+        String stlfp = job + "stl.txt";
+        TreeNode stl = Controller.getSTL(stlfp);
+        if(stl instanceof ConjunctionNode){
+            ConjunctionNode root = (ConjunctionNode) stl;
+            System.out.println("Input  :: " + root.left);
+            System.out.println("Output :: " + root.right);
+        } else {
+            System.out.println("Error!!");
+        }
+        //System.out.println(stl.toString());
+    }
+    
     /**
      * Test of decompose method, of class Controller.
      */
     @Test
     public void testDecompose() {
         
-        String eug = Utilities.getResourcesFilepath() + "miniEugeneFiles" + Utilities.getSeparater() + "inverter.eug";
+        String eug = Utilities.getResourcesFilepath() + "miniEugeneFiles" + Utilities.getSeparater() + "inverterCP.eug";
         int size = 8;
         List<Module> modules = MiniEugeneAdaptor.getStructures(eug, size, "inverter");
-        Module test = Controller.decompose(PhoenixMode.BIOCPS, modules.get(1));
+        Module test = Controller.decompose(PhoenixMode.MM, modules.get(1));
+        for(Component c:test.getComponents()){
+            System.out.println(c.getName());
+        }
         System.out.println("End of Test");
     }
     

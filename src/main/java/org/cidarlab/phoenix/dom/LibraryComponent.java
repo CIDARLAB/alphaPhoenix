@@ -5,12 +5,12 @@
  */
 package org.cidarlab.phoenix.dom;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
-import org.sbolstandard.core2.ComponentDefinition;
-import org.sbolstandard.core2.ModuleDefinition;
 
 /**
  *
@@ -19,20 +19,57 @@ import org.sbolstandard.core2.ModuleDefinition;
 public class LibraryComponent {
     
     //Does this cover everything?
+    
     @Getter
-    @Setter
-    private ComponentDefinition componentDefintion;
+    private String name;
+    
+    @Getter
+    private String displayId;
     
     @Getter
     @Setter
-    private List<ModuleDefinition> moduleDefinitions = new ArrayList<>();
+    private URI componentDefintion;
     
     @Getter
     @Setter
-    private Model model;
+    private List<URI> moduleDefinitions = new ArrayList<>();
     
-    public LibraryComponent(){
-       
+    @Getter
+    @Setter
+    private List<URI> models = new ArrayList<>();
+    
+    public void addModel(URI uri){
+        this.models.add(uri);
+    }
+    
+    public void addModuleDefinition(URI uri){
+        this.moduleDefinitions.add(uri);
+    }
+    
+    public LibraryComponent(String _name, String _displayId, URI _cd){
+        this.name = _name;
+        this.displayId = _displayId;
+        this.componentDefintion = _cd;
+    }
+    
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof LibraryComponent){
+            LibraryComponent lc = (LibraryComponent)o;
+            if(lc.componentDefintion.equals(this.componentDefintion)){
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 83 * hash + Objects.hashCode(this.componentDefintion);
+        return hash;
     }
            
 }
