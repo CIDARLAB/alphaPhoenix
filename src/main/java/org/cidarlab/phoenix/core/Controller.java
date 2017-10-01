@@ -76,7 +76,7 @@ public class Controller {
         for(int i=0;i<module.getComponents().size();i++){
             tempAssignments = new ArrayList<>();
             Component c = module.getComponents().get(i);
-            
+                
                 if(loopAssignments.isEmpty()){
                     for(LibraryComponent lc:c.getCandidates()){ 
                         Map<String,CandidateComponent> assignment = new HashMap<>();
@@ -196,6 +196,7 @@ public class Controller {
                 }
             loopAssignments = new ArrayList<>();
             loopAssignments.addAll(tempAssignments);
+            //System.out.println("At the end of i  = " + i + " number of assignments are :: " + loopAssignments.size() );
         }
         return loopAssignments;
     }
@@ -364,10 +365,10 @@ public class Controller {
     }
     
     
-    public static void assignLeafCandidates(Module module, Library lib, Map<String,Component> assigned){
+    public static void assignLeafCandidates(Module module, Library lib){
         if(module.getRole().equals(ModuleRole.PROMOTER)){
             for(Component component:module.getComponents()){
-                if(!assigned.containsKey(component.getName())){
+                //if(!assigned.containsKey(component.getName())){
                     if(component.getRole().equals(ComponentRole.PROMOTER_CONSTITUTIVE)){
                         component.setCandidates(new ArrayList<>(lib.getConstitutivePromoters().values()));
                     } else if(component.getRole().equals(ComponentRole.PROMOTER_REPRESSIBLE)){
@@ -381,28 +382,32 @@ public class Controller {
                     } else if(component.getRole().equals(ComponentRole.TERMINATOR)){
                         component.setCandidates(new ArrayList<>(lib.getTerminators().values()));
                     }
-                    assigned.put(component.getName(), component);
-                }
+                    //assigned.put(component.getName(), component);
+                //}
             }
         } else if(module.getRole().equals(ModuleRole.CDS)){
+            System.out.println("Assigning Candidates to CDS. Orientation : " + module.getOrientation() + ". Module Component Count : " + module.getComponents().size());
+            System.out.println("Component Role :: " + module.getComponents().get(0).getRole());
+            System.out.println("Component Name :: " + module.getComponents().get(0).getName());
             for(Component component:module.getComponents()){
-                if(!assigned.containsKey(component.getName())){
+                //if(!assigned.containsKey(component.getName())){
                     if(component.getRole().equals(ComponentRole.CDS_ACTIVATOR)){
                         component.setCandidates(new ArrayList<>(lib.getActivatorCDS().values()));
                     } else if(component.getRole().equals(ComponentRole.CDS_REPRESSOR)){
                         component.setCandidates(new ArrayList<>(lib.getRepressorCDS().values()));
                     } else if(component.getRole().equals(ComponentRole.CDS_FLUORESCENT) || component.getRole().equals(ComponentRole.CDS) ){
+                        System.out.println("All output CDS count :: " + lib.getOutputCDS().size());
                         component.setCandidates(new ArrayList<>(lib.getOutputCDS().values()));
                     } else {
                         System.out.println("Not supported yet.");
                     }
-                    assigned.put(component.getName(), component);
-                }
+                    //assigned.put(component.getName(), component);
+                //}
             }
         }
         else {
             for(Module child:module.getChildren()){
-                assignLeafCandidates(child,lib, assigned);
+                assignLeafCandidates(child,lib);
             }
         }
     }
@@ -738,10 +743,10 @@ public class Controller {
                                 continue;
                             }
                         } else {
-                            //Reverse orientation. Wouldn't really make it a TU unless it is a part of the TU.
+                            //Forward orientation. Wouldn't really make it a TU unless it is a part of the TU.
                             continue;
                         }
-                    } //Started Forward strand
+                    } //Started reverse strand
                     else {
                         if (c.getOrientation().equals(Orientation.REVERSE)) {
                             components.add(c);

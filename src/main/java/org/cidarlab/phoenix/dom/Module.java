@@ -90,6 +90,19 @@ public class Module {
         this.id = _id;
     }
     
+    public void printTree(){
+        printTree(0);
+    }
+    
+    private void printTree(int indent){
+        for(int i=0;i<indent;i++){
+            System.out.print("-");
+        }
+        System.out.print(this.role.toString() + " :: " + this.getComponentString() + "\n");
+        for(Module child:this.children){
+            child.printTree(indent+1);
+        }
+    }
     
     public static enum ModuleRole{
         HIGHER_FUNCTION,

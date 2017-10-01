@@ -119,58 +119,74 @@ public class PhoenixProjectTest {
             String eug = Utilities.getResourcesFilepath() + "miniEugeneFiles" + Utilities.getSeparater() + "inverterCP.eug";
             int size = 8;
             List<Module> modules = MiniEugeneAdaptor.getStructures(eug, size, "inverter");
-            Module test = Controller.decompose(PhoenixMode.MM, modules.get(1));
-            Controller.assignLeafCandidates(test, lib, new HashMap<String,Component>());
-            Module tu1 = test.getChildren().get(0);
-            
-            
-            Module prom = tu1.getChildren().get(0);
-            Module cds = tu1.getChildren().get(1);
-            System.out.println(prom.getRole().toString() + " :: " + prom.getComponentString() );
-            Controller.assignPromCandidates(prom, lib, sbol, prom.getOrientation());
-            Controller.assignCDSCandidates(cds);
-            Controller.assignTUCandidates(tu1, lib, sbol, tu1.getOrientation());
-            List<Map<String,CandidateComponent>> finalAssignments = Controller.assignCircuitCandidates(test, lib, sbol);
-            System.out.println("Promoter Assignment :");
-            for(List<CandidateComponent> assignment: prom.getAssignments()){
-                for(CandidateComponent cc:assignment){
-                    System.out.print(cc.getCandidate().getDisplayId() + ";");
+
+            int testindx = 0;
+            for (int i = 0; i < modules.size(); i++) {
+                Module test = Controller.decompose(PhoenixMode.MM, modules.get(i));
+                Controller.assignLeafCandidates(test, lib);
+                Module tu1 = test.getChildren().get(0);
+
+                Module prom = tu1.getChildren().get(0);
+                Module cds = tu1.getChildren().get(1);
+                System.out.println(prom.getRole().toString() + " :: " + prom.getComponentString());
+                Controller.assignPromCandidates(prom, lib, sbol, prom.getOrientation());
+                Controller.assignCDSCandidates(cds);
+                Controller.assignTUCandidates(tu1, lib, sbol, tu1.getOrientation());
+                List<Map<String, CandidateComponent>> finalAssignments = Controller.assignCircuitCandidates(test, lib, sbol);
+
+                System.out.println("Promoter Assignment :");
+                for (List<CandidateComponent> assignment : prom.getAssignments()) {
+                    for (CandidateComponent cc : assignment) {
+                        System.out.print(cc.getCandidate().getDisplayId() + ";");
+                    }
+                    System.out.println("");
                 }
-                System.out.println("");
-            }
-            System.out.println("\n");
-            
-            System.out.println("CDS Assignment :");
-            for(List<CandidateComponent> assignment: cds.getAssignments()){
-                for(CandidateComponent cc:assignment){
-                    System.out.print(cc.getCandidate().getDisplayId() + ";");
+                System.out.println("\n");
+
+                System.out.println("CDS Assignment :");
+                for (List<CandidateComponent> assignment : cds.getAssignments()) {
+                    for (CandidateComponent cc : assignment) {
+                        System.out.print(cc.getCandidate().getDisplayId() + ";");
+                    }
+                    System.out.println("");
                 }
-                System.out.println("");
-            }
-            System.out.println("\n");
-            
-            System.out.println(tu1.getRole().toString() + " :: " + tu1.getComponentString() );
-            System.out.println("TU Assignment :");
-            for(List<CandidateComponent> assignment: tu1.getAssignments()){
-                for(CandidateComponent cc:assignment){
-                    System.out.print(cc.getCandidate().getDisplayId() + ";");
+                System.out.println("\n");
+
+                System.out.println(tu1.getRole().toString() + " :: " + tu1.getComponentString());
+                System.out.println("TU Assignment :");
+                for (List<CandidateComponent> assignment : tu1.getAssignments()) {
+                    for (CandidateComponent cc : assignment) {
+                        System.out.print(cc.getCandidate().getDisplayId() + ";");
+                    }
+                    System.out.println("");
                 }
-                System.out.println("");
-            }
-            System.out.println("\n");
-            System.out.println("Output CDS count :: " + lib.getOutputCDS().size());
-            System.out.println("CIRCUIT :: " + test.getComponentString());
-            System.out.println("CIRCUIT Assignment");
-            for(Map<String,CandidateComponent> assignment:finalAssignments){
-                for(Component c:test.getComponents()){
-                    System.out.print(assignment.get(c.getName()).getCandidate().getDisplayId() + ";");
+                System.out.println("\n");
+                System.out.println("############################################");
+                System.out.println("Library Details ");
+                System.out.println("Constitutive Promoters : " + lib.getConstitutivePromoters().size());
+                System.out.println("Activatible Promoters  : " + lib.getActivatiblePromoters().size());
+                System.out.println("Repressible Promoters  : " + lib.getRepressiblePromoters().size());
+                System.out.println("RBS                    : " + lib.getRbs().size());
+                System.out.println("Output CDS             : " + lib.getOutputCDS().size());
+                System.out.println("Activators             : " + lib.getActivatorCDS().size());
+                System.out.println("Repressors             : " + lib.getRepressorCDS().size());
+                System.out.println("Terminators            : " + lib.getTerminators().size());
+                System.out.println("############################################\n");
+
+                System.out.println("############################################");
+                System.out.println("Module Tree Structure :: ");
+                test.printTree();
+                System.out.println("############################################\n");
+
+                System.out.println("############################################");
+                System.out.println("CIRCUIT :: " + test.getComponentString());
+                for (Map<String, CandidateComponent> assignment : finalAssignments) {
+                    for (Component c : test.getComponents()) {
+                        System.out.print(assignment.get(c.getName()).getCandidate().getDisplayId() + ";");
+                    }
+                    System.out.println("");
                 }
-                System.out.println("");
             }
-            /*for(Component c:test.getComponents()){
-                System.out.print(c.getName()+";");
-            }
-            System.out.println("");*/
             
         } catch (SynBioHubException | URISyntaxException ex) {
             Logger.getLogger(PhoenixProjectTest.class.getName()).log(Level.SEVERE, null, ex);
