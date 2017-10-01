@@ -121,29 +121,51 @@ public class PhoenixProjectTest {
             Module test = Controller.decompose(PhoenixMode.MM, modules.get(1));
             Controller.assignLeafCandidates(test, lib, new HashMap<String,Component>());
             Module tu1 = test.getChildren().get(0);
-            List<List<CandidateComponent>> assignments = Controller.getTUCandidates(tu1, lib, sbol, tu1.getOrientation());
-            System.out.println(tu1.getRole().toString() + " :: " + tu1.getComponentString());
+            
             
             Module prom = tu1.getChildren().get(0);
             Module cds = tu1.getChildren().get(1);
             System.out.println(prom.getRole().toString() + " :: " + prom.getComponentString() );
-            List<List<CandidateComponent>> assignmentsprom = Controller.getTUCandidates(prom, lib, sbol, prom.getOrientation());
-            
+            Controller.assignPromCandidates(prom, lib, sbol, prom.getOrientation());
+            Controller.assignCDSCandidates(cds);
+            Controller.assignTUCandidates(tu1, lib, sbol, tu1.getOrientation());
             System.out.println("Promoter Assignment :");
-            for(List<CandidateComponent> assignment: assignmentsprom){
+            for(List<CandidateComponent> assignment: prom.getAssignments()){
                 for(CandidateComponent cc:assignment){
                     System.out.print(cc.getCandidate().getDisplayId() + ";");
                 }
                 System.out.println("");
             }
-            System.out.println("\n\n");
-            System.out.println("TU :");
+            System.out.println("\n");
+            
+            System.out.println("CDS Assignment :");
+            for(List<CandidateComponent> assignment: cds.getAssignments()){
+                for(CandidateComponent cc:assignment){
+                    System.out.print(cc.getCandidate().getDisplayId() + ";");
+                }
+                System.out.println("");
+            }
+            System.out.println("\n");
+            
+            System.out.println(tu1.getRole().toString() + " :: " + tu1.getComponentString() );
+            System.out.println("TU Assignment :");
+            for(List<CandidateComponent> assignment: tu1.getAssignments()){
+                for(CandidateComponent cc:assignment){
+                    System.out.print(cc.getCandidate().getDisplayId() + ";");
+                }
+                System.out.println("");
+            }
+            System.out.println("\n");
+            /*
+            List<List<CandidateComponent>> assignments = Controller.getTUCandidates(tu1, lib, sbol, tu1.getOrientation());
+            System.out.println(tu1.getRole().toString() + " :: " + tu1.getComponentString());
+            System.out.println("TU Assignment:");
             for(List<CandidateComponent> assignment: assignments){
                 for(CandidateComponent cc:assignment){
                     System.out.print(cc.getCandidate().getDisplayId() + ";");
                 }
                 System.out.println("");
-            }
+            }*/
         } catch (SynBioHubException | URISyntaxException ex) {
             Logger.getLogger(PhoenixProjectTest.class.getName()).log(Level.SEVERE, null, ex);
         }

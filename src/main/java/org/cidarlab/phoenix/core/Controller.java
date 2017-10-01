@@ -67,19 +67,11 @@ public class Controller {
         }
     }
     
-    public static List<List<CandidateComponent>> getTUCandidates(Module module, Library lib, SBOLDocument doc, Orientation o){
-        int revCount = 0;
-        int totCount = 1;
-        for(Component c:module.getComponents()){
-            if(c.getOrientation().equals(getOppositeOrientation(o))){
-                revCount++;
-            } else {
-                totCount *= c.getCandidates().size();
-            }
-        }
-        List<List<CandidateComponent>> tempAssignments = new ArrayList<>();
+    public static void assignPromCandidates(Module module, Library lib, SBOLDocument doc, Orientation o){
+        List<List<CandidateComponent>> tempAssignments;
         List<List<CandidateComponent>> loopAssignments = new ArrayList<>();
         for(int i=0;i<module.getComponents().size();i++){
+            tempAssignments = new ArrayList<>();
             Component c = module.getComponents().get(i);
             if(c.getOrientation().equals(getOppositeOrientation(o))){
                 //Assign test here for all Reverse strand weirdness.
@@ -122,80 +114,119 @@ public class Controller {
                         tempAssignments.add(assignment);
                     }
                 } else {
-                    boolean selfLoop = false;
-                    boolean rep = false;
-                    if(c.getRole().equals(ComponentRole.CDS_ACTIVATOR)){
-                        Component prom = module.getComponents().get(0);
-                        if(prom.getRole().equals(ComponentRole.PROMOTER_INDUCIBLE)){
-                            for(Interaction inter:c.getInteractions()){
-                                if(inter.getTo().equals(prom)){
-                                    selfLoop = true;
-                                    rep = false;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    if(c.getRole().equals(ComponentRole.CDS_REPRESSOR)){
-                        Component prom = module.getComponents().get(0);
-                        if(prom.getRole().equals(ComponentRole.PROMOTER_REPRESSIBLE)){
-                            for(Interaction inter:c.getInteractions()){
-                                if(inter.getTo().equals(prom)){
-                                    selfLoop = true;
-                                    rep = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }
+                    
                     for(List<CandidateComponent> lassignment:loopAssignments){
                         //Do checks to see if you can assign this specific Component....
-                        if (module.getRole().equals(ModuleRole.PROMOTER) && (c.getRole().equals(ComponentRole.TESTING))) {
-                                List<CandidateComponent> assignment = new ArrayList<>();
-                                assignment.addAll(lassignment);
-                                assignment.add(new CandidateComponent(c, lib.getCdsTest()));
-                                tempAssignments.add(assignment);
+                        if (isCDS(c) || (c.getRole().equals(ComponentRole.TESTING))) {
+                            List<CandidateComponent> assignment = new ArrayList<>();
+                            assignment.addAll(lassignment);
+                            assignment.add(new CandidateComponent(c, lib.getCdsTest()));
+                            tempAssignments.add(assignment);
                         } else {
                             for (LibraryComponent lc : c.getCandidates()) {
-                                LibraryComponent promlc = lassignment.get(0).getCandidate();
-                                if (isCDS(c)) {
-                                    if (selfLoop) {
-                                        if (rep) {
-                                            if (represses(lc, promlc, doc)) {
-                                                List<CandidateComponent> assignment = new ArrayList<>();
-                                                assignment.addAll(lassignment);
-                                                assignment.add(new CandidateComponent(c, lc));
-                                                tempAssignments.add(assignment);
-                                            }
-                                        } else {
-                                            if (activates(lc, promlc, doc)) {
-                                                List<CandidateComponent> assignment = new ArrayList<>();
-                                                assignment.addAll(lassignment);
-                                                assignment.add(new CandidateComponent(c, lc));
-                                                tempAssignments.add(assignment);
-                                            }
-                                        }
-                                    } else {
-                                        List<CandidateComponent> assignment = new ArrayList<>();
-                                        assignment.addAll(lassignment);
-                                        assignment.add(new CandidateComponent(c, lc));
-                                        tempAssignments.add(assignment);
-                                    }
-                                } else {
-                                    List<CandidateComponent> assignment = new ArrayList<>();
-                                    assignment.addAll(lassignment);
-                                    assignment.add(new CandidateComponent(c, lc));
-                                    tempAssignments.add(assignment);
-                                }
+                                List<CandidateComponent> assignment = new ArrayList<>();
+                                assignment.addAll(lassignment);
+                                assignment.add(new CandidateComponent(c, lc));
+                                tempAssignments.add(assignment);
                             }
-                        }                        
+                        }                       
                     }
                 }
             }
-            loopAssignments = new ArrayList<>(tempAssignments);
-            tempAssignments = new ArrayList<>();
+            loopAssignments = new ArrayList<>();
+            loopAssignments.addAll(tempAssignments);
+            
         }
-        return loopAssignments;
+        module.setAssignments(loopAssignments);
+    }
+    
+    public static void assignCDSCandidates(Module module){
+        List<List<CandidateComponent>> assignments = new ArrayList<>();
+        Component cds = module.getComponents().get(0);
+        for(LibraryComponent c:cds.getCandidates()){
+            List<CandidateComponent> assignment = new ArrayList<>();
+            assignment.add(new CandidateComponent(cds,c));
+            assignments.add(assignment);
+        }
+        module.setAssignments(assignments);
+    }
+    
+    private static int getCDSindex(Module module){
+        for(int i =0;i<module.getComponents().size();i++){
+            Component c = module.getComponents().get(i);
+            if(isCDS(c) && (c.getOrientation().equals(module.getOrientation()))){
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    public static void assignTUCandidates(Module module, Library lib, SBOLDocument doc, Orientation o){
+        
+        Module promModule = module.getChildren().get(0);
+        Module cdsModule = module.getChildren().get(1);
+        int indx = getCDSindex(promModule);
+        Component c = promModule.getComponents().get(indx);
+        boolean selfLoop = false;
+        boolean rep = false;
+        if (c.getRole().equals(ComponentRole.CDS_ACTIVATOR)) {
+            Component prom = module.getComponents().get(0);
+            if (prom.getRole().equals(ComponentRole.PROMOTER_INDUCIBLE)) {
+                for (Interaction inter : c.getInteractions()) {
+                    if (inter.getTo().equals(prom)) {
+                        selfLoop = true;
+                        rep = false;
+                        break;
+                    }
+                }
+            }
+        }
+        if (c.getRole().equals(ComponentRole.CDS_REPRESSOR)) {
+            Component prom = module.getComponents().get(0);
+            if (prom.getRole().equals(ComponentRole.PROMOTER_REPRESSIBLE)) {
+                for (Interaction inter : c.getInteractions()) {
+                    if (inter.getTo().equals(prom)) {
+                        selfLoop = true;
+                        rep = true;
+                        break;
+                    }
+                }
+            }
+        }
+        List<List<CandidateComponent>> assignments = new ArrayList<>();
+        List<CandidateComponent> cdscc = new ArrayList<>();
+        for(List<CandidateComponent> lassignment:cdsModule.getAssignments()){
+            cdscc.add(lassignment.get(0));
+        }
+        for(List<CandidateComponent> lassignment:promModule.getAssignments()){
+            for(CandidateComponent cc:cdscc){
+                if (selfLoop) {
+                    LibraryComponent cdslc = cc.getCandidate();
+                    LibraryComponent promlc = lassignment.get(indx).getCandidate();
+                    if (rep) {
+                        if (represses(cdslc, promlc, doc)) {
+                            List<CandidateComponent> assignment = new ArrayList<>();
+                            assignment.addAll(lassignment);
+                            assignment.set(indx, cc);
+                            assignments.add(assignment);
+                        }
+                    } else {
+                        if (activates(cdslc, promlc, doc)) {
+                            List<CandidateComponent> assignment = new ArrayList<>();
+                            assignment.addAll(lassignment);
+                            assignment.set(indx, cc);
+                            assignments.add(assignment);
+                        }
+                    }
+                } else {
+                    List<CandidateComponent> assignment = new ArrayList<>();
+                    assignment.addAll(lassignment);
+                    assignment.set(indx, cc);
+                    assignments.add(assignment);
+                }
+            }
+        }
+        module.setAssignments(assignments);
     }
     
     
@@ -605,7 +636,7 @@ public class Controller {
         List<Component> components = new ArrayList<>();
         Module cds = null;
         for (Component c : module.getComponents()) {
-            if (isCDS(c)) {
+            if (isCDS(c) && (c.getOrientation().equals(module.getOrientation()))) {
                 cds = new Module("CDS");
                 cds.addComponent(c);
                 cds.setRole(ModuleRole.CDS);
@@ -674,8 +705,8 @@ public class Controller {
             case CDS_RESISTANCE:
             case CDS_FLUORESCENT:
             case CDS_FLUORESCENT_FUSION:
+            case TESTING:
                 return true;
-            case TESTING:    
             case TERMINATOR:
             case PROMOTER:
             case PROMOTER_REPRESSIBLE:

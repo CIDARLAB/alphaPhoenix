@@ -18,6 +18,10 @@ public class Module {
     
     @Getter
     @Setter
+    private List<List<CandidateComponent>> assignments = new ArrayList<>();
+    
+    @Getter
+    @Setter
     private Orientation orientation;
     
     @Getter
