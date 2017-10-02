@@ -19,27 +19,44 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">          
             <apply>
-              <divide/>
+              <times/>
               <ci> k_EXR </ci>
               <apply>
                 <plus/>
-                <cn type="integer"> 1 </cn>
                 <apply>
                   <times/>
-                  <ci> K_r </ci>
                   <apply>
-                    <power/>
-                    <ci> S1 </ci>
-                    <ci> n </ci>
+                    <minus/>
+                    <cn type="integer"> 1 </cn>
+                    <ci> y </ci>
+                  </apply>
+                  <apply>
+                    <divide/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S1 </ci>
+                          <ci> d </ci>
+                        </apply>
+                        <ci> h </ci>
+                      </apply>
+                    </apply>
                   </apply>
                 </apply>
+                <ci> y </ci>
               </apply>
             </apply>
           </math>
                   <listOfLocalParameters>
-            <localParameter id="k_EXR" name="k_EXR" value="0.1"/>
-            <localParameter id="K_r" name="K_r" value="0.65"/>
-            <localParameter id="n" name="n" value="2"/>
+            <localParameter id="k_EXR" name="k_EXR" value="0.4"/>
+            <localParameter id="d" name="d" value="2"/>
+            <localParameter id="h" name="h" value="2"/>
+            <localParameter id="y" name="y" value="0.01"/>
           </listOfLocalParameters>
         </kineticLaw>
       </reaction>

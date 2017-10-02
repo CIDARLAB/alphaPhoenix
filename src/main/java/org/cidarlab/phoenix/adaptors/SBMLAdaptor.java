@@ -4,6 +4,8 @@
  */
 package org.cidarlab.phoenix.adaptors;
 
+import static edu.utah.ece.async.ibiosim.dataModels.biomodel.util.SBMLutilities.updateVarId;
+import edu.utah.ece.async.ibiosim.dataModels.util.exceptions.BioSimException;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
@@ -165,6 +167,14 @@ public class SBMLAdaptor {
 			return false;
 		}
 	}
+        
+        public static void renameSpecies(SBMLDocument doc, String oldID, String newID) {
+            try {            
+                updateVarId(doc, true, oldID, newID);
+            } catch (BioSimException ex) {
+                Logger.getLogger(SBMLAdaptor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 	
 	public static void substituteSpecies(HashMap<String, String> substitutions, Model mod) {
 		for (String substitutedID : substitutions.keySet()) {
