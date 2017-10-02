@@ -5,10 +5,6 @@
  */
 package org.cidarlab.phoenix.core;
 
-import hyness.stl.TreeNode;
-import hyness.stl.grammar.STLAbstractSyntaxTreeExtractor;
-import hyness.stl.grammar.STLLexer;
-import hyness.stl.grammar.STLParser;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -21,9 +17,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.stream.XMLStreamException;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.ParserRuleContext;
 import org.cidarlab.minieugene.predicates.interaction.Interaction.InteractionType;
 import org.cidarlab.phoenix.adaptors.SBMLAdaptor;
 import org.cidarlab.phoenix.adaptors.SynbiohubAdaptor;
@@ -52,19 +45,6 @@ import org.sbolstandard.core2.SBOLDocument;
  */
 public class Controller {
 
-    public static TreeNode getSTL(String filepath) {
-        List<String> stlFileContent = Utilities.getFileContentAsStringList(filepath);
-        String stlString = "";
-        for (String str : stlFileContent) {
-            stlString += str;
-        }
-        STLLexer lexer = new STLLexer(new ANTLRInputStream(stlString));
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-
-        STLParser parser = new STLParser(tokens);
-        ParserRuleContext t = parser.property();
-        return new STLAbstractSyntaxTreeExtractor().visit(t);
-    }
 
     private static Orientation getOppositeOrientation(Orientation o) {
         switch (o) {
@@ -786,6 +766,7 @@ public class Controller {
                         }
                     }
                 }
+                root.setIOCNames();
                 return root;
             default:
                 return null;
@@ -853,7 +834,7 @@ public class Controller {
         }
     }
 
-    private static boolean isCDS(Component c) {
+    public static boolean isCDS(Component c) {
         switch (c.getRole()) {
             case CDS:
             case CDS_REPRESSOR:
@@ -946,7 +927,7 @@ public class Controller {
         }
     }
 
-    private static boolean isPromoter(Component c) {
+    public static boolean isPromoter(Component c) {
         switch (c.getRole()) {
             case PROMOTER:
             case PROMOTER_REPRESSIBLE:

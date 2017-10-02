@@ -30,6 +30,10 @@ public class Component {
     
     @Getter
     @Setter
+    private String IOCname;
+    
+    @Getter
+    @Setter
     private List<Interaction> interactions = new ArrayList<>();
     
     @Getter

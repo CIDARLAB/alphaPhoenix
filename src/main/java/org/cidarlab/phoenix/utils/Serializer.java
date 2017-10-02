@@ -141,8 +141,13 @@ public class Serializer {
         for(Module child:module.getChildren()){
             nodes.put(moduleToJSON(child,index));
         }
+        obj.put("isLink", "true");
+        obj.put("sbol", "https://synbiohub.cidarlab.org/public/AlphaPhoenix/testCDS/1/sbol");
         obj.put("combos", createRootComboString(module,assignments));
         obj.put("nodes", nodes);
+        JSONArray data = new JSONArray();
+        data.put("1");
+        obj.put("hasData", data);
         return obj;
     }
     
@@ -176,8 +181,12 @@ public class Serializer {
         } else if(module.getRole().equals(ModuleRole.CDS)){
             obj.put("text", "CDS");
         }
+        obj.put("isLink", "true");
+        obj.put("sbol", "https://synbiohub.cidarlab.org/public/AlphaPhoenix/testCDS/1/sbol");
         obj.put("combos", createComboString(module));
-        
+        JSONArray data = new JSONArray();
+        data.put("1");
+        obj.put("hasData", data);
         for(Module child:module.getChildren()){
             nodes.put(moduleToJSON(child,index));
         }
