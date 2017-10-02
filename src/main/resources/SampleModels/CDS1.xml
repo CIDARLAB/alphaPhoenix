@@ -15,30 +15,13 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">          
             <apply>
-              <divide/>
-              <apply>
-                <divide/>
-                <apply>
-                  <times/>
-                  <ci> y </ci>
-                  <ci> S1 </ci>
-                </apply>
-                <ci> K_d </ci>
-              </apply>
-              <apply>
-                <plus/>
-                <cn type="integer"> 1 </cn>
-                <apply>
-                  <divide/>
-                  <ci> S1 </ci>
-                  <ci> K_d </ci>
-                </apply>
-              </apply>
+              <times/>
+              <ci> k_d </ci>
+              <ci> S1 </ci>
             </apply>
           </math>
                   <listOfLocalParameters>
-            <localParameter id="y" name="y" value="0.1"/>
-            <localParameter id="K_d" name="K_d" value="0.0075"/>
+            <localParameter id="k_d" name="k_d" value="0.0075"/>
           </listOfLocalParameters>
         </kineticLaw>
       </reaction>
