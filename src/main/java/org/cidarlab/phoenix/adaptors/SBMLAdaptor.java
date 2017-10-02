@@ -102,41 +102,7 @@ public class SBMLAdaptor {
                 replaceNameASTNode(child,oldName,newName);
             }
         }
-            
-	/*private static void testAdaptor() {
-		SBMLDocument degradationDoc = createDegradationModel("GFP");
-
-		SBMLDocument expressionDoc = createExpressionModel("GFP");
-
-		SBMLDocument repressionDoc = createRepressionModel("LacI", "GFP");
-
-		SBMLDocument activationDoc = createActivationModel("GAL4VP16", "GFP");
-
-		SBMLDocument inductionRepressionDoc = createInductionRepressionModel("IPTG", "LacI", "GFP");
-
-		SBMLDocument inductionActivationDoc = createInductionActivationModel("Arabinose", "AraC", "GFP");
-
-		SBMLDocument selfRepressionDoc = createRepressionModel("LacI", "GFP");
-		HashMap<String, String> substitutions = new HashMap<String, String>();
-		substitutions.put("GFP", "LacI");
-		substituteSpecies(substitutions, selfRepressionDoc.getModel());
-
-		SBMLDocument inductionInverterDoc1 = createInductionRepressionModel("IPTG", "LacI", "TetR");
-		SBMLDocument inductionInverterDoc2 = createInductionRepressionModel("aTc", "TetR", "LacI");
-		SBMLDocument toggleDoc = SBMLAdaptor.composeModels(inductionInverterDoc1.getModel(), inductionInverterDoc2.getModel());
-
-		List<Model> inverterMods = new LinkedList<Model>();
-		inverterMods.add(createRepressionModel("LacI", "TetR").getModel());
-		inverterMods.add(createRepressionModel("TetR", "cI").getModel());
-		inverterMods.add(createRepressionModel("cI", "LacI").getModel());
-		SBMLDocument repressilatorDoc = SBMLAdaptor.composeModels(inverterMods);
-	}*/
-	       
         
-	/*
-     * Methods for composing SBML models of gene expression
-     */  
-	
 	public static SBMLDocument composeModels(Model mod1, Model mod2) {
 		return SBMLAdaptor.composeModels(mod1, mod2, new HashMap<String, String>());
 	}

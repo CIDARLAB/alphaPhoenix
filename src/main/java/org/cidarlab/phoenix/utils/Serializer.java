@@ -13,8 +13,13 @@ import hyness.stl.LinearPredicateLeaf;
 import hyness.stl.RelOperation;
 import hyness.stl.TreeNode;
 import java.util.List;
+import java.util.Map;
 import org.cidarlab.gridtli.dom.Point;
 import org.cidarlab.gridtli.dom.Signal;
+import org.cidarlab.phoenix.dom.CandidateComponent;
+import org.cidarlab.phoenix.dom.Component;
+import org.cidarlab.phoenix.dom.Module;
+import org.cidarlab.phoenix.dom.Module.ModuleRole;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -128,5 +133,78 @@ public class Serializer {
         return arr;
     }
     //</editor-fold>
+    
+    public static JSONObject rootModuleToJSON(Module module, List<Map<String,CandidateComponent>> assignments, int index){
+        JSONObject obj = new JSONObject();
+        obj.put("text", ("Root " + index));
+        JSONArray nodes = new JSONArray();
+        for(Module child:module.getChildren()){
+            nodes.put(moduleToJSON(child,index));
+        }
+        obj.put("combos", createRootComboString(module,assignments));
+        obj.put("nodes", nodes);
+        return obj;
+    }
+    
+    private static String createRootComboString(Module module, List<Map<String,CandidateComponent>> assignments){
+        String str = "";
+        if(!assignments.isEmpty()){
+            str += createRootComboString(module,assignments.get(0));
+            for(int i=1;i<assignments.size();i++){
+                str += ("," + createRootComboString(module,assignments.get(i)));
+            }
+        }
+        return str;
+    }
+    
+    private static String createRootComboString(Module module, Map<String,CandidateComponent> assignment){
+        String str = "";
+        for(Component c:module.getComponents()){
+            str += (assignment.get(c.getName()).getCandidate().getDisplayId() + ";");
+        }
+        return str;
+    }
+    
+    public static JSONObject moduleToJSON(Module module, int index){
+        JSONObject obj = new JSONObject();
+        JSONArray nodes = new JSONArray();
+        
+        if(module.getRole().equals(ModuleRole.TRANSCRIPTIONAL_UNIT)){
+            obj.put("text", "TU " + module.getOrientation());
+        } else if(module.getRole().equals(ModuleRole.PROMOTER)){
+            obj.put("text", "PROMOTER");
+        } else if(module.getRole().equals(ModuleRole.CDS)){
+            obj.put("text", "CDS");
+        }
+        obj.put("combos", createComboString(module));
+        
+        for(Module child:module.getChildren()){
+            nodes.put(moduleToJSON(child,index));
+        }
+        if(nodes.length() > 0){
+            obj.put("nodes", nodes);
+        }
+        
+        return obj;
+    }
+    
+    private static String createComboString(Module module){
+        String str = "";
+        if(!module.getAssignments().isEmpty()){
+            str += createComboString(module.getAssignments().get(0));
+            for(int i=1;i<module.getAssignments().size();i++){
+                str += ("," + createComboString(module.getAssignments().get(i)));
+            }
+        }
+        
+        return str;
+    }
+    private static String createComboString(List<CandidateComponent> assignment){
+        String str = "";
+        for(CandidateComponent cc:assignment){
+            str += (cc.getCandidate().getDisplayId() + ";");
+        }
+        return str;
+    }
     
 }

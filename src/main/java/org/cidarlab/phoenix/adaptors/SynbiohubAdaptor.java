@@ -56,7 +56,7 @@ public class SynbiohubAdaptor {
                 }
             }
             out.close();
-            System.out.println("Unzip complete");
+            //System.out.println("Unzip complete");
         } catch (FileNotFoundException ex) {
             Logger.getLogger(SynbiohubAdaptor.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -69,7 +69,7 @@ public class SynbiohubAdaptor {
             }
         }
     }
-
+    
     public static SBMLDocument getModel(URL modelurl, String tempfp){
         
         try {

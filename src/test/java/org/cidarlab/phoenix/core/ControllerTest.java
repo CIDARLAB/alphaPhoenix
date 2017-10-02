@@ -13,6 +13,7 @@ import org.cidarlab.phoenix.adaptors.MiniEugeneAdaptor;
 import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.utils.Utilities;
+import org.json.JSONObject;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -42,22 +43,6 @@ public class ControllerTest {
     
     @After
     public void tearDown() {
-    }
-
-    @Test
-    public void testSTLfromFile(){
-        
-        String job =  Utilities.getResultsFilepath() + "job1515520793" + Utilities.getSeparater();
-        String stlfp = job + "stl.txt";
-        TreeNode stl = Controller.getSTL(stlfp);
-        if(stl instanceof ConjunctionNode){
-            ConjunctionNode root = (ConjunctionNode) stl;
-            System.out.println("Input  :: " + root.left);
-            System.out.println("Output :: " + root.right);
-        } else {
-            System.out.println("Error!!");
-        }
-        //System.out.println(stl.toString());
     }
     
     /**

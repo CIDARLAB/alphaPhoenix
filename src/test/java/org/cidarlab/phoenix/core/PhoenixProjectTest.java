@@ -5,6 +5,7 @@
  */
 package org.cidarlab.phoenix.core;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -14,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.stream.XMLStreamException;
+import org.cidarlab.phoenix.adaptors.IBioSimAdaptor;
 import org.cidarlab.phoenix.adaptors.MiniEugeneAdaptor;
 import org.cidarlab.phoenix.adaptors.SynbiohubAdaptor;
 import org.cidarlab.phoenix.dom.CandidateComponent;
@@ -28,6 +31,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.SBMLWriter;
 import org.sbolstandard.core2.AccessType;
 import org.sbolstandard.core2.ComponentDefinition;
 import org.sbolstandard.core2.DirectionType;
@@ -104,9 +109,49 @@ public class PhoenixProjectTest {
         }
     }
     
-    
     @Test
     public void testPhoenix(){
+        try {
+            String synbiohuburl = "https://synbiohub.cidarlab.org";
+            String phoenixliburl = "https://synbiohub.cidarlab.org/public/AlphaPhoenix/AlphaPhoenix_collection/1";
+            SynBioHubFrontend shub = new SynBioHubFrontend(synbiohuburl);
+            PhoenixProject proj = new PhoenixProject();
+            URI u = new URI(phoenixliburl);
+            SBOLDocument sbol = shub.getSBOL(u);
+            Library lib = new Library(sbol);
+            
+            String eug = Utilities.getResourcesFilepath() + "miniEugeneFiles" + Utilities.getSeparater() + "inverterCP.eug";
+            int size = 8;
+            List<Module> modules = MiniEugeneAdaptor.getStructures(eug, size, "inverter");
+            
+            int index = 0;
+            Module test = Controller.decompose(PhoenixMode.MM, modules.get(index));
+            List<Map<String,CandidateComponent>> assignments = Controller.assign(test, lib, sbol);
+            Map<String,CandidateComponent> assignment = assignments.get(0);
+            Controller.assignLeafModels(PhoenixMode.MM,test,proj.getJobId(),sbol,assignment);
+            Controller.composeModels(PhoenixMode.MM, test, proj.getJobId(), assignment);
+            
+            String model = Utilities.getResultsFilepath() + proj.getJobId() + Utilities.getSeparater() + "results" + Utilities.getSeparater();
+            Utilities.makeDirectory(model);
+            String deterministic = model + "deterministic" + Utilities.getSeparater();
+            Utilities.makeDirectory(deterministic);
+            String modelFile = deterministic + "model.xml";
+            SBMLWriter writer = new SBMLWriter();
+            writer.write(test.getModel().getSbml(), modelFile);
+            IBioSimAdaptor.simulateODE(modelFile, deterministic, 100, 1, 1);
+            
+            
+        } catch (URISyntaxException | SynBioHubException | XMLStreamException | FileNotFoundException | SBMLException ex) {
+            Logger.getLogger(PhoenixProjectTest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PhoenixProjectTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    
+    //@Test
+    public void testAssignments(){
         String synbiohuburl = "https://synbiohub.cidarlab.org";
         String phoenixliburl = "https://synbiohub.cidarlab.org/public/AlphaPhoenix/AlphaPhoenix_collection/1";
         

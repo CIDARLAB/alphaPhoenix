@@ -7,14 +7,23 @@ package org.cidarlab.phoenix.adaptors.spring;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.cidarlab.phoenix.adaptors.MiniEugeneAdaptor;
 import org.cidarlab.phoenix.adaptors.SynbiohubAdaptor;
+import org.cidarlab.phoenix.core.PhoenixMode;
 
 import org.cidarlab.phoenix.core.PhoenixProject;
+import org.cidarlab.phoenix.dom.CandidateComponent;
+import org.cidarlab.phoenix.dom.Module;
+import org.cidarlab.phoenix.library.Library;
+import org.cidarlab.phoenix.utils.Serializer;
 import org.cidarlab.phoenix.utils.Utilities;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.sbolstandard.core2.SBOLConversionException;
 import org.sbolstandard.core2.SBOLDocument;
@@ -73,10 +82,24 @@ public class MainController {
 
             SBOLDocument sbol = SynbiohubAdaptor.getSBOL(registry, collection);
             SBOLWriter.write(sbol, (filepath + "sbol.xml"));
+            Library lib = new Library(sbol);
+            List<Module> modules = MiniEugeneAdaptor.getStructures((filepath + "structure.eug"), Integer.valueOf(solSize), Integer.valueOf(numSol), job);
             
+            int index = 0;
+            Module test = org.cidarlab.phoenix.core.Controller.decompose(PhoenixMode.MM, modules.get(index));
+            
+            List<Map<String,CandidateComponent>> assignments = org.cidarlab.phoenix.core.Controller.assign(test, lib, sbol);
+            Map<String,CandidateComponent> assignment = assignments.get(0);
+            org.cidarlab.phoenix.core.Controller.assignLeafModels(PhoenixMode.MM,test,job,sbol,assignment);
+            org.cidarlab.phoenix.core.Controller.composeModels(PhoenixMode.MM, test, job, assignment);
+            
+            JSONObject resp = Serializer.rootModuleToJSON(test,assignments, 0);
+            JSONArray arr = new JSONArray();
+            arr.put(resp);
             PrintWriter writer;
             writer = response.getWriter();
-            writer.print("Specification files created.");
+            System.out.println(arr.toString());
+            writer.print(arr.toString(1));
             writer.flush();
         } catch (IOException | SBOLConversionException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
