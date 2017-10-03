@@ -22,8 +22,11 @@ import java.util.Map;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.cidarlab.gridtli.dom.Grid;
 import org.cidarlab.gridtli.dom.Point;
 import org.cidarlab.gridtli.dom.Signal;
+import org.cidarlab.gridtli.tli.Validation;
+import org.cidarlab.gridtli.visualize.JavaPlotAdaptor;
 import org.cidarlab.phoenix.utils.Utilities;
 
 /**
@@ -221,6 +224,33 @@ public class STLAdaptor {
             allData.add(data);
             return new Trace(variables,timepoints,allData);
         }
+    }
+    
+    public static double getRobustness(TreeNode stl,String filepath, String result){
+        Map<String,TreeNode> stlmap = getSignalSTLMap(stl);
+        Map<String,Signal> signalMap = IBioSimAdaptor.getSignals(filepath);
+        double rob = Double.MAX_VALUE;
+        for(String key:stlmap.keySet()){
+            if(signalMap.containsKey(key)){
+                Signal s = signalMap.get(key);
+                List<Signal> signals = new ArrayList<>();
+                signals.add(s);
+                Grid g = new Grid(signals,5,5,100,0,100,0);
+                TreeNode stlnode = stlmap.get(key);
+                double val = Validation.getRobustness(stlnode, s);
+                
+                if(val < rob){
+                    rob = val;
+                }
+                System.out.println("Robustness for Signal " + key + " is " + val);
+                String plotfp = result + key + ".png";
+                JavaPlotAdaptor.plotToFile(JavaPlotAdaptor.plotGridwithoutCover(g), plotfp);
+            } else {
+                System.err.println("Error in naming convention.");
+                System.exit(-1);
+            }
+        }
+        return rob;
     }
     
     

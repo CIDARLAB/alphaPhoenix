@@ -5,6 +5,7 @@
  */
 package org.cidarlab.phoenix.core;
 
+import hyness.stl.TreeNode;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
@@ -18,6 +19,7 @@ import java.util.logging.Logger;
 import javax.xml.stream.XMLStreamException;
 import org.cidarlab.phoenix.adaptors.IBioSimAdaptor;
 import org.cidarlab.phoenix.adaptors.MiniEugeneAdaptor;
+import org.cidarlab.phoenix.adaptors.STLAdaptor;
 import org.cidarlab.phoenix.adaptors.SynbiohubAdaptor;
 import org.cidarlab.phoenix.dom.CandidateComponent;
 import org.cidarlab.phoenix.dom.Component;
@@ -114,12 +116,15 @@ public class PhoenixProjectTest {
         try {
             String synbiohuburl = "https://synbiohub.cidarlab.org";
             String phoenixliburl = "https://synbiohub.cidarlab.org/public/AlphaPhoenix/AlphaPhoenix_collection/1";
+            String stlfp = Utilities.getResourcesFilepath() + "stl" + Utilities.getSeparater() + "inv.txt";
+            TreeNode stl = STLAdaptor.getSTL(stlfp);
             SynBioHubFrontend shub = new SynBioHubFrontend(synbiohuburl);
             PhoenixProject proj = new PhoenixProject();
             URI u = new URI(phoenixliburl);
             SBOLDocument sbol = shub.getSBOL(u);
             Library lib = new Library(sbol);
-            
+            double bestval = Double.MIN_VALUE;
+            int bestindex = 0;
             String eug = Utilities.getResourcesFilepath() + "miniEugeneFiles" + Utilities.getSeparater() + "inverterCP.eug";
             int size = 8;
             List<Module> modules = MiniEugeneAdaptor.getStructures(eug, size, "inverter");
@@ -127,26 +132,40 @@ public class PhoenixProjectTest {
             int index = 0;
             Module test = Controller.decompose(PhoenixMode.MM, modules.get(index));
             List<Map<String,CandidateComponent>> assignments = Controller.assign(test, lib, sbol);
-            Map<String,CandidateComponent> assignment = assignments.get(0);
+            for (int i = 0; i < assignments.size(); i++) {
+                Map<String, CandidateComponent> assignment = assignments.get(i);
+                System.out.print(i + ":");
+                for (Component c : test.getComponents()) {
+                    System.out.print(assignment.get(c.getName()).getCandidate().getDisplayId() + ";");
+                }
+                System.out.println("");
             
-            for (Component c : test.getComponents()) {
-                System.out.print(assignment.get(c.getName()).getCandidate().getDisplayId() + ";");
+
+                Controller.assignLeafModels(PhoenixMode.MM, test, proj.getJobId(), sbol, assignment);
+                Controller.composeModels(PhoenixMode.MM, test, proj.getJobId(), assignment);
+
+                String model = Utilities.getResultsFilepath() + proj.getJobId() + Utilities.getSeparater() + "results" + Utilities.getSeparater();
+                Utilities.makeDirectory(model);
+                String deterministic = model + "deterministic" + Utilities.getSeparater();
+                Utilities.makeDirectory(deterministic);
+                String assignmentfp = deterministic + i + Utilities.getSeparater();
+                Utilities.makeDirectory(assignmentfp);
+                String modelFile = assignmentfp + "model.xml";
+                SBMLWriter writer = new SBMLWriter();
+                writer.write(test.getModel().getSbml(), modelFile);
+                IBioSimAdaptor.simulateODE(modelFile, assignmentfp, 100, 1, 1);
+                String tsdfp = assignmentfp + "run-1.csv";
+                double robval = STLAdaptor.getRobustness(stl,tsdfp,assignmentfp);
+                if(robval > bestval){
+                    bestval = robval;
+                    bestindex = i;
+                }
+                System.out.println("----------------------------------------------------");
+            
             }
-            System.out.println("");
             
-            Controller.assignLeafModels(PhoenixMode.MM,test,proj.getJobId(),sbol,assignment);
-            System.out.println("Finished assigning leaf Models.");
-            Controller.composeModels(PhoenixMode.MM, test, proj.getJobId(), assignment);
-            System.out.println("Finished composing models");
-            
-            String model = Utilities.getResultsFilepath() + proj.getJobId() + Utilities.getSeparater() + "results" + Utilities.getSeparater();
-            Utilities.makeDirectory(model);
-            String deterministic = model + "deterministic" + Utilities.getSeparater();
-            Utilities.makeDirectory(deterministic);
-            String modelFile = deterministic + "model.xml";
-            SBMLWriter writer = new SBMLWriter();
-            writer.write(test.getModel().getSbml(), modelFile);
-            IBioSimAdaptor.simulateODE(modelFile, deterministic, 100, 1, 1);
+            System.out.println("##################################################################");
+            System.out.println("Best Result is at " + bestindex +  " with robustness = " + bestval);
             
             
         } catch (URISyntaxException | SynBioHubException | XMLStreamException | FileNotFoundException | SBMLException ex) {

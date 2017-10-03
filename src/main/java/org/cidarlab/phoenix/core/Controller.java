@@ -987,10 +987,8 @@ public class Controller {
             Component prom = promModule.getComponents().get(0);
             Component cds = cdsModule.getComponents().get(0);
             if(prom.getRole().equals(ComponentRole.PROMOTER_CONSTITUTIVE)){
-                System.out.println("Downstream CDS for " + prom.getIOCname() + " is " + cds.getName() + " and has IOC name " + cds.getIOCname());
                 SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "out", cds.getIOCname());
             } else {
-                System.out.println("Downstream CDS for " + prom.getIOCname() + " is " + cds.getName() + " and has IOC name " + cds.getIOCname());
                 SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "conn", prom.getIOCname());
                 SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "out", cds.getIOCname());
             }
@@ -1000,15 +998,6 @@ public class Controller {
             } else {
                 //Connector CDS
                 SBMLAdaptor.renameSpecies(cdsModule.getModel().getSbml(), "conn", cds.getIOCname());
-            }
-            String fp = Utilities.getResultsFilepath();
-            SBMLWriter writer = new SBMLWriter();
-            try {
-                writer.write(promModule.getModel().getSbml(), new File(fp + tu.getId() + "_" + promModule.getId() + ".xml"));
-                writer.write(cdsModule.getModel().getSbml(), new File(fp + tu.getId() + "_" + cdsModule.getId() + ".xml"));
-                
-            } catch (XMLStreamException | SBMLException | IOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -1022,7 +1011,7 @@ public class Controller {
                 ModuleDefinition md = doc.getModuleDefinition(cc.getCandidate().getModuleDefinitions().get(0));
                 List<org.sbolstandard.core2.Model> sbolmodels = new ArrayList<>(md.getModels());
                 URI uri = new URI(sbolmodels.get(0).getSource().toString() + "/download");
-                String fp = Utilities.getResultsFilepath() + jobid;
+                String fp = Utilities.getResultsFilepath() + jobid + Utilities.getSeparater();
                 SBMLDocument sbml = SynbiohubAdaptor.getModel(uri.toURL(), fp);
                 Model model = new ModelPart(sbml);
                 root.setModel(model);
