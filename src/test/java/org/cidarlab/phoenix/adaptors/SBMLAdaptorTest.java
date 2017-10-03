@@ -81,11 +81,11 @@ public class SBMLAdaptorTest {
             SBMLWriter writer = new SBMLWriter();
             writer.write(notTest.getSbml(), outNotTest);
             
-            String stochComp = basefp + "Stochastic" + Utilities.getSeparater() + "Composed";
-            String stochOrg = basefp + "Stochastic" + Utilities.getSeparater() + "Original";
+            String stochComp = basefp + "Stochastic" + Utilities.getSeparater() + "Composed" + Utilities.getSeparater();
+            String stochOrg = basefp + "Stochastic" + Utilities.getSeparater() + "Original" + Utilities.getSeparater();
             
-            String detComp = basefp + "Deterministic" + Utilities.getSeparater() + "Composed";
-            String detOrg = basefp + "Deterministic" + Utilities.getSeparater() + "Original";
+            String detComp = basefp + "Deterministic" + Utilities.getSeparater() + "Composed" + Utilities.getSeparater();
+            String detOrg = basefp + "Deterministic" + Utilities.getSeparater() + "Original" + Utilities.getSeparater();
             
             
             IBioSimAdaptor.simulateODE(outNotTest, detComp, 100, 1, 1);
@@ -110,9 +110,9 @@ public class SBMLAdaptorTest {
                 stoComSig.addAll(Utilities.getiBioSimSignals(csvstochComp));
                 
                 f = new File(csvstochOrg);
-                f.delete();
+//                f.delete();
                 f = new File(csvstochComp);
-                f.delete();
+//                f.delete();
                 
             }
                    
@@ -128,10 +128,10 @@ public class SBMLAdaptorTest {
             Grid stoOrgG = new Grid(stoOrgSig,1,1);
             Grid stoComG = new Grid(stoComSig,1,1);
             
-            String odeOrgGfp = detOrg+ ".png";
-            String odeComGfp = detComp+ ".png";
-            String stoOrgGfp = stochOrg+ ".png";
-            String stoComGfp = stochComp+ ".png";
+            String odeOrgGfp = basefp + "Deterministic" + Utilities.getSeparater() + "Original.png";
+            String odeComGfp = basefp + "Deterministic" + Utilities.getSeparater() + "Composed.png";
+            String stoOrgGfp = basefp + "Stochastic" + Utilities.getSeparater() + "Original.png";
+            String stoComGfp = basefp + "Stochastic" + Utilities.getSeparater() + "Composed.png";
             
             JavaPlotAdaptor.plotToFile(JavaPlotAdaptor.plotGrid(odeOrgG), odeOrgGfp);
             JavaPlotAdaptor.plotToFile(JavaPlotAdaptor.plotGrid(odeComG), odeComGfp);

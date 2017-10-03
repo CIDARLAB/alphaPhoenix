@@ -11,8 +11,6 @@ import edu.utah.ece.async.ibiosim.dataModels.util.dataparser.TSDParser;
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
-import javax.swing.JFrame;
-import javax.swing.JProgressBar;
 
 /**
  *
@@ -39,12 +37,9 @@ public class IBioSimAdaptor {
     public static void simulateODE(String SBMLFileName, String outDir, double timeLimit,
             double timeStep, double printInterval, long rndSeed, double stoichAmpValue,
             int numSteps, double relError, double absError) throws IOException {
-        JProgressBar progress = new JProgressBar();
-        JFrame running = new JFrame();
-
-        SimulatorODERK simulator = new SimulatorODERK(SBMLFileName, outDir, timeLimit,
-                timeStep, rndSeed, progress, printInterval, stoichAmpValue, running,
-                new String[0], numSteps, relError, absError, "amount");
+        SimulatorODERK simulator = new SimulatorODERK(SBMLFileName, outDir, 1, timeLimit,
+                timeStep, rndSeed, printInterval, stoichAmpValue, new String[0], numSteps,
+                relError, absError, "amount");
         simulator.simulate();
         TSDParser tsdParser = new TSDParser(outDir + "run-1.tsd", false);
         tsdParser.outputCSV(outDir + "run-1.csv");
@@ -64,7 +59,6 @@ public class IBioSimAdaptor {
      */
     public static void simulateODE(String SBMLFileName, String outDir, double timeLimit,
             double timeStep, double printInterval) throws IOException {
-
         simulateODE(SBMLFileName, outDir, timeLimit, timeStep, printInterval, ThreadLocalRandom.current().nextLong(), 2.0, 50, 1e-6, 1e-9);
     }
 
@@ -86,25 +80,23 @@ public class IBioSimAdaptor {
     public static void simulateStocastic(String SBMLFileName, String outDir,
             double timeLimit, double timeStep, double printInterval, int numRuns,
             double minTimeStep, long rndSeed, double stoichAmpValue) throws IOException {
-
-        JProgressBar progress = new JProgressBar();
-        JFrame running = new JFrame();
-
-        SimulatorSSADirect simulator = new SimulatorSSADirect(SBMLFileName, outDir,
-                timeLimit, timeStep, minTimeStep, rndSeed, progress, printInterval,
-                stoichAmpValue, running, new String[0], "amount");
+        SimulatorSSADirect simulator = new SimulatorSSADirect(SBMLFileName, outDir, numRuns,
+                timeLimit, timeStep, minTimeStep, rndSeed, printInterval, stoichAmpValue,
+                new String[0], "amount");
         simulator.simulate();
         TSDParser tsdParser = new TSDParser(outDir + "run-1.tsd", false);
         tsdParser.outputCSV(outDir + "run-1.csv");
-        new File(outDir + "run-1.tsd").delete();
         for (int i = 2; i <= numRuns; i ++) {
+            simulator = new SimulatorSSADirect(SBMLFileName, outDir, numRuns,
+                timeLimit, timeStep, minTimeStep, rndSeed, printInterval, stoichAmpValue,
+                new String[0], "amount");
             simulator.setupForNewRun(i);
             simulator.simulate();
             tsdParser = new TSDParser(outDir + "run-" + i + ".tsd", false);
             tsdParser.outputCSV(outDir + "run-" + i + ".csv");
             new File(outDir + "run-" + i + ".tsd").delete();
         }
-
+        new File(outDir + "run-1.tsd").delete();
     }
 
     /**
@@ -121,8 +113,6 @@ public class IBioSimAdaptor {
      */
     public static void simulateStocastic(String SBMLFileName, String outDir,
             double timeLimit, double timeStep, double printInterval, int numRuns) throws IOException {
-        
         simulateStocastic(SBMLFileName, outDir, timeLimit, timeStep, printInterval, numRuns, 0.0, ThreadLocalRandom.current().nextLong(), 2.0);
-
     }
 }
