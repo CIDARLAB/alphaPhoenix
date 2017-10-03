@@ -988,18 +988,18 @@ public class Controller {
             Component cds = cdsModule.getComponents().get(0);
             if(prom.getRole().equals(ComponentRole.PROMOTER_CONSTITUTIVE)){
                 System.out.println("Downstream CDS for " + prom.getIOCname() + " is " + cds.getName() + " and has IOC name " + cds.getIOCname());
-                //SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "out", cds.getIOCname());
+                SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "out", cds.getIOCname());
             } else {
                 System.out.println("Downstream CDS for " + prom.getIOCname() + " is " + cds.getName() + " and has IOC name " + cds.getIOCname());
-                //SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "conn", prom.getIOCname());
-                //SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "out", cds.getIOCname());
+                SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "conn", prom.getIOCname());
+                SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "out", cds.getIOCname());
             }
             if(cds.getInteractions().isEmpty()){
                 //Output CDS
-                //SBMLAdaptor.renameSpecies(cdsModule.getModel().getSbml(), "out", cds.getIOCname());
+                SBMLAdaptor.renameSpecies(cdsModule.getModel().getSbml(), "out", cds.getIOCname());
             } else {
                 //Connector CDS
-                //SBMLAdaptor.renameSpecies(cdsModule.getModel().getSbml(), "conn", cds.getIOCname());
+                SBMLAdaptor.renameSpecies(cdsModule.getModel().getSbml(), "conn", cds.getIOCname());
             }
             String fp = Utilities.getResultsFilepath();
             SBMLWriter writer = new SBMLWriter();
