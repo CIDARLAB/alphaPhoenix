@@ -8,16 +8,20 @@
       <species boundaryCondition="false" compartment="cell" constant="false" hasOnlySubstanceUnits="true" id="conn" initialAmount="0" name="conn" sboTerm="SBO:0000601"/>
     </listOfSpecies>
     <listOfReactions>
-      <reaction fast="false" id="conn_expression" name="conn_expression" reversible="false" sboTerm="SBO:0000589">
-        <listOfProducts>
+      <reaction fast="false" id="conn_degradation" name="conn_degradation" reversible="false" sboTerm="SBO:0000179">
+        <listOfReactants>
           <speciesReference constant="true" species="conn" stoichiometry="1"/>
-        </listOfProducts>
+        </listOfReactants>
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">          
-            <ci> k_EXE </ci>
+            <apply>
+              <times/>
+              <ci> k_d </ci>
+              <ci> S1 </ci>
+            </apply>
           </math>
                   <listOfLocalParameters>
-            <localParameter id="k_EXE" name="k_EXE" value="0.5"/>
+            <localParameter id="k_d" name="k_d" value="0.0023"/>
           </listOfLocalParameters>
         </kineticLaw>
       </reaction>

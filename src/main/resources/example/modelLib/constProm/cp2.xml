@@ -5,19 +5,19 @@
       <compartment constant="false" id="cell" name="cell" size="1"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species boundaryCondition="false" compartment="cell" constant="false" hasOnlySubstanceUnits="true" id="S1" initialAmount="0" name="S1" sboTerm="SBO:0000601"/>
+      <species boundaryCondition="false" compartment="cell" constant="false" hasOnlySubstanceUnits="true" id="out" initialAmount="0" name="out" sboTerm="SBO:0000601"/>
     </listOfSpecies>
     <listOfReactions>
-      <reaction fast="false" id="S1_expression" name="S1_expression" reversible="false" sboTerm="SBO:0000589">
+      <reaction fast="false" id="out_expression" name="out_expression" reversible="false" sboTerm="SBO:0000589">
         <listOfProducts>
-          <speciesReference constant="true" species="S1" stoichiometry="1"/>
+          <speciesReference constant="true" species="out" stoichiometry="1"/>
         </listOfProducts>
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">          
             <ci> k_EXE </ci>
           </math>
                   <listOfLocalParameters>
-            <localParameter id="k_EXE" name="k_EXE" value="0.4"/>
+            <localParameter id="k_EXE" name="k_EXE" value="0.03"/>
           </listOfLocalParameters>
         </kineticLaw>
       </reaction>

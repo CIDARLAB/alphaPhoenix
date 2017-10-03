@@ -30,6 +30,10 @@ public class Component {
     
     @Getter
     @Setter
+    private String IOCname;
+    
+    @Getter
+    @Setter
     private List<Interaction> interactions = new ArrayList<>();
     
     @Getter
@@ -42,6 +46,7 @@ public class Component {
     
     public static enum ComponentRole{
         PROTEIN,
+        INDUCER,
         PROMOTER,
         PROMOTER_REPRESSIBLE,
         PROMOTER_INDUCIBLE,

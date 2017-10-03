@@ -48,6 +48,8 @@ public class Library {
     private final static String so = "http://identifiers.org/so/";
     private final static String sbo = "http://identifiers.org/biomodels.sbo/";
     
+    private final static String inducerSO = "http://www.biopax.org/release/biopax-level3.owl#SmallMolecule";
+        
     private final static String induciblePromSO = so + "SO:0002051";
     private final static String constitutivePromSO = so + "SO:0002050";
     private final static String rbsSO = so + "SO:0000139";
@@ -69,6 +71,13 @@ public class Library {
     private Map<URI,LibraryComponent> activatiblePromoters = new HashMap<>();
     
     @Getter
+    private Map<URI,LibraryComponent> inputActPromoters = new HashMap<>();
+    
+    @Getter
+    private Map<URI,LibraryComponent> inputRepPromoters = new HashMap<>();
+    
+    
+    @Getter
     private Map<URI,LibraryComponent> repressorCDS = new HashMap<>();
     
     @Getter 
@@ -88,6 +97,9 @@ public class Library {
     
     @Getter
     private Map<URI,LibraryComponent> proteins = new HashMap<>();
+    
+    @Getter
+    private Map<URI,LibraryComponent> inducers = new HashMap<>();
     
     public Library(SBOLDocument doc){
         try {
@@ -142,6 +154,9 @@ public class Library {
                         //System.out.println("Found a Protein!");
                         proteins.put(cd.getIdentity(),new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
                         break;
+                    case INDUCER:
+                        inducers.put(cd.getIdentity(),new LibraryComponent(cd.getName(),cd.getDisplayId(),cd.getIdentity()));
+                        break;
                 }
             }
             Set<URI> activatingProteins = new HashSet<URI>();
@@ -165,7 +180,7 @@ public class Library {
                                 outputCDS.get(fc.getDefinitionURI()).addModel(uri);
                             }
                             outputCDS.get(fc.getDefinitionURI()).addModuleDefinition(md.getIdentity());
-                        }
+                        } 
                     }
                 } else if(fcsize == 2) {
                     //Models for Activatible and Repressible Promoters and CDS.
@@ -186,25 +201,56 @@ public class Library {
                             for(Interaction interaction:md.getInteractions()){
                                 for(URI type:interaction.getTypes()){
                                     if(type.equals(inhibitionURI)){
-                                        repressiblePromoters.put(fc.getDefinitionURI(), promoters.get(fc.getDefinitionURI()));
-                                        for (URI uri : modelList) {
-                                            repressiblePromoters.get(fc.getDefinitionURI()).addModel(uri);
+                                        boolean inputProm = false;
+                                        for(FunctionalComponent fcin:md.getFunctionalComponents()){
+                                            if(inducers.containsKey(fcin.getDefinitionURI())){
+                                                inputProm = true;
+                                                break;
+                                            }
                                         }
-                                        repressiblePromoters.get(fc.getDefinitionURI()).addModuleDefinition(md.getIdentity());
+                                        if(inputProm){
+                                            inputRepPromoters.put(fc.getDefinitionURI(), promoters.get(fc.getDefinitionURI()));
+                                            for (URI uri : modelList) {
+                                                inputRepPromoters.get(fc.getDefinitionURI()).addModel(uri);
+                                            }
+                                            inputRepPromoters.get(fc.getDefinitionURI()).addModuleDefinition(md.getIdentity());
+                                        } else {
+                                            repressiblePromoters.put(fc.getDefinitionURI(), promoters.get(fc.getDefinitionURI()));
+                                            for (URI uri : modelList) {
+                                                repressiblePromoters.get(fc.getDefinitionURI()).addModel(uri);
+                                            }
+                                            repressiblePromoters.get(fc.getDefinitionURI()).addModuleDefinition(md.getIdentity());
+                                        }
+                                        
                                     } else if(type.equals(stimulationURI)){
-                                        activatiblePromoters.put(fc.getDefinitionURI(), promoters.get(fc.getDefinitionURI()));
-                                        for (URI uri : modelList) {
-                                            activatiblePromoters.get(fc.getDefinitionURI()).addModel(uri);
+                                        boolean inputProm = false;
+                                        for(FunctionalComponent fcin:md.getFunctionalComponents()){
+                                            if(inducers.containsKey(fcin.getDefinitionURI())){
+                                                inputProm = true;
+                                                break;
+                                            }
                                         }
-                                        activatiblePromoters.get(fc.getDefinitionURI()).addModuleDefinition(md.getIdentity());
+                                        if(inputProm){
+                                            inputActPromoters.put(fc.getDefinitionURI(), promoters.get(fc.getDefinitionURI()));
+                                            for (URI uri : modelList) {
+                                                inputActPromoters.get(fc.getDefinitionURI()).addModel(uri);
+                                            }
+                                            inputActPromoters.get(fc.getDefinitionURI()).addModuleDefinition(md.getIdentity());
+                                        } else {
+                                            activatiblePromoters.put(fc.getDefinitionURI(), promoters.get(fc.getDefinitionURI()));
+                                            for (URI uri : modelList) {
+                                                activatiblePromoters.get(fc.getDefinitionURI()).addModel(uri);
+                                            }
+                                            activatiblePromoters.get(fc.getDefinitionURI()).addModuleDefinition(md.getIdentity());
+                                        }
                                     }
                                 }
                             }
                         } else if(cds.containsKey(fc.getDefinitionURI())){
                             //Do nothing for now. 
-                        } else if(proteins.containsKey(fc.getDefinitionURI())){
-                            //Do nothing for now.
-                        } 
+                        } else if(inducers.containsKey(fc.getDefinitionURI())){
+                            
+                        }
                         else {
                             //System.out.println("MD :: " + md.getIdentity());
                             //System.out.println("FC :: " + fc.getDefinitionURI());
@@ -238,7 +284,7 @@ public class Library {
                             }
                             repressorCDS.get(cdsURI).addModuleDefinition(md.getIdentity());
                         }
-                        else if(activatingProteins.contains(cdsURI)){
+                        else if(activatingProteins.contains(protURI)){
                             activatorCDS.put(cdsURI, cds.get(cdsURI));
                             for (URI uri : modelList) {
                                 activatorCDS.get(cdsURI).addModel(uri);
@@ -271,6 +317,8 @@ public class Library {
             URI terURI = new URI(terSO);
             URI proteinURI = new URI(proteinSO);
             
+            URI inducerURI = new URI(inducerSO);
+            
             for(URI uri:cd.getTypes()){
                 if(uri.equals(proteinURI)){
                     return ComponentRole.PROTEIN;
@@ -289,7 +337,9 @@ public class Library {
                     return ComponentRole.PROMOTER;
                 } else if(uri.equals(cdsURI)){
                     return ComponentRole.CDS;
-                } 
+                } else if(uri.equals(inducerURI)){
+                    return ComponentRole.INDUCER;
+                }
             }
         } catch (URISyntaxException ex) {
             Logger.getLogger(Library.class.getName()).log(Level.SEVERE, null, ex);

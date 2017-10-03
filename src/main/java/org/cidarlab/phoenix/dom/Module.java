@@ -6,9 +6,14 @@
 package org.cidarlab.phoenix.dom;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
+import org.cidarlab.phoenix.core.Controller;
+import org.cidarlab.phoenix.dom.Component.ComponentRole;
 
 /**
  *
@@ -92,6 +97,46 @@ public class Module {
     
     public void printTree(){
         printTree(0);
+    }
+    
+    public void setIOCNames(){
+        int in = 0;
+        int out = 0;
+        int conn = 0;
+        Set<String> completed = new HashSet<>();
+        for(Component c:this.components){
+            if(!completed.contains(c.getName())){
+                if(Controller.isPromoter(c)){
+                    if(c.getInteractions().isEmpty()){
+                        if(c.getRole().equals(ComponentRole.PROMOTER_CONSTITUTIVE)){
+                            
+                        } else {
+                            c.setIOCname("in" + in);
+                            in++;
+                        }
+                    } else {
+                        for(Interaction i:c.getInteractions()){
+                            i.getFrom().setIOCname("conn" + conn);
+                            i.getTo().setIOCname("conn" + conn);
+                        }
+                        conn++;
+                    }
+                    
+                } else if(Controller.isCDS(c)){
+                    if(c.getInteractions().isEmpty()){
+                        c.setIOCname("out" + out);
+                        out++;
+                    } else {
+                        for(Interaction i:c.getInteractions()){
+                            i.getFrom().setIOCname("conn" + conn);
+                            i.getTo().setIOCname("conn" + conn);
+                        }
+                        conn++;
+                    }
+                }
+            }
+        }
+        
     }
     
     private void printTree(int indent){
