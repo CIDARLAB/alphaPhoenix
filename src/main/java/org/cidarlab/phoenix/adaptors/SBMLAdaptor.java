@@ -180,6 +180,27 @@ public class SBMLAdaptor {
                 Logger.getLogger(SBMLAdaptor.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
+        public static void setValue(SBMLDocument doc, String id, double value) {
+            if (doc.getModel().containsSpecies(id)) {
+                doc.getModel().getSpecies(id).setInitialAmount(value);
+            }
+            else if (doc.getModel().containsCompartment(id)) {
+                doc.getModel().getCompartment(id).setValue(value);
+            }
+            else if (doc.getModel().containsParameter(id)) {
+                doc.getModel().getParameter(id).setValue(value);
+            }
+        }
+        
+        public static void setReactionParameterValue(SBMLDocument doc, String reactionID, String parameterID, double value) {
+            if (doc.getModel().containsReaction(reactionID)) {
+                LocalParameter p = doc.getModel().getReaction(reactionID).getKineticLaw().getLocalParameter(parameterID);
+                if (p != null) {
+                    p.setValue(value);
+                }
+            }
+        }
 	
 	public static void substituteSpecies(HashMap<String, String> substitutions, Model mod) {
 		for (String substitutedID : substitutions.keySet()) {
