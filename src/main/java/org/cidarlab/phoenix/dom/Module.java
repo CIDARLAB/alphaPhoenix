@@ -13,6 +13,7 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import org.cidarlab.phoenix.core.Controller;
+import org.cidarlab.phoenix.dom.Component.ComponentRole;
 
 /**
  *
@@ -107,8 +108,12 @@ public class Module {
             if(!completed.contains(c.getName())){
                 if(Controller.isPromoter(c)){
                     if(c.getInteractions().isEmpty()){
-                        c.setIOCname("in" + in);
-                        in++;
+                        if(c.getRole().equals(ComponentRole.PROMOTER_CONSTITUTIVE)){
+                            
+                        } else {
+                            c.setIOCname("in" + in);
+                            in++;
+                        }
                     } else {
                         for(Interaction i:c.getInteractions()){
                             i.getFrom().setIOCname("conn" + conn);

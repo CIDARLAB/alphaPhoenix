@@ -5,40 +5,23 @@
       <compartment constant="false" id="cell" name="cell" size="1"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species boundaryCondition="false" compartment="cell" constant="false" hasOnlySubstanceUnits="true" id="S2" initialAmount="0" name="S2" sboTerm="SBO:0000601"/>
+      <species boundaryCondition="false" compartment="cell" constant="false" hasOnlySubstanceUnits="true" id="out" initialAmount="0" name="out" sboTerm="SBO:0000601"/>
     </listOfSpecies>
     <listOfReactions>
-      <reaction fast="false" id="S2_degradation" name="S2_degradation" reversible="false" sboTerm="SBO:0000179">
+      <reaction fast="false" id="out_degradation" name="out_degradation" reversible="false" sboTerm="SBO:0000179">
         <listOfReactants>
-          <speciesReference constant="true" species="S2" stoichiometry="1"/>
+          <speciesReference constant="true" species="out" stoichiometry="1"/>
         </listOfReactants>
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">          
             <apply>
-              <divide/>
-              <apply>
-                <divide/>
-                <apply>
-                  <times/>
-                  <ci> y </ci>
-                  <ci> S2 </ci>
-                </apply>
-                <ci> K_d </ci>
-              </apply>
-              <apply>
-                <plus/>
-                <cn type="integer"> 1 </cn>
-                <apply>
-                  <divide/>
-                  <ci> S2 </ci>
-                  <ci> K_d </ci>
-                </apply>
-              </apply>
+              <times/>
+              <ci> k_d </ci>
+              <ci> out </ci>
             </apply>
           </math>
                   <listOfLocalParameters>
-            <localParameter id="y" name="y" value="0.3"/>
-            <localParameter id="K_d" name="K_d" value="0.008"/>
+            <localParameter id="k_d" name="k_d" value="0.01"/>
           </listOfLocalParameters>
         </kineticLaw>
       </reaction>

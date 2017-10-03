@@ -34,7 +34,9 @@ import org.cidarlab.phoenix.library.Library;
 import org.cidarlab.phoenix.utils.Utilities;
 import org.json.JSONObject;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
+import org.sbml.jsbml.SBMLWriter;
 import org.sbolstandard.core2.FunctionalComponent;
 import org.sbolstandard.core2.ModuleDefinition;
 import org.sbolstandard.core2.SBOLDocument;
@@ -356,9 +358,17 @@ public class Controller {
                 if (component.getRole().equals(ComponentRole.PROMOTER_CONSTITUTIVE)) {
                     component.setCandidates(new ArrayList<>(lib.getConstitutivePromoters().values()));
                 } else if (component.getRole().equals(ComponentRole.PROMOTER_REPRESSIBLE)) {
-                    component.setCandidates(new ArrayList<>(lib.getRepressiblePromoters().values()));
+                    if(component.getInteractions().isEmpty()){
+                        component.setCandidates(new ArrayList<>(lib.getInputRepPromoters().values()));
+                    } else {
+                        component.setCandidates(new ArrayList<>(lib.getRepressiblePromoters().values()));
+                    }
                 } else if (component.getRole().equals(ComponentRole.PROMOTER_INDUCIBLE)) {
-                    component.setCandidates(new ArrayList<>(lib.getActivatiblePromoters().values()));
+                    if(component.getInteractions().isEmpty()){
+                        component.setCandidates(new ArrayList<>(lib.getInputActPromoters().values()));
+                    } else {
+                        component.setCandidates(new ArrayList<>(lib.getActivatiblePromoters().values()));
+                    }
                 } else if (component.getRole().equals(ComponentRole.RBS)) {
                     component.setCandidates(new ArrayList<>(lib.getRbs().values()));
                 } else if (component.getRole().equals(ComponentRole.TESTING)) {
@@ -370,9 +380,6 @@ public class Controller {
                 //}
             }
         } else if (module.getRole().equals(ModuleRole.CDS)) {
-            System.out.println("Assigning Candidates to CDS. Orientation : " + module.getOrientation() + ". Module Component Count : " + module.getComponents().size());
-            System.out.println("Component Role :: " + module.getComponents().get(0).getRole());
-            System.out.println("Component Name :: " + module.getComponents().get(0).getName());
             for (Component component : module.getComponents()) {
                 //if(!assigned.containsKey(component.getName())){
                 if (component.getRole().equals(ComponentRole.CDS_ACTIVATOR)) {
@@ -380,7 +387,6 @@ public class Controller {
                 } else if (component.getRole().equals(ComponentRole.CDS_REPRESSOR)) {
                     component.setCandidates(new ArrayList<>(lib.getRepressorCDS().values()));
                 } else if (component.getRole().equals(ComponentRole.CDS_FLUORESCENT) || component.getRole().equals(ComponentRole.CDS)) {
-                    System.out.println("All output CDS count :: " + lib.getOutputCDS().size());
                     component.setCandidates(new ArrayList<>(lib.getOutputCDS().values()));
                 } else {
                     System.out.println("Not supported yet.");
@@ -965,13 +971,48 @@ public class Controller {
                 break;
             case MM:
                 assignPartLeafModels(root, jobid, doc, assignment);
+                renameSpecies(root);
                 break;
             default:
                 break;
 
         }
     }
-
+    
+    public static void renameSpecies(Module root){
+        for(Module tu:root.getChildren()){
+            Module promModule = tu.getChildren().get(0);
+            Module cdsModule = tu.getChildren().get(1);
+            
+            Component prom = promModule.getComponents().get(0);
+            Component cds = cdsModule.getComponents().get(0);
+            if(prom.getRole().equals(ComponentRole.PROMOTER_CONSTITUTIVE)){
+                System.out.println("Downstream CDS for " + prom.getIOCname() + " is " + cds.getName() + " and has IOC name " + cds.getIOCname());
+                //SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "out", cds.getIOCname());
+            } else {
+                System.out.println("Downstream CDS for " + prom.getIOCname() + " is " + cds.getName() + " and has IOC name " + cds.getIOCname());
+                //SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "conn", prom.getIOCname());
+                //SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "out", cds.getIOCname());
+            }
+            if(cds.getInteractions().isEmpty()){
+                //Output CDS
+                //SBMLAdaptor.renameSpecies(cdsModule.getModel().getSbml(), "out", cds.getIOCname());
+            } else {
+                //Connector CDS
+                //SBMLAdaptor.renameSpecies(cdsModule.getModel().getSbml(), "conn", cds.getIOCname());
+            }
+            String fp = Utilities.getResultsFilepath();
+            SBMLWriter writer = new SBMLWriter();
+            try {
+                writer.write(promModule.getModel().getSbml(), new File(fp + tu.getId() + "_" + promModule.getId() + ".xml"));
+                writer.write(cdsModule.getModel().getSbml(), new File(fp + tu.getId() + "_" + cdsModule.getId() + ".xml"));
+                
+            } catch (XMLStreamException | SBMLException | IOException ex) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
     public static void assignPartLeafModels(Module root, String jobid, SBOLDocument doc, Map<String, CandidateComponent> assignment) {
         if (root.getRole().equals(ModuleRole.PROMOTER)) {
 
@@ -981,9 +1022,9 @@ public class Controller {
                 ModuleDefinition md = doc.getModuleDefinition(cc.getCandidate().getModuleDefinitions().get(0));
                 List<org.sbolstandard.core2.Model> sbolmodels = new ArrayList<>(md.getModels());
                 URI uri = new URI(sbolmodels.get(0).getSource().toString() + "/download");
-                System.out.println("Prom Model :: " + uri.toString());
                 String fp = Utilities.getResultsFilepath() + jobid;
-                Model model = new ModelPart(SynbiohubAdaptor.getModel(uri.toURL(), fp));
+                SBMLDocument sbml = SynbiohubAdaptor.getModel(uri.toURL(), fp);
+                Model model = new ModelPart(sbml);
                 root.setModel(model);
             } catch (MalformedURLException | URISyntaxException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -995,9 +1036,9 @@ public class Controller {
                 ModuleDefinition md = doc.getModuleDefinition(cc.getCandidate().getModuleDefinitions().get(0));
                 List<org.sbolstandard.core2.Model> sbolmodels = new ArrayList<>(md.getModels());
                 URI uri = new URI(sbolmodels.get(0).getSource().toString() + "/download");
-                System.out.println("CDS Model :: " + uri.toString());
                 String fp = Utilities.getResultsFilepath() + jobid + Utilities.getSeparater();
-                Model model = new ModelPart(SynbiohubAdaptor.getModel(uri.toURL(), fp));
+                SBMLDocument sbml = SynbiohubAdaptor.getModel(uri.toURL(), fp);
+                Model model = new ModelPart(sbml);
                 root.setModel(model);
             } catch (MalformedURLException | URISyntaxException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -1033,7 +1074,6 @@ public class Controller {
             }
             if((!root.getRole().equals(ModuleRole.PROMOTER)) && (!root.getRole().equals(ModuleRole.CDS))) {
                 Model composedModel = new ModelPart(SBMLAdaptor.composeModels(modelList));
-                System.out.println("Composed Model at " + root.getRole());
                 root.setModel(composedModel);
             }
         } else {
