@@ -171,6 +171,11 @@ public class SBMLAdaptor {
         public static void renameSpecies(SBMLDocument doc, String oldID, String newID) {
             try {            
                 updateVarId(doc, true, oldID, newID);
+                Species spec = doc.getModel().getSpecies(oldID);
+                if (spec != null) {
+                    spec.setId(newID);
+                    spec.setName(newID);
+                }
             } catch (BioSimException ex) {
                 Logger.getLogger(SBMLAdaptor.class.getName()).log(Level.SEVERE, null, ex);
             }
