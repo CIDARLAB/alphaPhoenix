@@ -74,15 +74,6 @@ public class PhoenixProjectTest {
     public void tearDown() {
     }
     
-    //@Test
-    public void testCreateProject(){
-        for(int i=0;i<10;i++){
-            PhoenixProject proj = new PhoenixProject();
-            System.out.println(proj.getJobId());
-            System.out.println(proj.getJobFolder());
-            System.out.println(proj.getResultsFolder());
-        }
-    }
     
     //@Test
     public void testCreateEmptySBOL(){
@@ -125,6 +116,7 @@ public class PhoenixProjectTest {
             Library lib = new Library(sbol);
             double bestval = Double.MIN_VALUE;
             int bestindex = 0;
+            //String eug = Utilities.getResourcesFilepath() + "miniEugeneFiles" + Utilities.getSeparater() + "inverter.eug";
             String eug = Utilities.getResourcesFilepath() + "miniEugeneFiles" + Utilities.getSeparater() + "inverterCP.eug";
             int size = 8;
             List<Module> modules = MiniEugeneAdaptor.getStructures(eug, size, "inverter");
@@ -155,7 +147,7 @@ public class PhoenixProjectTest {
                 writer.write(test.getModel().getSbml(), modelFile);
                 IBioSimAdaptor.simulateODE(modelFile, assignmentfp, 100, 1, 1);
                 String tsdfp = assignmentfp + "run-1.csv";
-                double robval = STLAdaptor.getRobustness(stl,tsdfp,assignmentfp);
+                double robval = STLAdaptor.getRobustness(stl,tsdfp,assignmentfp,true);
                 if(robval > bestval){
                     bestval = robval;
                     bestindex = i;

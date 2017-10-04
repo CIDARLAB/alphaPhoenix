@@ -17,7 +17,8 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import org.cidarlab.gridtli.dom.Point;
 import org.cidarlab.gridtli.dom.Signal;
-import org.cidarlab.gridtli.tli.Utilities;
+import org.cidarlab.phoenix.utils.Utilities;
+
 
 /**
  *

@@ -76,9 +76,10 @@ public class MainController {
             Utilities.writeToFile(filepath + "eug.json", euginfo.toString());
 
             JSONObject shubinfo = new JSONObject();
+            shubinfo.put("database", "synbiohub");
             shubinfo.put("registry", registry);
             shubinfo.put("collection", collection);
-            Utilities.writeToFile(filepath + "reg.json", shubinfo.toString());
+            Utilities.writeToFile(filepath + "library.json", shubinfo.toString());
 
             SBOLDocument sbol = SynbiohubAdaptor.getSBOL(registry, collection);
             SBOLWriter.write(sbol, (filepath + "sbol.xml"));

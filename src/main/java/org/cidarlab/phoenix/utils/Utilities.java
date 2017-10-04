@@ -85,24 +85,38 @@ public class Utilities {
     
     public static String getFilepath() {
         
-        String _filepath = Utilities.class.getClassLoader().getResource(".").getPath();
-        if (Utilities.isWindows()) {
-            try {
-                _filepath = URLDecoder.decode(_filepath, "utf-8");
-                _filepath = new File(_filepath).getPath();
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+        try {
+            String path = Utilities.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+            String _filepath = URLDecoder.decode(path, "UTF-8");
+            if(_filepath.endsWith(".jar")){
+                String sep = "" + Utilities.getSeparater();
+                _filepath = _filepath.substring(0, _filepath.lastIndexOf(sep));
+                _filepath += Utilities.getSeparater();
+                return _filepath;
+            } else {
+                if (Utilities.isWindows()) {
+                    try {
+                        _filepath = URLDecoder.decode(_filepath, "utf-8");
+                        _filepath = new File(_filepath).getPath();
+                    } catch (UnsupportedEncodingException ex) {
+                        Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                char sep = getSeparater();
+                if (_filepath.contains(sep + "target" + sep)) {
+                    _filepath = _filepath.substring(0, _filepath.lastIndexOf(sep + "target" + sep));
+                } else if (_filepath.contains(sep + "src" + sep)) {
+                    _filepath = _filepath.substring(0, _filepath.lastIndexOf(sep + "src" + sep));
+                } else if (_filepath.contains(sep + "build" + sep + "classes" + sep)) {
+                    _filepath = _filepath.substring(0, _filepath.lastIndexOf(sep + "build" + sep + "classes" + sep));
+                }
+                return _filepath;
             }
-        } 
-        char sep =  getSeparater();
-        if (_filepath.contains(sep + "target" + sep)) {
-            _filepath = _filepath.substring(0, _filepath.lastIndexOf(sep + "target" + sep));
-        } else if (_filepath.contains(sep + "src" + sep)) {
-            _filepath = _filepath.substring(0, _filepath.lastIndexOf(sep + "src" + sep));
-        } else if (_filepath.contains(sep + "build" + sep + "classes" + sep)) {
-            _filepath = _filepath.substring(0, _filepath.lastIndexOf(sep + "build" + sep + "classes" + sep));
+            
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return _filepath;
+        return null;
     }
     
     public static String getResourcesFilepath(){
@@ -112,7 +126,12 @@ public class Utilities {
     }
     
     public static String getResultsFilepath(){
-        return (getFilepath() + getSeparater() + "results" + getSeparater());
+        String fp = (getFilepath()  + "results" + getSeparater());
+        if(!validFilepath(fp)){
+            makeDirectory(fp);
+            System.out.println("Created a Results folder at : " + fp);
+        }
+        return fp;
     }
     
     //</editor-fold>
