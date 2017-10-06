@@ -126,7 +126,7 @@ public class Utilities {
     }
     
     public static String getResultsFilepath(){
-        String fp = (getFilepath()  + "results" + getSeparater());
+        String fp = (getFilepath() + getSeparater() + "results" + getSeparater());
         if(!validFilepath(fp)){
             makeDirectory(fp);
             System.out.println("Created a Results folder at : " + fp);

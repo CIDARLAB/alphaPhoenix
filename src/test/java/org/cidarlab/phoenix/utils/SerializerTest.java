@@ -11,6 +11,7 @@ import hyness.stl.DisjunctionNode;
 import hyness.stl.LinearPredicateLeaf;
 import hyness.stl.RelOperation;
 import hyness.stl.TreeNode;
+import java.util.concurrent.ThreadLocalRandom;
 import org.json.JSONArray;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -47,7 +48,13 @@ public class SerializerTest {
     /**
      * Test of stlToJSON method, of class Serializer.
      */
+    
     @Test
+    public void testgetlong(){
+        System.out.println(ThreadLocalRandom.current().nextLong());
+    }
+    
+    //@Test
     public void testStlToJSON() {
 
         AlwaysNode a1 = new AlwaysNode(new LinearPredicateLeaf(RelOperation.LE, "x", 6.0), 0.0, 7.0);

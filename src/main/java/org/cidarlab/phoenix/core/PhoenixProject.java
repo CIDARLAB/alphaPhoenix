@@ -10,6 +10,7 @@ import hyness.stl.grammar.sharp.STLSharp;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
@@ -21,6 +22,7 @@ import lombok.Setter;
 import org.apache.commons.io.FileUtils;
 import org.cidarlab.phoenix.adaptors.IBioSimAdaptor;
 import org.cidarlab.phoenix.adaptors.MiniEugeneAdaptor;
+import org.cidarlab.phoenix.adaptors.SBMLAdaptor;
 import org.cidarlab.phoenix.adaptors.STLAdaptor;
 import org.cidarlab.phoenix.adaptors.SynbiohubAdaptor;
 import org.cidarlab.phoenix.dom.CandidateComponent;
@@ -78,7 +80,7 @@ public class PhoenixProject {
         createJob();
     }
     
-    public PhoenixProject(String eugfp, int eugCircSize, Integer eugNumSolutions, String stlfp,String libraryfp, Simulation simulation, boolean plot){
+    public PhoenixProject(String eugfp, int eugCircSize, Integer eugNumSolutions, String stlfp,String libraryfp, Simulation simulation,int runCount,double confidence,double threshold, Map<String,Double> inputMap, boolean plot){
         try {
             createJob();
             
@@ -125,7 +127,7 @@ public class PhoenixProject {
                 System.exit(-1);
             }
             
-            PhoenixProject.execute(jobId,simulation, plot);
+            PhoenixProject.execute(jobId, simulation,runCount,confidence, threshold, plot,inputMap);
             
         } catch (IOException | SBOLConversionException ex) {
             Logger.getLogger(PhoenixProject.class.getName()).log(Level.SEVERE, null, ex);
@@ -134,7 +136,7 @@ public class PhoenixProject {
         
     }
     
-    public static void execute(String jobid, Simulation simulation, boolean plot){
+    public static void execute(String jobid, Simulation simulation,int runCount,double confidence,double threshold, boolean plot, Map<String,Double> inputMap){
         try {
             String jobfp = Utilities.getResultsFilepath() + jobid + Utilities.getSeparater();
             if(!Utilities.validFilepath(jobfp)){
@@ -154,74 +156,111 @@ public class PhoenixProject {
             eugCircSize = eug.getInt("solSize");
             String eugfp = jobfp + "structure.eug";
             TreeNode jobstl = STLAdaptor.getSTL(jobfp + "stl.txt");
-            
+            boolean first = true;
+            double bestval = 0;
+            int bestindex = 0;
+
             List<Module> modules = MiniEugeneAdaptor.getStructures(eugfp, eugCircSize, eugNumSolutions, jobid);
             Module best = getBestModule(modules);
             Module decomposedModule = Controller.decompose(PhoenixMode.MM, best);
             List<Map<String,CandidateComponent>> assignments = Controller.assign(decomposedModule, lib, sbol);
+            
+            List<Integer> bestlist = new ArrayList<Integer>();
+            
             System.out.println("");
-            double bestval = Double.MIN_VALUE;
-            int bestindex = 0;
             System.out.println(assignments.size() + " possible assignments found.");
+            int robcount = 0;
+            int smccount = 0;
             for (int i = 0; i < assignments.size(); i++) {
                 Map<String, CandidateComponent> assignment = assignments.get(i);
-                System.out.print(i + ":");
+//                System.out.print(i + ":");
 //                for (Component c : decomposedModule.getComponents()) {
 //                    System.out.print(assignment.get(c.getName()).getCandidate().getDisplayId() + ";");
 //                }
 //                System.out.println("");
             
-
                 Controller.assignLeafModels(PhoenixMode.MM, decomposedModule, jobid, sbol, assignment);
                 Controller.composeModels(PhoenixMode.MM, decomposedModule, jobid, assignment);
-                String jobresultsfp;
+                String jobresultsfp ;
                 jobresultsfp = jobfp + "results" + Utilities.getSeparater();
                 if (!Utilities.validFilepath(jobresultsfp)) {
-                    System.out.println("Results will be stored in : " + jobresultsfp);
                     Utilities.makeDirectory(jobresultsfp);
                 }
                 String assignmentfp;
                 String modelFile;
                 SBMLWriter writer = new SBMLWriter();
+                Map<String,TreeNode> stlsigmap = STLAdaptor.getSignalSTLMap(jobstl);
                 switch(simulation){
                     case DETERMINISTIC:
+                        
                         System.out.println("Starting Deterministic Simulation for assignment " + i);
-                         
                         String deterministic = jobresultsfp + "deterministic" + Utilities.getSeparater();
                         Utilities.makeDirectory(deterministic);
                         assignmentfp = deterministic + i + Utilities.getSeparater();
                         Utilities.makeDirectory(assignmentfp);
                         modelFile = assignmentfp + "model.xml";
+                        for(String sig:inputMap.keySet()){
+                            if(stlsigmap.containsKey(sig)){
+                                SBMLAdaptor.setValue(decomposedModule.getModel().getSbml(), sig, inputMap.get(sig));
+                            }
+                        }
                         writer.write(decomposedModule.getModel().getSbml(), modelFile);
                         double maxtime = STLAdaptor.getMaxTime(jobstl);
                         IBioSimAdaptor.simulateODE(modelFile, assignmentfp, maxtime, 1, 1);
                         String tsdfp = assignmentfp + "run-1.csv";
                         double robval = STLAdaptor.getRobustness(jobstl, tsdfp, assignmentfp, plot);
-                        System.out.println("Robustness at "  + i + " is " + robval);
-                        if (robval > bestval) {
+                        if(first){
                             bestval = robval;
-                            bestindex = i;
+                            first = false;
+                        } else {
+                            if (robval > bestval) {
+                                bestval = robval;
+                                bestindex = i;
+                            }
+                        }
+                        if(robval >= 0){
+                            robcount ++;
+                            bestlist.add(i);
                         }
                         break;
                     case STOCHASTIC:
-                        String stochastic = jobresultsfp + "deterministic" + Utilities.getSeparater();
+                        System.out.println("Starting Stochastic Simulation for assignment " + i);
+                        String stochastic = jobresultsfp + "stochastic" + Utilities.getSeparater();
                         Utilities.makeDirectory(stochastic);
                         assignmentfp = stochastic + i + Utilities.getSeparater();
                         Utilities.makeDirectory(assignmentfp);
                         modelFile = assignmentfp + "model.xml";
+                        for(String sig:inputMap.keySet()){
+                            if(stlsigmap.containsKey(sig)){
+                                SBMLAdaptor.setValue(decomposedModule.getModel().getSbml(), sig, inputMap.get(sig));
+                            }
+                        }
                         writer.write(decomposedModule.getModel().getSbml(), modelFile);
-                        IBioSimAdaptor.simulateStocastic(modelFile, assignmentfp, STLAdaptor.getMaxTime(jobstl), 1, 1,100);
+                        IBioSimAdaptor.simulateStocastic(modelFile, assignmentfp, STLAdaptor.getMaxTime(jobstl), 1, 1, runCount);
+                        Map<String, Double> smc = STLAdaptor.smc(jobstl, assignmentfp, plot, runCount, confidence);
+                        double perc = smc.get("perc");
+                        double error = smc.get("error");
+                        double lower = perc - error;
+                        
+                        if(lower >= threshold){
+                            bestlist.add(i);
+                            smccount++;
+                        }
+                        
                         break;
                 }
-                
-            
             }
             switch(simulation){
                 case DETERMINISTIC:
-                    System.out.println("Best Result is at " + bestindex +  " with robustness = " + bestval);
+                    System.out.println(robcount + " assignments satisfy the performance specification");
+                    System.out.println("List of assignments that satisfy the performance spec: " + bestlist);
+                    System.out.println("Best Result is at assignment: " + bestindex + " with robustness = " + bestval);
+                    System.out.println("All assignments and results can be found in :" + (jobfp + "results" + Utilities.getSeparater() + "deterministic" + Utilities.getSeparater()));
                     break;
                 case STOCHASTIC:
-                    System.out.println("Best Result is at " + bestindex +  " with robustness = " + bestval);
+                    System.out.println(smccount + " assignments have a score greater than or equal to : " + threshold);
+                    System.out.println("List of assignments with a score greater than or equal to : " + threshold +" : " + bestlist);
+                    System.out.println("All assignments and results can be found in :" + (jobfp + "results" + Utilities.getSeparater() + "stochastic" + Utilities.getSeparater()));
                     break;
             }
             

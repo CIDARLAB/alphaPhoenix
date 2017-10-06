@@ -11,20 +11,21 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.stream.XMLStreamException;
+import org.cidarlab.gridtli.dom.Point;
+import org.cidarlab.gridtli.dom.Signal;
 import org.cidarlab.phoenix.adaptors.IBioSimAdaptor;
 import org.cidarlab.phoenix.adaptors.MiniEugeneAdaptor;
+import org.cidarlab.phoenix.adaptors.SBMLAdaptor;
 import org.cidarlab.phoenix.adaptors.STLAdaptor;
 import org.cidarlab.phoenix.adaptors.SynbiohubAdaptor;
 import org.cidarlab.phoenix.dom.CandidateComponent;
 import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Module;
-import org.cidarlab.phoenix.dom.Orientation;
 import org.cidarlab.phoenix.library.Library;
 import org.cidarlab.phoenix.utils.Utilities;
 import org.junit.After;
@@ -35,17 +36,8 @@ import org.junit.Test;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLWriter;
-import org.sbolstandard.core2.AccessType;
-import org.sbolstandard.core2.ComponentDefinition;
-import org.sbolstandard.core2.DirectionType;
-import org.sbolstandard.core2.FunctionalComponent;
-import org.sbolstandard.core2.Interaction;
-import org.sbolstandard.core2.Model;
-import org.sbolstandard.core2.ModuleDefinition;
-import org.sbolstandard.core2.Participation;
 import org.sbolstandard.core2.SBOLConversionException;
 import org.sbolstandard.core2.SBOLDocument;
-import org.sbolstandard.core2.SBOLValidationException;
 import org.synbiohub.frontend.SynBioHubException;
 import org.synbiohub.frontend.SynBioHubFrontend;
 
@@ -102,7 +94,294 @@ public class PhoenixProjectTest {
         }
     }
     
+    //@Test
+    public void testTimeGreater(){
+        
+        int worstindex = 20;
+        int avgindex = 26;
+        
+        String jobid = "deterministic";
+        String model = Utilities.getResultsFilepath() + jobid + Utilities.getSeparater() + "results" + Utilities.getSeparater();
+        String deterministic = model + "deterministic" + Utilities.getSeparater();
+        String worst = deterministic + worstindex + Utilities.getSeparater() + "run-1.csv";
+        String avg = deterministic + avgindex + Utilities.getSeparater() + "run-1.csv";
+        boolean worststarted = false;
+        double worststart = 0;
+        boolean avgstarted = false;
+        double averagestart = 0;
+        double averageend = 0;
+        Map<String, Signal> signalMapWorst = IBioSimAdaptor.getSignals(worst);
+        Signal s0Worst = signalMapWorst.get("out0");
+        Map<String, Signal> signalMapAvg = IBioSimAdaptor.getSignals(avg);
+        Signal s0Avg = signalMapAvg.get("out0");
+        for(Point p:s0Worst.getPoints()){
+            if(p.getY() > 5){
+                worststart = p.getX();
+                break;
+            }
+        }
+        for(Point p:s0Avg.getPoints()){
+            if(avgstarted){
+                if(p.getY() < 5){
+                    averageend = p.getX();
+                    break;
+                }
+            } else {
+                if(p.getY() > 5){
+                    averagestart = p.getX();
+                    avgstarted = true;
+                }
+            }
+        }
+        System.out.println("Worst Start :: " + worststart);
+        System.out.println("Avg Start :: " + averagestart);
+        System.out.println("Avg End :: " + averageend);
+        
+        
+    }
+    
+    
+    
     @Test
+    public void testStochasticMultiRunPhoenix(){
+        try {
+            String synbiohuburl = "https://synbiohub.cidarlab.org";
+            String phoenixliburl = "https://synbiohub.cidarlab.org/public/AlphaPhoenix/AlphaPhoenix_collection/1";
+            String stlfp = Utilities.getResourcesFilepath() + "stl" + Utilities.getSeparater() + "stochin0.txt";
+            TreeNode stl = STLAdaptor.getSTL(stlfp);
+            SynBioHubFrontend shub = new SynBioHubFrontend(synbiohuburl);
+            PhoenixProject proj = new PhoenixProject();
+            URI u = new URI(phoenixliburl);
+            SBOLDocument sbol = shub.getSBOL(u);
+            Library lib = new Library(sbol);
+            
+            double threshold = 0.95;
+            //String eug = Utilities.getResourcesFilepath() + "miniEugeneFiles" + Utilities.getSeparater() + "inverter.eug";
+            String eug = Utilities.getResourcesFilepath() + "miniEugeneFiles" + Utilities.getSeparater() + "inverter.eug";
+            int size = 8;
+            
+            int simcount = 100;
+            
+            
+            List<Module> modules = MiniEugeneAdaptor.getStructures(eug, size, "inverter");
+            
+//            for(Module m:modules){
+//                System.out.println(m.getComponentString());;
+//            }
+            int smcCount = 0;
+            int totalsatisfy = 0;
+            int index = 0;
+            Module test = Controller.decompose(PhoenixMode.MM, modules.get(index));
+            List<Map<String,CandidateComponent>> assignments = Controller.assign(test, lib, sbol);
+            
+            int smcCountTot = 0;
+            int totalsatisfyTot = 0;
+            
+            for (int k = 0; k < 100; k++) {
+                System.out.println("Run : " + k);
+                smcCount = 0;
+                totalsatisfy = 0;
+                for (int i = 0; i < assignments.size(); i++) {
+                    Map<String, CandidateComponent> assignment = assignments.get(i);
+                    System.out.println("Assignment : " + i);
+//                    for (Component c : test.getComponents()) {
+//                        System.out.print(assignment.get(c.getName()).getCandidate().getDisplayId() + ";");
+//                    }
+//                    System.out.println("");
+
+                    Controller.assignLeafModels(PhoenixMode.MM, test, proj.getJobId(), sbol, assignment);
+                    Controller.composeModels(PhoenixMode.MM, test, proj.getJobId(), assignment);
+
+                    String model = Utilities.getResultsFilepath() + proj.getJobId() + Utilities.getSeparater() + "results" + Utilities.getSeparater();
+                    Utilities.makeDirectory(model);
+                    String deterministic = model + "stochastic" + Utilities.getSeparater();
+                    Utilities.makeDirectory(deterministic);
+                    String assignmentfp = deterministic + i + Utilities.getSeparater();
+                    Utilities.makeDirectory(assignmentfp);
+                    String modelFile = assignmentfp + "model.xml";
+                    SBMLWriter writer = new SBMLWriter();
+                    SBMLAdaptor.setValue(test.getModel().getSbml(), "in0", 0);
+                    writer.write(test.getModel().getSbml(), modelFile);
+                    IBioSimAdaptor.simulateStocastic(modelFile, assignmentfp, 100, 1, 1, simcount);
+                    double confidence = 0.95;
+                    Map<String, Double> smc = STLAdaptor.smc(stl, assignmentfp, false, simcount, confidence);
+                    double perc = smc.get("perc");
+                    double error = smc.get("error");
+
+                    double lower = perc - error;
+                    if (lower >= threshold) {
+//                        System.out.println("Satisfying Percentage :: " + perc);
+//                        System.out.println("Error Rate :: " + error);
+                        smcCount++;
+                    }
+                    if (lower == 1) {
+                        totalsatisfy++;
+                    }
+
+//                    System.out.println("--------------------------------------------");
+
+                }
+                System.out.println("SMC count of satisfying results :: " + smcCount);
+                smcCountTot += smcCount;
+                System.out.println("Score  1 count :: " + totalsatisfy);
+                totalsatisfyTot += smcCount;
+            }
+            
+            System.out.println("###################################################");
+            System.out.println("Total SMC count of satisfying results " + smcCountTot);
+            System.out.println("Total Score  1 count :: " + totalsatisfyTot);
+            
+            
+        } catch (URISyntaxException | SynBioHubException | XMLStreamException | FileNotFoundException | SBMLException ex) {
+            Logger.getLogger(PhoenixProjectTest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PhoenixProjectTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    
+    //@Test
+    public void testStochasticPhoenix(){
+        try {
+            String synbiohuburl = "https://synbiohub.cidarlab.org";
+            String phoenixliburl = "https://synbiohub.cidarlab.org/public/AlphaPhoenix/AlphaPhoenix_collection/1";
+            String stlfp = Utilities.getResourcesFilepath() + "stl" + Utilities.getSeparater() + "stochin0.txt";
+            TreeNode stl = STLAdaptor.getSTL(stlfp);
+            SynBioHubFrontend shub = new SynBioHubFrontend(synbiohuburl);
+            PhoenixProject proj = new PhoenixProject();
+            URI u = new URI(phoenixliburl);
+            SBOLDocument sbol = shub.getSBOL(u);
+            Library lib = new Library(sbol);
+            double bestval = Double.MIN_VALUE;
+            int bestindex = 0;
+            double worstval = Double.MAX_VALUE;
+            int worstindex = 0;
+            double avgval = 0;
+            int avgindex = 0;
+            boolean first = true;
+            
+            double threshold = 0.95;
+            //String eug = Utilities.getResourcesFilepath() + "miniEugeneFiles" + Utilities.getSeparater() + "inverter.eug";
+            String eug = Utilities.getResourcesFilepath() + "miniEugeneFiles" + Utilities.getSeparater() + "inverter.eug";
+            int size = 8;
+            
+            int simcount = 100;
+            
+            
+            List<Module> modules = MiniEugeneAdaptor.getStructures(eug, size, "inverter");
+            
+//            for(Module m:modules){
+//                System.out.println(m.getComponentString());;
+//            }
+            int smcCount = 0;
+            int index = 0;
+            Module test = Controller.decompose(PhoenixMode.MM, modules.get(index));
+            List<Map<String,CandidateComponent>> assignments = Controller.assign(test, lib, sbol);
+            for (int i = 0; i < assignments.size(); i++) {
+                Map<String, CandidateComponent> assignment = assignments.get(i);
+                System.out.print(i + ":");
+                for (Component c : test.getComponents()) {
+                    System.out.print(assignment.get(c.getName()).getCandidate().getDisplayId() + ";");
+                }
+                System.out.println("");
+            
+                
+                Controller.assignLeafModels(PhoenixMode.MM, test, proj.getJobId(), sbol, assignment);
+                Controller.composeModels(PhoenixMode.MM, test, proj.getJobId(), assignment);
+
+                String model = Utilities.getResultsFilepath() + proj.getJobId() + Utilities.getSeparater() + "results" + Utilities.getSeparater();
+                Utilities.makeDirectory(model);
+                String deterministic = model + "stochastic" + Utilities.getSeparater();
+                Utilities.makeDirectory(deterministic);
+                String assignmentfp = deterministic + i + Utilities.getSeparater();
+                Utilities.makeDirectory(assignmentfp);
+                String modelFile = assignmentfp + "model.xml";
+                SBMLWriter writer = new SBMLWriter();
+                SBMLAdaptor.setValue(test.getModel().getSbml(), "in0", 0);
+                writer.write(test.getModel().getSbml(), modelFile);
+                IBioSimAdaptor.simulateStocastic(modelFile, assignmentfp, 100, 1, 1,simcount);
+                double confidence = 0.95;
+                Map<String,Double> smc = STLAdaptor.smc(stl, assignmentfp, true, simcount, confidence);
+                double perc = smc.get("perc");
+                double error = smc.get("error");
+                
+                double lower = perc - error;
+                if(lower >= threshold){
+                    System.out.println("Satisfying Percentage :: " + perc);
+                    System.out.println("Error Rate :: " + error);
+                    smcCount++;
+                }
+                
+                System.out.println("--------------------------------------------");
+                
+            
+            }
+            System.out.println("SMC count of satisfying results :: " + smcCount);
+            /*System.out.println("##################################################################");
+            System.out.println("Best Result is at " + bestindex +  " with robustness = " + bestval);
+            System.out.println("Worst Result is at " + worstindex +  " with robustness = " + worstval);
+            System.out.println("Average Result is at " + avgindex +  " with robustness = " + avgval);
+            
+            System.out.println("Number of robust circuits :: " + robustCount);
+            
+            String model = Utilities.getResultsFilepath() + proj.getJobId() + Utilities.getSeparater() + "results" + Utilities.getSeparater();
+            String deterministic = model + "deterministic" + Utilities.getSeparater();
+            String best = deterministic + bestindex + Utilities.getSeparater() + "run-1.csv";
+            Map<String,Signal> signalMapBest = IBioSimAdaptor.getSignals(best);
+            Signal s0Best = signalMapBest.get("out0");
+            System.out.println("BEST :: ");
+            System.out.println("out0\n");
+            for(Point p:s0Best.getPoints()){
+                System.out.print(p.getY() + ",");
+            }
+            System.out.println("");
+            System.out.println("t\n");
+            for(Point p:s0Best.getPoints()){
+                System.out.print(p.getX() + ",");
+            }
+            System.out.println("");
+            
+            String worst = deterministic + worstindex + Utilities.getSeparater() + "run-1.csv";
+            Map<String,Signal> signalMapWorst = IBioSimAdaptor.getSignals(worst);
+            Signal s0Worst = signalMapWorst.get("out0");
+            System.out.println("WORST :: ");
+            System.out.println("out0\n");
+            for(Point p:s0Worst.getPoints()){
+                System.out.print(p.getY() + ",");
+            }
+            System.out.println("");
+            System.out.println("t\n");
+            for(Point p:s0Worst.getPoints()){
+                System.out.print(p.getX() + ",");
+            }
+            System.out.println("");
+            
+            String avg = deterministic + avgindex + Utilities.getSeparater() + "run-1.csv";
+            Map<String,Signal> signalMapAvg = IBioSimAdaptor.getSignals(avg);
+            Signal s0Avg = signalMapAvg.get("out0");
+            System.out.println("Average :: ");
+            System.out.println("out0\n");
+            for(Point p:s0Avg.getPoints()){
+                System.out.print(p.getY() + ",");
+            }
+            System.out.println("");
+            System.out.println("t\n");
+            for(Point p:s0Avg.getPoints()){
+                System.out.print(p.getX() + ",");
+            }
+            System.out.println("");*/
+            
+        } catch (URISyntaxException | SynBioHubException | XMLStreamException | FileNotFoundException | SBMLException ex) {
+            Logger.getLogger(PhoenixProjectTest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PhoenixProjectTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    
+    //@Test
     public void testPhoenix(){
         try {
             String synbiohuburl = "https://synbiohub.cidarlab.org";
@@ -116,10 +395,20 @@ public class PhoenixProjectTest {
             Library lib = new Library(sbol);
             double bestval = Double.MIN_VALUE;
             int bestindex = 0;
+            double worstval = Double.MAX_VALUE;
+            int worstindex = 0;
+            double avgval = 0;
+            int avgindex = 0;
+            boolean first = true;
             //String eug = Utilities.getResourcesFilepath() + "miniEugeneFiles" + Utilities.getSeparater() + "inverter.eug";
             String eug = Utilities.getResourcesFilepath() + "miniEugeneFiles" + Utilities.getSeparater() + "inverterCP.eug";
             int size = 8;
+            int robustCount = 0;
             List<Module> modules = MiniEugeneAdaptor.getStructures(eug, size, "inverter");
+            
+//            for(Module m:modules){
+//                System.out.println(m.getComponentString());;
+//            }
             
             int index = 0;
             Module test = Controller.decompose(PhoenixMode.MM, modules.get(index));
@@ -148,17 +437,94 @@ public class PhoenixProjectTest {
                 IBioSimAdaptor.simulateODE(modelFile, assignmentfp, 100, 1, 1);
                 String tsdfp = assignmentfp + "run-1.csv";
                 double robval = STLAdaptor.getRobustness(stl,tsdfp,assignmentfp,true);
-                if(robval > bestval){
+                if(first){
                     bestval = robval;
-                    bestindex = i;
+                    worstval = robval;
+                    first = false;
+                } else{
+                    if (robval > bestval) {
+                        bestval = robval;
+                        bestindex = i;
+                    }
+                    if(robval < worstval){
+                        worstval = robval;
+                        worstindex = i;
+                    }
                 }
+                
+                if(robval > -4 && robval < -3){
+                    String avg = tsdfp;
+                    Map<String, Signal> signalMapAvg = IBioSimAdaptor.getSignals(avg);
+                    Signal s0Avg = signalMapAvg.get("out0");
+                    double lastval = s0Avg.getPoints().get(s0Avg.getPoints().size()-1).getY();
+                    if(lastval < 5) {
+                        avgval = robval;
+                        avgindex = i;
+                    }
+                    
+                }
+                
+                if(robval > 0){
+                    robustCount ++;
+                }
+                
                 System.out.println("----------------------------------------------------");
             
             }
             
             System.out.println("##################################################################");
             System.out.println("Best Result is at " + bestindex +  " with robustness = " + bestval);
+            System.out.println("Worst Result is at " + worstindex +  " with robustness = " + worstval);
+            System.out.println("Average Result is at " + avgindex +  " with robustness = " + avgval);
             
+            System.out.println("Number of robust circuits :: " + robustCount);
+            
+            String model = Utilities.getResultsFilepath() + proj.getJobId() + Utilities.getSeparater() + "results" + Utilities.getSeparater();
+            String deterministic = model + "deterministic" + Utilities.getSeparater();
+            String best = deterministic + bestindex + Utilities.getSeparater() + "run-1.csv";
+            Map<String,Signal> signalMapBest = IBioSimAdaptor.getSignals(best);
+            Signal s0Best = signalMapBest.get("out0");
+            System.out.println("BEST :: ");
+            System.out.println("out0\n");
+            for(Point p:s0Best.getPoints()){
+                System.out.print(p.getY() + ",");
+            }
+            System.out.println("");
+            System.out.println("t\n");
+            for(Point p:s0Best.getPoints()){
+                System.out.print(p.getX() + ",");
+            }
+            System.out.println("");
+            
+            String worst = deterministic + worstindex + Utilities.getSeparater() + "run-1.csv";
+            Map<String,Signal> signalMapWorst = IBioSimAdaptor.getSignals(worst);
+            Signal s0Worst = signalMapWorst.get("out0");
+            System.out.println("WORST :: ");
+            System.out.println("out0\n");
+            for(Point p:s0Worst.getPoints()){
+                System.out.print(p.getY() + ",");
+            }
+            System.out.println("");
+            System.out.println("t\n");
+            for(Point p:s0Worst.getPoints()){
+                System.out.print(p.getX() + ",");
+            }
+            System.out.println("");
+            
+            String avg = deterministic + avgindex + Utilities.getSeparater() + "run-1.csv";
+            Map<String,Signal> signalMapAvg = IBioSimAdaptor.getSignals(avg);
+            Signal s0Avg = signalMapAvg.get("out0");
+            System.out.println("Average :: ");
+            System.out.println("out0\n");
+            for(Point p:s0Avg.getPoints()){
+                System.out.print(p.getY() + ",");
+            }
+            System.out.println("");
+            System.out.println("t\n");
+            for(Point p:s0Avg.getPoints()){
+                System.out.print(p.getX() + ",");
+            }
+            System.out.println("");
             
         } catch (URISyntaxException | SynBioHubException | XMLStreamException | FileNotFoundException | SBMLException ex) {
             Logger.getLogger(PhoenixProjectTest.class.getName()).log(Level.SEVERE, null, ex);

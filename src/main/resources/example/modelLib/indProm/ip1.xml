@@ -61,10 +61,10 @@
             </apply>
           </math>
                   <listOfLocalParameters>
-            <localParameter id="k_EXA" name="k_EXA" value="1"/>
-            <localParameter id="d" name="d" value="1"/>
+            <localParameter id="k_EXA" name="k_EXA" value="0.8"/>
+            <localParameter id="d" name="d" value="2"/>
             <localParameter id="h" name="h" value="2"/>
-            <localParameter id="y" name="y" value="1"/>
+            <localParameter id="y" name="y" value="0.1"/>
           </listOfLocalParameters>
         </kineticLaw>
       </reaction>

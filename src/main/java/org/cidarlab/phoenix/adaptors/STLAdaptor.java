@@ -17,6 +17,7 @@ import hyness.stl.UntilNode;
 import hyness.stl.grammar.STLAbstractSyntaxTreeExtractor;
 import hyness.stl.grammar.STLLexer;
 import hyness.stl.grammar.STLParser;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,7 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.math3.distribution.NormalDistribution;
 import org.cidarlab.gridtli.dom.Grid;
 import org.cidarlab.gridtli.dom.Point;
 import org.cidarlab.gridtli.dom.Signal;
@@ -263,21 +265,93 @@ public class STLAdaptor {
     
     public static double signalRobustness(TreeNode stl, Signal s){
         Trace trace = signalToTrace(s);
-        double rob = Double.MAX_VALUE;
+        double rob = 0;
+        boolean first = true;
         for(Double time:trace.getTimePoints()){
             double r = stl.robustness(trace, time);
-            if(r < rob){
+            if(first){
                 rob = r;
+                first = false;
+            } else {
+                if (r < rob) {
+                    rob = r;
+                }
             }
+            
         }
         return rob;
+        
+    }
+    
+    private static void printSignal(Signal s){
+        for(Point p:s.getPoints()){
+            System.out.println(p);
+        }
+    }
+    
+    public static Map<String,Double> smc(TreeNode stl,String folderpath,boolean plot, int numofruns, double confidence){
+        
+        Map<String,List<Signal>> allsignals = new HashMap<String,List<Signal>>();
+        int satisfycount = 0;
+        Map<String, TreeNode> stlmap = getSignalSTLMap(stl);
+        for(int i=1;i<=numofruns;i++){
+            double rob = 0;
+            
+            boolean first = true;
+            String tsdfp = folderpath + "run-" + i + ".csv";
+            Map<String, Signal> signalMap = IBioSimAdaptor.getSignals(tsdfp);
+            for(String key:stlmap.keySet()){
+                if (signalMap.containsKey(key)) {
+                    Signal s = signalMap.get(key);
+                    if (allsignals.containsKey(key)) {
+                        allsignals.get(key).add(s);
+                    } else {
+                        allsignals.put(key, new ArrayList<Signal>());
+                        allsignals.get(key).add(s);
+                    }
+                    TreeNode stlnode = stlmap.get(key);
+                    double val = getRobustness(stlnode, s);
+                    //double val = signalRobustness(stlnode,s);
+                    if (first) {
+                        rob = val;
+                        first = false;
+                    } else {
+                        if (val < rob) {
+                            rob = val;
+                        }
+                    }
+                } else {
+                    System.err.println("Error in naming convention.");
+                    System.exit(-1);
+                }
+            }
+            if(rob >= 0){
+                satisfycount++;
+            }
+        }
+        
+        if(plot){
+            for(String key:allsignals.keySet()){
+                String plotfp = folderpath + key + ".png";
+                Grid g = new Grid(allsignals.get(key));
+                JavaPlotAdaptor.plotToFile(JavaPlotAdaptor.plotGridwithoutCover(g), plotfp);
+            }
+        }
+        double satisfy = ((double) satisfycount) / ((double) numofruns);
+        double error = computeError(satisfy, numofruns, confidence);
+        Map<String,Double> smc = new HashMap<String,Double>();
+        smc.put("perc", satisfy);
+        smc.put("error", error);
+        return smc;
         
     }
     
     public static double getRobustness(TreeNode stl,String filepath, String result, boolean plot){
         Map<String,TreeNode> stlmap = getSignalSTLMap(stl);
         Map<String,Signal> signalMap = IBioSimAdaptor.getSignals(filepath);
-        double rob = Double.MAX_VALUE;
+        //System.out.println("IBioSim Signals : " + filepath);
+        double rob = 0;
+        boolean first = true;
         for(String key:stlmap.keySet()){
             if(signalMap.containsKey(key)){
                 Signal s = signalMap.get(key);
@@ -288,9 +362,15 @@ public class STLAdaptor {
                 TreeNode stlnode = stlmap.get(key);
                 double val = getRobustness(stlnode, s);
                 //double val = signalRobustness(stlnode,s);
-                if(val < rob){
+                if(first){
                     rob = val;
+                    first = false;
+                } else {
+                    if (val < rob) {
+                        rob = val;
+                    }
                 }
+                
                 if (plot) {
                     String plotfp = result + key + ".png";
                     JavaPlotAdaptor.plotToFile(JavaPlotAdaptor.plotGridwithoutCover(g), plotfp);
@@ -301,6 +381,7 @@ public class STLAdaptor {
                 System.exit(-1);
             }
         }
+        System.out.println("In the function, Robustness = " + rob);
         return rob;
     }
     
@@ -343,12 +424,9 @@ public class STLAdaptor {
         double r = 0;
         boolean first = true;
         List<TreeNode> disjunctions = getDisjunctionLeaves(stl);
-        //System.out.println("Number of Disjunctions :: " + disjunctions.size());
         for(TreeNode node:disjunctions){
-            //System.out.println("New Conjunction Node");
             double val = getConjunctionNodeRobustness(node,s);
             
-            //System.out.println("Conjunction Node Robustness :: " + val);
             //Get max
             if(first){
                 first = false;
@@ -367,6 +445,7 @@ public class STLAdaptor {
         boolean first = true;
         List<TreeNode> alwaysNodes = new ArrayList<TreeNode>();
         alwaysNodes = getConjunctionLeaves(stl);
+        //System.out.println("Number of always Nodes :: " + alwaysNodes.size());
         for(TreeNode node:alwaysNodes){
             AlwaysNode always = (AlwaysNode)node;
             double val = getAlwaysNodeRobustness(always,s);
@@ -388,15 +467,7 @@ public class STLAdaptor {
     
     private static double getAlwaysNodeRobustness(AlwaysNode stl, Signal s){
         
-        //boolean condition = false;
-        //if(stl.toString().equals("(G[4.5,5.0](x <= 30.0))")){
-        //   condition = true;
-        //}
-        
         List<Point> covering = getCoveringPoints(stl,s);
-        //if(condition){
-        //    System.out.println("COVERING POINTS :: " + covering);
-        //}
         if (covering.get(0).getX() < stl.low) {
             covering.set(0, getInterpolation(covering.get(0), covering.get(1), stl.low));
         } 
@@ -505,7 +576,23 @@ public class STLAdaptor {
         }
     }
     
-        
+    public static double computeSatisfyingPercent(List<Signal> signals, TreeNode stl) throws IOException {
+        int sat = 0;
+        for (Signal s : signals) {
+            if (getRobustness(stl,s) >= 0) {
+                sat++;
+            }
+        }
+        return ((double) sat) / ((double) signals.size());
+    }
+
+    
+    
+    public static double computeError(double satisfyingPercent, int numTraces, double confidenceInterval) {
+        NormalDistribution distribution = new NormalDistribution(0, 1);
+        double confidenceValue = distribution.inverseCumulativeProbability(confidenceInterval + ((1 - confidenceInterval) / 2));
+        return confidenceValue * Math.sqrt((1 - satisfyingPercent) / (satisfyingPercent * numTraces));
+    }    
     
     
 }

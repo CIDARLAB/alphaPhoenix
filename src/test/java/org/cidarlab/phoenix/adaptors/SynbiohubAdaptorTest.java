@@ -301,26 +301,26 @@ public class SynbiohubAdaptorTest {
             int9.createParticipation("ip3_sm3_act_int", fc22.getIdentity() , stimulatorURI);
             int9.createParticipation("ip3_int", fc23.getIdentity(),stimulatedURI);
             
-            Model cp1model = sbol.createModel(baseurl, "cp1_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P8EhakLBReEVjqyLg/1"), sbmlURI, frameworkURI);
-            Model cp2model = sbol.createModel(baseurl, "cp2_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P8EhajzClMeUdggnQ/1"), sbmlURI, frameworkURI);
+            Model cp1model = sbol.createModel(baseurl, "cp1_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENngiDyqr9HrbYye/1"), sbmlURI, frameworkURI);
+            Model cp2model = sbol.createModel(baseurl, "cp2_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENnghA2o0PEZ6iJs/1"), sbmlURI, frameworkURI);
             
-            Model ip1model = sbol.createModel(baseurl, "ip1_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P8Ei9recFIJQYXo6i/1"), sbmlURI, frameworkURI);
-            Model ip2model = sbol.createModel(baseurl, "ip2_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P8Ei9rIdZ0jPSNWYS/1"), sbmlURI, frameworkURI);
-            Model ip3model = sbol.createModel(baseurl, "ip3_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P8Ei9qagCRZNG2xRw/1"), sbmlURI, frameworkURI);
+            Model ip1model = sbol.createModel(baseurl, "ip1_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENooelvfggDQWnJY/1"), sbmlURI, frameworkURI);
+            Model ip2model = sbol.createModel(baseurl, "ip2_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENooe3yJ7WBECED2/1"), sbmlURI, frameworkURI);
+            Model ip3model = sbol.createModel(baseurl, "ip3_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENooePwzP6CKMVlI/1"), sbmlURI, frameworkURI);
             
             
-            Model gfpmodel = sbol.createModel(baseurl, "gfp_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P8EkaAzl9tPbykN4z/1"), sbmlURI, frameworkURI);
-            Model rfpmodel = sbol.createModel(baseurl, "rfp_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P8EkaAzl9tPbykN4y/1"), sbmlURI, frameworkURI);
-            Model bfpmodel = sbol.createModel(baseurl, "bfp_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P8EkaAdmTbpasa5Wi/1"), sbmlURI, frameworkURI);
+            Model gfpmodel = sbol.createModel(baseurl, "gfp_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENmxDV8EXgBXstLE/1"), sbmlURI, frameworkURI);
+            Model rfpmodel = sbol.createModel(baseurl, "rfp_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENmxCRCBgw8FO2gS/1"), sbmlURI, frameworkURI);
+            Model bfpmodel = sbol.createModel(baseurl, "bfp_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENmxCnAryW9LYKEi/1"), sbmlURI, frameworkURI);
             
-            Model cdsR1model = sbol.createModel(baseurl, "cdsR1_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P8EjWKyY0ezPouPTN/1"), sbmlURI, frameworkURI);
-            Model promR1model = sbol.createModel(baseurl, "promR1_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P8EjWKyY0ezPouPTM/1"), sbmlURI, frameworkURI);
+            Model cdsR1model = sbol.createModel(baseurl, "cdsR1_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENqJgQ3hGQjT0vIG/1"), sbmlURI, frameworkURI);
+            Model promR1model = sbol.createModel(baseurl, "promR1_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENqJfi6KhGhGgMBl/1"), sbmlURI, frameworkURI);
             
-            Model cdsR2model = sbol.createModel(baseurl, "cdsR2_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P8EjWKGae5pNcZqMq/1"), sbmlURI, frameworkURI);
-            Model promR2model = sbol.createModel(baseurl, "promR2_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P8EjWJubxoFMWPYoa/1"), sbmlURI, frameworkURI);
+            Model cdsR2model = sbol.createModel(baseurl, "cdsR2_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENqJfi6KhGhGgMBk/1"), sbmlURI, frameworkURI);
+            Model promR2model = sbol.createModel(baseurl, "promR2_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENqJf08y86f4Ln5E/1"), sbmlURI, frameworkURI);
             
-            Model cdsA1model = sbol.createModel(baseurl, "cdsA1_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P8EiujoLDwmnqEhuK/1"), sbmlURI, frameworkURI);
-            Model promA1model = sbol.createModel(baseurl, "promA1_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009P8EiukAJuEMowOzSa/1"), sbmlURI, frameworkURI);
+            Model cdsA1model = sbol.createModel(baseurl, "cdsA1_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENpcmdYhghgIamW0/1"), sbmlURI, frameworkURI);
+            Model promA1model = sbol.createModel(baseurl, "promA1_model", version, new URI("https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENpco3TQp1khFuj2/1"), sbmlURI, frameworkURI);
             
             ip1md.addModel(ip1model);
             ip2md.addModel(ip1model);

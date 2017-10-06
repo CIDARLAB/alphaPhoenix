@@ -8,10 +8,11 @@ package org.cidarlab.phoenix.core;
 import hyness.stl.TreeNode;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
-import org.apache.commons.io.FilenameUtils;
 import org.cidarlab.gridtli.dom.Grid;
 import org.cidarlab.gridtli.dom.Signal;
 import org.cidarlab.gridtli.tli.TemporalLogicInference;
@@ -119,10 +120,14 @@ public class CLI {
                             case "--run":
                                 Set<String> runkeys = new HashSet<String>();
                                 Set<String> runopts = new HashSet<String>();
+                                Map<String,Double> runInMap = new HashMap<String,Double>();
                                 boolean runplots = true;
                                 String runeug = null;
                                 String runstl = null;
                                 String runlib = null;
+                                double confidence = 0;
+                                double threshold = 0;
+                                int runCount = 0;
                                 int eugCircSize = 0;
                                 Integer eugNumSolutions = null;
                                 Simulation runsim = Simulation.DETERMINISTIC;
@@ -175,7 +180,7 @@ public class CLI {
                                             runeug = args[i+1];
                                             i++;
                                         }
-                                    } else if(args[i].equals("-circsize")){
+                                    } else if(args[i].equals("-circSize")){
                                         if (runopts.contains(args[i])) {
                                             wrongFormatMessage("Unrecognized format. To read details about options to use Phoenix, try: java -jar phoenix.jar --help -phoenix");
                                             System.exit(-1);
@@ -232,14 +237,87 @@ public class CLI {
                                             runlib = args[i+1];
                                             i++;
                                         }
+                                    } else if(args[i].equals("-confidence")){
+                                        if (runopts.contains(args[i])) {
+                                            wrongFormatMessage("Unrecognized format. To read details about options to use Phoenix, try: java -jar phoenix.jar --help -phoenix");
+                                            System.exit(-1);
+                                        }
+                                        runopts.add(args[i]);
+                                        if (i == args.length - 1) {
+                                            wrongFormatMessage("Unrecognized format. To read details about options to use Phoenix, try: java -jar phoenix.jar --help -phoenix");
+                                            System.exit(-1);
+                                        } else{
+                                            confidence = Double.valueOf(args[i+1]);
+                                            i++;
+                                        }
+                                    } else if(args[i].equals("threshold")){
+                                        if (runopts.contains(args[i])) {
+                                            wrongFormatMessage("Unrecognized format. To read details about options to use Phoenix, try: java -jar phoenix.jar --help -phoenix");
+                                            System.exit(-1);
+                                        }
+                                        runopts.add(args[i]);
+                                        if (i == args.length - 1) {
+                                            wrongFormatMessage("Unrecognized format. To read details about options to use Phoenix, try: java -jar phoenix.jar --help -phoenix");
+                                            System.exit(-1);
+                                        } else{
+                                            threshold = Double.valueOf(args[i+1]);
+                                            i++;
+                                        }
+                                    } else if(args[i].equals("runCount")){
+                                        if (runopts.contains(args[i])) {
+                                            wrongFormatMessage("Unrecognized format. To read details about options to use Phoenix, try: java -jar phoenix.jar --help -phoenix");
+                                            System.exit(-1);
+                                        }
+                                        runopts.add(args[i]);
+                                        if (i == args.length - 1) {
+                                            wrongFormatMessage("Unrecognized format. To read details about options to use Phoenix, try: java -jar phoenix.jar --help -phoenix");
+                                            System.exit(-1);
+                                        } else{
+                                            runCount = Integer.valueOf(args[i+1]);
+                                            i++;
+                                        }
+                                    } else if(validInputValue(args[i])){
+                                        if (runopts.contains(args[i])) {
+                                            wrongFormatMessage("Unrecognized format. To read details about options to use Phoenix, try: java -jar phoenix.jar --help -phoenix");
+                                            System.exit(-1);
+                                        }
+                                        runopts.add(args[i]);
+                                        if (i == args.length - 1) {
+                                            wrongFormatMessage("Unrecognized format. To read details about options to use Phoenix, try: java -jar phoenix.jar --help -phoenix");
+                                            System.exit(-1);
+                                        } else{
+                                            String runInStr = args[i].substring(1);
+                                            double runInVal = Integer.valueOf(args[i+1]);
+                                            runInMap.put(runInStr, runInVal);
+                                            i++;
+                                        }
                                     }
                                 }
                                 if((!runkeys.contains("library")) || (!runkeys.contains("simulation")) || (!runkeys.contains("performance")) || (!runkeys.contains("circsize"))|| (!runkeys.contains("structure"))){
                                     wrongFormatMessage("Unrecognized format. To read details about options to use Phoenix, try: java -jar phoenix.jar --help -phoenix");
                                     System.exit(-1);
                                 }
+                                if(runopts.contains("-stochastic")){
+                                    if(!runopts.contains("-confidence")){
+                                        wrongFormatMessage("Stochastic simulations require a confidence value. To read details about options to use Phoenix, try: java -jar phoenix.jar --help -phoenix");
+                                        System.exit(-1);
+                                    }
+                                    if(!runopts.contains("-threshold")){
+                                        wrongFormatMessage("Stochastic simulations require a threshold value. To read details about options to use Phoenix, try: java -jar phoenix.jar --help -phoenix");
+                                        System.exit(-1);
+                                    }
+                                    if(!runopts.contains("-runCount")){
+                                        wrongFormatMessage("Stochastic simulations require a run Count. To read details about options to use Phoenix, try: java -jar phoenix.jar --help -phoenix");
+                                        System.exit(-1);
+                                    }
+                                } else {
+                                    if(runopts.contains("-confidence") || runopts.contains("-threshold") || runopts.contains("-runCount")){
+                                        wrongFormatMessage("Deterministic simulations cannot have confidence, threshold or runCount values. To read details about options to use Phoenix, try: java -jar phoenix.jar --help -phoenix");
+                                        System.exit(-1);
+                                    }
+                                }
                                 //String eugfp, int eugCircSize, Integer eugNumSolutions, String stlfp,String libraryfp, Simulation simulation, boolean plot
-                                PhoenixProject proj = new PhoenixProject(runeug,eugCircSize,eugNumSolutions,runstl,runlib,runsim,runplots);
+                                PhoenixProject proj = new PhoenixProject(runeug,eugCircSize,eugNumSolutions,runstl,runlib,runsim,runCount,confidence,threshold,runInMap,runplots);
                                 break;
                             case "--override":
                                 break;
@@ -260,6 +338,43 @@ public class CLI {
         }
     }
     
+    
+    private static boolean validInputValue(String arg){
+        if(arg.startsWith("-in")){
+            String dig = arg.substring(3);
+            if(isDigit(dig)){
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    private static boolean isDigit(String str){
+        
+        if(str.isEmpty()){
+            return false;
+        }
+        for(char c:str.toCharArray()){
+            switch(c){
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    break;
+                default:
+                    return false;
+            }
+        }
+        
+        return true;
+    }
     
     public static void wrongFormatMessage(String firstmessage){
         System.out.println(firstmessage);
