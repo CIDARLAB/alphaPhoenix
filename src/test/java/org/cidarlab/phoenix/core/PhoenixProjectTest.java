@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -136,13 +137,13 @@ public class PhoenixProjectTest {
         System.out.println("Worst Start :: " + worststart);
         System.out.println("Avg Start :: " + averagestart);
         System.out.println("Avg End :: " + averageend);
-        
-        
     }
     
     
     
-    @Test
+    
+    
+    //@Test
     public void testStochasticMultiRunPhoenix(){
         try {
             String synbiohuburl = "https://synbiohub.cidarlab.org";
@@ -168,27 +169,31 @@ public class PhoenixProjectTest {
 //            for(Module m:modules){
 //                System.out.println(m.getComponentString());;
 //            }
+            List<Integer> smclist = new ArrayList<Integer>();
             int smcCount = 0;
             int totalsatisfy = 0;
+            double percCount = 0.0;
+            double percSatCount = 0.0;
+            double errSatCount = 0.0;
             int index = 0;
             Module test = Controller.decompose(PhoenixMode.MM, modules.get(index));
             List<Map<String,CandidateComponent>> assignments = Controller.assign(test, lib, sbol);
+           System.out.println("index," + "smcCount" + "," + "totalsatisfy" + "," + "percCount" + ","+ "percSatCount" + ","+ "errSatCount");
             
             int smcCountTot = 0;
             int totalsatisfyTot = 0;
-            
+            double percCountTot = 0.0;
+            double percSatCountTot = 0.0;
+            double errSatCountTot = 0.0;
             for (int k = 0; k < 100; k++) {
-                System.out.println("Run : " + k);
+                System.out.print(k + ",");
                 smcCount = 0;
                 totalsatisfy = 0;
+                percCount = 0.0;
+                percSatCount = 0.0;
+                errSatCount = 0.0;
                 for (int i = 0; i < assignments.size(); i++) {
                     Map<String, CandidateComponent> assignment = assignments.get(i);
-                    System.out.println("Assignment : " + i);
-//                    for (Component c : test.getComponents()) {
-//                        System.out.print(assignment.get(c.getName()).getCandidate().getDisplayId() + ";");
-//                    }
-//                    System.out.println("");
-
                     Controller.assignLeafModels(PhoenixMode.MM, test, proj.getJobId(), sbol, assignment);
                     Controller.composeModels(PhoenixMode.MM, test, proj.getJobId(), assignment);
 
@@ -207,29 +212,38 @@ public class PhoenixProjectTest {
                     Map<String, Double> smc = STLAdaptor.smc(stl, assignmentfp, false, simcount, confidence);
                     double perc = smc.get("perc");
                     double error = smc.get("error");
-
+                    percCount += perc;
                     double lower = perc - error;
                     if (lower >= threshold) {
 //                        System.out.println("Satisfying Percentage :: " + perc);
 //                        System.out.println("Error Rate :: " + error);
                         smcCount++;
+                        percSatCount += perc;
+                        errSatCount += error;
                     }
                     if (lower == 1) {
                         totalsatisfy++;
                     }
-
 //                    System.out.println("--------------------------------------------");
 
                 }
-                System.out.println("SMC count of satisfying results :: " + smcCount);
+                smclist.add(smcCount);
+                //System.out.println("SMC count of satisfying results :: " + smcCount);
                 smcCountTot += smcCount;
-                System.out.println("Score  1 count :: " + totalsatisfy);
-                totalsatisfyTot += smcCount;
+                //System.out.println("Score  1 count :: " + totalsatisfy);
+                totalsatisfyTot += totalsatisfy;
+                percCountTot += percCount;
+                percSatCountTot += percSatCount;
+                errSatCountTot += errSatCount;
+                System.out.print(smcCount + "," + totalsatisfy + "," + percCount + ","+ percSatCount + ","+ errSatCount + "\n");
             }
             
             System.out.println("###################################################");
-            System.out.println("Total SMC count of satisfying results " + smcCountTot);
+            System.out.println("Total SMC count of satisfying results :: " + smcCountTot);
             System.out.println("Total Score  1 count :: " + totalsatisfyTot);
+            System.out.println("Total Satisfy Perc :: " + percCountTot);
+            System.out.println("Total Score  1 Satisfy Perc :: " + percSatCountTot);
+            System.out.println("Total Score  1 Error :: " + errSatCountTot);
             
             
         } catch (URISyntaxException | SynBioHubException | XMLStreamException | FileNotFoundException | SBMLException ex) {
@@ -240,6 +254,22 @@ public class PhoenixProjectTest {
 
     }
     
+    
+    @Test
+    public void testGetStochGraphValue(){
+        int simcount = 100;
+        String stlfp = Utilities.getResourcesFilepath() + "stl" + Utilities.getSeparater() + "stochin0.txt";
+        TreeNode stl = STLAdaptor.getSTL(stlfp);
+        String model = Utilities.getResultsFilepath() + "stoch" + Utilities.getSeparater() + "results" + Utilities.getSeparater();
+        Utilities.makeDirectory(model);
+        String deterministic = model + "stochastic" + Utilities.getSeparater();
+        Utilities.makeDirectory(deterministic);
+        double confidence = 0.95;
+        String assignmentfp = deterministic + "34" + Utilities.getSeparater();
+        Map<String,Double> smc = STLAdaptor.smc(stl, assignmentfp, true, simcount, confidence);
+        System.out.println("Perc : " + smc.get("perc"));
+        System.out.println("Err : " + smc.get("error"));
+    }
     
     //@Test
     public void testStochasticPhoenix(){
@@ -276,15 +306,16 @@ public class PhoenixProjectTest {
 //            }
             int smcCount = 0;
             int index = 0;
+            int selected = 0;
             Module test = Controller.decompose(PhoenixMode.MM, modules.get(index));
             List<Map<String,CandidateComponent>> assignments = Controller.assign(test, lib, sbol);
             for (int i = 0; i < assignments.size(); i++) {
                 Map<String, CandidateComponent> assignment = assignments.get(i);
-                System.out.print(i + ":");
-                for (Component c : test.getComponents()) {
-                    System.out.print(assignment.get(c.getName()).getCandidate().getDisplayId() + ";");
-                }
-                System.out.println("");
+//                System.out.print(i + ":");
+//                for (Component c : test.getComponents()) {
+//                    System.out.print(assignment.get(c.getName()).getCandidate().getDisplayId() + ";");
+//                }
+//                System.out.println("");
             
                 
                 Controller.assignLeafModels(PhoenixMode.MM, test, proj.getJobId(), sbol, assignment);
@@ -308,16 +339,47 @@ public class PhoenixProjectTest {
                 
                 double lower = perc - error;
                 if(lower >= threshold){
-                    System.out.println("Satisfying Percentage :: " + perc);
-                    System.out.println("Error Rate :: " + error);
-                    smcCount++;
+                    if(lower != 1){
+                        selected = i;
+                    }
+                    
                 }
-                
-                System.out.println("--------------------------------------------");
-                
-            
             }
-            System.out.println("SMC count of satisfying results :: " + smcCount);
+            System.out.println("Selected index :: " + selected);
+            System.out.println("Job id :: " + proj.getJobId());
+            
+            String model = Utilities.getResultsFilepath() + proj.getJobId() + Utilities.getSeparater() + "results" + Utilities.getSeparater();
+            String stochastic = model + "stochastic" + Utilities.getSeparater();
+            for(int i=1;i<=100;i++){
+                String run = stochastic + selected + Utilities.getSeparater() + "run-" + i +".csv";
+                Map<String, Signal> signalMapWorst = IBioSimAdaptor.getSignals(run);
+                Signal out0 = signalMapWorst.get("out0");
+                String xval = "";
+                xval += "x" + i + "=[";
+                xval += out0.getPoints().get(0).getX();
+                for(int j=1;j<out0.getPoints().size();j++){
+                    xval += ("," + out0.getPoints().get(j).getX());
+                }
+                xval += "]";
+                
+                String yval = "";
+                yval += "y" + i + "=[";
+                yval += out0.getPoints().get(0).getY();
+                for(int j=1;j<out0.getPoints().size();j++){
+                    yval += ("," + out0.getPoints().get(j).getY());
+                }
+                yval += "]";
+                
+                String plt = "plt.plot(";
+                plt += "x" + i + "," + "y" + i;
+                plt += ",marker='o',color='r',linestyle='solid')";
+                System.out.println(xval);
+                System.out.println(yval);
+                System.out.println(plt);
+                        
+            }
+            
+
             /*System.out.println("##################################################################");
             System.out.println("Best Result is at " + bestindex +  " with robustness = " + bestval);
             System.out.println("Worst Result is at " + worstindex +  " with robustness = " + worstval);

@@ -142,7 +142,7 @@ public class Serializer {
             nodes.put(moduleToJSON(child,index));
         }
         obj.put("isLink", "true");
-        obj.put("sbol", "https://synbiohub.cidarlab.org/public/AlphaPhoenix/testCDS/1/sbol");
+        obj.put("sbol", "https://synbiohub.cidarlab.org/public/AlphaPhoenix/cdsR1/1");
         obj.put("combos", createRootComboString(module,assignments));
         obj.put("nodes", nodes);
         JSONArray data = new JSONArray();
