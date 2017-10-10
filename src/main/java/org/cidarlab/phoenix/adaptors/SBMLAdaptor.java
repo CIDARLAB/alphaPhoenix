@@ -419,8 +419,8 @@ public class SBMLAdaptor {
     	reactant.setStoichiometry(1.0);
     	reactant.setConstant(true);
     	KineticLaw degradationLaw = degradation.createKineticLaw();
-        LocalParameter degradationRate = degradationLaw.createLocalParameter("k_d");
-    	degradationRate.setName("k_d");
+        LocalParameter degradationRate = degradationLaw.createLocalParameter("k_deg");
+    	degradationRate.setName("k_deg");
     	degradationRate.setValue(1.0);
     	degradationLaw.setMath(parseFormula(degradationRate.getId() + "*" + degraded.getId()));
     	return degradation;
