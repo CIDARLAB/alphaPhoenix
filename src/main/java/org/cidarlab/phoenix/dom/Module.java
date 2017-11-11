@@ -14,12 +14,17 @@ import lombok.Getter;
 import lombok.Setter;
 import org.cidarlab.phoenix.core.Controller;
 import org.cidarlab.phoenix.dom.Component.ComponentRole;
+import org.cidarlab.phoenix.failuremode.FailureMode;
 
 /**
  *
  * @author prash
  */
 public class Module {
+    
+    @Getter
+    @Setter
+    private List<FailureMode> failureModes = new ArrayList<>();
     
     @Getter
     @Setter

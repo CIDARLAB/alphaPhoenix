@@ -90,6 +90,9 @@ public class Utilities {
             String _filepath = URLDecoder.decode(path, "UTF-8");
             if(_filepath.endsWith(".jar")){
                 String sep = "" + Utilities.getSeparater();
+                if(Utilities.isWindows()){
+                    _filepath = new File(_filepath).getPath();
+                }
                 _filepath = _filepath.substring(0, _filepath.lastIndexOf(sep));
                 _filepath += Utilities.getSeparater();
                 return _filepath;
@@ -126,7 +129,7 @@ public class Utilities {
     }
     
     public static String getResultsFilepath(){
-        String fp = (getFilepath() + getSeparater() + "results" + getSeparater());
+        String fp = (getFilepath() + "results" + getSeparater());
         if(!validFilepath(fp)){
             makeDirectory(fp);
             System.out.println("Created a Results folder at : " + fp);

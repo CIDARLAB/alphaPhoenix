@@ -263,6 +263,14 @@ public class STLAdaptor {
         }
     }
     
+    private static double min(double v1,double v2){
+        if(v1 < v2){
+            return v1;
+        } else {
+            return v2;
+        }
+    }
+    
     public static double signalRobustness(TreeNode stl, Signal s){
         Trace trace = signalToTrace(s);
         double rob = 0;
@@ -381,7 +389,6 @@ public class STLAdaptor {
                 System.exit(-1);
             }
         }
-        System.out.println("In the function, Robustness = " + rob);
         return rob;
     }
     
@@ -423,20 +430,34 @@ public class STLAdaptor {
     public static double getRobustness(TreeNode stl, Signal s){
         double r = 0;
         boolean first = true;
-        List<TreeNode> disjunctions = getDisjunctionLeaves(stl);
-        for(TreeNode node:disjunctions){
-            double val = getConjunctionNodeRobustness(node,s);
-            
-            //Get max
-            if(first){
-                first = false;
-                r = val;
-            } else {
-                if(val > r){
-                    r = val;
-                }
-            }
+        if(stl instanceof ConjunctionNode){
+            ConjunctionNode cn = (ConjunctionNode) stl;
+            return min( getRobustness(cn.left,s),getRobustness(cn.right,s));
+        } else if(stl instanceof DisjunctionNode){
+            DisjunctionNode dn = (DisjunctionNode) stl;
+            return max(getRobustness(dn.left,s),getRobustness(dn.right,s));
+        } else if(stl instanceof AlwaysNode){
+            AlwaysNode an = (AlwaysNode) stl;
+            return getAlwaysNodeRobustness(an,s);
+        } else {
+            System.out.println("Sorry. Current formats of STL supported are Conjucntion, Disjunction and Always. Other formats are currently under test");
+            System.exit(-1);
         }
+        
+//        List<TreeNode> disjunctions = getDisjunctionLeaves(stl);
+//        for(TreeNode node:disjunctions){
+//            double val = getConjunctionNodeRobustness(node,s);
+//            
+//            //Get max
+//            if(first){
+//                first = false;
+//                r = val;
+//            } else {
+//                if(val > r){
+//                    r = val;
+//                }
+//            }
+//        }
         return r;
     }
     
@@ -466,6 +487,11 @@ public class STLAdaptor {
     }
     
     private static double getAlwaysNodeRobustness(AlwaysNode stl, Signal s){
+        
+        if(!(stl.child instanceof LinearPredicateLeaf)){
+            System.out.println("Sorry. This format of STL is not yet supported. An always node can only have a single Linear Predicate as the child.");
+            System.exit(-1);
+        }
         
         List<Point> covering = getCoveringPoints(stl,s);
         if (covering.get(0).getX() < stl.low) {

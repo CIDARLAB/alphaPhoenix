@@ -34,7 +34,76 @@ public class CLI {
             String mode = args[0];
             switch(mode){
                 case "--help":
-                    System.out.println(Utilities.getResultsFilepath());
+                    if(args.length > 2){
+                        wrongFormatMessage("Unrecognized format.");
+                        System.exit(-1);
+                    }
+                    
+                    String tab = "  ";
+                    
+                    if(args.length == 2){
+                        String helpswitch = args[1];
+                        switch(helpswitch){
+                            case "-gridtli":
+                                System.out.println("Usage to run GridTLI:");
+                                System.out.println("java -jar phoenix.jar --gridtli [parameter set]");
+                                System.out.println("Grid TLI can take 1 or more parameter sets");
+                                System.out.println("Each parameter must include the following 4 options");
+                                System.out.println(tab + "-x                Signal threshold value. You must enter a double after this option.");
+                                System.out.println(tab + "-t                Temporal threshold value. You must enter a double after this option.");
+                                System.out.println(tab + "-c                Cluster threshold value. You must enter a double after this option.");
+                                System.out.println(tab + "-file             Filepath. You must enter a filepath for a csv.");
+                                System.out.println(tab + "-outputDir        Filepath. You must enter a folder path where the output txt file will be stored.");
+                                break;
+                            case "-phoenix":
+                                System.out.println("Usage to run stochastic simulations:");
+                                System.out.println("java -jar phoenix.jar --phoenix --run -stochastic -confidence <confidence value> -threshold <threshold value> -runCount <Stochastic simulation count> -circSize <Size of the circuit produced by Eugene> -eugeneSolutions <Number of solutions to be produced by Eugene> -structure <Filepath of the Eugene file> -library <JSON file containing the information regarding the repository> -performance <Filepath of the STL file>");
+                                System.out.println("");
+                                System.out.println("Usage to run deterministic simulations:");
+                                System.out.println("java -jar phoenix.jar --phoenix --run -deterministic -circSize <Size of the circuit produced by Eugene> -eugeneSolutions <Number of solutions to be produced by Eugene> -structure <Filepath of the Eugene file> -library <JSON file containing the information regarding the repository> -performance <Filepath of the STL file>");
+                                System.out.println("");
+                                System.out.println("NOTE : You can use the -noplots option to prevent creating plots created by gnuplot.");
+                                break;
+                            default:
+                                wrongFormatMessage("Unrecognized format.");
+                                System.exit(-1);
+                                break;
+                        }
+                    } else{
+                        System.out.println("Usage : java -jar phoenix.jar [--modes] [--submodes] [-options]");
+                        System.out.println("where modes include");
+                        System.out.println(tab + "--help            Shows options and usage");
+                        System.out.println(tab + "--gridtli         Lets you generate an STL formula from traces");
+                        System.out.println(tab + "--phoenix         Runs the current workflow");
+                        System.out.println("");
+                        System.out.println("options for --help include");
+                        System.out.println(tab + "-gridtli          Shows the usage for grid TLI");
+                        System.out.println(tab + "-phoenix          Shows the usage for the current workflow");
+                        System.out.println("");
+                        System.out.println("options for --gridtli include");
+                        System.out.println(tab + "-x                Signal threshold value. You must enter a double after this option.");
+                        System.out.println(tab + "-t                Temporal threshold value. You must enter a double after this option.");
+                        System.out.println(tab + "-c                Cluster threshold value. You must enter a double after this option.");
+                        System.out.println(tab + "-file             Filepath. You must enter a filepath for a csv.");
+                        System.out.println(tab + "-outputDir        Filepath. You must enter a folder path where the output txt file will be stored.");
+                        System.out.println("");
+                        System.out.println("submodes for --phoenix include");
+                        System.out.println(tab + "--run             This will run the current workflow. Other submodes are currently not supported.");
+                        System.out.println("");
+                        System.out.println("options for --phoenix --run include");
+                        System.out.println(tab + "-stochastic       Runs stochastic simulations. ");
+                        System.out.println(tab + "-confidence       Confidence value for Statistical model checking. You must enter a double after this option.");
+                        System.out.println(tab + "-runCount         Number of stochastic simulations to be executed. You must enter a double after this option.");
+                        System.out.println(tab + "-threshold        Threshold for assignments. You must enter a double after this option.");
+                        System.out.println(tab + "-deterministic    Runs deterministic simulations.");
+                        System.out.println(tab + "-circSize         Threshold for assignments. You must enter an integer after this option.");
+                        System.out.println(tab + "-eugeneSolutions  Number of expected solutions in Eugene. You must enter an integer after this option.");
+                        System.out.println(tab + "-structure        Structural specification. You must enter a filepath to a .eug file after this option.");
+                        System.out.println(tab + "-performance      Performance specification. You must enter a filepath to a .txt file (containing an STL) after this option.");
+                        System.out.println(tab + "-library          Repository details. You must enter a filepath to a .json file after this option.");
+                        System.out.println(tab + "-noplots          Does not create plots.");
+                        
+                    }
                     break;
                 case "--gridtli":
                     //<editor-fold desc="gridtli">
@@ -250,7 +319,7 @@ public class CLI {
                                             confidence = Double.valueOf(args[i+1]);
                                             i++;
                                         }
-                                    } else if(args[i].equals("threshold")){
+                                    } else if(args[i].equals("-threshold")){
                                         if (runopts.contains(args[i])) {
                                             wrongFormatMessage("Unrecognized format. To read details about options to use Phoenix, try: java -jar phoenix.jar --help -phoenix");
                                             System.exit(-1);
@@ -263,7 +332,7 @@ public class CLI {
                                             threshold = Double.valueOf(args[i+1]);
                                             i++;
                                         }
-                                    } else if(args[i].equals("runCount")){
+                                    } else if(args[i].equals("-runCount")){
                                         if (runopts.contains(args[i])) {
                                             wrongFormatMessage("Unrecognized format. To read details about options to use Phoenix, try: java -jar phoenix.jar --help -phoenix");
                                             System.exit(-1);
@@ -311,6 +380,7 @@ public class CLI {
                                         System.exit(-1);
                                     }
                                 } else {
+                                    System.out.println("Deterministic");
                                     if(runopts.contains("-confidence") || runopts.contains("-threshold") || runopts.contains("-runCount")){
                                         wrongFormatMessage("Deterministic simulations cannot have confidence, threshold or runCount values. To read details about options to use Phoenix, try: java -jar phoenix.jar --help -phoenix");
                                         System.exit(-1);

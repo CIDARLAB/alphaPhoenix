@@ -23,11 +23,13 @@ import org.apache.commons.io.FileUtils;
 import org.cidarlab.phoenix.adaptors.IBioSimAdaptor;
 import org.cidarlab.phoenix.adaptors.MiniEugeneAdaptor;
 import org.cidarlab.phoenix.adaptors.SBMLAdaptor;
+import org.cidarlab.phoenix.adaptors.SBOLAdaptor;
 import org.cidarlab.phoenix.adaptors.STLAdaptor;
 import org.cidarlab.phoenix.adaptors.SynbiohubAdaptor;
 import org.cidarlab.phoenix.dom.CandidateComponent;
 import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Module;
+import org.cidarlab.phoenix.failuremode.FailureModeGrammar;
 import org.cidarlab.phoenix.library.Library;
 import org.cidarlab.phoenix.utils.Utilities;
 import org.json.JSONObject;
@@ -161,23 +163,34 @@ public class PhoenixProject {
             int bestindex = 0;
 
             List<Module> modules = MiniEugeneAdaptor.getStructures(eugfp, eugCircSize, eugNumSolutions, jobid);
+            
+            List<String> eugDesignList = new ArrayList<String>();
+            String eugdesignSpace = "";
+            for(Module m:modules){
+                eugdesignSpace += (m.getComponentString() + "\n");
+            }
+            
+            Utilities.writeToFile(jobfp + "designspace.txt", eugdesignSpace);
+            
             Module best = getBestModule(modules);
+            
+            Utilities.writeToFile(jobfp + "bestdesign.txt", best.getComponentString());
+            
             Module decomposedModule = Controller.decompose(PhoenixMode.MM, best);
             List<Map<String,CandidateComponent>> assignments = Controller.assign(decomposedModule, lib, sbol);
             
             List<Integer> bestlist = new ArrayList<Integer>();
             
             System.out.println("");
-            System.out.println(assignments.size() + " possible assignments found.");
+            System.out.println(assignments.size() + " candidate assignments found.");
             int robcount = 0;
             int smccount = 0;
+            List<String> detreslines = new ArrayList<String>();
+            detreslines.add("Assignment Index,Robustness Value");
+            List<String> storeslines = new ArrayList<String>();
+            storeslines.add("Assignment Index,Percentage Satisfying, Error");
             for (int i = 0; i < assignments.size(); i++) {
                 Map<String, CandidateComponent> assignment = assignments.get(i);
-//                System.out.print(i + ":");
-//                for (Component c : decomposedModule.getComponents()) {
-//                    System.out.print(assignment.get(c.getName()).getCandidate().getDisplayId() + ";");
-//                }
-//                System.out.println("");
             
                 Controller.assignLeafModels(PhoenixMode.MM, decomposedModule, jobid, sbol, assignment);
                 Controller.composeModels(PhoenixMode.MM, decomposedModule, jobid, assignment);
@@ -198,6 +211,7 @@ public class PhoenixProject {
                         Utilities.makeDirectory(deterministic);
                         assignmentfp = deterministic + i + Utilities.getSeparater();
                         Utilities.makeDirectory(assignmentfp);
+                        SBOLAdaptor.writeCircuitSBOL(best, assignment, assignmentfp, jobid, i);
                         modelFile = assignmentfp + "model.xml";
                         for(String sig:inputMap.keySet()){
                             if(stlsigmap.containsKey(sig)){
@@ -209,6 +223,7 @@ public class PhoenixProject {
                         IBioSimAdaptor.simulateODE(modelFile, assignmentfp, maxtime, 1, 1);
                         String tsdfp = assignmentfp + "run-1.csv";
                         double robval = STLAdaptor.getRobustness(jobstl, tsdfp, assignmentfp, plot);
+                        detreslines.add(i + "," + robval);
                         if(first){
                             bestval = robval;
                             first = false;
@@ -229,6 +244,7 @@ public class PhoenixProject {
                         Utilities.makeDirectory(stochastic);
                         assignmentfp = stochastic + i + Utilities.getSeparater();
                         Utilities.makeDirectory(assignmentfp);
+                        SBOLAdaptor.writeCircuitSBOL(best, assignment, assignmentfp, jobid, i);
                         modelFile = assignmentfp + "model.xml";
                         for(String sig:inputMap.keySet()){
                             if(stlsigmap.containsKey(sig)){
@@ -241,7 +257,7 @@ public class PhoenixProject {
                         double perc = smc.get("perc");
                         double error = smc.get("error");
                         double lower = perc - error;
-                        
+                        storeslines.add(i + "," + perc + "," + error);
                         if(lower >= threshold){
                             bestlist.add(i);
                             smccount++;
@@ -255,12 +271,16 @@ public class PhoenixProject {
                     System.out.println(robcount + " assignments satisfy the performance specification");
                     System.out.println("List of assignments that satisfy the performance spec: " + bestlist);
                     System.out.println("Best Result is at assignment: " + bestindex + " with robustness = " + bestval);
-                    System.out.println("All assignments and results can be found in :" + (jobfp + "results" + Utilities.getSeparater() + "deterministic" + Utilities.getSeparater()));
+                    String detresfp = jobfp + "results" + Utilities.getSeparater() + "deterministic" + Utilities.getSeparater();
+                    System.out.println("All assignments and results can be found in :" + (detresfp));
+                    Utilities.writeToFile(detresfp + "result.csv", detreslines);
                     break;
                 case STOCHASTIC:
                     System.out.println(smccount + " assignments have a score greater than or equal to : " + threshold);
                     System.out.println("List of assignments with a score greater than or equal to : " + threshold +" : " + bestlist);
-                    System.out.println("All assignments and results can be found in :" + (jobfp + "results" + Utilities.getSeparater() + "stochastic" + Utilities.getSeparater()));
+                    String storesfp = (jobfp + "results" + Utilities.getSeparater() + "stochastic" + Utilities.getSeparater());
+                    System.out.println("All assignments and results can be found in :" + storesfp);
+                    Utilities.writeToFile(storesfp + "result.csv", storeslines);
                     break;
             }
             
@@ -270,9 +290,9 @@ public class PhoenixProject {
         }
     }
     
-    private static Module getBestModule(List<Module> module){
-        //Change this!
-        return module.get(0);
+    private static Module getBestModule(List<Module> modules){
+        List<Module> sorted = FailureModeGrammar.sortByFailureModes(modules);
+        return sorted.get(0);
     }
     
     private int getNextPositiveId(){

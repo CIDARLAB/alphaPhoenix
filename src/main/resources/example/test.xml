@@ -548,99 +548,11 @@
     </sbol:interaction>
     <sbol:model rdf:resource="http://www.phoenix.org/sample/promR2_model/0.1"/>
   </sbol:ModuleDefinition>
-  <sbol:Model rdf:about="http://www.phoenix.org/sample/cp2_model/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cp2_model"/>
-    <sbol:displayId>cp2_model</sbol:displayId>
-    <sbol:version>0.1</sbol:version>
-    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENnghA2o0PEZ6iJs/1"/>
-    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
-    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
-  </sbol:Model>
-  <sbol:Model rdf:about="http://www.phoenix.org/sample/promA1_model/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/promA1_model"/>
-    <sbol:displayId>promA1_model</sbol:displayId>
-    <sbol:version>0.1</sbol:version>
-    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENpco3TQp1khFuj2/1"/>
-    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
-    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
-  </sbol:Model>
-  <sbol:Model rdf:about="http://www.phoenix.org/sample/ip1_model/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip1_model"/>
-    <sbol:displayId>ip1_model</sbol:displayId>
-    <sbol:version>0.1</sbol:version>
-    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENooelvfggDQWnJY/1"/>
-    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
-    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
-  </sbol:Model>
-  <sbol:Model rdf:about="http://www.phoenix.org/sample/promR1_model/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/promR1_model"/>
-    <sbol:displayId>promR1_model</sbol:displayId>
-    <sbol:version>0.1</sbol:version>
-    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENqJfi6KhGhGgMBl/1"/>
-    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
-    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
-  </sbol:Model>
-  <sbol:Model rdf:about="http://www.phoenix.org/sample/ip2_model/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip2_model"/>
-    <sbol:displayId>ip2_model</sbol:displayId>
-    <sbol:version>0.1</sbol:version>
-    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENooe3yJ7WBECED2/1"/>
-    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
-    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
-  </sbol:Model>
-  <sbol:Model rdf:about="http://www.phoenix.org/sample/bfp_model/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/bfp_model"/>
-    <sbol:displayId>bfp_model</sbol:displayId>
-    <sbol:version>0.1</sbol:version>
-    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENmxCnAryW9LYKEi/1"/>
-    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
-    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
-  </sbol:Model>
-  <sbol:Model rdf:about="http://www.phoenix.org/sample/promR2_model/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/promR2_model"/>
-    <sbol:displayId>promR2_model</sbol:displayId>
-    <sbol:version>0.1</sbol:version>
-    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENqJf08y86f4Ln5E/1"/>
-    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
-    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
-  </sbol:Model>
-  <sbol:Model rdf:about="http://www.phoenix.org/sample/gfp_model/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/gfp_model"/>
-    <sbol:displayId>gfp_model</sbol:displayId>
-    <sbol:version>0.1</sbol:version>
-    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENmxDV8EXgBXstLE/1"/>
-    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
-    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
-  </sbol:Model>
-  <sbol:Model rdf:about="http://www.phoenix.org/sample/cdsR2_model/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR2_model"/>
-    <sbol:displayId>cdsR2_model</sbol:displayId>
-    <sbol:version>0.1</sbol:version>
-    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENqJfi6KhGhGgMBk/1"/>
-    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
-    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
-  </sbol:Model>
-  <sbol:Model rdf:about="http://www.phoenix.org/sample/rfp_model/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/rfp_model"/>
-    <sbol:displayId>rfp_model</sbol:displayId>
-    <sbol:version>0.1</sbol:version>
-    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENmxCRCBgw8FO2gS/1"/>
-    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
-    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
-  </sbol:Model>
   <sbol:Model rdf:about="http://www.phoenix.org/sample/ip3_model/0.1">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip3_model"/>
     <sbol:displayId>ip3_model</sbol:displayId>
     <sbol:version>0.1</sbol:version>
-    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENooePwzP6CKMVlI/1"/>
-    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
-    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
-  </sbol:Model>
-  <sbol:Model rdf:about="http://www.phoenix.org/sample/cdsR1_model/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR1_model"/>
-    <sbol:displayId>cdsR1_model</sbol:displayId>
-    <sbol:version>0.1</sbol:version>
-    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENqJgQ3hGQjT0vIG/1"/>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/HSCCModels/attachment_00009PGXTTYgZ2kEYc40tl/1"/>
     <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
     <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
   </sbol:Model>
@@ -648,7 +560,87 @@
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsA1_model"/>
     <sbol:displayId>cdsA1_model</sbol:displayId>
     <sbol:version>0.1</sbol:version>
-    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENpcmdYhghgIamW0/1"/>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/HSCCModels/attachment_00009PGXU9t1BpxrpptqQC/1"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/sample/promR1_model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/promR1_model"/>
+    <sbol:displayId>promR1_model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/HSCCModels/attachment_00009PGXV3iJcog4yrK5Vw/1"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/sample/ip1_model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip1_model"/>
+    <sbol:displayId>ip1_model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/HSCCModels/attachment_00009PGXTTYgZ2kEYc40tk/1"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/sample/bfp_model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/bfp_model"/>
+    <sbol:displayId>bfp_model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/HSCCModels/attachment_00009PGXRS0fLqG9AuBa1A/1"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/sample/promR2_model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/promR2_model"/>
+    <sbol:displayId>promR2_model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/HSCCModels/attachment_00009PGXV3hFglpKvYpErA/1"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/sample/rfp_model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/rfp_model"/>
+    <sbol:displayId>rfp_model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/HSCCModels/attachment_00009PGXRRzxOTgz8hr0ue/1"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/sample/ip2_model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip2_model"/>
+    <sbol:displayId>ip2_model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/HSCCModels/attachment_00009PGXTTa6TlsYd0j96m/1"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/sample/gfp_model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/gfp_model"/>
+    <sbol:displayId>gfp_model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/HSCCModels/attachment_00009PGXRS1NJCpJD6W97g/1"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/sample/promA1_model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/promA1_model"/>
+    <sbol:displayId>promA1_model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/HSCCModels/attachment_00009PGXU9tNAWFRqw47yS/1"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/sample/cp2_model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cp2_model"/>
+    <sbol:displayId>cp2_model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/HSCCModels/attachment_00009PGXSRxd1EfXJRF1tI/1"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/sample/cdsR2_model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR2_model"/>
+    <sbol:displayId>cdsR2_model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/HSCCModels/attachment_00009PGXV3hbfS6uwezWPQ/1"/>
     <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
     <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
   </sbol:Model>
@@ -656,7 +648,15 @@
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cp1_model"/>
     <sbol:displayId>cp1_model</sbol:displayId>
     <sbol:version>0.1</sbol:version>
-    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/AlphaPhoenixModels/attachment_00009PENngiDyqr9HrbYye/1"/>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/HSCCModels/attachment_00009PGXSRyKybEhLdZazo/1"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/sample/cdsR1_model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR1_model"/>
+    <sbol:displayId>cdsR1_model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="https://synbiohub.cidarlab.org/public/HSCCModels/attachment_00009PGXV3ifbUxezxUN4C/1"/>
     <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
     <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
   </sbol:Model>
