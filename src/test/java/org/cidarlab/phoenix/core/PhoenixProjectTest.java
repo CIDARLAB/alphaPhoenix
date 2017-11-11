@@ -82,7 +82,7 @@ public class PhoenixProjectTest {
     //@Test
     public void testGetSBOLfromSynbiohub(){
         String synbiohuburl = "https://synbiohub.cidarlab.org";
-        String phoenixliburl = "https://synbiohub.cidarlab.org/public/AlphaPhoenix/AlphaPhoenix_collection/1";
+        String phoenixliburl = "https://synbiohub.cidarlab.org/public/HSCCParts/HSCCParts_collection/1";
         
         SynBioHubFrontend shub = new SynBioHubFrontend(synbiohuburl);
         try {
@@ -147,7 +147,7 @@ public class PhoenixProjectTest {
     public void testStochasticMultiRunPhoenix(){
         try {
             String synbiohuburl = "https://synbiohub.cidarlab.org";
-            String phoenixliburl = "https://synbiohub.cidarlab.org/public/AlphaPhoenix/AlphaPhoenix_collection/1";
+            String phoenixliburl = "https://synbiohub.cidarlab.org/public/HSCCParts/HSCCParts_collection/1";
             String stlfp = Utilities.getResourcesFilepath() + "stl" + Utilities.getSeparater() + "stochin0.txt";
             TreeNode stl = STLAdaptor.getSTL(stlfp);
             SynBioHubFrontend shub = new SynBioHubFrontend(synbiohuburl);
@@ -275,7 +275,7 @@ public class PhoenixProjectTest {
     public void testStochasticPhoenix(){
         try {
             String synbiohuburl = "https://synbiohub.cidarlab.org";
-            String phoenixliburl = "https://synbiohub.cidarlab.org/public/AlphaPhoenix/AlphaPhoenix_collection/1";
+            String phoenixliburl = "https://synbiohub.cidarlab.org/public/HSCCParts/HSCCParts_collection/1";
             String stlfp = Utilities.getResourcesFilepath() + "stl" + Utilities.getSeparater() + "stochin0.txt";
             TreeNode stl = STLAdaptor.getSTL(stlfp);
             SynBioHubFrontend shub = new SynBioHubFrontend(synbiohuburl);
@@ -447,7 +447,7 @@ public class PhoenixProjectTest {
     public void testPhoenix(){
         try {
             String synbiohuburl = "https://synbiohub.cidarlab.org";
-            String phoenixliburl = "https://synbiohub.cidarlab.org/public/AlphaPhoenix/AlphaPhoenix_collection/1";
+            String phoenixliburl = "https://synbiohub.cidarlab.org/public/HSCCParts/HSCCParts_collection/1";
             String stlfp = Utilities.getResourcesFilepath() + "stl" + Utilities.getSeparater() + "inv.txt";
             TreeNode stl = STLAdaptor.getSTL(stlfp);
             SynBioHubFrontend shub = new SynBioHubFrontend(synbiohuburl);
@@ -600,7 +600,7 @@ public class PhoenixProjectTest {
     //@Test
     public void testAssignments(){
         String synbiohuburl = "https://synbiohub.cidarlab.org";
-        String phoenixliburl = "https://synbiohub.cidarlab.org/public/AlphaPhoenix/AlphaPhoenix_collection/1";
+        String phoenixliburl = "https://synbiohub.cidarlab.org/public/HSCCParts/HSCCParts_collection/1";
         
         SynBioHubFrontend shub = new SynBioHubFrontend(synbiohuburl);
         try {
