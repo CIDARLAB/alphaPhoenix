@@ -492,7 +492,7 @@ public class SBMLAdaptor {
         hillCoef.setName("n");
         hillCoef.setValue(1.0);
         activatableExpressionLaw.setMath(parseFormula(basalExpressionRate.getId()
-                + "+(maxExpressionRate*(" + activator.getId() + "^" + hillCoef.getId() + "/(" + kd.getId() + "+" + activator.getId()
+                + "+(" + maxExpressionRate.getId() + "*(" + activator.getId() + "^" + hillCoef.getId() + "/(" + kd.getId() + "+" + activator.getId()
                 + "^" + hillCoef.getId() + ")))"));
         return activatableExpression;
     }
