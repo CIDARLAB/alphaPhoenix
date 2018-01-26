@@ -419,8 +419,8 @@ public class SBMLAdaptor {
     	reactant.setStoichiometry(1.0);
     	reactant.setConstant(true);
     	KineticLaw degradationLaw = degradation.createKineticLaw();
-        LocalParameter degradationRate = degradationLaw.createLocalParameter("k_deg");
-    	degradationRate.setName("k_deg");
+        LocalParameter degradationRate = degradationLaw.createLocalParameter("k_loss");
+    	degradationRate.setName("k_loss");
     	degradationRate.setValue(1.0);
     	degradationLaw.setMath(parseFormula(degradationRate.getId() + "*" + degraded.getId()));
     	return degradation;
@@ -429,13 +429,10 @@ public class SBMLAdaptor {
     private static Reaction createExpressionReaction(Species expressed, Model mod) {
     	Reaction expression = createRatelessExpressionReaction(expressed, mod);
     	KineticLaw expressionLaw = expression.createKineticLaw();
-		LocalParameter expressionRate = expressionLaw.createLocalParameter("k_EXE");
-		expressionRate.setName("k_EXE");
+		LocalParameter expressionRate = expressionLaw.createLocalParameter("k_express");
+		expressionRate.setName("k_express");
 		expressionRate.setValue(1.0);
-                LocalParameter activePromoterFraction = expressionLaw.createLocalParameter("y");
-		activePromoterFraction.setName("y");
-		activePromoterFraction.setValue(1.0);
-		expressionLaw.setMath(parseFormula(expressionRate.getId() + "*" + activePromoterFraction.getId()));
+		expressionLaw.setMath(parseFormula(expressionRate.getId()));
     	return expression;
     }
     
@@ -480,25 +477,24 @@ public class SBMLAdaptor {
     }
     
     private static Reaction createActivatableExpressionReaction(Species activator, Species expressed, Model mod) {
-    	Reaction activatableExpression = createRatelessActivatableExpressionReaction(activator, expressed, mod);
-    	KineticLaw activatableExpressionLaw = activatableExpression.createKineticLaw();
-		LocalParameter maxExpressionRate = activatableExpressionLaw.createLocalParameter("k_EXA");
-		maxExpressionRate.setName("k_EXA");
-		maxExpressionRate.setValue(1.0);
-		LocalParameter dissociation = activatableExpressionLaw.createLocalParameter("d");
-		dissociation.setName("d");
-		dissociation.setValue(1.0);
-		LocalParameter coop = activatableExpressionLaw.createLocalParameter("h");
-		coop.setName("h");
-		coop.setValue(2.0);
-                LocalParameter activePromoterFraction = activatableExpressionLaw.createLocalParameter("y");
-		activePromoterFraction.setName("y");
-		activePromoterFraction.setValue(1.0);
-                activatableExpressionLaw.setMath(parseFormula(maxExpressionRate.getId()
-                        + "*((1-" + activePromoterFraction.getId() + ")*(("+ activator.getId() + "/"
-                        + dissociation.getId() + ")^" + coop.getId() + "/(1+("+ activator.getId() + "/"
-                        + dissociation.getId() + ")^" + coop.getId() + "))+" + activePromoterFraction.getId() + ")"));
-    	return activatableExpression;
+        Reaction activatableExpression = createRatelessActivatableExpressionReaction(activator, expressed, mod);
+        KineticLaw activatableExpressionLaw = activatableExpression.createKineticLaw();
+        LocalParameter maxExpressionRate = activatableExpressionLaw.createLocalParameter("max_rate");
+        maxExpressionRate.setName("max_rate");
+        maxExpressionRate.setValue(1.0);
+        LocalParameter basalExpressionRate = activatableExpressionLaw.createLocalParameter("basal_rate");
+        basalExpressionRate.setName("basal_rate");
+        basalExpressionRate.setValue(1.0);
+        LocalParameter kd = activatableExpressionLaw.createLocalParameter("K_d");
+        kd.setName("K_d");
+        kd.setValue(2.0);
+        LocalParameter hillCoef = activatableExpressionLaw.createLocalParameter("n");
+        hillCoef.setName("n");
+        hillCoef.setValue(1.0);
+        activatableExpressionLaw.setMath(parseFormula(basalExpressionRate.getId()
+                + "+(" + maxExpressionRate.getId() + "*(" + activator.getId() + "^" + hillCoef.getId() + "/(" + kd.getId() + "+" + activator.getId()
+                + "^" + hillCoef.getId() + ")))"));
+        return activatableExpression;
     }
     
     private static Reaction createRatelessActivatableExpressionReaction(Species activator, Species expressed, Model mod) {
