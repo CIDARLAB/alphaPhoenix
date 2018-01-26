@@ -1,0 +1,108 @@
+[
+    {
+        "id": "GFP",
+        "k_loss": 0.004433836124411786,
+        "part": "cds"
+    },
+    {
+        "id": "LuxR",
+        "k_loss": 0.004433836124411786,
+        "part": "cds"
+    },
+    {
+        "id": "P018U018",
+        "k_express": 0.148179250917937,
+        "part": "promoter",
+        "type": "constitutive"
+    },
+    {
+        "id": "P018U017",
+        "k_express": 0.105309400584323,
+        "part": "promoter",
+        "type": "constitutive"
+    },
+    {
+        "id": "P018U016",
+        "k_express": 0.405159046945644,
+        "part": "promoter",
+        "type": "constitutive"
+    },
+    {
+        "id": "P018U015",
+        "k_express": 2.5518349147951027,
+        "part": "promoter",
+        "type": "constitutive"
+    },
+    {
+        "K_d": 346645.8037760723,
+        "basal_rate": 1.7717027275844366,
+        "id": "pL2f1440",
+        "max_rate": 2.5068454246178082,
+        "n": 5.496469572149394,
+        "part": "promoter",
+        "type": "activated"
+    },
+    {
+        "K_d": 26293.51250408384,
+        "basal_rate": 2.8428195484852123,
+        "id": "pL2f1439",
+        "max_rate": 138362.45288616052,
+        "n": 0.006937194134992755,
+        "part": "promoter",
+        "type": "activated"
+    },
+    {
+        "K_d": 7.011529836124468,
+        "basal_rate": 2.2226073730102747,
+        "id": "pL2f1438",
+        "max_rate": 523.0677356377721,
+        "n": 1.504507000920546,
+        "part": "promoter",
+        "type": "activated"
+    },
+    {
+        "K_d": 1.0957763533951657,
+        "basal_rate": 11.342727976518926,
+        "id": "pL2f1437",
+        "max_rate": 538.5726168911116,
+        "n": 1.2252597827619047,
+        "part": "promoter",
+        "type": "activated"
+    },
+    {
+        "K_d": 999898.7018392109,
+        "basal_rate": 4.89527734895518,
+        "id": "pL2f1436",
+        "max_rate": 7.291290687854526,
+        "n": 4.61450316305465,
+        "part": "promoter",
+        "type": "activated"
+    },
+    {
+        "K_d": 78.7949235609405,
+        "basal_rate": 4.566975915461839,
+        "id": "pL2f1435",
+        "max_rate": 1369.877579106087,
+        "n": 1.4869696130018715,
+        "part": "promoter",
+        "type": "activated"
+    },
+    {
+        "K_d": 8.306804299029684,
+        "basal_rate": 5.334308391968155,
+        "id": "pL2f1434",
+        "max_rate": 2626.5904187448523,
+        "n": 1.5571381191345912,
+        "part": "promoter",
+        "type": "activated"
+    },
+    {
+        "K_d": 1.2604710754658817,
+        "basal_rate": 39.54292064992723,
+        "id": "pL2f1433",
+        "max_rate": 2997.6585204105545,
+        "n": 1.3510856691712103,
+        "part": "promoter",
+        "type": "activated"
+    }
+]
