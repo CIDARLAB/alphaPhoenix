@@ -27,11 +27,12 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.math3.distribution.NormalDistribution;
+import org.cidarlab.gridtli.adaptors.JavaPlotAdaptor;
 import org.cidarlab.gridtli.dom.Grid;
 import org.cidarlab.gridtli.dom.Point;
 import org.cidarlab.gridtli.dom.Signal;
+import org.cidarlab.gridtli.dom.TLIException;
 import org.cidarlab.gridtli.tli.Validation;
-import org.cidarlab.gridtli.visualize.JavaPlotAdaptor;
 import org.cidarlab.phoenix.core.CLI;
 import org.cidarlab.phoenix.utils.Utilities;
 
@@ -297,7 +298,7 @@ public class STLAdaptor {
         }
     }
     
-    public static Map<String,Double> smc(TreeNode stl,String folderpath,boolean plot, int numofruns, double confidence){
+    public static Map<String,Double> smc(TreeNode stl,String folderpath,boolean plot, int numofruns, double confidence) throws TLIException{
         
         Map<String,List<Signal>> allsignals = new HashMap<String,List<Signal>>();
         int satisfycount = 0;
@@ -354,7 +355,7 @@ public class STLAdaptor {
         
     }
     
-    public static double getRobustness(TreeNode stl,String filepath, String result, boolean plot){
+    public static double getRobustness(TreeNode stl,String filepath, String result, boolean plot) throws TLIException{
         Map<String,TreeNode> stlmap = getSignalSTLMap(stl);
         Map<String,Signal> signalMap = IBioSimAdaptor.getSignals(filepath);
         //System.out.println("IBioSim Signals : " + filepath);
@@ -392,7 +393,7 @@ public class STLAdaptor {
         return rob;
     }
     
-    public static List<Signal> getSignalsFromFile(String filepath){
+    public static List<Signal> getSignalsFromFile(String filepath) throws TLIException{
         String filename = FilenameUtils.getName(filepath);
         String ext = FilenameUtils.getExtension(filename);
         if(filename.endsWith(".csv")){

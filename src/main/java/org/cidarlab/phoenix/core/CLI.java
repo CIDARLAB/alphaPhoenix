@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Set;
 import org.cidarlab.gridtli.dom.Grid;
 import org.cidarlab.gridtli.dom.Signal;
+import org.cidarlab.gridtli.dom.TLIException;
 import org.cidarlab.gridtli.tli.TemporalLogicInference;
 import org.cidarlab.phoenix.adaptors.STLAdaptor;
 import org.cidarlab.phoenix.core.PhoenixProject.Simulation;
@@ -26,7 +27,7 @@ import org.cidarlab.phoenix.utils.Utilities;
  */
 public class CLI {
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws TLIException {
         if(args.length == 0){
             System.out.println("Please specify a command.");
             System.out.println("To view options or usage try: java -jar phoenix.jar --help");

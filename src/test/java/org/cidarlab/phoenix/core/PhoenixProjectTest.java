@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import javax.xml.stream.XMLStreamException;
 import org.cidarlab.gridtli.dom.Point;
 import org.cidarlab.gridtli.dom.Signal;
+import org.cidarlab.gridtli.dom.TLIException;
 import org.cidarlab.phoenix.adaptors.IBioSimAdaptor;
 import org.cidarlab.phoenix.adaptors.MiniEugeneAdaptor;
 import org.cidarlab.phoenix.adaptors.SBMLAdaptor;
@@ -96,7 +97,7 @@ public class PhoenixProjectTest {
     }
     
     //@Test
-    public void testTimeGreater(){
+    public void testTimeGreater() throws TLIException{
         
         int worstindex = 20;
         int avgindex = 26;
@@ -144,7 +145,7 @@ public class PhoenixProjectTest {
     
     
     //@Test
-    public void testStochasticMultiRunPhoenix(){
+    public void testStochasticMultiRunPhoenix() throws TLIException{
         try {
             String synbiohuburl = "https://synbiohub.cidarlab.org";
             String phoenixliburl = "https://synbiohub.cidarlab.org/public/HSCCParts/HSCCParts_collection/1";
@@ -255,8 +256,8 @@ public class PhoenixProjectTest {
     }
     
     
-    @Test
-    public void testGetStochGraphValue(){
+    //@Test
+    public void testGetStochGraphValue() throws TLIException{
         int simcount = 100;
         String stlfp = Utilities.getResourcesFilepath() + "stl" + Utilities.getSeparater() + "stochin0.txt";
         TreeNode stl = STLAdaptor.getSTL(stlfp);
@@ -272,7 +273,7 @@ public class PhoenixProjectTest {
     }
     
     //@Test
-    public void testStochasticPhoenix(){
+    public void testStochasticPhoenix() throws TLIException{
         try {
             String synbiohuburl = "https://synbiohub.cidarlab.org";
             String phoenixliburl = "https://synbiohub.cidarlab.org/public/HSCCParts/HSCCParts_collection/1";
@@ -444,7 +445,7 @@ public class PhoenixProjectTest {
     
     
     //@Test
-    public void testPhoenix(){
+    public void testPhoenix() throws TLIException{
         try {
             String synbiohuburl = "https://synbiohub.cidarlab.org";
             String phoenixliburl = "https://synbiohub.cidarlab.org/public/HSCCParts/HSCCParts_collection/1";

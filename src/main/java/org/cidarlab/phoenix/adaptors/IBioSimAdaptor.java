@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import org.cidarlab.gridtli.dom.Point;
 import org.cidarlab.gridtli.dom.Signal;
+import org.cidarlab.gridtli.dom.TLIException;
 import org.cidarlab.phoenix.utils.Utilities;
 
 
@@ -124,7 +125,7 @@ public class IBioSimAdaptor {
         simulateStocastic(SBMLFileName, outDir, timeLimit, timeStep, printInterval, numRuns, 0.0, ThreadLocalRandom.current().nextLong(), 2.0);
     }
     
-    public static Map<String,Signal> getSignals(String filepath){
+    public static Map<String,Signal> getSignals(String filepath) throws TLIException{
         List<String[]> lines = Utilities.getCSVFileContentAsList(filepath);
         String[] header = lines.get(0);
         Map<Integer,String> sigMap = new HashMap<>();

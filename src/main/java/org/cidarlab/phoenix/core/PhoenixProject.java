@@ -20,6 +20,7 @@ import javax.xml.stream.XMLStreamException;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.io.FileUtils;
+import org.cidarlab.gridtli.dom.TLIException;
 import org.cidarlab.phoenix.adaptors.IBioSimAdaptor;
 import org.cidarlab.phoenix.adaptors.MiniEugeneAdaptor;
 import org.cidarlab.phoenix.adaptors.SBMLAdaptor;
@@ -133,12 +134,14 @@ public class PhoenixProject {
             
         } catch (IOException | SBOLConversionException ex) {
             Logger.getLogger(PhoenixProject.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TLIException ex) {
+            Logger.getLogger(PhoenixProject.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
     }
     
-    public static void execute(String jobid, Simulation simulation,int runCount,double confidence,double threshold, boolean plot, Map<String,Double> inputMap){
+    public static void execute(String jobid, Simulation simulation,int runCount,double confidence,double threshold, boolean plot, Map<String,Double> inputMap) throws TLIException{
         try {
             String jobfp = Utilities.getResultsFilepath() + jobid + Utilities.getSeparater();
             if(!Utilities.validFilepath(jobfp)){

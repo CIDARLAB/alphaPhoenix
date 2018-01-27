@@ -5,6 +5,9 @@
  */
 package org.cidarlab.phoenix.core;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.cidarlab.gridtli.dom.TLIException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -44,7 +47,11 @@ public class CLITest {
         String[] args = new String[2];
         args[0] = "--gridtli";
         args[1] = "-help";
-        CLI.main(args);
+        try {
+            CLI.main(args);
+        } catch (TLIException ex) {
+            Logger.getLogger(CLITest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     
