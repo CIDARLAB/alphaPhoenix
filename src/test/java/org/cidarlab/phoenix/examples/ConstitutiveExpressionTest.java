@@ -5,8 +5,12 @@
  */
 package org.cidarlab.phoenix.examples;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.cidarlab.phoenix.adaptors.MiniEugeneAdaptor;
+import org.cidarlab.phoenix.core.PhoenixProject;
+import org.cidarlab.phoenix.core.PhoenixProject.Simulation;
 import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.Orientation;
@@ -21,12 +25,35 @@ import org.junit.Test;
 public class ConstitutiveExpressionTest {
     
     
-    public static String rootFolder = Utilities.getFilepath() + Utilities.getSeparater() + "examples" + Utilities.getSeparater() + "tested_circuits" + Utilities.getSeparater();
-    public static String expRootFolder = rootFolder + "constitutive_expression" + Utilities.getSeparater();
+    private static String rootFolder = Utilities.getFilepath() + Utilities.getSeparater() + "examples" + Utilities.getSeparater() + "tested_circuits" + Utilities.getSeparater();
+    private static String expRootFolder = rootFolder + "constitutive_expression" + Utilities.getSeparater();
+    private static String sburl = "https://synbiohub.cidarlab.org/public/AlphaTest/AlphaTest_collection/1";
+    private static String eugFilepath = expRootFolder + "constitutiveExpression.eug";
+    private static String stlFilepath = expRootFolder + "stl.txt";
+    private static String libFilepath = expRootFolder + "lib.json";
+        
+    
+    @Test
+    public void testConstitutiveExpression(){
+        String eugfp = eugFilepath;
+        int eugCircSize = 4;
+        Integer eugNumSolutions = null;
+        String stlfp = stlFilepath;
+        String libraryfp = libFilepath;
+        Simulation simulation = PhoenixProject.Simulation.DETERMINISTIC;
+        int runCount = 100;
+        double confidence = 0.0;
+        double threshold = 0.0;
+        Map<String,Double> inputMap = new HashMap<String,Double>(); 
+        boolean plot = true;
+        
+        PhoenixProject newProj = new PhoenixProject( eugfp,  eugCircSize,  eugNumSolutions,  stlfp, libraryfp, simulation, runCount, confidence, threshold,  inputMap, plot);
+        
+    }
+    
     
     @Test
     public void testMiniEugeneResult(){
-        String eugFilepath = expRootFolder + "constitutiveExpression.eug";
         
         List<Module> modules = MiniEugeneAdaptor.getStructures(eugFilepath, 4, "constExpression");
         assertEquals(modules.size(),1);
