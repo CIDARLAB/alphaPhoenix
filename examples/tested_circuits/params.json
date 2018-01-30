@@ -2,12 +2,14 @@
     {
         "id": "GFP",
         "k_loss": 0.004433836124411786,
-        "part": "cds"
+        "part": "cds",
+	"type": "reporter"
     },
     {
         "id": "LuxR",
         "k_loss": 0.004433836124411786,
-        "part": "cds"
+        "part": "cds",
+	"type": "connector"
     },
     {
         "id": "P018U018",

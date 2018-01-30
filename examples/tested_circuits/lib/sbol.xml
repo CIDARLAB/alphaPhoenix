@@ -1,0 +1,841 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sbol="http://sbols.org/v2#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:prov="http://www.w3.org/ns/prov#">
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1435md/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1435md"/>
+    <sbol:displayId>pL2f1435md</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1435md/pL2f1435/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1435md/pL2f1435"/>
+        <sbol:displayId>pL2f1435</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1435/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1435md/LuxRProt_act/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1435md/LuxRProt_act"/>
+        <sbol:displayId>LuxRProt_act</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRProt/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1435md/pL2f1435_activation/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1435md/pL2f1435_activation"/>
+        <sbol:displayId>pL2f1435_activation</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1435md/pL2f1435_activation/LuxRProt_act_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1435md/pL2f1435_activation/LuxRProt_act_int"/>
+            <sbol:displayId>LuxRProt_act_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000459"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1435md/LuxRProt_act/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1435md/pL2f1435_activation/pL2f1435_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1435md/pL2f1435_activation/pL2f1435_int"/>
+            <sbol:displayId>pL2f1435_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000643"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1435md/pL2f1435/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1435_Model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1438md/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1438md"/>
+    <sbol:displayId>pL2f1438md</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1438md/pL2f1438/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1438md/pL2f1438"/>
+        <sbol:displayId>pL2f1438</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1438/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1438md/LuxRProt_act/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1438md/LuxRProt_act"/>
+        <sbol:displayId>LuxRProt_act</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRProt/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1438md/pL2f1438_activation/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1438md/pL2f1438_activation"/>
+        <sbol:displayId>pL2f1438_activation</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1438md/pL2f1438_activation/pL2f1438_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1438md/pL2f1438_activation/pL2f1438_int"/>
+            <sbol:displayId>pL2f1438_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000643"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1438md/pL2f1438/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1438md/pL2f1438_activation/LuxRProt_act_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1438md/pL2f1438_activation/LuxRProt_act_int"/>
+            <sbol:displayId>LuxRProt_act_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000459"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1438md/LuxRProt_act/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1438_Model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U017md/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U017md"/>
+    <sbol:displayId>P018U017md</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U017md/P018U017/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U017md/P018U017"/>
+        <sbol:displayId>P018U017</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U015/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:model rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U017_Model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437md/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437md"/>
+    <sbol:displayId>pL2f1437md</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437md/pL2f1437/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437md/pL2f1437"/>
+        <sbol:displayId>pL2f1437</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437md/LuxRProt_act/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437md/LuxRProt_act"/>
+        <sbol:displayId>LuxRProt_act</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRProt/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437md/pL2f1437_activation/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437md/pL2f1437_activation"/>
+        <sbol:displayId>pL2f1437_activation</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437md/pL2f1437_activation/LuxRProt_act_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437md/pL2f1437_activation/LuxRProt_act_int"/>
+            <sbol:displayId>LuxRProt_act_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000459"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437md/LuxRProt_act/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437md/pL2f1437_activation/pL2f1437_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437md/pL2f1437_activation/pL2f1437_int"/>
+            <sbol:displayId>pL2f1437_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000643"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437md/pL2f1437/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437_Model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1436md/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1436md"/>
+    <sbol:displayId>pL2f1436md</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1436md/pL2f1436/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1436md/pL2f1436"/>
+        <sbol:displayId>pL2f1436</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1436/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1436md/LuxRProt_act/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1436md/LuxRProt_act"/>
+        <sbol:displayId>LuxRProt_act</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRProt/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1436md/pL2f1436_activation/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1436md/pL2f1436_activation"/>
+        <sbol:displayId>pL2f1436_activation</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1436md/pL2f1436_activation/LuxRProt_act_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1436md/pL2f1436_activation/LuxRProt_act_int"/>
+            <sbol:displayId>LuxRProt_act_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000459"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1436md/LuxRProt_act/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1436md/pL2f1436_activation/pL2f1436_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1436md/pL2f1436_activation/pL2f1436_int"/>
+            <sbol:displayId>pL2f1436_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000643"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1436md/pL2f1436/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1436_Model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U016md/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U016md"/>
+    <sbol:displayId>P018U016md</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U016md/P018U016/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U016md/P018U016"/>
+        <sbol:displayId>P018U016</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U015/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:model rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U016_Model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd"/>
+    <sbol:displayId>GFPmd</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/GFP/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/GFP"/>
+        <sbol:displayId>GFP</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFP/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/GFPPRot/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/GFPPRot"/>
+        <sbol:displayId>GFPPRot</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPProt/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/GFP_production/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/GFP_production"/>
+        <sbol:displayId>GFP_production</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000589"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/GFP_production/GFP_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/GFP_production/GFP_int"/>
+            <sbol:displayId>GFP_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000645"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/GFP/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/GFP_production/GFP_prot_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/GFP_production/GFP_prot_int"/>
+            <sbol:displayId>GFP_prot_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000011"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/GFPPRot/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFP_Model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1434md/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1434md"/>
+    <sbol:displayId>pL2f1434md</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1434md/pL2f1434/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1434md/pL2f1434"/>
+        <sbol:displayId>pL2f1434</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1434/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1434md/LuxRProt_act/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1434md/LuxRProt_act"/>
+        <sbol:displayId>LuxRProt_act</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRProt/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1434md/pL2f1434_activation/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1434md/pL2f1434_activation"/>
+        <sbol:displayId>pL2f1434_activation</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1434md/pL2f1434_activation/pL2f1434_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1434md/pL2f1434_activation/pL2f1434_int"/>
+            <sbol:displayId>pL2f1434_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000643"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1434md/pL2f1434/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1434md/pL2f1434_activation/LuxRProt_act_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1434md/pL2f1434_activation/LuxRProt_act_int"/>
+            <sbol:displayId>LuxRProt_act_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000459"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1434md/LuxRProt_act/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1434_Model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRmd/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRmd"/>
+    <sbol:displayId>LuxRmd</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRmd/LuxR/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRmd/LuxR"/>
+        <sbol:displayId>LuxR</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxR/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRmd/LuxRPRot/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRmd/LuxRPRot"/>
+        <sbol:displayId>LuxRPRot</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRProt/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRmd/LuxR_production/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRmd/LuxR_production"/>
+        <sbol:displayId>LuxR_production</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000589"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRmd/LuxR_production/LuxR_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRmd/LuxR_production/LuxR_int"/>
+            <sbol:displayId>LuxR_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000645"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRmd/LuxR/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRmd/LuxR_production/LuxR_prot_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRmd/LuxR_production/LuxR_prot_int"/>
+            <sbol:displayId>LuxR_prot_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000011"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRmd/LuxRPRot/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxR_Model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U018md/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U018md"/>
+    <sbol:displayId>P018U018md</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U018md/P018U018/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U018md/P018U018"/>
+        <sbol:displayId>P018U018</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U015/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:model rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U018_Model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1440md/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1440md"/>
+    <sbol:displayId>pL2f1440md</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1440md/pL2f1440/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1440md/pL2f1440"/>
+        <sbol:displayId>pL2f1440</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1440/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1440md/LuxRProt_act/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1440md/LuxRProt_act"/>
+        <sbol:displayId>LuxRProt_act</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRProt/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1440md/pL2f1440_activation/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1440md/pL2f1440_activation"/>
+        <sbol:displayId>pL2f1440_activation</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1440md/pL2f1440_activation/pL2f1440_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1440md/pL2f1440_activation/pL2f1440_int"/>
+            <sbol:displayId>pL2f1440_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000643"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1440md/pL2f1440/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1440md/pL2f1440_activation/LuxRProt_act_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1440md/pL2f1440_activation/LuxRProt_act_int"/>
+            <sbol:displayId>LuxRProt_act_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000459"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1440md/LuxRProt_act/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1440_Model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1433md/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1433md"/>
+    <sbol:displayId>pL2f1433md</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1433md/LuxRProt_act/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1433md/LuxRProt_act"/>
+        <sbol:displayId>LuxRProt_act</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRProt/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1433md/pL2f1433/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1433md/pL2f1433"/>
+        <sbol:displayId>pL2f1433</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1433/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1433md/pL2f1433_activation/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1433md/pL2f1433_activation"/>
+        <sbol:displayId>pL2f1433_activation</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1433md/pL2f1433_activation/LuxRProt_act_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1433md/pL2f1433_activation/LuxRProt_act_int"/>
+            <sbol:displayId>LuxRProt_act_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000459"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1433md/LuxRProt_act/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1433md/pL2f1433_activation/pL2f1433_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1433md/pL2f1433_activation/pL2f1433_int"/>
+            <sbol:displayId>pL2f1433_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000643"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1433md/pL2f1433/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1433_Model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1439md/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1439md"/>
+    <sbol:displayId>pL2f1439md</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1439md/pL2f1439/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1439md/pL2f1439"/>
+        <sbol:displayId>pL2f1439</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1439/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1439md/LuxRProt_act/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1439md/LuxRProt_act"/>
+        <sbol:displayId>LuxRProt_act</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRProt/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1439md/pL2f1439_activation/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1439md/pL2f1439_activation"/>
+        <sbol:displayId>pL2f1439_activation</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1439md/pL2f1439_activation/pL2f1439_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1439md/pL2f1439_activation/pL2f1439_int"/>
+            <sbol:displayId>pL2f1439_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000643"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1439md/pL2f1439/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1439md/pL2f1439_activation/LuxRProt_act_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1439md/pL2f1439_activation/LuxRProt_act_int"/>
+            <sbol:displayId>LuxRProt_act_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000459"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1439md/LuxRProt_act/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1439_Model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U015md/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U015md"/>
+    <sbol:displayId>P018U015md</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U015md/P018U015/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U015md/P018U015"/>
+        <sbol:displayId>P018U015</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U015/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:model rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U015_Model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1434_Model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1434_Model"/>
+    <sbol:displayId>pL2f1434_Model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="pL2f1434.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U018_Model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U018_Model"/>
+    <sbol:displayId>P018U018_Model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="P018U018.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U016_Model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U016_Model"/>
+    <sbol:displayId>P018U016_Model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="P018U016.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFP_Model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFP_Model"/>
+    <sbol:displayId>GFP_Model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="GFP.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1439_Model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1439_Model"/>
+    <sbol:displayId>pL2f1439_Model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="pL2f1439.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxR_Model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxR_Model"/>
+    <sbol:displayId>LuxR_Model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="LuxR.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437_Model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437_Model"/>
+    <sbol:displayId>pL2f1437_Model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="pL2f1437.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1435_Model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1435_Model"/>
+    <sbol:displayId>pL2f1435_Model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="pL2f1435.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1433_Model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1433_Model"/>
+    <sbol:displayId>pL2f1433_Model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="pL2f1433.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U017_Model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U017_Model"/>
+    <sbol:displayId>P018U017_Model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="P018U017.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U015_Model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U015_Model"/>
+    <sbol:displayId>P018U015_Model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="P018U015.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1438_Model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1438_Model"/>
+    <sbol:displayId>pL2f1438_Model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="pL2f1438.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1436_Model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1436_Model"/>
+    <sbol:displayId>pL2f1436_Model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="pL2f1436.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1440_Model/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1440_Model"/>
+    <sbol:displayId>pL2f1440_Model</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:source rdf:resource="pL2f1440.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/rbs1/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/rbs1"/>
+    <sbol:displayId>rbs1</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>RBS 1</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000139"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U015/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U015"/>
+    <sbol:displayId>P018U015</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>P018U015</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002050"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1435/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1435"/>
+    <sbol:displayId>pL2f1435</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>pL2f1435</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1440/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1440"/>
+    <sbol:displayId>pL2f1440</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>pL2f1440</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxR/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxR"/>
+    <sbol:displayId>LuxR</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>LuxR</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1439/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1439"/>
+    <sbol:displayId>pL2f1439</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>pL2f1439</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U017/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U017"/>
+    <sbol:displayId>P018U017</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>P018U017</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002050"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPProt/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPProt"/>
+    <sbol:displayId>GFPProt</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>GFP Protein</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437"/>
+    <sbol:displayId>pL2f1437</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>pL2f1437</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1433/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1433"/>
+    <sbol:displayId>pL2f1433</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>pL2f1433</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRProt/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxRProt"/>
+    <sbol:displayId>LuxRProt</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>LuxR Protein</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1434/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1434"/>
+    <sbol:displayId>pL2f1434</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>pL2f1434</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1436/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1436"/>
+    <sbol:displayId>pL2f1436</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>pL2f1436</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U016/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U016"/>
+    <sbol:displayId>P018U016</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>P018U016</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002050"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1438/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1438"/>
+    <sbol:displayId>pL2f1438</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>pL2f1438</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFP/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFP"/>
+    <sbol:displayId>GFP</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>GFP</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/ter1/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/ter1"/>
+    <sbol:displayId>ter1</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>Terminator 1</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000141"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U018/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U018"/>
+    <sbol:displayId>P018U018</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <dcterms:title>P018U018</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002050"/>
+  </sbol:ComponentDefinition>
+</rdf:RDF>
