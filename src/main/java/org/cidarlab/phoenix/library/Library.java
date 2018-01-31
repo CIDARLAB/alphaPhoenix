@@ -193,7 +193,7 @@ public class Library {
                                         repressingProteins.add(fc.getDefinitionURI());
                                     } else if(type.equals(stimulationURI)){
                                         activatingProteins.add(fc.getDefinitionURI());
-                                    }
+                                    } 
                                 }
                             }
                         } else if(promoters.containsKey(fc.getDefinitionURI())){
@@ -290,6 +290,9 @@ public class Library {
                                 activatorCDS.get(cdsURI).addModel(uri);
                             }
                             activatorCDS.get(cdsURI).addModuleDefinition(md.getIdentity());
+                        } else {
+                            outputCDS.put(cdsURI, cds.get(cdsURI));
+                            outputCDS.get(cdsURI).addModuleDefinition(md.getIdentity());
                         }
                     }
                 }

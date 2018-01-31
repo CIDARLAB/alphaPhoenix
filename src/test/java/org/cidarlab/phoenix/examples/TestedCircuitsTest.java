@@ -49,7 +49,7 @@ public class TestedCircuitsTest {
         String so = "http://identifiers.org/so/";
         String sbo = "http://identifiers.org/biomodels.sbo/";
         String baseurl = "http://www.phoenix.org/testedCircuits/contitutiveExpression/";
-        String version = "0.1";
+        String version = "0.2";
         String induciblePromSO = so + "SO:0002051";
         String constitutivePromSO = so + "SO:0002050";
         String rbsSO = so + "SO:0000139";
@@ -190,15 +190,15 @@ public class TestedCircuitsTest {
             P018U015md.addModel(P018U015Model);
 
             ModuleDefinition P018U016md = sbol.createModuleDefinition(baseurl, "P018U016md", version);
-            FunctionalComponent P018U016fc = P018U016md.createFunctionalComponent("P018U016", AccessType.PRIVATE, P018U015.getIdentity(), DirectionType.IN);
+            FunctionalComponent P018U016fc = P018U016md.createFunctionalComponent("P018U016", AccessType.PRIVATE, P018U016.getIdentity(), DirectionType.IN);
             P018U016md.addModel(P018U016Model);
 
             ModuleDefinition P018U017md = sbol.createModuleDefinition(baseurl, "P018U017md", version);
-            FunctionalComponent P018U017fc = P018U017md.createFunctionalComponent("P018U017", AccessType.PRIVATE, P018U015.getIdentity(), DirectionType.IN);
+            FunctionalComponent P018U017fc = P018U017md.createFunctionalComponent("P018U017", AccessType.PRIVATE, P018U017.getIdentity(), DirectionType.IN);
             P018U017md.addModel(P018U017Model);
 
             ModuleDefinition P018U018md = sbol.createModuleDefinition(baseurl, "P018U018md", version);
-            FunctionalComponent P018U018fc = P018U018md.createFunctionalComponent("P018U018", AccessType.PRIVATE, P018U015.getIdentity(), DirectionType.IN);
+            FunctionalComponent P018U018fc = P018U018md.createFunctionalComponent("P018U018", AccessType.PRIVATE, P018U018.getIdentity(), DirectionType.IN);
             P018U018md.addModel(P018U018Model);
 
             ModuleDefinition GFPmd = sbol.createModuleDefinition(baseurl, "GFPmd", version);
@@ -280,7 +280,23 @@ public class TestedCircuitsTest {
             pL2f1440Int.createParticipation("LuxRProt_act_int", pL2f1440mdfc1.getIdentity(), stimulatorURI);
             pL2f1440Int.createParticipation("pL2f1440_int", pL2f1440mdfc2.getIdentity(), stimulatedURI);
             pL2f1440md.addModel(pL2f1440Model);
-
+            
+            ComponentDefinition testprom = sbol.createComponentDefinition(baseurl,"testProm", version, dnaRegionURI);
+            testprom.addRole(new URI(constitutivePromSO));
+            testprom.setName("Test Promoter");
+            
+            ComponentDefinition testrbs = sbol.createComponentDefinition(baseurl,"testRBS", version, dnaRegionURI);
+            testrbs.addRole(new URI(rbsSO));
+            testrbs.setName("Test RBS");
+            
+            ComponentDefinition testcds = sbol.createComponentDefinition(baseurl,"testCDS", version, dnaRegionURI);
+            testcds.addRole(new URI(cdsSO));
+            testcds.setName("Test CDS");
+            
+            ComponentDefinition testter = sbol.createComponentDefinition(baseurl,"testTer", version, dnaRegionURI);
+            testter.addRole(new URI(terSO));
+            testter.setName("Test Ter");
+            
         } catch (URISyntaxException ex) {
             Logger.getLogger(TestedCircuitsTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SBOLValidationException ex) {

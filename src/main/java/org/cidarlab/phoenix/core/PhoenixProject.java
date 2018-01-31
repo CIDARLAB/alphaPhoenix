@@ -84,6 +84,10 @@ public class PhoenixProject {
     }
     
     public PhoenixProject(String eugfp, int eugCircSize, Integer eugNumSolutions, String stlfp,String libraryfp, Simulation simulation,int runCount,double confidence,double threshold, Map<String,Double> inputMap, boolean plot){
+        this.resultsFolder = Utilities.getFilepath() + Utilities.getSeparater() + "results" + Utilities.getSeparater();
+        if(!Utilities.isDirectory(this.resultsFolder)){
+            Utilities.makeDirectory(this.resultsFolder);
+        }
         try {
             createJob();
             
@@ -176,10 +180,14 @@ public class PhoenixProject {
             Utilities.writeToFile(jobfp + "designspace.txt", eugdesignSpace);
             
             Module best = getBestModule(modules);
-            
             Utilities.writeToFile(jobfp + "bestdesign.txt", best.getComponentString());
             
             Module decomposedModule = Controller.decompose(PhoenixMode.MM, best);
+            System.out.println("Library Details::");
+            System.out.println("Constitutive Promoters : " + lib.getConstitutivePromoters().size());
+            System.out.println("CDS outputs : " + lib.getOutputCDS().size());
+            System.out.println("Activating CDS : " + lib.getActivatorCDS().size());
+            System.out.println("Activatable Promoters : " + lib.getActivatiblePromoters().size());
             List<Map<String,CandidateComponent>> assignments = Controller.assign(decomposedModule, lib, sbol);
             
             List<Integer> bestlist = new ArrayList<Integer>();
@@ -223,7 +231,7 @@ public class PhoenixProject {
                         }
                         writer.write(decomposedModule.getModel().getSbml(), modelFile);
                         double maxtime = STLAdaptor.getMaxTime(jobstl);
-                        IBioSimAdaptor.simulateODE(modelFile, assignmentfp, maxtime, 1, 1);
+                        IBioSimAdaptor.simulateODE(modelFile, assignmentfp, maxtime, 1.0, 1.0);
                         String tsdfp = assignmentfp + "run-1.csv";
                         double robval = STLAdaptor.getRobustness(jobstl, tsdfp, assignmentfp, plot);
                         detreslines.add(i + "," + robval);

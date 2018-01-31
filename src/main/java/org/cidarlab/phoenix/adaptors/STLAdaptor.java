@@ -367,7 +367,7 @@ public class STLAdaptor {
                 
                 List<Signal> signals = new ArrayList<>();
                 signals.add(s);
-                Grid g = new Grid(signals);
+                Grid g = new Grid(signals,10,10);
                 TreeNode stlnode = stlmap.get(key);
                 double val = getRobustness(stlnode, s);
                 //double val = signalRobustness(stlnode,s);
