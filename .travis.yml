@@ -1,0 +1,12 @@
+language: java
+install:
+  - cd ExternalDependencies
+  - ./installDependencies.sh
+  - cd ../
+  - mvn validate -B -V
+  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
+jdk: 
+  - oraclejdk8
+  - openjdk8
+
