@@ -106,6 +106,7 @@ public class UIAdaptor {
         switch(role){
             case PROMOTER:
                 for(CandidateComponent c:candidate){
+                    boolean cdsFlag = false;
                     switch (c.getRole()) {
                         case CDS:
                         case CDS_REPRESSOR:
@@ -118,7 +119,13 @@ public class UIAdaptor {
                         case CDS_FLUORESCENT:
                         case CDS_FLUORESCENT_FUSION:
                         case TESTING:
+                            cdsFlag = true;
                             break;
+                        default: 
+                            cdsFlag = false;
+                    }
+                    if(cdsFlag){
+                        break;
                     }
                     str += c.getCandidate().getName() + ";";
                 }

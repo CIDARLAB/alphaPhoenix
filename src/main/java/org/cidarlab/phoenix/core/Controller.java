@@ -512,6 +512,24 @@ public class Controller {
         return false;
     }
     
+    public static void assignTUCandidates(Module module, Library lib, SBOLDocument doc){
+        assignLeafCandidates(module,lib);
+        List<Module> tus = module.getChildren();
+        for(Module tu:tus){
+            for(Module leaf:tu.getChildren()){
+                if(leaf.getRole().equals(ModuleRole.PROMOTER)){
+                    assignPromCandidates(leaf,lib,doc,leaf.getOrientation());
+                } else if(leaf.getRole().equals(ModuleRole.CDS)){
+                    assignCDSCandidates(leaf);
+                }
+            }
+        }
+        for(Module tu:tus){
+            assignTUCandidates(tu,lib,doc,tu.getOrientation());
+        }
+        
+    }
+    
     public static List<Map<String,CandidateComponent>> assign(Module module, Library lib, SBOLDocument doc){
         assignLeafCandidates(module,lib);
         List<Module> tus = module.getChildren();
