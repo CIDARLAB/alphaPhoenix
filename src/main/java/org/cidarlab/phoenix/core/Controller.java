@@ -531,252 +531,89 @@ public class Controller {
     }
     
     //<editor-fold desc="Decompose a Phoenix Module based on the mode">
-    public static Module decompose(PhoenixMode mode, Module root) {
+    public static Module decompose(Module root) {
         boolean started = false;
         List<Component> components = null;
-        switch (mode) {
-            //<editor-fold desc="BioCPS decomposition">
-            case BIOCPS:
-                //Forward Strand
-                started = false;
-                int forInp = 0;
-                int forMod = 0;
-                int forOut = 0;
 
-                ModuleRole role = ModuleRole.BIOCPS_INPUT;
-                for (Component c : root.getComponents()) {
-                    if (c.getOrientation().equals(Orientation.FORWARD)) {
-                        if (!started) {
-                            if (c.getRole().equals(ComponentRole.PROMOTER_INDUCIBLE)) {
-                                role = ModuleRole.BIOCPS_INPUT;
-                                started = true;
-                                components = new ArrayList<>();
-                                components.add(c);
-                            } else if (isCDS(c)) {
-                                if (isBioCPSModule(c)) {
-                                    //Create a BioCPS Module
-                                    role = ModuleRole.BIOCPS_MODULE;
-                                    started = true;
-                                    components = new ArrayList<>();
-                                    components.add(c);
-                                } else {
-                                    //Create a BioCPS Output
-                                    role = ModuleRole.BIOCPS_OUTPUT;
-                                    started = true;
-                                    components = new ArrayList<>();
-                                    components.add(c);
-                                }
-                            } else {
-                                //This means wrong grammar.
-                                continue;
-                            }
-
-                        } else {
-                            //In the middle of a module
-                            components.add(c);
-                            switch (role) {
-                                case BIOCPS_INPUT:
-                                    if (c.getRole().equals(ComponentRole.RBS)) {
-                                        Module inp = new Module("In" + (forInp++));
-                                        inp.setRole(role);
-                                        inp.setComponents(components);
-                                        inp.setRoot(false);
-                                        root.addChild(inp);
-                                        started = false;
-                                    }
-                                    break;
-                                case BIOCPS_MODULE:
-                                    if (c.getRole().equals(ComponentRole.RBS)) {
-                                        Module mod = new Module("Mod" + (forMod++));
-                                        mod.setRole(role);
-                                        mod.setComponents(components);
-                                        mod.setRoot(false);
-                                        root.addChild(mod);
-                                        started = false;
-                                    }
-                                    break;
-                                case BIOCPS_OUTPUT:
-                                    if (c.getRole().equals(ComponentRole.TERMINATOR)) {
-                                        Module out = new Module("Out" + (forOut++));
-                                        out.setRole(role);
-                                        out.setComponents(components);
-                                        out.setRoot(false);
-                                        root.addChild(out);
-                                        started = false;
-                                    }
-                                    break;
-                                default:
-                                    System.err.println("Unexpected module type");
-                                    System.exit(-1);
-                            }
-                        }
+        //Forward Strand
+        started = false;
+        int forwardCount = 0;
+        for (Component c : root.getComponents()) {
+            if (!started) {
+                if (c.getOrientation().equals(Orientation.FORWARD)) {
+                    if (isPromoter(c)) {
+                        started = true;
+                        components = new ArrayList<>();
+                        components.add(c);
                     } else {
-                        //Do any of these make sense in the Forward TU units?
+                        //Throw an error?
                         continue;
                     }
+                } else {
+                    //Reverse orientation. Wouldn't really make it a TU unless it is a part of the TU.
+                    continue;
                 }
-                //Reverse Strand
-                int revInp = 0;
-                int revMod = 0;
-                int revOut = 0;
-                started = false;
-                components = null;
-                for (int i = (root.getComponents().size() - 1); i >= 0; i--) {
-                    Component c = root.getComponents().get(i);
-                    if (c.getOrientation().equals(Orientation.REVERSE)) {
-                        if (!started) {
-                            if (c.getRole().equals(ComponentRole.PROMOTER_INDUCIBLE)) {
-                                role = ModuleRole.BIOCPS_INPUT;
-                                started = true;
-                                components = new ArrayList<>();
-                                components.add(c);
-                            } else if (isCDS(c)) {
-                                if (isBioCPSModule(c)) {
-                                    //Create a BioCPS Module
-                                    role = ModuleRole.BIOCPS_MODULE;
-                                    started = true;
-                                    components = new ArrayList<>();
-                                    components.add(c);
-                                } else {
-                                    //Create a BioCPS Output
-                                    role = ModuleRole.BIOCPS_OUTPUT;
-                                    started = true;
-                                    components = new ArrayList<>();
-                                    components.add(c);
-                                }
-                            } else {
-                                //This means wrong grammar.
-                                continue;
-                            }
-
-                        } else {
-                            //In the middle of a module
-                            components.add(c);
-                            switch (role) {
-                                case BIOCPS_INPUT:
-                                    if (c.getRole().equals(ComponentRole.RBS)) {
-                                        Module inp = new Module("In" + (forInp++));
-                                        inp.setRole(role);
-                                        inp.setComponents(components);
-                                        inp.setRoot(false);
-                                        root.addChild(inp);
-                                        started = false;
-                                    }
-                                    break;
-                                case BIOCPS_MODULE:
-                                    if (c.getRole().equals(ComponentRole.RBS)) {
-                                        Module mod = new Module("Mod" + (forMod++));
-                                        mod.setRole(role);
-                                        mod.setComponents(components);
-                                        mod.setRoot(false);
-                                        root.addChild(mod);
-                                        started = false;
-                                    }
-                                    break;
-                                case BIOCPS_OUTPUT:
-                                    if (c.getRole().equals(ComponentRole.TERMINATOR)) {
-                                        Module out = new Module("Out" + (forOut++));
-                                        out.setRole(role);
-                                        out.setComponents(components);
-                                        out.setRoot(false);
-                                        root.addChild(out);
-                                        started = false;
-                                    }
-                                    break;
-                                default:
-                                    System.err.println("Unexpected module type");
-                                    System.exit(-1);
-                            }
-                        }
-                    } else {
-                        //Do any of these make sense in the Forward TU units?
-                        continue;
+            } //Started Forward strand
+            else {
+                if (c.getOrientation().equals(Orientation.FORWARD)) {
+                    components.add(c);
+                    if (isTerminator(c)) {
+                        Module child = new Module("TU_F" + (forwardCount++));
+                        child.setComponents(components);
+                        child.setRole(ModuleRole.TRANSCRIPTIONAL_UNIT);
+                        child.setRoot(false);
+                        child.setOrientation(Orientation.FORWARD);
+                        decomposeTU(child);
+                        root.addChild(child);
+                        started = false;
                     }
+                } else {
+                    components.add(c); //Make this a wildcard?
                 }
-                return root;
-            //</editor-fold>
-            case MM:
-                //Forward Strand
-                started = false;
-                int forwardCount = 0;
-                for (Component c : root.getComponents()) {
-                    if (!started) {
-                        if (c.getOrientation().equals(Orientation.FORWARD)) {
-                            if (isPromoter(c)) {
-                                started = true;
-                                components = new ArrayList<>();
-                                components.add(c);
-                            } else {
-                                //Throw an error?
-                                continue;
-                            }
-                        } else {
-                            //Reverse orientation. Wouldn't really make it a TU unless it is a part of the TU.
-                            continue;
-                        }
-                    } //Started Forward strand
-                    else {
-                        if (c.getOrientation().equals(Orientation.FORWARD)) {
-                            components.add(c);
-                            if (isTerminator(c)) {
-                                Module child = new Module("TU_F" + (forwardCount++));
-                                child.setComponents(components);
-                                child.setRole(ModuleRole.TRANSCRIPTIONAL_UNIT);
-                                child.setRoot(false);
-                                child.setOrientation(Orientation.FORWARD);
-                                decomposeTU(child);
-                                root.addChild(child);
-                                started = false;
-                            }
-                        } else {
-                            components.add(c); //Make this a wildcard?
-                        }
-                    }
-                }
-                //Reverse Strand
-                int reverseCount = 0;
-                started = false;
-                components = null;
-                for (int i = (root.getComponents().size() - 1); i >= 0; i--) {
-                    Component c = root.getComponents().get(i);
-                    if (!started) {
-                        if (c.getOrientation().equals(Orientation.REVERSE)) {
-                            if (isPromoter(c)) {
-                                started = true;
-                                components = new ArrayList<Component>();
-                                components.add(c);
-                            } else {
-                                //Throw an error?
-                                continue;
-                            }
-                        } else {
-                            //Forward orientation. Wouldn't really make it a TU unless it is a part of the TU.
-                            continue;
-                        }
-                    } //Started reverse strand
-                    else {
-                        if (c.getOrientation().equals(Orientation.REVERSE)) {
-                            components.add(c);
-                            if (isTerminator(c)) {
-                                Module child = new Module("TU_R" + (reverseCount++));
-                                child.setComponents(components);
-                                child.setRole(ModuleRole.TRANSCRIPTIONAL_UNIT);
-                                child.setRoot(false);
-                                child.setOrientation(Orientation.REVERSE);
-                                decomposeTU(child);
-                                root.addChild(child);
-                                started = false;
-                            }
-                        } else {
-                            components.add(c); //Make this a wildcard?
-                        }
-                    }
-                }
-                root.setIOCNames();
-                return root;
-            default:
-                return null;
+            }
         }
+        //Reverse Strand
+        int reverseCount = 0;
+        started = false;
+        components = null;
+        for (int i = (root.getComponents().size() - 1); i >= 0; i--) {
+            Component c = root.getComponents().get(i);
+            if (!started) {
+                if (c.getOrientation().equals(Orientation.REVERSE)) {
+                    if (isPromoter(c)) {
+                        started = true;
+                        components = new ArrayList<Component>();
+                        components.add(c);
+                    } else {
+                        //Throw an error?
+                        continue;
+                    }
+                } else {
+                    //Forward orientation. Wouldn't really make it a TU unless it is a part of the TU.
+                    continue;
+                }
+            } //Started reverse strand
+            else {
+                if (c.getOrientation().equals(Orientation.REVERSE)) {
+                    components.add(c);
+                    if (isTerminator(c)) {
+                        Module child = new Module("TU_R" + (reverseCount++));
+                        child.setComponents(components);
+                        child.setRole(ModuleRole.TRANSCRIPTIONAL_UNIT);
+                        child.setRoot(false);
+                        child.setOrientation(Orientation.REVERSE);
+                        decomposeTU(child);
+                        root.addChild(child);
+                        started = false;
+                    }
+                } else {
+                    components.add(c); //Make this a wildcard?
+                }
+            }
+        }
+        root.setIOCNames();
+        return root;
+
     }
 
     private static void decomposeTU(Module module) {

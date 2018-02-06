@@ -182,7 +182,7 @@ public class PhoenixProject {
             Module best = getBestModule(modules);
             Utilities.writeToFile(jobfp + "bestdesign.txt", best.getComponentString());
             
-            Module decomposedModule = Controller.decompose(PhoenixMode.MM, best);
+            Module decomposedModule = Controller.decompose(best);
             System.out.println("Library Details::");
             System.out.println("Constitutive Promoters : " + lib.getConstitutivePromoters().size());
             System.out.println("CDS outputs : " + lib.getOutputCDS().size());
