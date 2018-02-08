@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib import gridspec
 
 
-fig = plt.figure(figsize=(0.2,0.2))
+fig = plt.figure(figsize=(0.6,0.2))
 gs = gridspec.GridSpec(1, 1)
 
 # Colour map
@@ -21,9 +21,11 @@ col_map['orange']  = (1.00, 0.75, 0.17)
 # Global line width
 lw = 0.8
 
+promTemplate = {'type':'Promoter', 'fwd':True, 'opts':{'linewidth':lw, 'color':col_map['green'], 'edge_color':col_map['black']}} 
+rbsTemplate = {'type':'RBS', 'fwd':True, 'opts':{'linewidth':lw, 'color':col_map['red'], 'edge_color':col_map['black']}} 
 cdsTemplate = {'type':'CDS', 'fwd':True, 'opts':{'linewidth':lw, 'color':col_map['orange'], 'edge_color':col_map['black'],'x_extent':24}} 
 
-design1 = [cdsTemplate]
+design1 = [promTemplate,rbsTemplate,cdsTemplate]
 ax_dna1 = plt.subplot(gs[0])
 
 # Create the DNAplotlib renderer
@@ -38,5 +40,5 @@ ax_dna1.axis('off')
 
 
 
-fig.savefig('cds.png', dpi=300)
+fig.savefig('cds1.png', dpi=300)
 plt.close('all')
