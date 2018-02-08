@@ -30,7 +30,6 @@ public class DnaPlotlibAdaptor {
             str += getRoleCharacter(c.getRole());
             str += k;
             if (Controller.isCDS(c)) {
-                str += ":";
                 List<Integer> indices = new ArrayList<Integer>();
                 List<String> intStrings = new ArrayList<String>();
                 for (Interaction i : c.getInteractions()) {
@@ -57,7 +56,7 @@ public class DnaPlotlibAdaptor {
                 }
                 
                 for(String intString:intStrings){
-                    str += (intString + ":");
+                    str += (":" + intString);
                 }
             }
             

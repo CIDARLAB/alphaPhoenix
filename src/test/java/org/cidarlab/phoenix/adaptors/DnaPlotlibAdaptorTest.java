@@ -73,38 +73,56 @@ public class DnaPlotlibAdaptorTest {
         r2.setRole(Component.ComponentRole.RBS);
         r2.setOrientation(Orientation.FORWARD);
         
-        Component c2 = new Component();
-        c2.setRole(Component.ComponentRole.CDS);
-        c2.setOrientation(Orientation.FORWARD);
+        Component c20 = new Component();
+        c20.setRole(Component.ComponentRole.CDS);
+        c20.setOrientation(Orientation.FORWARD);
+        
+        Component c21 = new Component();
+        c21.setRole(Component.ComponentRole.CDS);
+        c21.setOrientation(Orientation.FORWARD);
         
         Component t2 = new Component();
         t2.setRole(Component.ComponentRole.TERMINATOR);
         t2.setOrientation(Orientation.FORWARD);
         
-        Interaction i1 = new Interaction(c2,p2,InteractionType.INDUCES);
-        Interaction i2 = new Interaction(c2,p1,InteractionType.REPRESSES);
-        c2.addInteraction(i1);
-        c2.addInteraction(i2);
+        Interaction i10 = new Interaction(c20,p2,InteractionType.INDUCES);
+        Interaction i20 = new Interaction(c20,p1,InteractionType.REPRESSES);
+        c20.addInteraction(i10);
+        c20.addInteraction(i20);
+        
+        Interaction i11 = new Interaction(c21,p2,InteractionType.INDUCES);
+        Interaction i21 = new Interaction(c21,p1,InteractionType.REPRESSES);
+        c21.addInteraction(i21);
+        c21.addInteraction(i11);
         
         
+        List<Component> components0 = new ArrayList<Component>();
         
-        List<Component> components = new ArrayList<Component>();
+        components0.add(p1);
+        components0.add(r1);
+        components0.add(c1);
+        components0.add(t1);
         
-        components.add(p1);
-        components.add(r1);
-        components.add(c1);
-        components.add(t1);
+        components0.add(p2);
+        components0.add(r2);
+        components0.add(c20);
+        components0.add(t2);
         
-        components.add(p2);
-        components.add(r2);
-        components.add(c2);
-        components.add(t2);
+        List<Component> components1 = new ArrayList<Component>();
         
+        components1.add(p1);
+        components1.add(r1);
+        components1.add(c1);
+        components1.add(t1);
         
-        String dplstring = DnaPlotlibAdaptor.getUniqueString(components);
+        components1.add(p2);
+        components1.add(r2);
+        components1.add(c21);
+        components1.add(t2);
         
-        System.out.println(dplstring);
-        
+        assertEquals(DnaPlotlibAdaptor.getUniqueString(components0),"+p0;+r1;+c2;+t3;+p4;+r5;+c6:rep:p0:act:p4;+t7;");
+        assertEquals(DnaPlotlibAdaptor.getUniqueString(components0),DnaPlotlibAdaptor.getUniqueString(components1));
+    
     }
     
 }
