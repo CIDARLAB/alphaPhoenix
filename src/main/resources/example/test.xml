@@ -1,88 +1,56 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sbol="http://sbols.org/v2#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:prov="http://www.w3.org/ns/prov#">
-  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/cp2md/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cp2md"/>
-    <sbol:displayId>cp2md</sbol:displayId>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/cdsR1md/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR1md"/>
+    <sbol:displayId>cdsR1md</sbol:displayId>
     <sbol:version>0.1</sbol:version>
     <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/cp2md/cp2/0.1">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cp2md/cp2"/>
-        <sbol:displayId>cp2</sbol:displayId>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/cdsR1md/cdsR1_prot/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR1md/cdsR1_prot"/>
+        <sbol:displayId>cdsR1_prot</sbol:displayId>
         <sbol:version>0.1</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/sample/cp2/0.1"/>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
-      </sbol:FunctionalComponent>
-    </sbol:functionalComponent>
-    <sbol:model rdf:resource="http://www.phoenix.org/sample/cp2_model/0.1"/>
-  </sbol:ModuleDefinition>
-  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/promA1Rmd/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/promA1Rmd"/>
-    <sbol:displayId>promA1Rmd</sbol:displayId>
-    <sbol:version>0.1</sbol:version>
-    <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/promA1Rmd/promA1/0.1">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/promA1Rmd/promA1"/>
-        <sbol:displayId>promA1</sbol:displayId>
-        <sbol:version>0.1</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/sample/promA1/0.1"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/cdsR1Protein/0.1"/>
         <sbol:access rdf:resource="http://sbols.org/v2#private"/>
         <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
       </sbol:FunctionalComponent>
     </sbol:functionalComponent>
     <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/promA1Rmd/promA1_prot_act/0.1">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/promA1Rmd/promA1_prot_act"/>
-        <sbol:displayId>promA1_prot_act</sbol:displayId>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/cdsR1md/cdsR1/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR1md/cdsR1"/>
+        <sbol:displayId>cdsR1</sbol:displayId>
         <sbol:version>0.1</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/sample/cdsA1Protein/0.1"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/cdsR1/0.1"/>
         <sbol:access rdf:resource="http://sbols.org/v2#private"/>
         <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
       </sbol:FunctionalComponent>
     </sbol:functionalComponent>
     <sbol:interaction>
-      <sbol:Interaction rdf:about="http://www.phoenix.org/sample/promA1Rmd/promA1_activation/0.1">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/promA1Rmd/promA1_activation"/>
-        <sbol:displayId>promA1_activation</sbol:displayId>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/sample/cdsR1md/cdsR1_production/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR1md/cdsR1_production"/>
+        <sbol:displayId>cdsR1_production</sbol:displayId>
         <sbol:version>0.1</sbol:version>
-        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000589"/>
         <sbol:participation>
-          <sbol:Participation rdf:about="http://www.phoenix.org/sample/promA1Rmd/promA1_activation/promA1_int/0.1">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/promA1Rmd/promA1_activation/promA1_int"/>
-            <sbol:displayId>promA1_int</sbol:displayId>
+          <sbol:Participation rdf:about="http://www.phoenix.org/sample/cdsR1md/cdsR1_production/cdsR1_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR1md/cdsR1_production/cdsR1_int"/>
+            <sbol:displayId>cdsR1_int</sbol:displayId>
             <sbol:version>0.1</sbol:version>
-            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000643"/>
-            <sbol:participant rdf:resource="http://www.phoenix.org/sample/promA1Rmd/promA1/0.1"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000645"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/sample/cdsR1md/cdsR1/0.1"/>
           </sbol:Participation>
         </sbol:participation>
         <sbol:participation>
-          <sbol:Participation rdf:about="http://www.phoenix.org/sample/promA1Rmd/promA1_activation/promA1_prot_act_int/0.1">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/promA1Rmd/promA1_activation/promA1_prot_act_int"/>
-            <sbol:displayId>promA1_prot_act_int</sbol:displayId>
+          <sbol:Participation rdf:about="http://www.phoenix.org/sample/cdsR1md/cdsR1_production/cdsR1_prot_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR1md/cdsR1_production/cdsR1_prot_int"/>
+            <sbol:displayId>cdsR1_prot_int</sbol:displayId>
             <sbol:version>0.1</sbol:version>
-            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000459"/>
-            <sbol:participant rdf:resource="http://www.phoenix.org/sample/promA1Rmd/promA1_prot_act/0.1"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000011"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/sample/cdsR1md/cdsR1_prot/0.1"/>
           </sbol:Participation>
         </sbol:participation>
       </sbol:Interaction>
     </sbol:interaction>
-    <sbol:model rdf:resource="http://www.phoenix.org/sample/promA1_model/0.1"/>
-  </sbol:ModuleDefinition>
-  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/rfpmd/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/rfpmd"/>
-    <sbol:displayId>rfpmd</sbol:displayId>
-    <sbol:version>0.1</sbol:version>
-    <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/rfpmd/rfp/0.1">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/rfpmd/rfp"/>
-        <sbol:displayId>rfp</sbol:displayId>
-        <sbol:version>0.1</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/sample/rfp/0.1"/>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
-      </sbol:FunctionalComponent>
-    </sbol:functionalComponent>
-    <sbol:model rdf:resource="http://www.phoenix.org/sample/rfp_model/0.1"/>
+    <sbol:model rdf:resource="http://www.phoenix.org/sample/cdsR1_model/0.1"/>
   </sbol:ModuleDefinition>
   <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/ip1md/0.1">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip1md"/>
@@ -136,20 +104,26 @@
     </sbol:interaction>
     <sbol:model rdf:resource="http://www.phoenix.org/sample/ip1_model/0.1"/>
   </sbol:ModuleDefinition>
-  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/promR2md/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/promR2md"/>
-    <sbol:displayId>promR2md</sbol:displayId>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/cp2md/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cp2md"/>
+    <sbol:displayId>cp2md</sbol:displayId>
     <sbol:version>0.1</sbol:version>
     <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/promR2md/promR2/0.1">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/promR2md/promR2"/>
-        <sbol:displayId>promR2</sbol:displayId>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/cp2md/cp2/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cp2md/cp2"/>
+        <sbol:displayId>cp2</sbol:displayId>
         <sbol:version>0.1</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/sample/promR2/0.1"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/cp2/0.1"/>
         <sbol:access rdf:resource="http://sbols.org/v2#private"/>
         <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
       </sbol:FunctionalComponent>
     </sbol:functionalComponent>
+    <sbol:model rdf:resource="http://www.phoenix.org/sample/cp2_model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/promR2md/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/promR2md"/>
+    <sbol:displayId>promR2md</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
     <sbol:functionalComponent>
       <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/promR2md/promR2_prot_rep/0.1">
         <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/promR2md/promR2_prot_rep"/>
@@ -158,6 +132,16 @@
         <sbol:definition rdf:resource="http://www.phoenix.org/sample/promR2Protein/0.1"/>
         <sbol:access rdf:resource="http://sbols.org/v2#private"/>
         <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/promR2md/promR2/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/promR2md/promR2"/>
+        <sbol:displayId>promR2</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/promR2/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
       </sbol:FunctionalComponent>
     </sbol:functionalComponent>
     <sbol:interaction>
@@ -188,156 +172,26 @@
     </sbol:interaction>
     <sbol:model rdf:resource="http://www.phoenix.org/sample/promR2_model/0.1"/>
   </sbol:ModuleDefinition>
-  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/bfpmd/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/bfpmd"/>
-    <sbol:displayId>bfpmd</sbol:displayId>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/cp1md/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cp1md"/>
+    <sbol:displayId>cp1md</sbol:displayId>
     <sbol:version>0.1</sbol:version>
     <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/bfpmd/bfp/0.1">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/bfpmd/bfp"/>
-        <sbol:displayId>bfp</sbol:displayId>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/cp1md/cp1/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cp1md/cp1"/>
+        <sbol:displayId>cp1</sbol:displayId>
         <sbol:version>0.1</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/sample/bfp/0.1"/>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
-      </sbol:FunctionalComponent>
-    </sbol:functionalComponent>
-    <sbol:model rdf:resource="http://www.phoenix.org/sample/bfp_model/0.1"/>
-  </sbol:ModuleDefinition>
-  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/gfpmd/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/gfpmd"/>
-    <sbol:displayId>gfpmd</sbol:displayId>
-    <sbol:version>0.1</sbol:version>
-    <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/gfpmd/gfp/0.1">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/gfpmd/gfp"/>
-        <sbol:displayId>gfp</sbol:displayId>
-        <sbol:version>0.1</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/sample/gfp/0.1"/>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
-      </sbol:FunctionalComponent>
-    </sbol:functionalComponent>
-    <sbol:model rdf:resource="http://www.phoenix.org/sample/gfp_model/0.1"/>
-  </sbol:ModuleDefinition>
-  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/cdsR2md/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR2md"/>
-    <sbol:displayId>cdsR2md</sbol:displayId>
-    <sbol:version>0.1</sbol:version>
-    <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/cdsR2md/cdsR2/0.1">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR2md/cdsR2"/>
-        <sbol:displayId>cdsR2</sbol:displayId>
-        <sbol:version>0.1</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/sample/cdsR2/0.1"/>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
-      </sbol:FunctionalComponent>
-    </sbol:functionalComponent>
-    <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/cdsR2md/cdsR2_prot/0.1">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR2md/cdsR2_prot"/>
-        <sbol:displayId>cdsR2_prot</sbol:displayId>
-        <sbol:version>0.1</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/sample/promR2Protein/0.1"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/cp1/0.1"/>
         <sbol:access rdf:resource="http://sbols.org/v2#private"/>
         <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
       </sbol:FunctionalComponent>
     </sbol:functionalComponent>
-    <sbol:interaction>
-      <sbol:Interaction rdf:about="http://www.phoenix.org/sample/cdsR2md/cdsR2_production/0.1">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR2md/cdsR2_production"/>
-        <sbol:displayId>cdsR2_production</sbol:displayId>
-        <sbol:version>0.1</sbol:version>
-        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000589"/>
-        <sbol:participation>
-          <sbol:Participation rdf:about="http://www.phoenix.org/sample/cdsR2md/cdsR2_production/cdsR2_prot_int/0.1">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR2md/cdsR2_production/cdsR2_prot_int"/>
-            <sbol:displayId>cdsR2_prot_int</sbol:displayId>
-            <sbol:version>0.1</sbol:version>
-            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000011"/>
-            <sbol:participant rdf:resource="http://www.phoenix.org/sample/cdsR2md/cdsR2_prot/0.1"/>
-          </sbol:Participation>
-        </sbol:participation>
-        <sbol:participation>
-          <sbol:Participation rdf:about="http://www.phoenix.org/sample/cdsR2md/cdsR2_production/cdsR2_int/0.1">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR2md/cdsR2_production/cdsR2_int"/>
-            <sbol:displayId>cdsR2_int</sbol:displayId>
-            <sbol:version>0.1</sbol:version>
-            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000645"/>
-            <sbol:participant rdf:resource="http://www.phoenix.org/sample/cdsR2md/cdsR2/0.1"/>
-          </sbol:Participation>
-        </sbol:participation>
-      </sbol:Interaction>
-    </sbol:interaction>
-    <sbol:model rdf:resource="http://www.phoenix.org/sample/cdsR2_model/0.1"/>
-  </sbol:ModuleDefinition>
-  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/ip3md/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip3md"/>
-    <sbol:displayId>ip3md</sbol:displayId>
-    <sbol:version>0.1</sbol:version>
-    <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/ip3md/ip3/0.1">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip3md/ip3"/>
-        <sbol:displayId>ip3</sbol:displayId>
-        <sbol:version>0.1</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/sample/ip3/0.1"/>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
-      </sbol:FunctionalComponent>
-    </sbol:functionalComponent>
-    <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/ip3md/sm3/0.1">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip3md/sm3"/>
-        <sbol:displayId>sm3</sbol:displayId>
-        <sbol:version>0.1</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/sample/sm3/0.1"/>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
-      </sbol:FunctionalComponent>
-    </sbol:functionalComponent>
-    <sbol:interaction>
-      <sbol:Interaction rdf:about="http://www.phoenix.org/sample/ip3md/ip3_activation/0.1">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip3md/ip3_activation"/>
-        <sbol:displayId>ip3_activation</sbol:displayId>
-        <sbol:version>0.1</sbol:version>
-        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
-        <sbol:participation>
-          <sbol:Participation rdf:about="http://www.phoenix.org/sample/ip3md/ip3_activation/ip3_int/0.1">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip3md/ip3_activation/ip3_int"/>
-            <sbol:displayId>ip3_int</sbol:displayId>
-            <sbol:version>0.1</sbol:version>
-            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000643"/>
-            <sbol:participant rdf:resource="http://www.phoenix.org/sample/ip3md/ip3/0.1"/>
-          </sbol:Participation>
-        </sbol:participation>
-        <sbol:participation>
-          <sbol:Participation rdf:about="http://www.phoenix.org/sample/ip3md/ip3_activation/ip3_sm3_act_int/0.1">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip3md/ip3_activation/ip3_sm3_act_int"/>
-            <sbol:displayId>ip3_sm3_act_int</sbol:displayId>
-            <sbol:version>0.1</sbol:version>
-            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000459"/>
-            <sbol:participant rdf:resource="http://www.phoenix.org/sample/ip3md/sm3/0.1"/>
-          </sbol:Participation>
-        </sbol:participation>
-      </sbol:Interaction>
-    </sbol:interaction>
-    <sbol:model rdf:resource="http://www.phoenix.org/sample/ip1_model/0.1"/>
+    <sbol:model rdf:resource="http://www.phoenix.org/sample/cp1_model/0.1"/>
   </sbol:ModuleDefinition>
   <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/cdsA1md/0.1">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsA1md"/>
     <sbol:displayId>cdsA1md</sbol:displayId>
     <sbol:version>0.1</sbol:version>
-    <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/cdsA1md/cdsA1_prot/0.1">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsA1md/cdsA1_prot"/>
-        <sbol:displayId>cdsA1_prot</sbol:displayId>
-        <sbol:version>0.1</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/sample/cdsA1Protein/0.1"/>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
-      </sbol:FunctionalComponent>
-    </sbol:functionalComponent>
     <sbol:functionalComponent>
       <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/cdsA1md/cdsA1/0.1">
         <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsA1md/cdsA1"/>
@@ -346,6 +200,16 @@
         <sbol:definition rdf:resource="http://www.phoenix.org/sample/cdsA1/0.1"/>
         <sbol:access rdf:resource="http://sbols.org/v2#private"/>
         <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/cdsA1md/cdsA1_prot/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsA1md/cdsA1_prot"/>
+        <sbol:displayId>cdsA1_prot</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/cdsA1Protein/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
       </sbol:FunctionalComponent>
     </sbol:functionalComponent>
     <sbol:interaction>
@@ -376,57 +240,89 @@
     </sbol:interaction>
     <sbol:model rdf:resource="http://www.phoenix.org/sample/cdsA1_model/0.1"/>
   </sbol:ModuleDefinition>
-  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/cdsR1md/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR1md"/>
-    <sbol:displayId>cdsR1md</sbol:displayId>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/rfpmd/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/rfpmd"/>
+    <sbol:displayId>rfpmd</sbol:displayId>
     <sbol:version>0.1</sbol:version>
     <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/cdsR1md/cdsR1_prot/0.1">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR1md/cdsR1_prot"/>
-        <sbol:displayId>cdsR1_prot</sbol:displayId>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/rfpmd/rfp/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/rfpmd/rfp"/>
+        <sbol:displayId>rfp</sbol:displayId>
         <sbol:version>0.1</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/sample/cdsR1Protein/0.1"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/rfp/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:model rdf:resource="http://www.phoenix.org/sample/rfp_model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/ip2md/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip2md"/>
+    <sbol:displayId>ip2md</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/ip2md/ip2/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip2md/ip2"/>
+        <sbol:displayId>ip2</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/ip2/0.1"/>
         <sbol:access rdf:resource="http://sbols.org/v2#private"/>
         <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
       </sbol:FunctionalComponent>
     </sbol:functionalComponent>
     <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/cdsR1md/cdsR1/0.1">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR1md/cdsR1"/>
-        <sbol:displayId>cdsR1</sbol:displayId>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/ip2md/sm2/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip2md/sm2"/>
+        <sbol:displayId>sm2</sbol:displayId>
         <sbol:version>0.1</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/sample/cdsR1/0.1"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/sm2/0.1"/>
         <sbol:access rdf:resource="http://sbols.org/v2#private"/>
         <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
       </sbol:FunctionalComponent>
     </sbol:functionalComponent>
     <sbol:interaction>
-      <sbol:Interaction rdf:about="http://www.phoenix.org/sample/cdsR1md/cdsR1_production/0.1">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR1md/cdsR1_production"/>
-        <sbol:displayId>cdsR1_production</sbol:displayId>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/sample/ip2md/ip2_activation/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip2md/ip2_activation"/>
+        <sbol:displayId>ip2_activation</sbol:displayId>
         <sbol:version>0.1</sbol:version>
-        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000589"/>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
         <sbol:participation>
-          <sbol:Participation rdf:about="http://www.phoenix.org/sample/cdsR1md/cdsR1_production/cdsR1_int/0.1">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR1md/cdsR1_production/cdsR1_int"/>
-            <sbol:displayId>cdsR1_int</sbol:displayId>
+          <sbol:Participation rdf:about="http://www.phoenix.org/sample/ip2md/ip2_activation/ip2_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip2md/ip2_activation/ip2_int"/>
+            <sbol:displayId>ip2_int</sbol:displayId>
             <sbol:version>0.1</sbol:version>
-            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000645"/>
-            <sbol:participant rdf:resource="http://www.phoenix.org/sample/cdsR1md/cdsR1/0.1"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000643"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/sample/ip2md/ip2/0.1"/>
           </sbol:Participation>
         </sbol:participation>
         <sbol:participation>
-          <sbol:Participation rdf:about="http://www.phoenix.org/sample/cdsR1md/cdsR1_production/cdsR1_prot_int/0.1">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR1md/cdsR1_production/cdsR1_prot_int"/>
-            <sbol:displayId>cdsR1_prot_int</sbol:displayId>
+          <sbol:Participation rdf:about="http://www.phoenix.org/sample/ip2md/ip2_activation/ip2_sm2_act_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip2md/ip2_activation/ip2_sm2_act_int"/>
+            <sbol:displayId>ip2_sm2_act_int</sbol:displayId>
             <sbol:version>0.1</sbol:version>
-            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000011"/>
-            <sbol:participant rdf:resource="http://www.phoenix.org/sample/cdsR1md/cdsR1_prot/0.1"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000459"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/sample/ip2md/sm2/0.1"/>
           </sbol:Participation>
         </sbol:participation>
       </sbol:Interaction>
     </sbol:interaction>
-    <sbol:model rdf:resource="http://www.phoenix.org/sample/cdsR1_model/0.1"/>
+    <sbol:model rdf:resource="http://www.phoenix.org/sample/ip1_model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/gfpmd/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/gfpmd"/>
+    <sbol:displayId>gfpmd</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/gfpmd/gfp/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/gfpmd/gfp"/>
+        <sbol:displayId>gfp</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/gfp/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:model rdf:resource="http://www.phoenix.org/sample/gfp_model/0.1"/>
   </sbol:ModuleDefinition>
   <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/promR1md/0.1">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/promR1md"/>
@@ -480,73 +376,177 @@
     </sbol:interaction>
     <sbol:model rdf:resource="http://www.phoenix.org/sample/promR1_model/0.1"/>
   </sbol:ModuleDefinition>
-  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/cp1md/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cp1md"/>
-    <sbol:displayId>cp1md</sbol:displayId>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/ip3md/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip3md"/>
+    <sbol:displayId>ip3md</sbol:displayId>
     <sbol:version>0.1</sbol:version>
     <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/cp1md/cp1/0.1">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cp1md/cp1"/>
-        <sbol:displayId>cp1</sbol:displayId>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/ip3md/ip3/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip3md/ip3"/>
+        <sbol:displayId>ip3</sbol:displayId>
         <sbol:version>0.1</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/sample/cp1/0.1"/>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
-      </sbol:FunctionalComponent>
-    </sbol:functionalComponent>
-    <sbol:model rdf:resource="http://www.phoenix.org/sample/cp1_model/0.1"/>
-  </sbol:ModuleDefinition>
-  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/ip2md/0.1">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip2md"/>
-    <sbol:displayId>ip2md</sbol:displayId>
-    <sbol:version>0.1</sbol:version>
-    <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/ip2md/ip2/0.1">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip2md/ip2"/>
-        <sbol:displayId>ip2</sbol:displayId>
-        <sbol:version>0.1</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/sample/ip2/0.1"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/ip3/0.1"/>
         <sbol:access rdf:resource="http://sbols.org/v2#private"/>
         <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
       </sbol:FunctionalComponent>
     </sbol:functionalComponent>
     <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/ip2md/sm2/0.1">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip2md/sm2"/>
-        <sbol:displayId>sm2</sbol:displayId>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/ip3md/sm3/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip3md/sm3"/>
+        <sbol:displayId>sm3</sbol:displayId>
         <sbol:version>0.1</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/sample/sm2/0.1"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/sm3/0.1"/>
         <sbol:access rdf:resource="http://sbols.org/v2#private"/>
         <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
       </sbol:FunctionalComponent>
     </sbol:functionalComponent>
     <sbol:interaction>
-      <sbol:Interaction rdf:about="http://www.phoenix.org/sample/ip2md/ip2_activation/0.1">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip2md/ip2_activation"/>
-        <sbol:displayId>ip2_activation</sbol:displayId>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/sample/ip3md/ip3_activation/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip3md/ip3_activation"/>
+        <sbol:displayId>ip3_activation</sbol:displayId>
         <sbol:version>0.1</sbol:version>
         <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
         <sbol:participation>
-          <sbol:Participation rdf:about="http://www.phoenix.org/sample/ip2md/ip2_activation/ip2_int/0.1">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip2md/ip2_activation/ip2_int"/>
-            <sbol:displayId>ip2_int</sbol:displayId>
+          <sbol:Participation rdf:about="http://www.phoenix.org/sample/ip3md/ip3_activation/ip3_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip3md/ip3_activation/ip3_int"/>
+            <sbol:displayId>ip3_int</sbol:displayId>
             <sbol:version>0.1</sbol:version>
             <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000643"/>
-            <sbol:participant rdf:resource="http://www.phoenix.org/sample/ip2md/ip2/0.1"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/sample/ip3md/ip3/0.1"/>
           </sbol:Participation>
         </sbol:participation>
         <sbol:participation>
-          <sbol:Participation rdf:about="http://www.phoenix.org/sample/ip2md/ip2_activation/ip2_sm2_act_int/0.1">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip2md/ip2_activation/ip2_sm2_act_int"/>
-            <sbol:displayId>ip2_sm2_act_int</sbol:displayId>
+          <sbol:Participation rdf:about="http://www.phoenix.org/sample/ip3md/ip3_activation/ip3_sm3_act_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip3md/ip3_activation/ip3_sm3_act_int"/>
+            <sbol:displayId>ip3_sm3_act_int</sbol:displayId>
             <sbol:version>0.1</sbol:version>
             <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000459"/>
-            <sbol:participant rdf:resource="http://www.phoenix.org/sample/ip2md/sm2/0.1"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/sample/ip3md/sm3/0.1"/>
           </sbol:Participation>
         </sbol:participation>
       </sbol:Interaction>
     </sbol:interaction>
     <sbol:model rdf:resource="http://www.phoenix.org/sample/ip1_model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/promA1Rmd/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/promA1Rmd"/>
+    <sbol:displayId>promA1Rmd</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/promA1Rmd/promA1/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/promA1Rmd/promA1"/>
+        <sbol:displayId>promA1</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/promA1/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/promA1Rmd/promA1_prot_act/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/promA1Rmd/promA1_prot_act"/>
+        <sbol:displayId>promA1_prot_act</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/cdsA1Protein/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/sample/promA1Rmd/promA1_activation/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/promA1Rmd/promA1_activation"/>
+        <sbol:displayId>promA1_activation</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/sample/promA1Rmd/promA1_activation/promA1_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/promA1Rmd/promA1_activation/promA1_int"/>
+            <sbol:displayId>promA1_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000643"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/sample/promA1Rmd/promA1/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/sample/promA1Rmd/promA1_activation/promA1_prot_act_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/promA1Rmd/promA1_activation/promA1_prot_act_int"/>
+            <sbol:displayId>promA1_prot_act_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000459"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/sample/promA1Rmd/promA1_prot_act/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="http://www.phoenix.org/sample/promA1_model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/bfpmd/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/bfpmd"/>
+    <sbol:displayId>bfpmd</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/bfpmd/bfp/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/bfpmd/bfp"/>
+        <sbol:displayId>bfp</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/bfp/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:model rdf:resource="http://www.phoenix.org/sample/bfp_model/0.1"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/sample/cdsR2md/0.1">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR2md"/>
+    <sbol:displayId>cdsR2md</sbol:displayId>
+    <sbol:version>0.1</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/cdsR2md/cdsR2/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR2md/cdsR2"/>
+        <sbol:displayId>cdsR2</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/cdsR2/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/sample/cdsR2md/cdsR2_prot/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR2md/cdsR2_prot"/>
+        <sbol:displayId>cdsR2_prot</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/sample/promR2Protein/0.1"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/sample/cdsR2md/cdsR2_production/0.1">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR2md/cdsR2_production"/>
+        <sbol:displayId>cdsR2_production</sbol:displayId>
+        <sbol:version>0.1</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000589"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/sample/cdsR2md/cdsR2_production/cdsR2_prot_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR2md/cdsR2_production/cdsR2_prot_int"/>
+            <sbol:displayId>cdsR2_prot_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000011"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/sample/cdsR2md/cdsR2_prot/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/sample/cdsR2md/cdsR2_production/cdsR2_int/0.1">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/cdsR2md/cdsR2_production/cdsR2_int"/>
+            <sbol:displayId>cdsR2_int</sbol:displayId>
+            <sbol:version>0.1</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000645"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/sample/cdsR2md/cdsR2/0.1"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="http://www.phoenix.org/sample/cdsR2_model/0.1"/>
   </sbol:ModuleDefinition>
   <sbol:Model rdf:about="http://www.phoenix.org/sample/ip3_model/0.1">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/sample/ip3_model"/>

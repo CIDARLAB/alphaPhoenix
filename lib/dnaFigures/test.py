@@ -3,11 +3,11 @@
 import dnaplotlib as dpl
 from pylab import *
 import matplotlib.pyplot as plt
-from matplotlib import gridspec
+from matplotlib import mpl
 
 
 fig = plt.figure(figsize=(0.6,0.2))
-gs = gridspec.GridSpec(1, 1)
+gs = mpl.GridSpec(1, 1)
 
 # Colour map
 col_map = {}
@@ -21,9 +21,9 @@ col_map['orange']  = (1.00, 0.75, 0.17)
 # Global line width
 lw = 0.8
 
-promTemplate = {'type':'Promoter', 'fwd':True, 'opts':{'linewidth':lw, 'color':col_map['green'], 'edge_color':col_map['black']}} 
-rbsTemplate = {'type':'RBS', 'fwd':True, 'opts':{'linewidth':lw, 'color':col_map['red'], 'edge_color':col_map['black']}} 
-cdsTemplate = {'type':'CDS', 'fwd':True, 'opts':{'linewidth':lw, 'color':col_map['orange'], 'edge_color':col_map['black'],'x_extent':24}} 
+promTemplate = {'type':'Promoter', 'fwd':True, 'opts':{'linewidth':lw, 'color':col_map['blue'], 'edge_color':col_map['black']}} 
+rbsTemplate  = {'type':'RBS', 'fwd':True, 'opts':{'linewidth':lw, 'color':col_map['red'], 'edge_color':col_map['black']}} 
+cdsTemplate  = {'type':'CDS', 'fwd':True, 'opts':{'linewidth':lw, 'color':col_map['orange'], 'edge_color':col_map['black'],'x_extent':24}} 
 
 design1 = [promTemplate,rbsTemplate,cdsTemplate]
 ax_dna1 = plt.subplot(gs[0])
