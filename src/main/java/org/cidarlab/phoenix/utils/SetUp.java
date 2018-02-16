@@ -20,8 +20,8 @@ public class SetUp {
     //Promoters
     private static Component cp1;
     private static Component cp2;
-    private static Component ap1;
-    private static Component ap2;
+    private static Component ip1;
+    private static Component ip2;
     private static Component rp1;
     private static Component rp2;
     
@@ -34,6 +34,9 @@ public class SetUp {
     private static Component acds2;
     private static Component rcds1;
     private static Component rcds2;
+    private static Component gfp;
+    private static Component rfp;
+    private static Component bfp;
     
     //Terminator
     private static Component ter1;
@@ -51,13 +54,73 @@ public class SetUp {
         cp2 = new Component();
         cp2.setOrientation(Orientation.FORWARD);
         cp2.setRole(Component.ComponentRole.PROMOTER_CONSTITUTIVE);
-        cp1.setName("ConstitutivePromoter2");
+        cp2.setName("ConstitutivePromoter2");
         
-        ap1 = new Component();
-        ap2 = new Component();
+        ip1 = new Component();
+        ip1.setOrientation(Orientation.FORWARD);
+        ip1.setRole(Component.ComponentRole.PROMOTER_INDUCIBLE);
+        ip1.setName("InduciblePromoter1");
+        
+        ip2 = new Component();
+        ip2.setOrientation(Orientation.FORWARD);
+        ip2.setRole(Component.ComponentRole.PROMOTER_INDUCIBLE);
+        ip2.setName("InduciblePromoter2");
+        
+        
         rp1 = new Component();
-        rp2 = new Component();
+        rp1.setOrientation(Orientation.FORWARD);
+        rp1.setRole(Component.ComponentRole.PROMOTER_REPRESSIBLE);
+        rp1.setName("RepressiblePromoter1");
         
+        rp2 = new Component();
+        rp2.setOrientation(Orientation.FORWARD);
+        rp2.setRole(Component.ComponentRole.PROMOTER_REPRESSIBLE);
+        rp2.setName("RepressiblePromoter2");
+        
+        rbs1 = new Component();
+        rbs1.setOrientation(Orientation.FORWARD);
+        rbs1.setRole(Component.ComponentRole.RBS);
+        rbs1.setName("RBS1");
+        
+        rbs2 = new Component();
+        rbs2.setOrientation(Orientation.FORWARD);
+        rbs2.setRole(Component.ComponentRole.RBS);
+        rbs2.setName("RBS2");
+        
+        rcds1 = new Component();
+        rcds1.setOrientation(Orientation.FORWARD);
+        rcds1.setRole(Component.ComponentRole.CDS_REPRESSOR);
+        rcds1.setName("RepCDS1");
+        
+        rcds2 = new Component();
+        rcds2.setOrientation(Orientation.FORWARD);
+        rcds2.setRole(Component.ComponentRole.CDS_REPRESSOR);
+        rcds2.setName("RepCDS2");
+        
+        acds1 = new Component();
+        acds1.setOrientation(Orientation.FORWARD);
+        acds1.setRole(Component.ComponentRole.CDS_ACTIVATOR);
+        acds1.setName("ActCDS1");
+        
+        acds2 = new Component();
+        acds2.setOrientation(Orientation.FORWARD);
+        acds2.setRole(Component.ComponentRole.CDS_ACTIVATOR);
+        acds2.setName("ActCDS2");
+        
+        gfp = new Component();
+        gfp.setOrientation(Orientation.FORWARD);
+        gfp.setRole(Component.ComponentRole.CDS_FLUORESCENT);
+        gfp.setName("GFP");
+        
+        bfp = new Component();
+        bfp.setOrientation(Orientation.FORWARD);
+        bfp.setRole(Component.ComponentRole.CDS_FLUORESCENT);
+        bfp.setName("BFP");
+        
+        rfp = new Component();
+        rfp.setOrientation(Orientation.FORWARD);
+        rfp.setRole(Component.ComponentRole.CDS_FLUORESCENT);
+        rfp.setName("RFP");
         
     }
     
