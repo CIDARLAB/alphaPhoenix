@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import org.cidarlab.minieugene.predicates.interaction.Interaction.InteractionType;
 import org.cidarlab.phoenix.core.Controller;
 import org.cidarlab.phoenix.dom.Component;
@@ -23,8 +24,33 @@ import org.cidarlab.phoenix.dom.Orientation;
  */
 public class DnaPlotlibAdaptor {
     
+    private static List<String> colors = new ArrayList<String>();
     
-    public static String generateScript(List<Component> components, String filename){
+    public static String generateNewColor(){
+        Random random = new Random();
+        double r = (double) (random.nextInt(101)/100.00);
+        double g = (double) (random.nextInt(101)/100.00);
+        double b = (double) (random.nextInt(101)/100.00);
+        String str = "(" + r + "," + g + "," + b + ")";
+            
+        while(colors.contains(str)){
+            r = (double) (random.nextInt(101)/100.00);
+            g = (double) (random.nextInt(101)/100.00);
+            b = (double) (random.nextInt(101)/100.00);
+            str = "(" + r + "," + g + "," + b + ")";
+        }
+        
+        return str;
+    }
+    
+    public static String generateScript(List<Component> components, boolean labels, String filename){
+        
+        colors.add("(0.95, 0.30, 0.25)"); //red
+        colors.add("(0.38, 0.82, 0.32)"); //green
+        colors.add("(0.38, 0.65, 0.87)"); //blue
+        colors.add("(1.00, 0.75, 0.17)"); //orange
+        colors.add("(1.00, 1.00, 1.00)"); //white
+    
         String scr = "#!/usr/bin/env python\n";
         
         scr += "import dnaplotlib as dpl\n" +
@@ -33,6 +59,52 @@ public class DnaPlotlibAdaptor {
                "from matplotlib import gridspec\n\n";
         
         double length = (0.2 * components.size());
+        
+        int colorIndex = 0;
+        
+        Map<String,String> colorMap = new HashMap<String,String>();
+        for (Component c : components) {
+            if(Controller.isCDS(c) || Controller.isPromoter(c)){
+                boolean colorfound = false;
+                if (colorMap.containsKey(c.getName())) {
+                    for (Interaction i : c.getInteractions()) {
+                        colorMap.put(i.getFrom().getName(), colorMap.get(c.getName()));
+                        colorMap.put(i.getTo().getName(), colorMap.get(c.getName()));
+                    }
+                } else {
+                    for (Interaction i : c.getInteractions()) {
+                        if (colorMap.containsKey(i.getFrom().getName())) {
+                            colorMap.put(i.getTo().getName(), colorMap.get(i.getFrom().getName()));
+                            colorfound = true;
+                        }
+                        if (!colorfound) {
+                            if (colorMap.containsKey(i.getTo().getName())) {
+                                colorMap.put(i.getFrom().getName(), colorMap.get(i.getTo().getName()));
+                                colorfound = true;
+                            }
+                        }
+                        
+                    }
+                    if (!colorfound) {
+                        if (colorIndex < 5) {
+                            colorMap.put(c.getName(), colors.get(colorIndex));
+                            colorIndex++;
+                        } else {
+                            String newColor = generateNewColor();
+                            colorMap.put(c.getName(), newColor);
+                        }
+                        for(Interaction i:c.getInteractions()){
+                            colorMap.put(i.getFrom().getName(), colorMap.get(c.getName()));
+                            colorMap.put(i.getTo().getName(), colorMap.get(c.getName()));
+                        }
+                    }
+                }
+            } 
+            else {
+                colorMap.put(c.getName(), "(0.0,0.0,0.0)");
+            }
+        }
+        
         
         scr += "gs = gridspec.GridSpec(1, 1)\n\n";
         
@@ -43,16 +115,7 @@ public class DnaPlotlibAdaptor {
                "	b = col[2] + (fac*(1.0-col[2]))\n" +
                "	return (r,g,b)\n\n";
         
-        scr += "# Colour map\n" +
-               "col_map = {}\n" +
-               "col_map['black']   = (0.00, 0.00, 0.00)\n" +
-               "col_map['white']   = (1.00, 1.00, 1.00)\n" +
-               "col_map['red']     = (0.95, 0.30, 0.25)\n" +
-               "col_map['green']   = (0.38, 0.82, 0.32)\n" +
-               "col_map['blue']    = (0.38, 0.65, 0.87)\n" +
-               "col_map['orange']  = (1.00, 0.75, 0.17)\n" +
-               "\n" +
-               "# Global line width\n" +
+        scr += "# Global line width\n" +
                "lw = 0.8\n\n" + 
                "# How much to lighten OFF components\n" +
                "off_fac = 0.7\n\n";
@@ -66,8 +129,7 @@ public class DnaPlotlibAdaptor {
         String partName = "";
         for(Component c:components){
             partName = "part" + partCount++;
-            scr += partName + " = " + createPartString(c.getName(),c.getRole(),c.getOrientation()) + "\n";
-            System.out.println("Part name : " + c.getName());
+            scr += partName + " = " + createPartString(c.getName(), labels, c.getRole(), colorMap.get(c.getName()), c.getOrientation()) + "\n";
             partNameMap.put(c.getName(), partName);
             designString += partName;
             if(partCount < components.size()){
@@ -84,17 +146,19 @@ public class DnaPlotlibAdaptor {
         List<String> arcList = new ArrayList<String>();
         int maxArcs = 0;
         for(Component c:components){
-            int iCount = 0;
-            for(Interaction i:c.getInteractions()){
-                if(c.getInteractions().size() > maxArcs){
-                    maxArcs = c.getInteractions().size();
+            if (Controller.isCDS(c)) {
+                int iCount = 0;
+                for (Interaction i : c.getInteractions()) {
+                    if (c.getInteractions().size() > maxArcs) {
+                        maxArcs = c.getInteractions().size();
+                    }
+                    double arcHeight = 20.0 + (5 * iCount);
+                    arcName = "reg" + arcCount++;
+                    iCount++;
+                    scr += arcName + " = " + createArcString(partNameMap.get(i.getFrom().getName()), partNameMap.get(i.getTo().getName()), i.getType(), arcHeight) + "\n";
+                    //Add arcs to an array.
+                    arcList.add(arcName);
                 }
-                double arcHeight = 20.0 + (5*iCount);
-                arcName = "reg" + arcCount++;
-                iCount++;
-                scr += arcName + " = " + createArcString(partNameMap.get(i.getFrom().getName()),partNameMap.get(i.getTo().getName()),i.getType(),arcHeight) + "\n";
-                //Add arcs to an array.
-                arcList.add(arcName);
             }
         }
         if(!arcList.isEmpty()){
@@ -129,26 +193,38 @@ public class DnaPlotlibAdaptor {
         
     }
     
-    private static String createPartString(String name, ComponentRole role, Orientation o){
+    private static String createPartString(String name, boolean label, ComponentRole role, Orientation o){
+         return createPartString(name,label,role,"(0.00, 0.00, 0.00)",o);
+    }
+    
+    
+    private static String createPartString(String name, boolean label, ComponentRole role, String color, Orientation o){
         String scr = "";
         scr +=  "{";
         scr += "'type':'";
         String oString = "True";
+        
+        String labelString = "";
+        
+        if(label){
+            labelString += " 'label':'" + name + "', 'label_y_offset':-14, 'label_size':4, ";
+        }
+        
         if(o.equals(Orientation.REVERSE)){
             oString = "False";
         }
         switch(getRoleCharacter(role)){
             case 'p':
-                scr += "Promoter', 'fwd':" + oString + ", 'opts':{'linewidth':lw, 'color':col_map['black'], 'edge_color':col_map['black']}}";
+                scr += "Promoter', 'fwd':" + oString + ", 'opts':{'linewidth':lw," + labelString + " 'color':" + color + ", 'edge_color':(0.00, 0.00, 0.00)}}";
                 break;
             case 'r':
-                scr += "RBS', 'fwd':" + oString + ", 'opts':{'linewidth':lw, 'color':col_map['black'], 'edge_color':col_map['black']}}";
+                scr += "RBS', 'fwd':" + oString + ", 'opts':{'linewidth':lw," + labelString + " 'color':" + color + ", 'edge_color':(0.00, 0.00, 0.00)}}";
                 break;
             case 'c':
-                scr += "CDS', 'fwd':" + oString + ", 'opts':{'linewidth':lw, 'color':col_map['black'], 'edge_color':col_map['black'],'x_extent':24}}";
+                scr += "CDS', 'fwd':" + oString + ", 'opts':{'linewidth':lw," + labelString + " 'color':" + color + ", 'edge_color':(0.00, 0.00, 0.00),'x_extent':20}}";
                 break;
             case 't':
-                scr += "Terminator', 'fwd':" + oString + ", 'opts':{'linewidth':lw, 'color':col_map['black'], 'edge_color':col_map['black']}}";
+                scr += "Terminator', 'fwd':" + oString + ", 'opts':{'linewidth':lw," + labelString + " 'color':" + color + ", 'edge_color':(0.00, 0.00, 0.00)}}";
                 break;
             case 'w':
                 System.out.println("Unidentified form?");
@@ -160,7 +236,7 @@ public class DnaPlotlibAdaptor {
         }
         return scr; 
     }
-    
+        
     private static String createArcString(String from, String to, InteractionType type, double arcHeight){
         String scr = "";
         
@@ -172,7 +248,7 @@ public class DnaPlotlibAdaptor {
         else 
             scr += "'Activation',";
         
-        scr += "'from_part':" + from + ", 'to_part':" + to + ", 'opts':{'color':col_map['red'], 'linewidth':lw";  
+        scr += "'from_part':" + from + ", 'to_part':" + to + ", 'opts':{'color':(0.0,0.0,0.0), 'linewidth':lw";  
         if(arcHeight > 0){
             scr += ", 'arc_height':" + arcHeight +"}}";
         } else {
