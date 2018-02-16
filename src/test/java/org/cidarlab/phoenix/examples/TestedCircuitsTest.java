@@ -39,7 +39,7 @@ import org.sbolstandard.core2.SBOLWriter;
  */
 public class TestedCircuitsTest {
 
-    private static final String rootfp = Utilities.getFilepath() + Utilities.getSeparater() + "examples" + Utilities.getSeparater() + "tested_circuits" + Utilities.getSeparater();
+    private static final String rootfp = Utilities.getFilepath() + Utilities.getSeparater() + "lib" + Utilities.getSeparater()  + "examples" + Utilities.getSeparater() + "tested_circuits" + Utilities.getSeparater();
     private static final String libfp = rootfp + "lib" + Utilities.getSeparater();
     private static final String paramsfp = rootfp + "params.json";
     

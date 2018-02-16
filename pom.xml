@@ -37,7 +37,7 @@
                         <id>install-external</id>
                         <phase>clean</phase>
                         <configuration>
-                            <file>${basedir}/ExternalDependencies/JavaPlot.jar</file>
+                            <file>${basedir}/lib/externalDependencies/JavaPlot.jar</file>
                             <repositoryLayout>default</repositoryLayout>
                             <groupId>org.java.plot</groupId>
                             <artifactId>JavaPlot</artifactId>
