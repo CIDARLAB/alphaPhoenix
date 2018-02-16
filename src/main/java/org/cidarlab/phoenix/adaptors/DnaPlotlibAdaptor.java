@@ -43,14 +43,8 @@ public class DnaPlotlibAdaptor {
         return str;
     }
     
-    public static String generateScript(List<Component> components, boolean labels, String filename){
+    public static String generateScript(List<Component> components, boolean labels, Map<String,String> colorMap, String filename){
         
-        colors.add("(0.95, 0.30, 0.25)"); //red
-        colors.add("(0.38, 0.82, 0.32)"); //green
-        colors.add("(0.38, 0.65, 0.87)"); //blue
-        colors.add("(1.00, 0.75, 0.17)"); //orange
-        colors.add("(1.00, 1.00, 1.00)"); //white
-    
         String scr = "#!/usr/bin/env python\n";
         
         scr += "import dnaplotlib as dpl\n" +
@@ -61,49 +55,108 @@ public class DnaPlotlibAdaptor {
         double length = (0.2 * components.size());
         
         int colorIndex = 0;
-        
-        Map<String,String> colorMap = new HashMap<String,String>();
-        for (Component c : components) {
-            if(Controller.isCDS(c) || Controller.isPromoter(c)){
-                boolean colorfound = false;
-                if (colorMap.containsKey(c.getName())) {
-                    for (Interaction i : c.getInteractions()) {
-                        colorMap.put(i.getFrom().getName(), colorMap.get(c.getName()));
-                        colorMap.put(i.getTo().getName(), colorMap.get(c.getName()));
-                    }
-                } else {
-                    for (Interaction i : c.getInteractions()) {
-                        if (colorMap.containsKey(i.getFrom().getName())) {
-                            colorMap.put(i.getTo().getName(), colorMap.get(i.getFrom().getName()));
-                            colorfound = true;
-                        }
-                        if (!colorfound) {
-                            if (colorMap.containsKey(i.getTo().getName())) {
-                                colorMap.put(i.getFrom().getName(), colorMap.get(i.getTo().getName()));
-                                colorfound = true;
-                            }
-                        }
-                        
-                    }
-                    if (!colorfound) {
-                        if (colorIndex < 5) {
-                            colorMap.put(c.getName(), colors.get(colorIndex));
-                            colorIndex++;
-                        } else {
-                            String newColor = generateNewColor();
-                            colorMap.put(c.getName(), newColor);
-                        }
-                        for(Interaction i:c.getInteractions()){
+        if (colorMap.isEmpty()) {
+            
+            colors.add("(0.95, 0.30, 0.25)"); //red
+            colors.add("(0.38, 0.82, 0.32)"); //green
+            colors.add("(0.38, 0.65, 0.87)"); //blue
+            colors.add("(1.00, 0.75, 0.17)"); //orange
+            colors.add("(1.00, 1.00, 1.00)"); //white
+            for (Component c : components) {
+                if (Controller.isCDS(c) || Controller.isPromoter(c)) {
+                    boolean colorfound = false;
+                    if (colorMap.containsKey(c.getName())) {
+                        for (Interaction i : c.getInteractions()) {
                             colorMap.put(i.getFrom().getName(), colorMap.get(c.getName()));
                             colorMap.put(i.getTo().getName(), colorMap.get(c.getName()));
                         }
+                    } else {
+                        for (Interaction i : c.getInteractions()) {
+                            if (colorMap.containsKey(i.getFrom().getName())) {
+                                colorMap.put(i.getTo().getName(), colorMap.get(i.getFrom().getName()));
+                                colorfound = true;
+                            }
+                            if (!colorfound) {
+                                if (colorMap.containsKey(i.getTo().getName())) {
+                                    colorMap.put(i.getFrom().getName(), colorMap.get(i.getTo().getName()));
+                                    colorfound = true;
+                                }
+                            }
+
+                        }
+                        if (!colorfound) {
+                            if (colorIndex < 5) {
+                                colorMap.put(c.getName(), colors.get(colorIndex));
+                                colorIndex++;
+                            } else {
+                                String newColor = generateNewColor();
+                                colorMap.put(c.getName(), newColor);
+                            }
+                            for (Interaction i : c.getInteractions()) {
+                                colorMap.put(i.getFrom().getName(), colorMap.get(c.getName()));
+                                colorMap.put(i.getTo().getName(), colorMap.get(c.getName()));
+                            }
+                        }
+                    }
+                } else {
+                    colorMap.put(c.getName(), "(0.0,0.0,0.0)");
+                }
+            }
+        } 
+        else {
+            for (Component c : components) {
+                if (Controller.isCDS(c) || Controller.isPromoter(c)) {
+                    if (colorMap.containsKey(c.getName())) {
+                        for(Interaction i:c.getInteractions()){
+                            if(!colorMap.containsKey(i.getFrom().getName())){
+                                colorMap.put(i.getFrom().getName(), colorMap.get(c.getName()));
+                            } 
+                            if(!colorMap.containsKey(i.getTo().getName())){
+                                colorMap.put(i.getTo().getName(), colorMap.get(c.getName()));
+                            }
+                        }
+                    } else {
+                        boolean colorfound = false;
+                        for (Interaction i : c.getInteractions()) {
+                            if (colorMap.containsKey(i.getFrom().getName())) {
+                                if(!colorMap.containsKey(i.getTo().getName())){
+                                    colorMap.put(i.getTo().getName(), colorMap.get(i.getFrom().getName()));
+                                    colorfound = true;
+                                }
+                            }
+                            if (!colorfound) {
+                                if (colorMap.containsKey(i.getTo().getName())) {
+                                    if(!colorMap.containsKey(i.getFrom().getName())){
+                                        colorMap.put(i.getFrom().getName(), colorMap.get(i.getTo().getName()));
+                                        colorfound = true;
+                                    }
+                                }
+                            }
+                        }
+                        if (!colorfound) {
+                                String newColor = generateNewColor();
+                                colorMap.put(c.getName(), newColor);
+                            for (Interaction i : c.getInteractions()) {
+                                if(!colorMap.containsKey(i.getFrom().getName())){
+                                    colorMap.put(i.getFrom().getName(), colorMap.get(c.getName()));
+                                } 
+                                if(!colorMap.containsKey(i.getTo().getName())){
+                                    colorMap.put(i.getTo().getName(), colorMap.get(c.getName()));
+                                }
+                            }
+                        }
+                    }    
+                }
+                else {
+                    if(!colorMap.containsKey(c.getName())){
+                        colorMap.put(c.getName(), "(0.0,0.0,0.0)");
                     }
                 }
-            } 
-            else {
-                colorMap.put(c.getName(), "(0.0,0.0,0.0)");
             }
+            
+                    
         }
+        
         
         
         scr += "gs = gridspec.GridSpec(1, 1)\n\n";
@@ -191,6 +244,10 @@ public class DnaPlotlibAdaptor {
                "plt.close('all')";
         return scr;
         
+    }
+    
+    public static String generateScript(List<Component> components, boolean labels, String filename){
+        return generateScript(components, labels, new HashMap<String,String>(), filename);
     }
     
     private static String createPartString(String name, boolean label, ComponentRole role, Orientation o){

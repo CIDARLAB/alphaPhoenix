@@ -5,7 +5,9 @@
  */
 package org.cidarlab.phoenix.utils;
 
+import org.cidarlab.minieugene.predicates.interaction.Interaction.InteractionType;
 import org.cidarlab.phoenix.dom.Component;
+import org.cidarlab.phoenix.dom.Interaction;
 import org.cidarlab.phoenix.dom.Orientation;
 
 /**
@@ -43,7 +45,7 @@ public class SetUp {
     private static Component ter2;
     
     
-    public SetUp(){
+    public static void initializeComponents(){
         
         
         cp1 = new Component();
@@ -122,6 +124,24 @@ public class SetUp {
         rfp.setRole(Component.ComponentRole.CDS_FLUORESCENT);
         rfp.setName("RFP");
         
+        Interaction ip1int = new Interaction(acds1,ip1,InteractionType.INDUCES);
+        acds1.addInteraction(ip1int);
+        ip1.addInteraction(ip1int);
+        
+        Interaction ip2int = new Interaction(acds2,ip2,InteractionType.INDUCES);
+        acds2.addInteraction(ip2int);
+        ip2.addInteraction(ip2int);
+        
+        Interaction rp1int = new Interaction(rcds1,rp1,InteractionType.REPRESSES);
+        rcds1.addInteraction(rp1int);
+        rp1.addInteraction(rp1int);
+        
+        Interaction rp2int = new Interaction(rcds2,rp2,InteractionType.REPRESSES);
+        rcds2.addInteraction(rp2int);
+        rp2.addInteraction(rp2int);
+        
     }
+    
+    
     
 }
