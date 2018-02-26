@@ -87,7 +87,7 @@ public class MainController {
             List<Module> modules = MiniEugeneAdaptor.getStructures((filepath + "structure.eug"), Integer.valueOf(solSize), Integer.valueOf(numSol), job);
             
             int index = 0;
-            Module test = org.cidarlab.phoenix.core.Controller.decompose(PhoenixMode.MM, modules.get(index));
+            Module test = org.cidarlab.phoenix.core.Controller.decompose(modules.get(index));
             
             List<Map<String,CandidateComponent>> assignments = org.cidarlab.phoenix.core.Controller.assign(test, lib, sbol);
             Map<String,CandidateComponent> assignment = assignments.get(0);
