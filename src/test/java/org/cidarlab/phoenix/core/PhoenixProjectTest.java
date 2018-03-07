@@ -177,7 +177,7 @@ public class PhoenixProjectTest {
             double percSatCount = 0.0;
             double errSatCount = 0.0;
             int index = 0;
-            Module test = Controller.decompose(PhoenixMode.MM, modules.get(index));
+            Module test = Controller.decompose(modules.get(index));
             List<Map<String,CandidateComponent>> assignments = Controller.assign(test, lib, sbol);
            System.out.println("index," + "smcCount" + "," + "totalsatisfy" + "," + "percCount" + ","+ "percSatCount" + ","+ "errSatCount");
             
@@ -308,7 +308,7 @@ public class PhoenixProjectTest {
             int smcCount = 0;
             int index = 0;
             int selected = 0;
-            Module test = Controller.decompose(PhoenixMode.MM, modules.get(index));
+            Module test = Controller.decompose(modules.get(index));
             List<Map<String,CandidateComponent>> assignments = Controller.assign(test, lib, sbol);
             for (int i = 0; i < assignments.size(); i++) {
                 Map<String, CandidateComponent> assignment = assignments.get(i);
@@ -474,7 +474,7 @@ public class PhoenixProjectTest {
 //            }
             
             int index = 0;
-            Module test = Controller.decompose(PhoenixMode.MM, modules.get(index));
+            Module test = Controller.decompose(modules.get(index));
             List<Map<String,CandidateComponent>> assignments = Controller.assign(test, lib, sbol);
             for (int i = 0; i < assignments.size(); i++) {
                 Map<String, CandidateComponent> assignment = assignments.get(i);
@@ -631,7 +631,7 @@ public class PhoenixProjectTest {
 
             int testindx = 0;
             for (int i = 0; i < modules.size(); i++) {
-                Module test = Controller.decompose(PhoenixMode.MM, modules.get(i));
+                Module test = Controller.decompose(modules.get(i));
                 Controller.assignLeafCandidates(test, lib);
                 Module tu1 = test.getChildren().get(0);
 
