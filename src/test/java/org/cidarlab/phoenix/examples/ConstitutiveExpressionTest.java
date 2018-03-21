@@ -36,7 +36,7 @@ public class ConstitutiveExpressionTest {
     
     private static final String rootFolder = Utilities.getFilepath() + Utilities.getSeparater() + "lib" + Utilities.getSeparater() + "examples" + Utilities.getSeparater() + "tested_circuits" + Utilities.getSeparater();
     private static final String expRootFolder = rootFolder + "constitutive_expression" + Utilities.getSeparater();
-    private static String sburl = "https://synbiohub.cidarlab.org/public/AlphaTest/AlphaTest_collection/1";
+    private static String sburl = "https://synbiohub.programmingbiology.org/public/AlphaPhoenix/AlphaPhoenix_collection/1";
     private static String eugFilepath = expRootFolder + "constitutiveExpression.eug";
     private static String stlFilepath = expRootFolder + "stl.txt";
     private static String libFilepath = expRootFolder + "lib.json";
@@ -60,7 +60,7 @@ public class ConstitutiveExpressionTest {
         
     }
     
-    @Test
+    //@Test
     public void testCreateDesignPageJSON(){
         System.out.println("Starting JSON Test");
         String eugfp = eugFilepath;

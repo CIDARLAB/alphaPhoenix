@@ -5,18 +5,21 @@
  */
 package org.cidarlab.phoenix.adaptors;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.cidarlab.minieugene.predicates.interaction.Interaction.InteractionType;
 import org.cidarlab.phoenix.core.Controller;
 import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Component.ComponentRole;
 import org.cidarlab.phoenix.dom.Interaction;
-import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.Orientation;
+import org.cidarlab.phoenix.utils.Utilities;
 
 /**
  *
@@ -425,5 +428,25 @@ public class DnaPlotlibAdaptor {
         }
     }
     
+    
+    public static void runScript(String filepath){
+        StringBuilder commandBuilder = null;
+        commandBuilder = new StringBuilder("python " + filepath);
+        String[] clist = new String[2];
+        String command = commandBuilder.toString();
+        clist[0] = ("cd " + Utilities.getFilepath() + "lib" + Utilities.getSeparater() + "dnaFigures" + Utilities.getSeparater());
+        clist[1] = (command);
+        Runtime runtime = Runtime.getRuntime();
+        Process proc = null;
+        try {
+            
+            proc = runtime.exec(command);
+            proc.waitFor();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(DnaPlotlibAdaptor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(DnaPlotlibAdaptor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 }

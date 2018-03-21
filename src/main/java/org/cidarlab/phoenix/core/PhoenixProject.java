@@ -246,6 +246,9 @@ public class PhoenixProject {
             
             for(Module m:decomposedModules){
                 Controller.assignTUCandidates(m,lib,sbol);
+            }         
+            
+            for(Module m:decomposedModules){
                 arr.put(UIAdaptor.getModuleJSON(m));
             }
             
