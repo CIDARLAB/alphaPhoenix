@@ -28,6 +28,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.cidarlab.gridtli.adaptors.JavaPlotAdaptor;
+import org.cidarlab.gridtli.adaptors.PyPlotAdaptor;
 import org.cidarlab.gridtli.dom.Grid;
 import org.cidarlab.gridtli.dom.Point;
 import org.cidarlab.gridtli.dom.Signal;
@@ -344,8 +345,17 @@ public class STLAdaptor {
                 String plotfp = folderpath + key + ".png";
                 Grid g = new Grid(allsignals.get(key));
                 JavaPlotAdaptor.plotToFile(JavaPlotAdaptor.plotGridwithoutCover(g), plotfp);
+                String pyplotfp = folderpath + key + ".py";
+                
+                
             }
         }
+        for (String key : allsignals.keySet()) {
+            String plotfp = folderpath + key + ".png";
+            String pyplotfp = folderpath + key + ".py";
+            Utilities.writeToFile(pyplotfp, PyPlotAdaptor.generateSignalPlotScript(allsignals.get(key)));
+        }
+        
         double satisfy = ((double) satisfycount) / ((double) numofruns);
         double error = computeError(satisfy, numofruns, confidence);
         Map<String,Double> smc = new HashMap<String,Double>();
@@ -384,6 +394,8 @@ public class STLAdaptor {
                     String plotfp = result + key + ".png";
                     JavaPlotAdaptor.plotToFile(JavaPlotAdaptor.plotGridwithoutCover(g), plotfp);
                 }
+                String pyplotfp = result + key + "pyplot.py";
+                Utilities.writeToFile(pyplotfp, PyPlotAdaptor.generateSignalPlotScript(signals));
                 
             } else {
                 System.err.println("Error in naming convention.");

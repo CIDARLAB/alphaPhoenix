@@ -43,7 +43,7 @@ public class ConstitutiveExpressionTest {
         
     
     @Test
-    public void testConstitutiveExpression(){
+    public void testConstitutiveExpressionDeterministic(){
         String eugfp = eugFilepath;
         int eugCircSize = 4;
         Integer eugNumSolutions = null;
@@ -54,7 +54,25 @@ public class ConstitutiveExpressionTest {
         double confidence = 0.0;
         double threshold = 0.0;
         Map<String,Double> inputMap = new HashMap<String,Double>(); 
-        boolean plot = true;
+        boolean plot = false;
+        
+        PhoenixProject newProj = new PhoenixProject( eugfp,  eugCircSize,  eugNumSolutions,  stlfp, libraryfp, simulation, runCount, confidence, threshold,  inputMap, plot);
+        
+    }
+    
+    @Test
+    public void testConstitutiveExpressionStochastic(){
+        String eugfp = eugFilepath;
+        int eugCircSize = 4;
+        Integer eugNumSolutions = null;
+        String stlfp = stlFilepath;
+        String libraryfp = libFilepath;
+        Simulation simulation = PhoenixProject.Simulation.STOCHASTIC;
+        int runCount = 100;
+        double confidence = 0.95;
+        double threshold = 0.9;
+        Map<String,Double> inputMap = new HashMap<String,Double>(); 
+        boolean plot = false;
         
         PhoenixProject newProj = new PhoenixProject( eugfp,  eugCircSize,  eugNumSolutions,  stlfp, libraryfp, simulation, runCount, confidence, threshold,  inputMap, plot);
         
