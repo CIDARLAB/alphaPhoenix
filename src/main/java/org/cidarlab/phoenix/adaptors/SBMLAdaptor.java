@@ -450,22 +450,22 @@ public class SBMLAdaptor {
     
     private static Reaction createRepressibleExpressionReaction(Species repressor, Species expressed, Model mod) {
     	Reaction repressibleExpression = createRatelessRepressibleExpressionReaction(repressor, expressed, mod);
-    	KineticLaw repressibleExpressionLaw = repressibleExpression.createKineticLaw();
-		LocalParameter maxExpressionRate = repressibleExpressionLaw.createLocalParameter("k_EXR");
-		maxExpressionRate.setName("k_EXR");
-		maxExpressionRate.setValue(1.0);
-		LocalParameter dissociation = repressibleExpressionLaw.createLocalParameter("d");
-		dissociation.setName("d");
-		dissociation.setValue(1.0);
-		LocalParameter coop = repressibleExpressionLaw.createLocalParameter("h");
-		coop.setName("h");
-		coop.setValue(2.0);
-                LocalParameter activePromoterFraction = repressibleExpressionLaw.createLocalParameter("y");
-		activePromoterFraction.setName("y");
-		activePromoterFraction.setValue(1.0);
-		repressibleExpressionLaw.setMath(parseFormula(maxExpressionRate.getId()
-                        + "*((1-" + activePromoterFraction.getId() + ")*(1/(1+("+ repressor.getId() + "/"
-                        + dissociation.getId() + ")^" + coop.getId() + "))+" + activePromoterFraction.getId() + ")"));
+        KineticLaw repressibleExpressionLaw = repressibleExpression.createKineticLaw();
+        LocalParameter maxExpressionRate = repressibleExpressionLaw.createLocalParameter("max_rate");
+        maxExpressionRate.setName("max_rate");
+        maxExpressionRate.setValue(1.0);
+        LocalParameter basalExpressionRate = repressibleExpressionLaw.createLocalParameter("basal_rate");
+        basalExpressionRate.setName("basal_rate");
+        basalExpressionRate.setValue(1.0);
+        LocalParameter kd = repressibleExpressionLaw.createLocalParameter("K_d");
+        kd.setName("K_d");
+        kd.setValue(2.0);
+        LocalParameter hillCoef = repressibleExpressionLaw.createLocalParameter("n");
+        hillCoef.setName("n");
+        hillCoef.setValue(1.0);
+        repressibleExpressionLaw.setMath(parseFormula(basalExpressionRate.getId()
+                + "+(" + maxExpressionRate.getId() + "/(1+(" + repressor.getId() + "/" + kd.getId()
+                + ")^" + hillCoef.getId() + "))"));                
     	return repressibleExpression;
     }
     
