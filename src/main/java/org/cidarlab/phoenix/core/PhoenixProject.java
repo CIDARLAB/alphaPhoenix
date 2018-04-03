@@ -6,9 +6,7 @@
 package org.cidarlab.phoenix.core;
 
 import hyness.stl.TreeNode;
-import hyness.stl.grammar.sharp.STLSharp;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +16,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.stream.XMLStreamException;
 import lombok.Getter;
-import lombok.Setter;
 import org.apache.commons.io.FileUtils;
 import org.cidarlab.gridtli.dom.TLIException;
 import org.cidarlab.phoenix.adaptors.IBioSimAdaptor;
@@ -29,7 +26,6 @@ import org.cidarlab.phoenix.adaptors.STLAdaptor;
 import org.cidarlab.phoenix.adaptors.SynbiohubAdaptor;
 import org.cidarlab.phoenix.adaptors.UIAdaptor;
 import org.cidarlab.phoenix.dom.CandidateComponent;
-import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.failuremode.FailureModeGrammar;
 import org.cidarlab.phoenix.library.Library;
@@ -51,28 +47,31 @@ import org.sbolstandard.core2.SBOLWriter;
 public class PhoenixProject {
 
     @Getter
-    private String resultsFolder;
+    private String userid;
+
+    @Getter
+    private String projectFolder;
 
     @Getter
     private String jobId;
 
-    @Setter
-    @Getter
-    private Module structure;
-
-    @Setter
-    @Getter
-    private STLSharp stl;
-
     public String getJobFolder() {
-        return (resultsFolder + jobId);
+        if(projectFolder.endsWith("" + Utilities.getSeparater())){
+            return (projectFolder + jobId);
+        } else {
+            return projectFolder + Utilities.getSeparater() + jobId;
+        }
+    }
+
+    private void createCLIfolder() {
+        this.projectFolder = Utilities.getResultsFilepath() + "cli" + Utilities.getSeparater();
+        if (!Utilities.isDirectory(this.projectFolder)) {
+            Utilities.makeDirectory(this.projectFolder);
+        }
     }
 
     public PhoenixProject() {
-        this.resultsFolder = Utilities.getFilepath() + Utilities.getSeparater() + "results" + Utilities.getSeparater();
-        if (!Utilities.isDirectory(this.resultsFolder)) {
-            Utilities.makeDirectory(this.resultsFolder);
-        }
+        createCLIfolder();
         createJob();
     }
 
@@ -81,15 +80,12 @@ public class PhoenixProject {
             System.err.println("Error! Directory " + _resultsFolder + " does not exist");
             System.exit(-1);
         }
-        this.resultsFolder = _resultsFolder;
+        this.projectFolder = _resultsFolder;
         createJob();
     }
 
     public PhoenixProject(String eugfp, int eugCircSize, Integer eugNumSolutions, String stlfp, String libraryfp, Simulation simulation, int runCount, double confidence, double threshold, Map<String, Double> inputMap, boolean plot) {
-        this.resultsFolder = Utilities.getFilepath() + Utilities.getSeparater() + "results" + Utilities.getSeparater();
-        if (!Utilities.isDirectory(this.resultsFolder)) {
-            Utilities.makeDirectory(this.resultsFolder);
-        }
+        createCLIfolder();
         try {
             createJob();
 
@@ -103,9 +99,9 @@ public class PhoenixProject {
             //Create Eugene files
             JSONObject euginfo = new JSONObject();
             if (!(eugNumSolutions == null)) {
-                euginfo.put("numSol", eugNumSolutions);
+                euginfo.put("solutions", eugNumSolutions);
             }
-            euginfo.put("solSize", eugCircSize);
+            euginfo.put("size", eugCircSize);
             Utilities.writeToFile(jobfp + "eug.json", euginfo.toString());
 
             //Create STL file
@@ -146,10 +142,7 @@ public class PhoenixProject {
     }
 
     public PhoenixProject(String eugfp, int eugCircSize, Integer eugNumSolutions, String stlfp, String libraryfp) {
-        this.resultsFolder = Utilities.getFilepath() + Utilities.getSeparater() + "results" + Utilities.getSeparater();
-        if (!Utilities.isDirectory(this.resultsFolder)) {
-            Utilities.makeDirectory(this.resultsFolder);
-        }
+        createCLIfolder();
         try {
             createJob();
 
@@ -163,9 +156,9 @@ public class PhoenixProject {
             //Create Eugene files
             JSONObject euginfo = new JSONObject();
             if (!(eugNumSolutions == null)) {
-                euginfo.put("numSol", eugNumSolutions);
+                euginfo.put("solutions", eugNumSolutions);
             }
-            euginfo.put("solSize", eugCircSize);
+            euginfo.put("size", eugCircSize);
             Utilities.writeToFile(jobfp + "eug.json", euginfo.toString());
 
             //Create STL file
@@ -215,16 +208,16 @@ public class PhoenixProject {
             int eugCircSize;
             Integer eugNumSolutions = null;
 
-            if (eug.has("numSol")) {
-                eugNumSolutions = eug.getInt("numSol");
+            if (eug.has("solutions")) {
+                eugNumSolutions = eug.getInt("solutions");
             }
-            eugCircSize = eug.getInt("solSize");
+            eugCircSize = eug.getInt("size");
             String eugfp = jobfp + "structure.eug";
             TreeNode jobstl = STLAdaptor.getSTL(jobfp + "stl.txt");
             boolean first = true;
             double bestval = 0;
             int bestindex = 0;
-
+            
             List<Module> modules = MiniEugeneAdaptor.getStructures(eugfp, eugCircSize, eugNumSolutions, jobid);
 
             List<String> eugDesignList = new ArrayList<String>();
@@ -236,22 +229,20 @@ public class PhoenixProject {
             Utilities.writeToFile(jobfp + "designspace.txt", eugdesignSpace);
 
             List<Module> decomposedModules = new ArrayList<Module>();
-            
-            for(Module m:modules){
+
+            for (Module m : modules) {
                 decomposedModules.add(Controller.decompose(m));
             }
 
             JSONArray arr = new JSONArray();
 
-            
-            for(Module m:decomposedModules){
-                Controller.assignTUCandidates(m,lib,sbol);
+            for (Module m : decomposedModules) {
+                Controller.assignTUCandidates(m, lib, sbol);
                 arr.put(UIAdaptor.getModuleJSON(m));
             }
-            
+
             Utilities.writeToFile(jobfp + "design.json", arr.toString(2));
-            
-            
+
         } catch (SBOLValidationException ex) {
             Logger.getLogger(PhoenixProject.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -275,10 +266,10 @@ public class PhoenixProject {
             int eugCircSize;
             Integer eugNumSolutions = null;
 
-            if (eug.has("numSol")) {
-                eugNumSolutions = eug.getInt("numSol");
+            if (eug.has("solutions")) {
+                eugNumSolutions = eug.getInt("solutions");
             }
-            eugCircSize = eug.getInt("solSize");
+            eugCircSize = eug.getInt("size");
             String eugfp = jobfp + "structure.eug";
             TreeNode jobstl = STLAdaptor.getSTL(jobfp + "stl.txt");
             boolean first = true;
@@ -427,15 +418,114 @@ public class PhoenixProject {
     private void createJob() {
 
         String id = "job" + getNextPositiveId();
-        String jobFolder = (this.resultsFolder + id);
+        String jobFolder = (this.projectFolder + id);
         while (Utilities.isDirectory(jobFolder)) {
             id = "job" + getNextPositiveId();
-            jobFolder = (this.resultsFolder + id);
+            jobFolder = (this.projectFolder + id);
         }
         Utilities.makeDirectory(jobFolder);
         this.jobId = id;
     }
 
+    //<editor-fold desc="Constructors and functions for webapp">
+    public PhoenixProject(String userid, String projectName, String stl, String eugeneCode, String registry, String collection) throws IOException, SBOLConversionException {
+        this.jobId = projectName;
+        String root = Utilities.getResultsFilepath() + userid + Utilities.getSeparater();
+
+        String jobfp = root + projectName + Utilities.getSeparater();
+        Utilities.makeDirectory(jobfp);
+        JSONObject lib = new JSONObject();
+        lib.put("database", "synbiohub");
+        lib.put("registry", registry);
+        lib.put("collection", collection);
+
+        Utilities.writeToFile(jobfp + "stl.txt", stl);
+        Utilities.writeToFile(jobfp + "library.json", lib.toString());
+        Utilities.writeToFile(jobfp + "structure.eug", eugeneCode);
+
+        List<String> eugfilelines = Utilities.getFileContentAsStringList(jobfp + "structure.eug");
+        JSONObject eug = new JSONObject();
+
+        // I don't like this at all.....
+        if (eugfilelines.size() > 1) {
+            String line0 = eugfilelines.get(0);
+            if (line0.startsWith("//")) {
+                line0 = line0.substring(2);
+                if (line0.trim().toLowerCase().startsWith("size=")) {
+                    line0 = line0.substring(5);
+                    eug.put("size", Integer.valueOf(line0.trim()));
+                }
+                if (line0.trim().toLowerCase().startsWith("solutions=")) {
+                    line0 = line0.substring(10);
+                    eug.put("solutions", Integer.valueOf(line0.trim()));
+                }
+            } else {
+                //???
+            }
+            String line1 = eugfilelines.get(1);
+            if (line1.startsWith("//")) {
+                line1 = line1.substring(2);
+                if (line1.trim().toLowerCase().startsWith("size=")) {
+                    line1 = line1.substring(5);
+                    eug.put("size", Integer.valueOf(line1.trim()));
+                }
+                if (line1.trim().toLowerCase().startsWith("solutions=")) {
+                    line1 = line1.substring(10);
+                    eug.put("solutions", Integer.valueOf(line1.trim()));
+                }
+            } else {
+                //???
+            }
+        } else {
+            //???
+        }
+        Utilities.writeToFile(jobfp + "eug.json", eug.toString());
+        
+        SBOLDocument sbol = SynbiohubAdaptor.getSBOL(registry, collection);
+        SBOLWriter.write(sbol, (jobfp + "sbol.xml"));
+    
+    }
+
+    public JSONArray design() throws IOException, SBOLValidationException, SBOLConversionException {
+        String jobfp = this.projectFolder + this.jobId + Utilities.getSeparater();
+        SBOLDocument sbol = SBOLReader.read(jobfp + "sbol.xml");
+        Library lib = new Library(sbol);
+        String eugfilecontent = Utilities.getFileContentAsString(jobfp + "eug.json");
+        JSONObject eug = new JSONObject(eugfilecontent);
+        int eugCircSize;
+        Integer eugNumSolutions = null;
+
+        if (eug.has("solutions")) {
+            eugNumSolutions = eug.getInt("solutions");
+        }
+        eugCircSize = eug.getInt("size");
+        String eugfp = jobfp + "structure.eug";
+        TreeNode jobstl = STLAdaptor.getSTL(jobfp + "stl.txt");
+        
+        List<Module> modules = MiniEugeneAdaptor.getStructures(eugfp, eugCircSize, eugNumSolutions, this.jobId);
+     
+        List<Module> decomposedModules = new ArrayList<Module>();
+        for (Module m : modules) {
+            decomposedModules.add(Controller.decompose(m));
+        }
+        
+        JSONArray arr = new JSONArray();
+
+        for (Module m : decomposedModules) {
+            Controller.assignTUCandidates(m, lib, sbol);
+            arr.put(UIAdaptor.getModuleJSON(m));
+        }
+        
+        
+        return arr;
+    }
+    
+    public static void design(String userid, String jobid) {
+        
+    }
+
+    //</editor-fold>
+    
     public static enum Simulation {
 
         DETERMINISTIC,
