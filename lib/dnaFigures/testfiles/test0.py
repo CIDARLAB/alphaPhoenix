@@ -47,5 +47,5 @@ ax_dna.set_ylim([-25.0,25.0])
 ax_dna.set_aspect('equal')
 ax_dna.axis('off')
 
-fig.savefig('/home/prash/cidar/phoenix/alpha/lib/dnaFigures/testFigure.png', dpi=300)
+fig.savefig('/home/prash/cidar/phoenix/alpha/lib/dnaFigures/scripts/testFigure.png', dpi=300)
 plt.close('all')

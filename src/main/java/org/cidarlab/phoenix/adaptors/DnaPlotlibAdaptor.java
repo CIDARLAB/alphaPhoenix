@@ -6,6 +6,7 @@
 package org.cidarlab.phoenix.adaptors;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,17 +31,18 @@ public class DnaPlotlibAdaptor {
     private static List<String> colors = new ArrayList<String>();
     
     public static String generateNewColor(){
+        DecimalFormat df = new DecimalFormat("#.##");
         Random random = new Random();
         double r = (double) (random.nextInt(101)/100.00);
         double g = (double) (random.nextInt(101)/100.00);
         double b = (double) (random.nextInt(101)/100.00);
-        String str = "(" + r + "," + g + "," + b + ")";
+        String str = "(" + Double.valueOf(df.format(r)) + "," + Double.valueOf(df.format(g)) + "," + Double.valueOf(df.format(b)) + ")";
             
-        while(colors.contains(str)){
+        while(colors.contains(str) || ( (r==1.00) && (g == 1.00) && (b == 1.00)) ){
             r = (double) (random.nextInt(101)/100.00);
             g = (double) (random.nextInt(101)/100.00);
             b = (double) (random.nextInt(101)/100.00);
-            str = "(" + r + "," + g + "," + b + ")";
+            str = "(" + Double.valueOf(df.format(r)) + "," + Double.valueOf(df.format(g)) + "," + Double.valueOf(df.format(b)) + ")";
         }
         
         return str;
@@ -428,25 +430,17 @@ public class DnaPlotlibAdaptor {
         }
     }
     
-    
-    public static void runScript(String filepath){
+    public static void runScript(String filepath) throws InterruptedException, IOException{
         StringBuilder commandBuilder = null;
         commandBuilder = new StringBuilder("python " + filepath);
         String[] clist = new String[2];
         String command = commandBuilder.toString();
-        clist[0] = ("cd " + Utilities.getFilepath() + "lib" + Utilities.getSeparater() + "dnaFigures" + Utilities.getSeparater());
+        clist[0] = ("cd " + Utilities.getFilepath() + "lib" + Utilities.getSeparater() + "dnaFigures" + Utilities.getSeparater() + "figures" + Utilities.getSeparater());
         clist[1] = (command);
         Runtime runtime = Runtime.getRuntime();
         Process proc = null;
-        try {
-            
-            proc = runtime.exec(command);
-            proc.waitFor();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(DnaPlotlibAdaptor.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(DnaPlotlibAdaptor.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        proc = runtime.exec(command);
+        proc.waitFor();
     }
     
 }

@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -137,7 +138,51 @@ public class Utilities {
         return fp;
     }
     
+    public static String getDnaFiguresFilepath(){
+        String fp = getFilepath() + getSeparater() + "lib" + getSeparater() + "dnaFigures" + getSeparater();
+        if(!validFilepath(fp)){
+            makeDirectory(fp);
+            System.out.println("Created a DNA Figures folder at : " + fp);
+        }
+        return fp;
+    }
+    
+    public static String getDnaFiguresScriptsFilepath(){
+        String fp = getDnaFiguresFilepath() + "scripts" + getSeparater();
+        if(!validFilepath(fp)){
+            makeDirectory(fp);
+            System.out.println("Created a DNA Figures Scripts folder at : " + fp);
+        }
+        return fp;
+        
+    }
+    
+    public static String getDnaFiguresPlotsFilepath(){
+        String fp = getDnaFiguresFilepath() + "plots" + getSeparater();
+        if(!validFilepath(fp)){
+            makeDirectory(fp);
+            System.out.println("Created a DNA Figures Plots folder at : " + fp);
+        }
+        return fp;
+    }
+    
     //</editor-fold>
+    
+    
+    static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    static SecureRandom rnd = new SecureRandom();
+
+    public static String randomString(int len) {
+        StringBuilder sb = new StringBuilder(len);
+        for (int i = 0; i < len; i++) {
+            sb.append(AB.charAt(rnd.nextInt(AB.length())));
+        }
+        return sb.toString();
+    }
+
+
+    
+    
     
     //<editor-fold desc="File content">
     

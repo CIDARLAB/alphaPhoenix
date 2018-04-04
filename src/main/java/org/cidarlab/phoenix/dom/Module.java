@@ -5,6 +5,7 @@
  */
 package org.cidarlab.phoenix.dom;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -12,9 +13,13 @@ import java.util.Map;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
+import org.cidarlab.phoenix.adaptors.DnaPlotlibAdaptor;
 import org.cidarlab.phoenix.core.Controller;
 import org.cidarlab.phoenix.dom.Component.ComponentRole;
 import org.cidarlab.phoenix.failuremode.FailureMode;
+import org.cidarlab.phoenix.utils.Utilities;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -140,6 +145,45 @@ public class Module {
                     }
                 }
             }
+        }
+        
+    }
+    
+    private static String generateSBOLVisualName(){
+        JSONObject figlist = new JSONObject(Utilities.getFileContentAsString(Utilities.getDnaFiguresFilepath() + "figlist.json"));
+        Set<String> filenames = figlist.keySet();
+        
+        String filename = Utilities.randomString(8);
+        while(filenames.contains(filename)){
+            filename = Utilities.randomString(8);
+        }
+        return filename;
+    }
+    
+    public String getAbstractSBOLVisual(Map<String,String> colorMap) throws InterruptedException, IOException{
+        
+        String dplString = DnaPlotlibAdaptor.getUniqueString(this.components);
+        JSONObject figmap = new JSONObject(Utilities.getFileContentAsString(Utilities.getDnaFiguresFilepath() + "figmap.json"));
+        if(figmap.has(dplString)){
+            String plotname = figmap.getString(dplString);
+            return Utilities.getDnaFiguresPlotsFilepath() + plotname + ".png";
+        } else {
+            
+            String fn = generateSBOLVisualName();
+            
+            String scriptFp = Utilities.getDnaFiguresScriptsFilepath() + fn + ".py";
+            String plotFp = Utilities.getDnaFiguresPlotsFilepath() + fn;
+            String script = DnaPlotlibAdaptor.generateScript(this.components, false, colorMap, plotFp);
+            Utilities.writeToFile(scriptFp, script);
+            DnaPlotlibAdaptor.runScript(script);
+            
+            JSONObject figlist = new JSONObject(Utilities.getFileContentAsString(Utilities.getDnaFiguresFilepath() + "figlist.json"));
+            figlist.put(fn, fn);
+            Utilities.writeToFile(Utilities.getDnaFiguresFilepath() + "figlist.json", figlist.toString());
+            
+            figmap.put(dplString, fn);
+            Utilities.writeToFile(Utilities.getDnaFiguresFilepath() + "figmap.json", figmap.toString());
+            return Utilities.getDnaFiguresPlotsFilepath() + fn + ".py";
         }
         
     }

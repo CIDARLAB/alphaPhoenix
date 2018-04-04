@@ -5,6 +5,7 @@
  */
 package org.cidarlab.phoenix.adaptors;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.cidarlab.minieugene.predicates.interaction.Interaction.InteractionType;
@@ -172,11 +173,11 @@ public class DnaPlotlibAdaptorTest {
     }
     
     @Test 
-    public void testGenerateScript() {
+    public void testGenerateScript() throws InterruptedException, IOException {
         
-        String script = DnaPlotlibAdaptor.generateScript(components1, true, dnaFigFilepath + "testFigure");
-        String fp = dnaFigFilepath + "test0.py";
-        Utilities.writeToFile(dnaFigFilepath + "test0.py", script);
+        String script = DnaPlotlibAdaptor.generateScript(components1, true, dnaFigFilepath + "plots" + Utilities.getSeparater() + "testFigure");
+        String fp = dnaFigFilepath + "scripts" + Utilities.getSeparater() + "test0.py";
+        Utilities.writeToFile(dnaFigFilepath + "scripts" + Utilities.getSeparater() + "test0.py", script);
         DnaPlotlibAdaptor.runScript(fp);
         
     }
