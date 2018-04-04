@@ -236,9 +236,13 @@ public class DnaPlotlibAdaptor {
                "\n" +
                "# Create the DNAplotlib renderer\n" +
                "dr = dpl.DNARenderer()\n\n";
-        
-        scr += "start, end = dr.renderDNA(ax_dna, design, dr.SBOL_part_renderers(), \n" +
+        if(maxArcs == 0){
+            scr += "start, end = dr.renderDNA(ax_dna, design, dr.SBOL_part_renderers())\n";
+        } else {
+            scr += "start, end = dr.renderDNA(ax_dna, design, dr.SBOL_part_renderers(), \n" +
                "	                      regs=regDesign, reg_renderers=dr.std_reg_renderers())\n";
+        }
+        
         
         scr += "ax_dna.set_xlim([start, end])\n" +
                "ax_dna.set_ylim([-" + ylim + "," + ylim +"])\n" +
@@ -289,8 +293,9 @@ public class DnaPlotlibAdaptor {
                 scr += "Terminator', 'fwd':" + oString + ", 'opts':{'linewidth':lw," + labelString + " 'color':" + color + ", 'edge_color':(0.00, 0.00, 0.00)}}";
                 break;
             case 'w':
-                System.out.println("Unidentified form?");
-                return "";
+                scr += "CDS', 'fwd':" + oString + ", 'opts':{'linewidth':lw," + labelString + " 'color':" + color + ", 'edge_color':(0.00, 0.00, 0.00),'x_extent':20}}";
+                System.out.println("Tester form?");
+                break;
                 
             default:
                 System.out.println("Error. This should not happen.");
@@ -431,16 +436,18 @@ public class DnaPlotlibAdaptor {
     }
     
     public static void runScript(String filepath) throws InterruptedException, IOException{
+        System.out.println("Running python script for : " + filepath);
         StringBuilder commandBuilder = null;
         commandBuilder = new StringBuilder("python " + filepath);
         String[] clist = new String[2];
         String command = commandBuilder.toString();
-        clist[0] = ("cd " + Utilities.getFilepath() + "lib" + Utilities.getSeparater() + "dnaFigures" + Utilities.getSeparater() + "figures" + Utilities.getSeparater());
+        clist[0] = ("cd " + Utilities.getFilepath() + "lib" + Utilities.getSeparater() + "dnaFigures" + Utilities.getSeparater() + "plots" + Utilities.getSeparater());
         clist[1] = (command);
         Runtime runtime = Runtime.getRuntime();
         Process proc = null;
         proc = runtime.exec(command);
         proc.waitFor();
+        System.out.println("Script completed.");
     }
     
 }

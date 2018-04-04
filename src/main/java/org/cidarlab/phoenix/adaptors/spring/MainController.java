@@ -17,6 +17,7 @@ import org.cidarlab.phoenix.utils.Utilities;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.sbolstandard.core2.SBOLConversionException;
+import org.sbolstandard.core2.SBOLValidationException;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -65,12 +66,9 @@ public class MainController {
         return false;
     }
     
-    private static JSONArray createProject(String username, String projectName, String stl, String eugeneCode, String registry, String collection) throws IOException, SBOLConversionException{
-        String root = Utilities.getResultsFilepath() + username + Utilities.getSeparater();
-        String rootfp = Utilities.getResultsFilepath() + username + Utilities.getSeparater();
-        PhoenixProject proj = new PhoenixProject(rootfp, projectName, stl, eugeneCode, registry, collection);
-        JSONArray arr = new JSONArray();
-        
+    private static JSONArray createProject(String username, String projectName, String stl, String eugeneCode, String registry, String collection) throws IOException, SBOLConversionException, SBOLValidationException, InterruptedException{
+        PhoenixProject proj = new PhoenixProject(username, projectName, stl, eugeneCode, registry, collection);
+        JSONArray arr = proj.design();
         return arr;
     }
     
@@ -184,11 +182,21 @@ public class MainController {
             } else {
                 
                 try {
-                    response.setStatus(HttpServletResponse.SC_OK);
-                    JSONArray designJSON = createProject(username,projectName,stl,eugeneCode,registry,collection);
-                    writer = response.getWriter();
-                    writer.write(designJSON.toString());
-                    writer.flush();
+                    JSONArray designJSON;
+                    try {
+                        response.setStatus(HttpServletResponse.SC_OK);
+                        designJSON = createProject(username, projectName, stl, eugeneCode, registry, collection);
+                        writer = response.getWriter();
+                        writer.write(designJSON.toString());
+                        writer.flush();
+                    } catch (SBOLValidationException | InterruptedException ex) {
+                        response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+                        writer = response.getWriter();
+                        writer.write(ex.toString());
+                        writer.flush();
+                        Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
                 } catch (SBOLConversionException ex) {
                     response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
                     writer = response.getWriter();

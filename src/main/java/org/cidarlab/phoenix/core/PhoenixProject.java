@@ -435,8 +435,9 @@ public class PhoenixProject {
     //<editor-fold desc="Constructors and functions for webapp">
     public PhoenixProject(String userid, String projectName, String stl, String eugeneCode, String registry, String collection) throws IOException, SBOLConversionException {
         this.jobId = projectName;
+        
         String root = Utilities.getResultsFilepath() + userid + Utilities.getSeparater();
-
+        this.projectFolder = root;
         String jobfp = root + projectName + Utilities.getSeparater();
         Utilities.makeDirectory(jobfp);
         JSONObject lib = new JSONObject();
@@ -525,9 +526,7 @@ public class PhoenixProject {
         return arr;
     }
     
-    public static void design(String userid, String jobid) {
-        
-    }
+   
 
     //</editor-fold>
     
