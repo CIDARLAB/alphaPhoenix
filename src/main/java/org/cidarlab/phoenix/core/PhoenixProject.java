@@ -194,7 +194,7 @@ public class PhoenixProject {
         }
     }
 
-    public static void executeAssignment(String jobid) {
+    public static void executeAssignment(String jobid) throws InterruptedException {
         try {
             String jobfp = Utilities.getResultsFilepath() + jobid + Utilities.getSeparater();
             if (!Utilities.validFilepath(jobfp)) {
@@ -236,8 +236,13 @@ public class PhoenixProject {
 
             JSONArray arr = new JSONArray();
 
-            for (Module m : decomposedModules) {
-                Controller.assignTUCandidates(m, lib, sbol);
+
+            
+            for(Module m:decomposedModules){
+                Controller.assignTUCandidates(m,lib,sbol);
+            }         
+            
+            for(Module m:decomposedModules){
                 arr.put(UIAdaptor.getModuleJSON(m));
             }
 
@@ -486,7 +491,7 @@ public class PhoenixProject {
     
     }
 
-    public JSONArray design() throws IOException, SBOLValidationException, SBOLConversionException {
+    public JSONArray design() throws IOException, SBOLValidationException, SBOLConversionException, InterruptedException {
         String jobfp = this.projectFolder + this.jobId + Utilities.getSeparater();
         SBOLDocument sbol = SBOLReader.read(jobfp + "sbol.xml");
         Library lib = new Library(sbol);

@@ -462,6 +462,7 @@ public class STLAdaptor {
         return r;
     }
     
+    /*
     private static double getConjunctionNodeRobustness(TreeNode stl, Signal s){
         double r =0;
         boolean first = true;
@@ -486,7 +487,7 @@ public class STLAdaptor {
         
         return r;
     }
-    
+    */
     private static double getAlwaysNodeRobustness(AlwaysNode stl, Signal s){
         
         if(!(stl.child instanceof LinearPredicateLeaf)){
@@ -571,12 +572,15 @@ public class STLAdaptor {
         return points;
     }
     
+    /*
     private static List<TreeNode> getConjunctionLeaves(TreeNode stl){
         List<TreeNode> nodes = new ArrayList<TreeNode>();
         getConjunctionLeaves(stl,nodes);
         return nodes;
     }
+    */
     
+    /*
     private static void getConjunctionLeaves(TreeNode stl, List<TreeNode> list){
         if(stl instanceof ConjunctionNode){
             ConjunctionNode cnode = (ConjunctionNode) stl;
@@ -586,13 +590,17 @@ public class STLAdaptor {
             list.add(stl);
         }
     }
+    */
     
+    /*
     private static List<TreeNode> getDisjunctionLeaves(TreeNode stl){
         List<TreeNode> nodes = new ArrayList<TreeNode>();
         getDisjunctionLeaves(stl,nodes);
         return nodes;
     }
+    */
     
+    /*
     private static void getDisjunctionLeaves(TreeNode stl, List<TreeNode> list){
         if(stl instanceof DisjunctionNode){
             DisjunctionNode cnode = (DisjunctionNode) stl;
@@ -602,6 +610,7 @@ public class STLAdaptor {
             list.add(stl);
         }
     }
+    */
     
     public static double computeSatisfyingPercent(List<Signal> signals, TreeNode stl) throws IOException {
         int sat = 0;
