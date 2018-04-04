@@ -354,6 +354,22 @@ public class SBMLAdaptor {
     	return activationDoc;
     }
     
+    public static SBMLDocument createInducibleActivatedPromoterModel(String activatorID, String inducerID, String expressedID) {
+    	return createInducibleActivatedPromoterModel(activatorID, inducerID, expressedID, activatorID, inducerID, expressedID);
+    }
+    
+    public static SBMLDocument createInducibleActivatedPromoterModel(String activatorID, String inducerID, String expressedID, String activatorName, String inducerName, String expressedName) {
+    	SBMLDocument inducedActivationDoc = createCompartmentModel("cell", "cell");
+    	Species expressed = createSpecies(expressedID, expressedName, inducedActivationDoc.getModel());
+    	expressed.setSBOTerm(SBOTerm.OUTPUT.getID());
+    	Species activator = createSpecies(activatorID, activatorName, inducedActivationDoc.getModel());
+    	activator.setSBOTerm(SBOTerm.INPUT.getID());
+        Species inducer = createSpecies(inducerID, inducerName, inducedActivationDoc.getModel());
+    	inducer.setSBOTerm(SBOTerm.INPUT.getID());
+    	createInducibleActivatableExpressionReaction(activator, inducer, inducedActivationDoc.getModel().getSpecies(expressedID), inducedActivationDoc.getModel());
+    	return inducedActivationDoc;
+    }
+    
     public static SBMLDocument createRepressedModuleModel(String repressorID, String expressedID) {
     	return createRepressedModuleModel(repressorID, expressedID, repressorID, expressedID);
     }
@@ -367,7 +383,15 @@ public class SBMLAdaptor {
     }
     
     public static SBMLDocument createActivatedModuleModel(String activatorID, String expressedID, String activatorName, String expressedName) {
-    	return composeModels(createRepressedPromoterModel(activatorID, expressedID, activatorName, expressedName).getModel(), createCDSModel(expressedID, expressedName).getModel());
+    	return composeModels(createActivatedPromoterModel(activatorID, expressedID, activatorName, expressedName).getModel(), createCDSModel(expressedID, expressedName).getModel());
+    }
+    
+    public static SBMLDocument createInducibleActivatedModuleModel(String activatorID, String inducerID, String expressedID) {
+    	return createInducibleActivatedModuleModel(activatorID, inducerID, expressedID, activatorID, inducerID, expressedID);
+    }
+    
+    public static SBMLDocument createInducibleActivatedModuleModel(String activatorID, String inducerID, String expressedID, String activatorName, String inducerName, String expressedName) {
+    	return composeModels(createInducibleActivatedPromoterModel(activatorID, inducerID, expressedID, activatorName, inducerName, expressedName).getModel(), createCDSModel(expressedID, expressedName).getModel());
     }
     
     public static Species createSpecies(String specID, Model mod) {
@@ -450,22 +474,22 @@ public class SBMLAdaptor {
     
     private static Reaction createRepressibleExpressionReaction(Species repressor, Species expressed, Model mod) {
     	Reaction repressibleExpression = createRatelessRepressibleExpressionReaction(repressor, expressed, mod);
-    	KineticLaw repressibleExpressionLaw = repressibleExpression.createKineticLaw();
-		LocalParameter maxExpressionRate = repressibleExpressionLaw.createLocalParameter("k_EXR");
-		maxExpressionRate.setName("k_EXR");
-		maxExpressionRate.setValue(1.0);
-		LocalParameter dissociation = repressibleExpressionLaw.createLocalParameter("d");
-		dissociation.setName("d");
-		dissociation.setValue(1.0);
-		LocalParameter coop = repressibleExpressionLaw.createLocalParameter("h");
-		coop.setName("h");
-		coop.setValue(2.0);
-                LocalParameter activePromoterFraction = repressibleExpressionLaw.createLocalParameter("y");
-		activePromoterFraction.setName("y");
-		activePromoterFraction.setValue(1.0);
-		repressibleExpressionLaw.setMath(parseFormula(maxExpressionRate.getId()
-                        + "*((1-" + activePromoterFraction.getId() + ")*(1/(1+("+ repressor.getId() + "/"
-                        + dissociation.getId() + ")^" + coop.getId() + "))+" + activePromoterFraction.getId() + ")"));
+        KineticLaw repressibleExpressionLaw = repressibleExpression.createKineticLaw();
+        LocalParameter maxExpressionRate = repressibleExpressionLaw.createLocalParameter("max_rate");
+        maxExpressionRate.setName("max_rate");
+        maxExpressionRate.setValue(1.0);
+        LocalParameter basalExpressionRate = repressibleExpressionLaw.createLocalParameter("basal_rate");
+        basalExpressionRate.setName("basal_rate");
+        basalExpressionRate.setValue(1.0);
+        LocalParameter kd = repressibleExpressionLaw.createLocalParameter("K_d");
+        kd.setName("K_d");
+        kd.setValue(2.0);
+        LocalParameter hillCoef = repressibleExpressionLaw.createLocalParameter("n");
+        hillCoef.setName("n");
+        hillCoef.setValue(1.0);
+        repressibleExpressionLaw.setMath(parseFormula(basalExpressionRate.getId()
+                + "+(" + maxExpressionRate.getId() + "/(1+(" + repressor.getId() + "/" + kd.getId()
+                + ")^" + hillCoef.getId() + "))"));                
     	return repressibleExpression;
     }
     
@@ -502,6 +526,50 @@ public class SBMLAdaptor {
     	ModifierSpeciesReference modifier = activatableExpression.createModifier(activator);
     	modifier.setSBOTerm(SBOTerm.ACTIVATOR.getID());
     	return activatableExpression;
+    }
+    
+    private static Reaction createInducibleActivatableExpressionReaction(Species activator, Species inducer, Species expressed, Model mod) {
+        Reaction inducibleActivatableExpression = createRatelessInducibleActivatableExpressionReaction(activator, inducer, expressed, mod);
+        KineticLaw inducibleActivatableExpressionLaw = inducibleActivatableExpression.createKineticLaw();
+        LocalParameter maxExpressionRate1 = inducibleActivatableExpressionLaw.createLocalParameter("max_rate1");
+        maxExpressionRate1.setName("max_rate1");
+        maxExpressionRate1.setValue(1.0);
+        LocalParameter basalExpressionRate1 = inducibleActivatableExpressionLaw.createLocalParameter("basal_rate1");
+        basalExpressionRate1.setName("basal_rate1");
+        basalExpressionRate1.setValue(1.0);
+        LocalParameter kd1 = inducibleActivatableExpressionLaw.createLocalParameter("K_d1");
+        kd1.setName("K_d1");
+        kd1.setValue(2.0);
+        LocalParameter hillCoef1 = inducibleActivatableExpressionLaw.createLocalParameter("n1");
+        hillCoef1.setName("n1");
+        hillCoef1.setValue(1.0);
+        LocalParameter maxExpressionRate2 = inducibleActivatableExpressionLaw.createLocalParameter("max_rate2");
+        maxExpressionRate2.setName("max_rate2");
+        maxExpressionRate2.setValue(1.0);
+        LocalParameter basalExpressionRate2 = inducibleActivatableExpressionLaw.createLocalParameter("basal_rate2");
+        basalExpressionRate2.setName("basal_rate2");
+        basalExpressionRate2.setValue(1.0);
+        LocalParameter kd2 = inducibleActivatableExpressionLaw.createLocalParameter("K_d2");
+        kd2.setName("K_d2");
+        kd2.setValue(2.0);
+        LocalParameter hillCoef2 = inducibleActivatableExpressionLaw.createLocalParameter("n2");
+        hillCoef2.setName("n2");
+        hillCoef2.setValue(1.0);
+        inducibleActivatableExpressionLaw.setMath(parseFormula("0.1*(" + basalExpressionRate1.getId()
+                + "+(" + maxExpressionRate1.getId() + "*(" + activator.getId() + "^" + hillCoef1.getId() + "/(" + kd1.getId() + "+" + activator.getId()
+                + "^" + hillCoef1.getId() + "))))*(" + basalExpressionRate2.getId()
+                + "+(" + maxExpressionRate2.getId() + "*(" + inducer.getId() + "^" + hillCoef2.getId() + "/(" + kd2.getId() + "+" + inducer.getId()
+                + "^" + hillCoef2.getId() + "))))"));
+        return inducibleActivatableExpression;
+    }
+    
+    private static Reaction createRatelessInducibleActivatableExpressionReaction(Species activator, Species inducer, Species expressed, Model mod) {
+    	Reaction inducibleActivatableExpression = createRatelessExpressionReaction(expressed, mod);
+    	ModifierSpeciesReference modifier1 = inducibleActivatableExpression.createModifier(activator);
+        ModifierSpeciesReference modifier2 = inducibleActivatableExpression.createModifier(inducer);
+    	modifier1.setSBOTerm(SBOTerm.ACTIVATOR.getID());
+        modifier2.setSBOTerm(SBOTerm.ACTIVATOR.getID());
+    	return inducibleActivatableExpression;
     }
 	
 	/*
