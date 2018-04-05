@@ -492,7 +492,7 @@ public class PhoenixProject {
     
     }
 
-    public JSONArray design() throws IOException, SBOLValidationException, SBOLConversionException, InterruptedException {
+    public void design() throws IOException, SBOLValidationException, SBOLConversionException, InterruptedException {
         String jobfp = this.projectFolder + this.jobId + Utilities.getSeparater();
         SBOLDocument sbol = SBOLReader.read(jobfp + "sbol.xml");
         Library lib = new Library(sbol);
@@ -522,11 +522,14 @@ public class PhoenixProject {
             arr.put(UIAdaptor.getModuleJSON(m));
         }
         
+        Utilities.writeToFile(jobfp + "design.json", arr.toString());
         
-        return arr;
     }
     
-   
+    public static JSONArray getDesignArray(String username, String projectname){
+        String jobfolder = Utilities.getResultsFilepath() + username + Utilities.getSeparater() + projectname + Utilities.getSeparater();
+        return new JSONArray(Utilities.getFileContentAsString(jobfolder + "design.json"));
+    }
 
     //</editor-fold>
     

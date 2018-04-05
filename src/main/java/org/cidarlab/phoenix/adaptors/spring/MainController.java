@@ -66,10 +66,9 @@ public class MainController {
         return false;
     }
     
-    private static JSONArray createProject(String username, String projectName, String stl, String eugeneCode, String registry, String collection) throws IOException, SBOLConversionException, SBOLValidationException, InterruptedException{
+    private static void createProject(String username, String projectName, String stl, String eugeneCode, String registry, String collection) throws IOException, SBOLConversionException, SBOLValidationException, InterruptedException{
         PhoenixProject proj = new PhoenixProject(username, projectName, stl, eugeneCode, registry, collection);
-        JSONArray arr = proj.design();
-        return arr;
+        proj.design();
     }
     
 
@@ -182,12 +181,11 @@ public class MainController {
             } else {
                 
                 try {
-                    JSONArray designJSON;
                     try {
                         response.setStatus(HttpServletResponse.SC_OK);
-                        designJSON = createProject(username, projectName, stl, eugeneCode, registry, collection);
+                        createProject(username, projectName, stl, eugeneCode, registry, collection);
                         writer = response.getWriter();
-                        writer.write(designJSON.toString());
+                        writer.write("Project created.");
                         writer.flush();
                     } catch (SBOLValidationException | InterruptedException ex) {
                         response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
@@ -214,5 +212,40 @@ public class MainController {
 
     }
 
+    //</editor-fold>
+    
+    
+    
+    
+    //<editor-fold desc="DESIGN">
+
+    //<editor-fold desc="SPEC">
+    @ResponseBody
+    @RequestMapping(value = "/design", method = RequestMethod.POST)
+    public void design(@RequestBody String request, HttpServletResponse response) throws UnsupportedEncodingException {
+        
+        JSONObject jsonreq = new JSONObject(request);
+
+        String token = jsonreq.getString("token");
+        String projectName = jsonreq.getString("project");
+        String username = getUsername(token);
+        
+        PrintWriter writer;
+        
+        try {
+            response.setStatus(HttpServletResponse.SC_OK);
+            writer = response.getWriter();
+            writer.write(PhoenixProject.getDesignArray(username, projectName).toString());
+            writer.flush();
+        } catch (IOException ex) {
+            response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+
+    }
+
+        
+    
     //</editor-fold>
 }
