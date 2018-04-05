@@ -21,9 +21,9 @@ col_map['orange']  = (1.00, 0.75, 0.17)
 # Global line width
 lw = 0.8
 
-cdsTemplate = {'type':'CDS', 'fwd':True, 'opts':{'linewidth':lw, 'color':col_map['black'], 'edge_color':col_map['black'],'x_extent':24}} 
+promTemplate = {'type':'Promoter', 'fwd':True, 'opts':{'linewidth':lw, 'color':col_map['black'], 'edge_color':col_map['black']}} 
 
-design1 = [cdsTemplate]
+design1 = [promTemplate]
 ax_dna1 = plt.subplot(gs[0])
 
 # Create the DNAplotlib renderer
@@ -38,5 +38,5 @@ ax_dna1.axis('off')
 
 
 
-fig.savefig('cds.png', dpi=300)
+fig.savefig('prom.png', dpi=300)
 plt.close('all')
