@@ -37,7 +37,7 @@
                         <id>install-external</id>
                         <phase>clean</phase>
                         <configuration>
-                            <file>${basedir}/ExternalDependencies/JavaPlot.jar</file>
+                            <file>${basedir}/lib/externalDependencies/JavaPlot.jar</file>
                             <repositoryLayout>default</repositoryLayout>
                             <groupId>org.java.plot</groupId>
                             <artifactId>JavaPlot</artifactId>
@@ -55,11 +55,10 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            
         </plugins>
     </build>
     <dependencies>
-         <!-- Java Plot -->
+        <!-- Java Plot -->
         <dependency>
             <groupId>org.java.plot</groupId>
             <artifactId>JavaPlot</artifactId>
