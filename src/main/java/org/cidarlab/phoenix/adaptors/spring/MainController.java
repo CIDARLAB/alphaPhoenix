@@ -38,8 +38,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class MainController {
     
     //<editor-fold desc="HELPER FUNCTIONS">
-    private static boolean userExists(String username) {
-        String resultsFP = Utilities.getResultsFilepath();
+    
+    private static boolean userExists(String email) {
+        String fp = Utilities.getResultsFilepath() + "users.json";
+        JSONObject users = new JSONObject(Utilities.getFileContentAsString(fp));
+        return users.keySet().contains(email);
+        /*String resultsFP = Utilities.getResultsFilepath();
         File root = new File(resultsFP);
         File[] list = root.listFiles();
         for (File f : list) {
@@ -47,16 +51,42 @@ public class MainController {
                 return true;
             }
         }
+        return false;*/
+    }
+
+    private static boolean folderExists(String folder){
+        String resultsFP = Utilities.getResultsFilepath();
+        File root = new File(resultsFP);
+        File[] list = root.listFiles();
+        for (File f : list) {
+            if (f.getName().equals(folder)) {
+                return true;
+            }
+        }
         return false;
     }
-
-    private static void createUser(String username) {
-        String userFP = Utilities.getResultsFilepath() + username;
+    
+    private static void createUser(String email) {
+        String uuid = Utilities.randomString(8);
+        while(folderExists(uuid)){
+            uuid = Utilities.randomString(8);
+        }
+        String userFP = Utilities.getResultsFilepath() + uuid;
         Utilities.makeDirectory(userFP);
+        String userlistfp = Utilities.getResultsFilepath() + "users.json";
+        JSONObject users = new JSONObject(Utilities.getFileContentAsString(userlistfp));
+        users.put(email, uuid);
+        Utilities.writeToFile(userlistfp, users.toString());
     }
 
-    private static String getUsername(String token) {
-        return "prash";
+    private static String getUserUUID(String token) {
+        String userlistfp = Utilities.getResultsFilepath() + "users.json";
+        JSONObject users = new JSONObject(Utilities.getFileContentAsString(userlistfp));
+        for(String email:users.keySet()){
+            return users.getString(email);
+        }
+        return null;
+        //return "prash";
     }
 
     private static boolean projectExists(String username, String projectName) {
@@ -87,17 +117,17 @@ public class MainController {
 
         JSONObject jsonreq = new JSONObject(request);
 
-        String username = jsonreq.getString("username");
+        String email = jsonreq.getString("email");
         String password = jsonreq.getString("password");
-        System.out.println("Username : " + username);
+        System.out.println("Username : " + email);
         
         String token = "0000";
         PrintWriter writer;
         boolean loginError = false;
         JSONObject res = new JSONObject();
         res.put("token", token);
-
-        if (!userExists(username)) {
+        
+        if (!userExists(email)) {
             loginError = true;
         }
 
@@ -117,6 +147,8 @@ public class MainController {
         }
 
     }
+    
+    
 
     @ResponseBody
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
@@ -124,19 +156,19 @@ public class MainController {
 
         JSONObject jsonreq = new JSONObject(request);
 
-        String username = jsonreq.getString("username");
+        String institution = jsonreq.getString("institution");
         String password = jsonreq.getString("password");
         String email = jsonreq.getString("email");
 
-        System.out.println("Username : " + username);
+        System.out.println("Username : " + email);
 
         String token = "0000";
         PrintWriter writer;
         boolean loginError = false;
         JSONObject res = new JSONObject();
         res.put("token", token);
-
-        if (userExists(username)) {
+        
+        if (userExists(email)) {
             loginError = true;
         }
 
@@ -145,7 +177,7 @@ public class MainController {
             if (loginError) {
                 response.setStatus(HttpServletResponse.SC_CONFLICT);
             } else {
-                createUser(username);
+                createUser(email);
                 response.setStatus(HttpServletResponse.SC_OK);
                 writer = response.getWriter();
                 writer.print(res.toString());
@@ -175,8 +207,15 @@ public class MainController {
         String registry = jsonreq.getString("registry");
         String collection = jsonreq.getString("collection");
         
-        String username = getUsername(token);
-        boolean error = projectExists(username, projectName);
+        boolean error = false;
+        String username = getUserUUID(token);
+        if(username == null){
+            error = true;
+        }
+        if(!error){
+            error = projectExists(username, projectName);
+        }
+        
         
         
         
@@ -231,7 +270,7 @@ public class MainController {
 
         String token = jsonreq.getString("token");
         String projectName = jsonreq.getString("project");
-        String username = getUsername(token);
+        String username = getUserUUID(token);
         
         PrintWriter writer;
         
