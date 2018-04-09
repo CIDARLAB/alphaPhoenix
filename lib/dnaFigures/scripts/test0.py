@@ -34,7 +34,7 @@ reg0 = {'type': 'Activation','from_part':part6, 'to_part':part4, 'opts':{'color'
 reg1 = {'type': 'Repression','from_part':part6, 'to_part':part0, 'opts':{'color':(0.0,0.0,0.0), 'linewidth':lw, 'arc_height':25.0}}
 regDesign = [reg0,reg1]
 
-fig = plt.figure(figsize=(1.6,0.6000000000000001));
+fig = plt.figure(figsize=(1.6,0.6));
 ax_dna = plt.subplot(gs[0])
 
 # Create the DNAplotlib renderer
@@ -47,5 +47,5 @@ ax_dna.set_ylim([-25.0,25.0])
 ax_dna.set_aspect('equal')
 ax_dna.axis('off')
 
-fig.savefig('test0.png', dpi=300)
+fig.savefig('/home/prash/cidar/phoenix/alpha/lib/dnaFigures/figures/testFigure.png', dpi=300)
 plt.close('all')

@@ -5,10 +5,14 @@
  */
 package org.cidarlab.phoenix.adaptors;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.cidarlab.phoenix.core.Controller;
 import org.cidarlab.phoenix.dom.CandidateComponent;
+import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.Module.ModuleRole;
 import org.json.JSONArray;
@@ -20,30 +24,49 @@ import org.json.JSONObject;
  */
 public class UIAdaptor {
     
-    public static JSONObject getModuleJSON(Module module){
+    public static JSONObject getModuleJSON(Module module) throws InterruptedException, IOException{
         JSONObject obj = new JSONObject();
         JSONArray tus = new JSONArray();
         for(Module tu:module.getChildren()){
             tus.put(getTUJSON(tu));
         }
+        String img = module.getAbstractSBOLVisual(new HashMap<String,String>());
         obj.put("tus", tus);
+        obj.put("img", img);
+        
         return obj;
     }
     
-    private static JSONObject getTUJSON(Module module){
+    private static Map<String,String> getPromoterColorMap(Module m){
+        Map<String,String> colorMap = new HashMap<String,String>();
+        for(Component c:m.getComponents()){
+            if(Controller.isCDS(c)){
+                colorMap.put(c.getName(), "(1.00,1.00,1.00)");
+            }
+        }
+        
+        return colorMap;
+    }
+    
+    private static JSONObject getTUJSON(Module module) throws InterruptedException, IOException{
         JSONObject obj = new JSONObject();
         List<String> promCandidates = new ArrayList<String>();
         List<String> cdsCandidates = new ArrayList<String>();
+        String tuImg = module.getAbstractSBOLVisual(new HashMap<String,String>());
+        String promImg = "";
+        String cdsImg = "";
         for(Module child:module.getChildren()){
             switch(child.getRole()){
                 case PROMOTER:
                     for (List<CandidateComponent> candidates : child.getAssignments()) {
                         promCandidates.add(getCandidateComponentString(child.getRole(), candidates));
+                        promImg = child.getAbstractSBOLVisual(getPromoterColorMap(child));
                     }
                     break;
                 case CDS:
                     for (List<CandidateComponent> candidates : child.getAssignments()) {
                         cdsCandidates.add(getCandidateComponentString(child.getRole(), candidates));
+                        cdsImg = child.getAbstractSBOLVisual(new HashMap<String,String>());
                     }
                     break;
                 default:
@@ -58,6 +81,7 @@ public class UIAdaptor {
             tuCandidateList.put(tuObj);
         }
         obj.put("candidates", tuCandidateList);
+        obj.put("img", tuImg);
         
         JSONObject promObj = new JSONObject();
         JSONObject cdsObj = new JSONObject();
@@ -70,6 +94,7 @@ public class UIAdaptor {
             promCandidateList.put(promCObj);
         }
         promObj.put("candidates", promCandidateList);
+        promObj.put("img", promImg);
         
         JSONArray cdsCandidateList = new JSONArray();
         for(String cdsCandidate:cdsCandidates){
@@ -79,6 +104,7 @@ public class UIAdaptor {
             cdsCandidateList.put(cdsCObj);
         }
         cdsObj.put("candidates", cdsCandidateList);
+        cdsObj.put("img", cdsImg);
         
         obj.put("promoter", promObj);
         obj.put("cds", cdsObj);
