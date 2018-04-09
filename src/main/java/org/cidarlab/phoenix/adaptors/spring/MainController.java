@@ -14,7 +14,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.cidarlab.phoenix.core.PhoenixProject;
@@ -37,9 +36,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class MainController {
-    
-    @Autowired
-    ServletContext servletContext;
     
     //<editor-fold desc="HELPER FUNCTIONS">
     private static boolean userExists(String username) {

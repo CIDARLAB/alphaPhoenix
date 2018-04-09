@@ -5,27 +5,18 @@
  */
 package org.cidarlab.phoenix.examples;
 
-import hyness.stl.TreeNode;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.cidarlab.phoenix.adaptors.MiniEugeneAdaptor;
-import org.cidarlab.phoenix.adaptors.STLAdaptor;
-import org.cidarlab.phoenix.core.Controller;
 import org.cidarlab.phoenix.core.PhoenixProject;
 import org.cidarlab.phoenix.core.PhoenixProject.Simulation;
-import org.cidarlab.phoenix.dom.CandidateComponent;
 import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.Orientation;
-import org.cidarlab.phoenix.library.Library;
 import org.cidarlab.phoenix.utils.Utilities;
-import org.json.JSONObject;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import org.sbolstandard.core2.SBOLDocument;
-import org.sbolstandard.core2.SBOLReader;
 
 /**
  *
@@ -61,7 +52,7 @@ public class ConstitutiveExpressionTest {
     }
     
     //@Test
-    public void testCreateDesignPageJSON(){
+    public void testCreateDesignPageJSON() throws InterruptedException{
         System.out.println("Starting JSON Test");
         String eugfp = eugFilepath;
         int eugCircSize = 4;
