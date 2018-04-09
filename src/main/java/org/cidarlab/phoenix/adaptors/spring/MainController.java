@@ -6,17 +6,24 @@
 package org.cidarlab.phoenix.adaptors.spring;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.io.IOUtils;
 import org.cidarlab.phoenix.core.PhoenixProject;
 import org.cidarlab.phoenix.utils.Utilities;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.sbolstandard.core2.SBOLConversionException;
+import org.sbolstandard.core2.SBOLValidationException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,7 +36,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class MainController {
-
+    
+    //<editor-fold desc="HELPER FUNCTIONS">
     private static boolean userExists(String username) {
         String resultsFP = Utilities.getResultsFilepath();
         File root = new File(resultsFP);
@@ -65,16 +73,13 @@ public class MainController {
         return false;
     }
     
-    private static JSONArray createProject(String username, String projectName, String stl, String eugeneCode, String registry, String collection) throws IOException, SBOLConversionException{
-        String root = Utilities.getResultsFilepath() + username + Utilities.getSeparater();
-        String rootfp = Utilities.getResultsFilepath() + username + Utilities.getSeparater();
-        PhoenixProject proj = new PhoenixProject(rootfp, projectName, stl, eugeneCode, registry, collection);
-        JSONArray arr = new JSONArray();
-        
-        return arr;
+    private static void createProject(String username, String projectName, String stl, String eugeneCode, String registry, String collection) throws IOException, SBOLConversionException, SBOLValidationException, InterruptedException{
+        PhoenixProject proj = new PhoenixProject(username, projectName, stl, eugeneCode, registry, collection);
+        proj.design();
     }
     
-
+    //</editor-fold>
+    
     //<editor-fold desc="LOGIN">
     @ResponseBody
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -184,11 +189,20 @@ public class MainController {
             } else {
                 
                 try {
-                    response.setStatus(HttpServletResponse.SC_OK);
-                    JSONArray designJSON = createProject(username,projectName,stl,eugeneCode,registry,collection);
-                    writer = response.getWriter();
-                    writer.write(designJSON.toString());
-                    writer.flush();
+                    try {
+                        response.setStatus(HttpServletResponse.SC_OK);
+                        createProject(username, projectName, stl, eugeneCode, registry, collection);
+                        writer = response.getWriter();
+                        writer.write("Project created.");
+                        writer.flush();
+                    } catch (SBOLValidationException | InterruptedException ex) {
+                        response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+                        writer = response.getWriter();
+                        writer.write(ex.toString());
+                        writer.flush();
+                        Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
                 } catch (SBOLConversionException ex) {
                     response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
                     writer = response.getWriter();
@@ -207,4 +221,42 @@ public class MainController {
     }
 
     //</editor-fold>
+    
+    //<editor-fold desc="DESIGN">
+    @ResponseBody
+    @RequestMapping(value = "/design", method = RequestMethod.POST)
+    public void design(@RequestBody String request, HttpServletResponse response) throws UnsupportedEncodingException {
+        
+        JSONObject jsonreq = new JSONObject(request);
+
+        String token = jsonreq.getString("token");
+        String projectName = jsonreq.getString("project");
+        String username = getUsername(token);
+        
+        PrintWriter writer;
+        
+        try {
+            response.setStatus(HttpServletResponse.SC_OK);
+            writer = response.getWriter();
+            writer.write(PhoenixProject.getDesignArray(username, projectName).toString());
+            writer.flush();
+        } catch (IOException ex) {
+            response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+
+    }
+
+        
+    //</editor-fold>
+    
+    @RequestMapping(value = "/sbol/{id}", method = RequestMethod.GET)
+    public void getImageAsByteArray(@PathVariable(value="id") String imageId, HttpServletResponse response) throws IOException {
+        String imagefp = Utilities.getDnaFiguresPlotsFilepath() + imageId + ".png";
+        InputStream in = new FileInputStream(new File(imagefp));
+        response.setContentType(MediaType.IMAGE_PNG_VALUE);
+        IOUtils.copy(in, response.getOutputStream());
+    }
+    
 }

@@ -21,7 +21,7 @@ col_map['orange']  = (1.00, 0.75, 0.17)
 # Global line width
 lw = 0.8
 
-cdsTemplate = {'type':'CDS', 'fwd':True, 'opts':{'linewidth':lw, 'color':col_map['orange'], 'edge_color':col_map['black'],'x_extent':24}} 
+cdsTemplate = {'type':'CDS', 'fwd':True, 'opts':{'linewidth':lw, 'color':col_map['black'], 'edge_color':col_map['black'],'x_extent':24}} 
 
 design1 = [cdsTemplate]
 ax_dna1 = plt.subplot(gs[0])

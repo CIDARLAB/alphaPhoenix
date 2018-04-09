@@ -166,7 +166,7 @@ public class Module {
         JSONObject figmap = new JSONObject(Utilities.getFileContentAsString(Utilities.getDnaFiguresFilepath() + "figmap.json"));
         if(figmap.has(dplString)){
             String plotname = figmap.getString(dplString);
-            return Utilities.getDnaFiguresPlotsFilepath() + plotname + ".png";
+            return "/sbol/" + plotname + ".png";
         } else {
             
             String fn = generateSBOLVisualName();
@@ -175,7 +175,7 @@ public class Module {
             String plotFp = Utilities.getDnaFiguresPlotsFilepath() + fn;
             String script = DnaPlotlibAdaptor.generateScript(this.components, false, colorMap, plotFp);
             Utilities.writeToFile(scriptFp, script);
-            DnaPlotlibAdaptor.runScript(script);
+            DnaPlotlibAdaptor.runScript(scriptFp);
             
             JSONObject figlist = new JSONObject(Utilities.getFileContentAsString(Utilities.getDnaFiguresFilepath() + "figlist.json"));
             figlist.put(fn, fn);
@@ -183,7 +183,7 @@ public class Module {
             
             figmap.put(dplString, fn);
             Utilities.writeToFile(Utilities.getDnaFiguresFilepath() + "figmap.json", figmap.toString());
-            return Utilities.getDnaFiguresPlotsFilepath() + fn + ".py";
+            return "/sbol/" + fn + ".png";
         }
         
     }

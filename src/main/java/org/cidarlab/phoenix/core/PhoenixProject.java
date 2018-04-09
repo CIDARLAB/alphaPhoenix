@@ -435,8 +435,9 @@ public class PhoenixProject {
     //<editor-fold desc="Constructors and functions for webapp">
     public PhoenixProject(String userid, String projectName, String stl, String eugeneCode, String registry, String collection) throws IOException, SBOLConversionException {
         this.jobId = projectName;
+        
         String root = Utilities.getResultsFilepath() + userid + Utilities.getSeparater();
-
+        this.projectFolder = root;
         String jobfp = root + projectName + Utilities.getSeparater();
         Utilities.makeDirectory(jobfp);
         JSONObject lib = new JSONObject();
@@ -491,7 +492,7 @@ public class PhoenixProject {
     
     }
 
-    public JSONArray design() throws IOException, SBOLValidationException, SBOLConversionException, InterruptedException {
+    public void design() throws IOException, SBOLValidationException, SBOLConversionException, InterruptedException {
         String jobfp = this.projectFolder + this.jobId + Utilities.getSeparater();
         SBOLDocument sbol = SBOLReader.read(jobfp + "sbol.xml");
         Library lib = new Library(sbol);
@@ -521,12 +522,13 @@ public class PhoenixProject {
             arr.put(UIAdaptor.getModuleJSON(m));
         }
         
+        Utilities.writeToFile(jobfp + "design.json", arr.toString());
         
-        return arr;
     }
     
-    public static void design(String userid, String jobid) {
-        
+    public static JSONArray getDesignArray(String username, String projectname){
+        String jobfolder = Utilities.getResultsFilepath() + username + Utilities.getSeparater() + projectname + Utilities.getSeparater();
+        return new JSONArray(Utilities.getFileContentAsString(jobfolder + "design.json"));
     }
 
     //</editor-fold>
