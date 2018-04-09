@@ -61,7 +61,7 @@ public class ConstitutiveExpressionTest {
     }
     
     //@Test
-    public void testCreateDesignPageJSON(){
+    public void testCreateDesignPageJSON()throws InterruptedException {
         System.out.println("Starting JSON Test");
         String eugfp = eugFilepath;
         int eugCircSize = 4;
