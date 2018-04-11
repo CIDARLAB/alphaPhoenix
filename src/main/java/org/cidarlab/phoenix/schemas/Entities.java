@@ -1,4 +1,4 @@
-package org.cidarlab.phoenix.models;
+package org.cidarlab.phoenix.schemas;
 /**
  * Marker interface for discovery by morphia
  * 

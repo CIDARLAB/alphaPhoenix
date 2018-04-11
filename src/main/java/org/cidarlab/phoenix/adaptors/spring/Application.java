@@ -5,7 +5,7 @@
  */
 package org.cidarlab.phoenix.adaptors.spring;
 
-import org.cidarlab.phoenix.models.User;
+import org.cidarlab.phoenix.schemas.User;
 import org.cidarlab.phoenix.utils.Database;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

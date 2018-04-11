@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.cidarlab.phoenix.models;
+package org.cidarlab.phoenix.schemas;
 
 import org.bson.types.ObjectId;
 import org.cidarlab.phoenix.utils.Database;

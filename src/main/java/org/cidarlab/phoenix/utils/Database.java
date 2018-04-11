@@ -2,7 +2,7 @@ package org.cidarlab.phoenix.utils;
 
 import com.mongodb.MongoClient;
 import lombok.Getter;
-import org.cidarlab.phoenix.models.Entities;
+import org.cidarlab.phoenix.schemas.Entities;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
