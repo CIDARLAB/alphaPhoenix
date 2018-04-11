@@ -19,7 +19,7 @@ public class Application {
     public static void main(String[] args) {
         
         Database.init();
-        Database.getInstance().save(new User());
+        Database.getInstance().save(new User("name","email","password","BU"));
         SpringApplication.run(Application.class, args);
     }
 }
