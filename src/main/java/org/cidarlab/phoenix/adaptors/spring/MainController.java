@@ -13,15 +13,14 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.cidarlab.phoenix.core.PhoenixProject;
 import org.cidarlab.phoenix.utils.Utilities;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.sbolstandard.core2.SBOLConversionException;
 import org.sbolstandard.core2.SBOLValidationException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -90,14 +89,11 @@ public class MainController {
     }
 
     private static boolean projectExists(String username, String projectName) {
-        String userFP = Utilities.getResultsFilepath() + username + Utilities.getSeparater();
-        File root = new File(userFP);
-        File[] list = root.listFiles();
-        for (File f : list) {
-            if (f.getName().equals(projectName)) {
-                System.out.println("PROJECT EXISTS!!");
+        JSONArray projects = PhoenixProject.getProjects(username);
+        for(Object obj:projects){
+            JSONObject json = (JSONObject)obj;
+            if(json.get("projectName").equals(projectName)){
                 return true;
-                
             }
         }
         return false;
@@ -148,8 +144,6 @@ public class MainController {
 
     }
     
-    
-
     @ResponseBody
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public void signup(@RequestBody String request, HttpServletResponse response) throws UnsupportedEncodingException {
@@ -189,6 +183,27 @@ public class MainController {
         }
 
     }
+    
+    @ResponseBody
+    @RequestMapping(value = "/projects", method = RequestMethod.POST)
+    public void loadProjects(@RequestBody String request, HttpServletResponse response){
+        JSONObject jsonreq = new JSONObject(request);
+        String token = jsonreq.getString("token");
+        String userUUID = getUserUUID(token);
+        JSONArray projectList = PhoenixProject.getProjects(userUUID);
+        PrintWriter writer;
+        
+        try {
+            response.setStatus(HttpServletResponse.SC_OK);
+            writer = response.getWriter();
+             writer.print(projectList.toString());
+            writer.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+    }
+    
     //</editor-fold>
 
     //<editor-fold desc="SPEC">
@@ -215,9 +230,6 @@ public class MainController {
         if(!error){
             error = projectExists(username, projectName);
         }
-        
-        
-        
         
         try {
             if(error){
