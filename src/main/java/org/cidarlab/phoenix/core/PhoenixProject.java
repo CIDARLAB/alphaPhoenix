@@ -8,6 +8,7 @@ package org.cidarlab.phoenix.core;
 import hyness.stl.TreeNode;
 import java.io.File;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -431,15 +432,48 @@ public class PhoenixProject {
         Utilities.makeDirectory(jobFolder);
         this.jobId = id;
     }
-
+    
+    public static JSONArray getProjects(String userid){
+        JSONArray projects = new JSONArray();
+        String userFP = Utilities.getResultsFilepath() + userid + Utilities.getSeparater();
+        File root = new File(userFP);
+        File[] list = root.listFiles();
+        for (File f : list) {
+            String projfp = f.getAbsolutePath();
+            if(!projfp.endsWith("" + Utilities.getSeparater())){
+                projfp += Utilities.getSeparater();
+            }
+            projects.put(new JSONObject(Utilities.getFileContentAsString(projfp + "details.json")));
+        }
+        return projects;
+    }
+    
+    private String createJobUUID(String userid){
+        String userFP = Utilities.getResultsFilepath() + userid + Utilities.getSeparater();
+        String uuid = Utilities.randomString(8);
+        while(Utilities.validFilepath(userFP + uuid)){
+            uuid = Utilities.randomString(8);
+        }
+        Utilities.makeDirectory(userFP + uuid);
+        return uuid;
+    }
+    
     //<editor-fold desc="Constructors and functions for webapp">
     public PhoenixProject(String userid, String projectName, String stl, String eugeneCode, String registry, String collection) throws IOException, SBOLConversionException {
-        this.jobId = projectName;
         
-        String root = Utilities.getResultsFilepath() + userid + Utilities.getSeparater();
-        this.projectFolder = root;
-        String jobfp = root + projectName + Utilities.getSeparater();
-        Utilities.makeDirectory(jobfp);
+        this.jobId = createJobUUID(userid);
+        String userRootFP = Utilities.getResultsFilepath() + userid + Utilities.getSeparater();
+        this.projectFolder = userRootFP;
+        String jobfp = userRootFP + this.jobId + Utilities.getSeparater();
+        
+        JSONObject details = new JSONObject();
+        details.put("id", this.jobId);
+        details.put("projectName", projectName);
+        details.put("createdOn", Instant.now().toString());
+        details.put("step", Step.SPECIFY);
+        details.put("state", State.INPROGRESS);
+        Utilities.writeToFile(jobfp + "details.json", details.toString());
+        
         JSONObject lib = new JSONObject();
         lib.put("database", "synbiohub");
         lib.put("registry", registry);
@@ -489,11 +523,19 @@ public class PhoenixProject {
         
         SBOLDocument sbol = SynbiohubAdaptor.getSBOL(registry, collection);
         SBOLWriter.write(sbol, (jobfp + "sbol.xml"));
-    
+        
+        details.put("state",State.COMPLETED);
+        Utilities.writeToFile(jobfp + "details.json", details.toString());
     }
 
     public void design() throws IOException, SBOLValidationException, SBOLConversionException, InterruptedException {
         String jobfp = this.projectFolder + this.jobId + Utilities.getSeparater();
+        
+        JSONObject details = new JSONObject(Utilities.getFileContentAsString(jobfp + "details.json"));
+        details.put("step", Step.DESIGN);
+        details.put("state", State.INPROGRESS);
+        Utilities.writeToFile(jobfp + "details.json", details.toString());
+        
         SBOLDocument sbol = SBOLReader.read(jobfp + "sbol.xml");
         Library lib = new Library(sbol);
         String eugfilecontent = Utilities.getFileContentAsString(jobfp + "eug.json");
@@ -523,7 +565,8 @@ public class PhoenixProject {
         }
         
         Utilities.writeToFile(jobfp + "design.json", arr.toString());
-        
+        details.put("state", State.COMPLETED);
+        Utilities.writeToFile(jobfp + "details.json", details.toString());
     }
     
     public static JSONArray getDesignArray(String username, String projectname){
@@ -537,6 +580,18 @@ public class PhoenixProject {
 
         DETERMINISTIC,
         STOCHASTIC
+    }
+    
+    public static enum State{
+        COMPLETED,
+        INPROGRESS,
+        ERROR
+    }
+    
+    public static enum Step{
+        SPECIFY,
+        DESIGN,
+        RESULTS
     }
 
 }

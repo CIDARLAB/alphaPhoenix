@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.JSONObject;
 
 /**
  *
@@ -134,6 +135,11 @@ public class Utilities {
         if(!validFilepath(fp)){
             makeDirectory(fp);
             System.out.println("Created a Results folder at : " + fp);
+        }
+        
+        JSONObject obj = new JSONObject();
+        if(!validFilepath(fp + "users.json")){
+            Utilities.writeToFile(fp + "users.json", obj.toString());
         }
         return fp;
     }
