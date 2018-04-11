@@ -470,6 +470,8 @@ public class PhoenixProject {
         details.put("id", this.jobId);
         details.put("projectName", projectName);
         details.put("createdOn", Instant.now().toString());
+        details.put("step", Step.SPECIFY);
+        details.put("state", State.INPROGRESS);
         Utilities.writeToFile(jobfp + "details.json", details.toString());
         
         JSONObject lib = new JSONObject();
@@ -521,11 +523,19 @@ public class PhoenixProject {
         
         SBOLDocument sbol = SynbiohubAdaptor.getSBOL(registry, collection);
         SBOLWriter.write(sbol, (jobfp + "sbol.xml"));
-    
+        
+        details.put("state",State.COMPLETED);
+        Utilities.writeToFile(jobfp + "details.json", details.toString());
     }
 
     public void design() throws IOException, SBOLValidationException, SBOLConversionException, InterruptedException {
         String jobfp = this.projectFolder + this.jobId + Utilities.getSeparater();
+        
+        JSONObject details = new JSONObject(Utilities.getFileContentAsString(jobfp + "details.json"));
+        details.put("step", Step.DESIGN);
+        details.put("state", State.INPROGRESS);
+        Utilities.writeToFile(jobfp + "details.json", details.toString());
+        
         SBOLDocument sbol = SBOLReader.read(jobfp + "sbol.xml");
         Library lib = new Library(sbol);
         String eugfilecontent = Utilities.getFileContentAsString(jobfp + "eug.json");
@@ -555,7 +565,8 @@ public class PhoenixProject {
         }
         
         Utilities.writeToFile(jobfp + "design.json", arr.toString());
-        
+        details.put("state", State.COMPLETED);
+        Utilities.writeToFile(jobfp + "details.json", details.toString());
     }
     
     public static JSONArray getDesignArray(String username, String projectname){
@@ -569,6 +580,18 @@ public class PhoenixProject {
 
         DETERMINISTIC,
         STOCHASTIC
+    }
+    
+    public static enum State{
+        COMPLETED,
+        INPROGRESS,
+        ERROR
+    }
+    
+    public static enum Step{
+        SPECIFY,
+        DESIGN,
+        RESULTS
     }
 
 }
