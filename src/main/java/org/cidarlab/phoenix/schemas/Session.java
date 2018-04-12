@@ -31,6 +31,11 @@ public class Session {
     @Getter
     private String token;
 
+    public Session() {
+        this.userId = null;
+        this.createdOn = null;
+    }
+
     public Session(User user,ObjectId key) {
         this.userId = user.getId();
         this.createdOn = new Date();

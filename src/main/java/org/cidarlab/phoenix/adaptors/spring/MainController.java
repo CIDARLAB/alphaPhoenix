@@ -42,54 +42,13 @@ public class MainController {
     
     //<editor-fold desc="HELPER FUNCTIONS">
     
-    private static boolean userExists(String email) {
-        String fp = Utilities.getResultsFilepath() + "users.json";
-        JSONObject users = new JSONObject(Utilities.getFileContentAsString(fp));
-        return users.keySet().contains(email);
-        /*String resultsFP = Utilities.getResultsFilepath();
-        File root = new File(resultsFP);
-        File[] list = root.listFiles();
-        for (File f : list) {
-            if (f.getName().equals(username)) {
-                return true;
-            }
-        }
-        return false;*/
-    }
-
-    private static boolean folderExists(String folder){
-        String resultsFP = Utilities.getResultsFilepath();
-        File root = new File(resultsFP);
-        File[] list = root.listFiles();
-        for (File f : list) {
-            if (f.getName().equals(folder)) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    private static void createUser(String email) {
-        String uuid = Utilities.randomString(8);
-        while(folderExists(uuid)){
-            uuid = Utilities.randomString(8);
-        }
-        String userFP = Utilities.getResultsFilepath() + uuid;
+    private static void createUserFolder(User user) {
+        String userFP = Utilities.getResultsFilepath() + user.getId().toString();
         Utilities.makeDirectory(userFP);
         String userlistfp = Utilities.getResultsFilepath() + "users.json";
         JSONObject users = new JSONObject(Utilities.getFileContentAsString(userlistfp));
-        users.put(email, uuid);
+        users.put(user.getEmail(), user.getId().toString());
         Utilities.writeToFile(userlistfp, users.toString());
-    }
-
-    private static String getUserUUID(String token) {
-        String userlistfp = Utilities.getResultsFilepath() + "users.json";
-        JSONObject users = new JSONObject(Utilities.getFileContentAsString(userlistfp));
-        for(String email:users.keySet()){
-            return users.getString(email);
-        }
-        return null;
-        //return "prash";
     }
 
     private static boolean projectExists(String username, String projectName) {
@@ -132,6 +91,7 @@ public class MainController {
                 JSONObject res = new JSONObject();
                 res.put("session", new JSONObject(session));
                 res.put("token", key.toString());
+                res.put("id", session.getId().toString());
                 res.put("user", new JSONObject(user));
 
                 response.setStatus(HttpServletResponse.SC_OK);
@@ -167,10 +127,13 @@ public class MainController {
                 Session session = new Session(user, key);
                 Database.getInstance().save(session);
                 
+                createUserFolder(user);
+                
                 PrintWriter writer;
                 JSONObject res = new JSONObject();
                 res.put("session", new JSONObject(session));
                 res.put("token", key.toString());
+                res.put("id", session.getId().toString());
                 res.put("user", new JSONObject(user));
                 
                 response.setStatus(HttpServletResponse.SC_OK);
@@ -187,25 +150,30 @@ public class MainController {
     @RequestMapping(value = "/projects", method = RequestMethod.POST)
     public void loadProjects(@RequestBody String request, HttpServletResponse response){
         JSONObject jsonreq = new JSONObject(request);
+        String sessionId = jsonreq.getString("id");
         String token = jsonreq.getString("token");
-        String userUUID = getUserUUID(token);
-        JSONArray projectList = PhoenixProject.getProjects(userUUID);
-        PrintWriter writer;
-        
-        try {
-            response.setStatus(HttpServletResponse.SC_OK);
-            writer = response.getWriter();
-             writer.print(projectList.toString());
-            writer.flush();
-        } catch (IOException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        Session session = Session.findByCredentials(sessionId, token);
+        if(session != null) {
+            User user = Session.getUser(session);
+            JSONArray projectList = PhoenixProject.getProjects(user.getId().toString());
+            PrintWriter writer;
+            
+            try {
+                response.setStatus(HttpServletResponse.SC_OK);
+                writer = response.getWriter();
+                writer.print(projectList.toString());
+                writer.flush();
+            } catch (IOException ex) {
+                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
-       
     }
-    
     //</editor-fold>
 
     //<editor-fold desc="SPEC">
+    /*
     @ResponseBody
     @RequestMapping(value = "/specification", method = RequestMethod.POST)
     public void specification(@RequestBody String request, HttpServletResponse response) throws UnsupportedEncodingException {
@@ -269,10 +237,11 @@ public class MainController {
         }
 
     }
-
+    */
     //</editor-fold>
     
     //<editor-fold desc="DESIGN">
+    /*
     @ResponseBody
     @RequestMapping(value = "/design", method = RequestMethod.POST)
     public void design(@RequestBody String request, HttpServletResponse response) throws UnsupportedEncodingException {
@@ -297,8 +266,7 @@ public class MainController {
         
 
     }
-
-        
+    */
     //</editor-fold>
     
     @RequestMapping(value = "/sbol/{id}", method = RequestMethod.GET)
