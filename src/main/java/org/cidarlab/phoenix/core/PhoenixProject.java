@@ -439,11 +439,13 @@ public class PhoenixProject {
         File root = new File(userFP);
         File[] list = root.listFiles();
         for (File f : list) {
-            String projfp = f.getAbsolutePath();
-            if(!projfp.endsWith("" + Utilities.getSeparater())){
-                projfp += Utilities.getSeparater();
+            if(!f.getName().equals(".DS_Store")){ // Compatiable for mac
+                String projfp = f.getAbsolutePath();
+                if(!projfp.endsWith("" + Utilities.getSeparater())){
+                    projfp += Utilities.getSeparater();
+                }
+                projects.put(new JSONObject(Utilities.getFileContentAsString(projfp + "details.json")));
             }
-            projects.put(new JSONObject(Utilities.getFileContentAsString(projfp + "details.json")));
         }
         return projects;
     }
@@ -571,7 +573,11 @@ public class PhoenixProject {
     
     public static JSONArray getDesignArray(String username, String projectname){
         String jobfolder = Utilities.getResultsFilepath() + username + Utilities.getSeparater() + projectname + Utilities.getSeparater();
-        return new JSONArray(Utilities.getFileContentAsString(jobfolder + "design.json"));
+        String projectString = Utilities.getFileContentAsString(jobfolder + "design.json");
+        if(projectString != "") {
+            return new JSONArray(projectString);
+        }
+        return null;
     }
 
     //</editor-fold>

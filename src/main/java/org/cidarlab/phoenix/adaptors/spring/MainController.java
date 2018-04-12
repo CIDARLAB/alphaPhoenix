@@ -15,7 +15,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
+import org.bson.types.ObjectId;
 import org.cidarlab.phoenix.core.PhoenixProject;
+import org.cidarlab.phoenix.schemas.Session;
+import org.cidarlab.phoenix.schemas.User;
+import org.cidarlab.phoenix.utils.Database;
 import org.cidarlab.phoenix.utils.Utilities;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -38,70 +42,18 @@ public class MainController {
     
     //<editor-fold desc="HELPER FUNCTIONS">
     
-    private static boolean userExists(String email) {
-        String fp = Utilities.getResultsFilepath() + "users.json";
-        JSONObject users = new JSONObject(Utilities.getFileContentAsString(fp));
-        return users.keySet().contains(email);
-        /*String resultsFP = Utilities.getResultsFilepath();
-        File root = new File(resultsFP);
-        File[] list = root.listFiles();
-        for (File f : list) {
-            if (f.getName().equals(username)) {
-                return true;
-            }
-        }
-        return false;*/
-    }
-
-    private static boolean folderExists(String folder){
-        String resultsFP = Utilities.getResultsFilepath();
-        File root = new File(resultsFP);
-        File[] list = root.listFiles();
-        for (File f : list) {
-            if (f.getName().equals(folder)) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    private static void createUser(String email) {
-        String uuid = Utilities.randomString(8);
-        while(folderExists(uuid)){
-            uuid = Utilities.randomString(8);
-        }
-        String userFP = Utilities.getResultsFilepath() + uuid;
+    private static void createUserFolder(User user) {
+        String userFP = Utilities.getResultsFilepath() + user.getId().toString();
         Utilities.makeDirectory(userFP);
         String userlistfp = Utilities.getResultsFilepath() + "users.json";
         JSONObject users = new JSONObject(Utilities.getFileContentAsString(userlistfp));
-        users.put(email, uuid);
+        users.put(user.getEmail(), user.getId().toString());
         Utilities.writeToFile(userlistfp, users.toString());
     }
-
-    private static String getUserUUID(String token) {
-        String userlistfp = Utilities.getResultsFilepath() + "users.json";
-        JSONObject users = new JSONObject(Utilities.getFileContentAsString(userlistfp));
-        for(String email:users.keySet()){
-            return users.getString(email);
-        }
-        return null;
-        //return "prash";
-    }
     
-    private static String getProjectUUID(String userUUID, String projectName){
-        JSONArray projects = PhoenixProject.getProjects(userUUID);
-        
-        for(Object obj:projects){
-            JSONObject json = (JSONObject)obj;
-            if(json.getString("projectName").equals(projectName)){
-                return json.getString("id");
-            }
-        }
-        return null;
-    }
     
-    private static boolean projectExists(String userUUID, String projectName) {
-        JSONArray projects = PhoenixProject.getProjects(userUUID);
+    private static boolean projectExists(String userId, String projectName) {
+        JSONArray projects = PhoenixProject.getProjects(userId);
         for(Object obj:projects){
             JSONObject json = (JSONObject)obj;
             if(json.get("projectName").equals(projectName)){
@@ -111,8 +63,8 @@ public class MainController {
         return false;
     }
     
-    private static void createProject(String username, String projectName, String stl, String eugeneCode, String registry, String collection) throws IOException, SBOLConversionException, SBOLValidationException, InterruptedException{
-        PhoenixProject proj = new PhoenixProject(username, projectName, stl, eugeneCode, registry, collection);
+    private static void createProject(String userId, String projectName, String stl, String eugeneCode, String registry, String collection) throws IOException, SBOLConversionException, SBOLValidationException, InterruptedException{
+        PhoenixProject proj = new PhoenixProject(userId, projectName, stl, eugeneCode, registry, collection);
         proj.design();
     }
     
@@ -125,35 +77,34 @@ public class MainController {
 
         JSONObject jsonreq = new JSONObject(request);
 
-        String email = jsonreq.getString("username");
+        String email = jsonreq.getString("email");
         String password = jsonreq.getString("password");
-        System.out.println("Username : " + email);
         
-        String token = "0000";
-        PrintWriter writer;
-        boolean loginError = false;
-        JSONObject res = new JSONObject();
-        res.put("token", token);
+        User user = User.findByCredentials(email, password);
         
-        if (!userExists(email)) {
-            loginError = true;
-        }
-
         try {
+            if(user != null) {
+                ObjectId key = new ObjectId();
+                Session session = new Session(user, key);
+                Database.getInstance().save(session);
 
-            if (loginError) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            } else {
+                PrintWriter writer;
+                JSONObject res = new JSONObject();
+                res.put("session", new JSONObject(session));
+                res.put("token", key.toString());
+                res.put("id", session.getId().toString());
+                res.put("user", new JSONObject(user));
+
                 response.setStatus(HttpServletResponse.SC_OK);
                 writer = response.getWriter();
                 writer.print(res.toString());
                 writer.flush();
+            } else {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             }
-
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
     
     @ResponseBody
@@ -165,57 +116,61 @@ public class MainController {
         String institution = jsonreq.getString("institution");
         String password = jsonreq.getString("password");
         String email = jsonreq.getString("email");
-
-        System.out.println("Username : " + email);
-
-        String token = "0000";
-        PrintWriter writer;
-        boolean loginError = false;
-        JSONObject res = new JSONObject();
-        res.put("token", token);
+        String name = jsonreq.getString("name");
         
-        if (userExists(email)) {
-            loginError = true;
-        }
-
         try {
-
-            if (loginError) {
+            if(User.userExists(email)) {
                 response.setStatus(HttpServletResponse.SC_CONFLICT);
             } else {
-                createUser(email);
+                User user = new User(name,email,password,institution);
+                Database.getInstance().save(user);
+                ObjectId key = new ObjectId();
+                Session session = new Session(user, key);
+                Database.getInstance().save(session);
+                
+                createUserFolder(user);
+                
+                PrintWriter writer;
+                JSONObject res = new JSONObject();
+                res.put("session", new JSONObject(session));
+                res.put("token", key.toString());
+                res.put("id", session.getId().toString());
+                res.put("user", new JSONObject(user));
+                
                 response.setStatus(HttpServletResponse.SC_OK);
                 writer = response.getWriter();
                 writer.print(res.toString());
                 writer.flush();
             }
-
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        } 
     }
     
     @ResponseBody
     @RequestMapping(value = "/projects", method = RequestMethod.POST)
     public void loadProjects(@RequestBody String request, HttpServletResponse response){
         JSONObject jsonreq = new JSONObject(request);
+        String sessionId = jsonreq.getString("id");
         String token = jsonreq.getString("token");
-        String userUUID = getUserUUID(token);
-        JSONArray projectList = PhoenixProject.getProjects(userUUID);
-        PrintWriter writer;
-        
-        try {
-            response.setStatus(HttpServletResponse.SC_OK);
-            writer = response.getWriter();
-             writer.print(projectList.toString());
-            writer.flush();
-        } catch (IOException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        Session session = Session.findByCredentials(sessionId, token);
+        if(session != null) {
+            User user = Session.getUser(session);
+            JSONArray projectList = PhoenixProject.getProjects(user.getId().toString());
+            PrintWriter writer;
+            
+            try {
+                response.setStatus(HttpServletResponse.SC_OK);
+                writer = response.getWriter();
+                writer.print(projectList.toString());
+                writer.flush();
+            } catch (IOException ex) {
+                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
-       
     }
-    
     //</editor-fold>
 
     //<editor-fold desc="SPEC">
@@ -227,6 +182,7 @@ public class MainController {
 
         JSONObject jsonreq = new JSONObject(request);
 
+        String sessionId = jsonreq.getString("id");
         String token = jsonreq.getString("token");
         String projectName = jsonreq.getString("project");
         String eugeneCode = jsonreq.getString("eugene");
@@ -234,55 +190,37 @@ public class MainController {
         String registry = jsonreq.getString("registry");
         String collection = jsonreq.getString("collection");
         
-        boolean error = false;
-        String username = getUserUUID(token);
-        if(username == null){
-            error = true;
-        }
-        if(!error){
-            error = projectExists(username, projectName);
-        }
-        
         try {
-            if(error){
-                response.setStatus(HttpServletResponse.SC_CONFLICT);
-                writer = response.getWriter();
-                writer.write("Project name already exists");
-                writer.flush();
-            } else {
-                
-                try {
+        
+            Session session = Session.findByCredentials(sessionId, token);
+            if(session != null) {
+                User user = Session.getUser(session);
+
+                if(projectExists(user.getId().toString(), projectName)){
+                    response.setStatus(HttpServletResponse.SC_CONFLICT);
+                    writer = response.getWriter();
+                    writer.write("Project name already exists");
+                    writer.flush();
+                } else {
                     try {
+                        createProject(user.getId().toString(), projectName, stl, eugeneCode, registry, collection);
                         response.setStatus(HttpServletResponse.SC_OK);
-                        createProject(username, projectName, stl, eugeneCode, registry, collection);
                         writer = response.getWriter();
                         writer.write("Project created.");
                         writer.flush();
-                    } catch (SBOLValidationException | InterruptedException ex) {
+                    } catch (SBOLValidationException | SBOLConversionException |InterruptedException ex) {
                         response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
                         writer = response.getWriter();
                         writer.write(ex.toString());
                         writer.flush();
                         Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
-                } catch (SBOLConversionException ex) {
-                    response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
-                    writer = response.getWriter();
-                    writer.write(ex.toString());
-                    writer.flush();
-                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
             }
-            
-
-        } catch (IOException ex) {
+        } catch(IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
-
     //</editor-fold>
     
     //<editor-fold desc="DESIGN">
@@ -292,27 +230,37 @@ public class MainController {
         
         JSONObject jsonreq = new JSONObject(request);
 
+        String sessionId = jsonreq.getString("id");
         String token = jsonreq.getString("token");
-        String projectName = jsonreq.getString("project");
-        String userUUID = getUserUUID(token);
-        String projectUUID = getProjectUUID(userUUID,projectName);
+        String projectId = jsonreq.getString("project");
+
         
-        PrintWriter writer;
+        Session session = Session.findByCredentials(sessionId, token);
+        if(session != null) {
+            User user = Session.getUser(session);
+            
+            PrintWriter writer;
         
-        try {
-            response.setStatus(HttpServletResponse.SC_OK);
-            writer = response.getWriter();
-            writer.write(PhoenixProject.getDesignArray(userUUID, projectUUID).toString());
-            writer.flush();
-        } catch (IOException ex) {
-            response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+
+            try {
+                response.setStatus(HttpServletResponse.SC_OK);
+                writer = response.getWriter();
+                JSONArray project = PhoenixProject.getDesignArray(user.getId().toString(), projectId);
+                if(project != null) {
+                    
+                    writer.write(project.toString());
+                    response.setStatus(HttpServletResponse.SC_OK);
+                } else {
+                    writer.write("Project not found");
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                }
+                writer.flush();
+            } catch (IOException ex) {
+                response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        
-
     }
-
-        
     //</editor-fold>
     
     @RequestMapping(value = "/sbol/{id}", method = RequestMethod.GET)
