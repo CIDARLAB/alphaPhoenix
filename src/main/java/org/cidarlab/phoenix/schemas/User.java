@@ -32,7 +32,7 @@ public class User {
     private String email;
     @Getter
     @Setter
-    private String organization;
+    private String institution;
     @Getter
     private final Date createdOn;
     @Getter
@@ -42,12 +42,12 @@ public class User {
         this.createdOn = null;
     }
     
-    public User(String name,String email,String password,String organization) {
+    public User(String name,String email,String password,String institution) {
         this.id = new ObjectId();
         this.createdOn = new Date();
         this.name = name;
         this.email = email;
-        this.organization = organization;
+        this.institution = institution;
         this.password = this.setPassword(password);
     }
     
@@ -64,4 +64,8 @@ public class User {
         }
         return null;
     } 
+    
+    public static boolean userExists(String email) {
+        return Database.getInstance().getDatastore().createQuery(User.class).filter("email", email).get() != null;
+    }
 }

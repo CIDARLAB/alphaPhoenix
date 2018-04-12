@@ -29,15 +29,11 @@ public class Session {
     @Getter
     private final Date createdOn;
     @Getter
-    @Setter
-    private Date lastLogin;
-    @Getter
     private String token;
 
     public Session(User user,ObjectId key) {
         this.userId = user.getId();
         this.createdOn = new Date();
-        this.lastLogin = new Date();
         this.token = BCrypt.hashpw(key.toString(), BCrypt.gensalt());
     }
     

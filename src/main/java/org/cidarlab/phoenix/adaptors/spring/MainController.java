@@ -15,7 +15,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
+import org.bson.types.ObjectId;
 import org.cidarlab.phoenix.core.PhoenixProject;
+import org.cidarlab.phoenix.schemas.Session;
+import org.cidarlab.phoenix.schemas.User;
 import org.cidarlab.phoenix.utils.Utilities;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -153,35 +156,30 @@ public class MainController {
         String institution = jsonreq.getString("institution");
         String password = jsonreq.getString("password");
         String email = jsonreq.getString("email");
-
-        System.out.println("Username : " + email);
-
-        String token = "0000";
-        PrintWriter writer;
-        boolean loginError = false;
-        JSONObject res = new JSONObject();
-        res.put("token", token);
+        String name = jsonreq.getString("name");
         
-        if (userExists(email)) {
-            loginError = true;
-        }
-
         try {
-
-            if (loginError) {
+            if(User.userExists(email)) {
                 response.setStatus(HttpServletResponse.SC_CONFLICT);
             } else {
-                createUser(email);
+                User user = new User(name,email,password,institution);
+                ObjectId key = new ObjectId();
+                Session session = new Session(user, key);
+                
+                PrintWriter writer;
+                JSONObject res = new JSONObject();
+                res.put("session", session);
+                res.put("token", key.toString());
+                res.put("user", user);
+                
                 response.setStatus(HttpServletResponse.SC_OK);
                 writer = response.getWriter();
                 writer.print(res.toString());
                 writer.flush();
             }
-
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        } 
     }
     
     @ResponseBody
