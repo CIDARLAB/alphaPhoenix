@@ -22,6 +22,7 @@ import org.mongodb.morphia.annotations.Id;
 public class User {
     
     @Id
+    @Getter
     private ObjectId id;
     @Getter
     @Setter
@@ -36,8 +37,11 @@ public class User {
     private final Date createdOn;
     @Getter
     private String password;
-    
 
+    public User() {
+        this.createdOn = null;
+    }
+    
     public User(String name,String email,String password,String organization) {
         this.id = new ObjectId();
         this.createdOn = new Date();
@@ -51,8 +55,13 @@ public class User {
         return BCrypt.hashpw(plainText, BCrypt.gensalt());
     }
     
-    
-    
-    
-    
+    public static User findByCredentials(String email, String plainTextPassword){
+        User user = Database.getInstance().getDatastore().createQuery(User.class).filter("email", email).get();
+        if(user != null) {
+            if(BCrypt.checkpw(plainTextPassword, user.getPassword())) {
+                return user;
+            }  
+        }
+        return null;
+    } 
 }

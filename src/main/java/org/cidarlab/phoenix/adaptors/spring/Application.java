@@ -5,7 +5,6 @@
  */
 package org.cidarlab.phoenix.adaptors.spring;
 
-import org.cidarlab.phoenix.schemas.User;
 import org.cidarlab.phoenix.utils.Database;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,9 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Application {
     public static void main(String[] args) {
-        
         Database.init();
-        Database.getInstance().save(new User("name","email","password","BU"));
         SpringApplication.run(Application.class, args);
     }
 }
