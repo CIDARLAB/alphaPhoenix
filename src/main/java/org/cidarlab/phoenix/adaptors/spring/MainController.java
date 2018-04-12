@@ -51,8 +51,8 @@ public class MainController {
         Utilities.writeToFile(userlistfp, users.toString());
     }
 
-    private static boolean projectExists(String username, String projectName) {
-        JSONArray projects = PhoenixProject.getProjects(username);
+    private static boolean projectExists(String userId, String projectName) {
+        JSONArray projects = PhoenixProject.getProjects(userId);
         for(Object obj:projects){
             JSONObject json = (JSONObject)obj;
             if(json.get("projectName").equals(projectName)){
@@ -62,8 +62,8 @@ public class MainController {
         return false;
     }
     
-    private static void createProject(String username, String projectName, String stl, String eugeneCode, String registry, String collection) throws IOException, SBOLConversionException, SBOLValidationException, InterruptedException{
-        PhoenixProject proj = new PhoenixProject(username, projectName, stl, eugeneCode, registry, collection);
+    private static void createProject(String userId, String projectName, String stl, String eugeneCode, String registry, String collection) throws IOException, SBOLConversionException, SBOLValidationException, InterruptedException{
+        PhoenixProject proj = new PhoenixProject(userId, projectName, stl, eugeneCode, registry, collection);
         proj.design();
     }
     
@@ -173,7 +173,6 @@ public class MainController {
     //</editor-fold>
 
     //<editor-fold desc="SPEC">
-    /*
     @ResponseBody
     @RequestMapping(value = "/specification", method = RequestMethod.POST)
     public void specification(@RequestBody String request, HttpServletResponse response) throws UnsupportedEncodingException {
@@ -182,6 +181,7 @@ public class MainController {
 
         JSONObject jsonreq = new JSONObject(request);
 
+        String sessionId = jsonreq.getString("id");
         String token = jsonreq.getString("token");
         String projectName = jsonreq.getString("project");
         String eugeneCode = jsonreq.getString("eugene");
@@ -189,55 +189,37 @@ public class MainController {
         String registry = jsonreq.getString("registry");
         String collection = jsonreq.getString("collection");
         
-        boolean error = false;
-        String username = getUserUUID(token);
-        if(username == null){
-            error = true;
-        }
-        if(!error){
-            error = projectExists(username, projectName);
-        }
-        
         try {
-            if(error){
-                response.setStatus(HttpServletResponse.SC_CONFLICT);
-                writer = response.getWriter();
-                writer.write("Project name already exists");
-                writer.flush();
-            } else {
-                
-                try {
+        
+            Session session = Session.findByCredentials(sessionId, token);
+            if(session != null) {
+                User user = Session.getUser(session);
+
+                if(projectExists(user.getId().toString(), projectName)){
+                    response.setStatus(HttpServletResponse.SC_CONFLICT);
+                    writer = response.getWriter();
+                    writer.write("Project name already exists");
+                    writer.flush();
+                } else {
                     try {
+                        createProject(user.getId().toString(), projectName, stl, eugeneCode, registry, collection);
                         response.setStatus(HttpServletResponse.SC_OK);
-                        createProject(username, projectName, stl, eugeneCode, registry, collection);
                         writer = response.getWriter();
                         writer.write("Project created.");
                         writer.flush();
-                    } catch (SBOLValidationException | InterruptedException ex) {
+                    } catch (SBOLValidationException | SBOLConversionException |InterruptedException ex) {
                         response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
                         writer = response.getWriter();
                         writer.write(ex.toString());
                         writer.flush();
                         Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
-                } catch (SBOLConversionException ex) {
-                    response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
-                    writer = response.getWriter();
-                    writer.write(ex.toString());
-                    writer.flush();
-                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
             }
-            
-
-        } catch (IOException ex) {
+        } catch(IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
-    */
     //</editor-fold>
     
     //<editor-fold desc="DESIGN">
