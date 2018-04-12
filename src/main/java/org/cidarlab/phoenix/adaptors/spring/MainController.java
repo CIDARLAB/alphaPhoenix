@@ -87,9 +87,21 @@ public class MainController {
         return null;
         //return "prash";
     }
-
-    private static boolean projectExists(String username, String projectName) {
-        JSONArray projects = PhoenixProject.getProjects(username);
+    
+    private static String getProjectUUID(String userUUID, String projectName){
+        JSONArray projects = PhoenixProject.getProjects(userUUID);
+        
+        for(Object obj:projects){
+            JSONObject json = (JSONObject)obj;
+            if(json.getString("projectName").equals(projectName)){
+                return json.getString("id");
+            }
+        }
+        return null;
+    }
+    
+    private static boolean projectExists(String userUUID, String projectName) {
+        JSONArray projects = PhoenixProject.getProjects(userUUID);
         for(Object obj:projects){
             JSONObject json = (JSONObject)obj;
             if(json.get("projectName").equals(projectName)){
@@ -113,7 +125,7 @@ public class MainController {
 
         JSONObject jsonreq = new JSONObject(request);
 
-        String email = jsonreq.getString("email");
+        String email = jsonreq.getString("username");
         String password = jsonreq.getString("password");
         System.out.println("Username : " + email);
         
@@ -282,14 +294,15 @@ public class MainController {
 
         String token = jsonreq.getString("token");
         String projectName = jsonreq.getString("project");
-        String username = getUserUUID(token);
+        String userUUID = getUserUUID(token);
+        String projectUUID = getProjectUUID(userUUID,projectName);
         
         PrintWriter writer;
         
         try {
             response.setStatus(HttpServletResponse.SC_OK);
             writer = response.getWriter();
-            writer.write(PhoenixProject.getDesignArray(username, projectName).toString());
+            writer.write(PhoenixProject.getDesignArray(userUUID, projectUUID).toString());
             writer.flush();
         } catch (IOException ex) {
             response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
