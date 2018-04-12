@@ -19,6 +19,7 @@ import org.bson.types.ObjectId;
 import org.cidarlab.phoenix.core.PhoenixProject;
 import org.cidarlab.phoenix.schemas.Session;
 import org.cidarlab.phoenix.schemas.User;
+import org.cidarlab.phoenix.utils.Database;
 import org.cidarlab.phoenix.utils.Utilities;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -118,33 +119,31 @@ public class MainController {
 
         String email = jsonreq.getString("email");
         String password = jsonreq.getString("password");
-        System.out.println("Username : " + email);
         
-        String token = "0000";
-        PrintWriter writer;
-        boolean loginError = false;
-        JSONObject res = new JSONObject();
-        res.put("token", token);
+        User user = User.findByCredentials(email, password);
         
-        if (!userExists(email)) {
-            loginError = true;
-        }
-
         try {
+            if(user != null) {
+                ObjectId key = new ObjectId();
+                Session session = new Session(user, key);
+                Database.getInstance().save(session);
 
-            if (loginError) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            } else {
+                PrintWriter writer;
+                JSONObject res = new JSONObject();
+                res.put("session", new JSONObject(session));
+                res.put("token", key.toString());
+                res.put("user", new JSONObject(user));
+
                 response.setStatus(HttpServletResponse.SC_OK);
                 writer = response.getWriter();
                 writer.print(res.toString());
                 writer.flush();
+            } else {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             }
-
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
     
     @ResponseBody
@@ -163,14 +162,16 @@ public class MainController {
                 response.setStatus(HttpServletResponse.SC_CONFLICT);
             } else {
                 User user = new User(name,email,password,institution);
+                Database.getInstance().save(user);
                 ObjectId key = new ObjectId();
                 Session session = new Session(user, key);
+                Database.getInstance().save(session);
                 
                 PrintWriter writer;
                 JSONObject res = new JSONObject();
-                res.put("session", session);
+                res.put("session", new JSONObject(session));
                 res.put("token", key.toString());
-                res.put("user", user);
+                res.put("user", new JSONObject(user));
                 
                 response.setStatus(HttpServletResponse.SC_OK);
                 writer = response.getWriter();
