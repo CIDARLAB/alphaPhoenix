@@ -573,7 +573,11 @@ public class PhoenixProject {
     
     public static JSONArray getDesignArray(String username, String projectname){
         String jobfolder = Utilities.getResultsFilepath() + username + Utilities.getSeparater() + projectname + Utilities.getSeparater();
-        return new JSONArray(Utilities.getFileContentAsString(jobfolder + "design.json"));
+        String projectString = Utilities.getFileContentAsString(jobfolder + "design.json");
+        if(projectString != "") {
+            return new JSONArray(projectString);
+        }
+        return null;
     }
 
     //</editor-fold>

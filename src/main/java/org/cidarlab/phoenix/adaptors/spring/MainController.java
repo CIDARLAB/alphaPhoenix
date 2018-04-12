@@ -223,32 +223,41 @@ public class MainController {
     //</editor-fold>
     
     //<editor-fold desc="DESIGN">
-    /*
     @ResponseBody
     @RequestMapping(value = "/design", method = RequestMethod.POST)
     public void design(@RequestBody String request, HttpServletResponse response) throws UnsupportedEncodingException {
         
         JSONObject jsonreq = new JSONObject(request);
 
+        String sessionId = jsonreq.getString("id");
         String token = jsonreq.getString("token");
         String projectName = jsonreq.getString("project");
-        String username = getUserUUID(token);
         
-        PrintWriter writer;
+        Session session = Session.findByCredentials(sessionId, token);
+        if(session != null) {
+            User user = Session.getUser(session);
+            
+            PrintWriter writer;
         
-        try {
-            response.setStatus(HttpServletResponse.SC_OK);
-            writer = response.getWriter();
-            writer.write(PhoenixProject.getDesignArray(username, projectName).toString());
-            writer.flush();
-        } catch (IOException ex) {
-            response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                response.setStatus(HttpServletResponse.SC_OK);
+                writer = response.getWriter();
+                JSONArray project = PhoenixProject.getDesignArray(user.getId().toString(), projectName);
+                if(project != null) {
+                    
+                    writer.write(project.toString());
+                    response.setStatus(HttpServletResponse.SC_OK);
+                } else {
+                    writer.write("Project not found");
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                }
+                writer.flush();
+            } catch (IOException ex) {
+                response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        
-
     }
-    */
     //</editor-fold>
     
     @RequestMapping(value = "/sbol/{id}", method = RequestMethod.GET)
