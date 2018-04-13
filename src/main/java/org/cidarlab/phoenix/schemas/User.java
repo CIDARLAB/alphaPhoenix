@@ -37,6 +37,13 @@ public class User {
     private final Date createdOn;
     @Getter
     private String password;
+    @Getter
+    @Setter
+    private boolean verfied;
+    @Getter
+    private String verfiedId;
+    @Getter
+    private String forgotPasswordKey;
 
     public User() {
         this.createdOn = null;
@@ -48,11 +55,13 @@ public class User {
         this.name = name;
         this.email = email;
         this.institution = institution;
-        this.password = this.setPassword(password);
+        this.setPassword(password);
+        this.verfied = false;
+        this.verfiedId = new ObjectId().toString();
     }
     
-    private String setPassword(String plainText) {
-        return BCrypt.hashpw(plainText, BCrypt.gensalt());
+    public void setPassword(String plainText) {
+        this.password =  BCrypt.hashpw(plainText, BCrypt.gensalt());
     }
     
     public static User findByCredentials(String email, String plainTextPassword){
@@ -63,9 +72,40 @@ public class User {
             }  
         }
         return null;
-    } 
+    }
+    
+    public static User findByVerifyId(String id) {
+        return Database.getInstance().getDatastore().createQuery(User.class).filter("verfiedId", id).get();
+    }
+    
+    public void verifyUser() {
+        if(!this.verfied) {
+            this.verfied = true;
+            Database.getInstance().save(this);
+        }
+    }
     
     public static boolean userExists(String email) {
         return Database.getInstance().getDatastore().createQuery(User.class).filter("email", email).get() != null;
+    }
+    
+    public static User getUserByEmail(String email) {
+        return Database.getInstance().getDatastore().createQuery(User.class).filter("email", email).get();
+    }
+    
+    public void setForgotPasswordKey(String key) {
+        if(key == null) {
+            this.forgotPasswordKey = null;
+        } else {
+            this.forgotPasswordKey = BCrypt.hashpw(key, BCrypt.gensalt());
+        }
+        Database.getInstance().save(this);
+    }
+
+    public boolean checkForgotPasswordKey(String key) {
+        if(this.forgotPasswordKey != null) {
+            return BCrypt.checkpw(key, this.forgotPasswordKey);
+        }
+        return false;
     }
 }

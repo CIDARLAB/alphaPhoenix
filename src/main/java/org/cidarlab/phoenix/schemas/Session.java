@@ -13,6 +13,7 @@ import org.cidarlab.phoenix.utils.Database;
 import org.mindrot.jbcrypt.BCrypt;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.query.Query;
 
 /**
  *
@@ -59,5 +60,10 @@ public class Session {
     
     public static User getUser(Session session) {
         return Database.getInstance().getDatastore().get(User.class,session.getUserId());
+    }
+    
+    public static void deleteSessionForUser(User user) {
+        Query<Session> query = Database.getInstance().getDatastore().createQuery(Session.class).filter("userId", user.getId());
+        Database.getInstance().getDatastore().findAndDelete(query);
     }
 }

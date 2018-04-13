@@ -147,6 +147,95 @@ public class MainController {
     }
     
     @ResponseBody
+    @RequestMapping(value = "/forgot", method = RequestMethod.POST)
+    public void forgot(@RequestBody String request, HttpServletResponse response) throws UnsupportedEncodingException {
+
+        JSONObject jsonreq = new JSONObject(request);
+
+        String email = jsonreq.getString("email");
+        
+        try {
+            User user = User.getUserByEmail(email);
+            if(user != null) {
+                
+                String key = new ObjectId().toString();
+                user.setForgotPasswordKey(key);
+                response.setStatus(HttpServletResponse.SC_OK);
+                PrintWriter writer;
+                writer = response.getWriter();
+                System.out.println("Send this key via email:" + key);
+                writer.print("Check your email to reset password");
+                writer.flush();
+            } else {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                PrintWriter writer;
+                writer = response.getWriter();
+                writer.print("User not found");
+                writer.flush();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "/reset", method = RequestMethod.POST)
+    public void reset(@RequestBody String request, HttpServletResponse response) throws UnsupportedEncodingException {
+
+        JSONObject jsonreq = new JSONObject(request);
+
+        String email = jsonreq.getString("email");
+        String password = jsonreq.getString("password");
+        String key = jsonreq.getString("key");
+        
+        try {
+            User user = User.getUserByEmail(email);
+            if(user != null) {
+                if(user.checkForgotPasswordKey(key)) {
+                    Session.deleteSessionForUser(user);
+                    user.setPassword(password);
+                    user.setForgotPasswordKey(null);
+                    Database.getInstance().getDatastore().save(user);
+                    response.setStatus(HttpServletResponse.SC_OK);
+                    PrintWriter writer;
+                    writer = response.getWriter();
+                    writer.print("Password Updated");
+                    writer.flush();
+                } else {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    PrintWriter writer;
+                    writer = response.getWriter();
+                    writer.print("Incorrect Key, Check your email link, or resubmit forgot password form");
+                    writer.flush();
+                }
+            } else {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                PrintWriter writer;
+                writer = response.getWriter();
+                writer.print("User not found");
+                writer.flush();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "/verify/{id}", method = RequestMethod.GET)
+    public void verifyEmail(@PathVariable(value="id") String id, HttpServletResponse response) throws IOException {
+        
+        User user = User.findByVerifyId(id);
+        if(user == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        } else if(user.isVerfied()){
+            response.setStatus(HttpServletResponse.SC_CONFLICT);
+        } else {
+            user.verifyUser();
+            response.setStatus(HttpServletResponse.SC_OK);
+        }
+    }
+    
+    @ResponseBody
     @RequestMapping(value = "/projects", method = RequestMethod.POST)
     public void loadProjects(@RequestBody String request, HttpServletResponse response){
         JSONObject jsonreq = new JSONObject(request);
