@@ -33,7 +33,6 @@ public class UIAdaptor {
         String img = module.getAbstractSBOLVisual(new HashMap<String,String>());
         obj.put("tus", tus);
         obj.put("img", img);
-        
         return obj;
     }
     

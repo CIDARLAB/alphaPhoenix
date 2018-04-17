@@ -5,9 +5,11 @@
  */
 package org.cidarlab.phoenix.dom;
 
+import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 import org.cidarlab.minieugene.predicates.interaction.Interaction.InteractionType;
+import org.json.JSONObject;
 
 /**
  *
@@ -34,6 +36,37 @@ public class Interaction {
         type = _type;
     }
     
+    public JSONObject toJSON(){
+        JSONObject json = new JSONObject();
+        json.put("from", from.getName());
+        json.put("to", to.getName());
+        json.put("type", type.toString());
+        return json;
+    }
     
+    @Override
+    public String toString(){
+        String str = "";
+        str += from.getName() + "|" + type.toString() + "|" + to.getName();
+        return str;
+    }
+    
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof Interaction){
+            Interaction i = (Interaction)o;
+            if(i.toString().equals(this.toString())){
+                return true;
+            } 
+        } 
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 41 * hash + Objects.hashCode(this.toString());
+        return hash;
+    }
     
 }
