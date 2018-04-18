@@ -1,0 +1,49 @@
+//Size=16
+
+// COUNTING
+r1 exactly 4
+
+t1 exactly 4
+
+cp1 exactly 1
+ip1 exactly 1
+ip2 exactly 1
+rp1 exactly 1
+
+fl1 exactly 1
+c1 exactly 1
+c2 exactly 1
+g1 exactly 1
+
+// INTERACTIONS
+cp1 drives c1
+ip1 drives g1
+rp1 drives c2
+ip2 drives fl1
+
+c1 activates ip1
+g1 represses rp1
+c2 activates ip2
+
+//POSITIONING
+r1 after cp1 
+r1 before c1
+t1 after c1
+t1 before ip1
+
+r1 after ip1
+r1 before g1
+t1 after g1 
+t1 before rp1
+
+r1 after rp1
+r1 before c2
+t1 after c2
+t1 before ip2
+
+r1 after ip2
+r1 before fl1
+t1 after fl1
+
+//ORIENTATION
+ALL_FORWARD
