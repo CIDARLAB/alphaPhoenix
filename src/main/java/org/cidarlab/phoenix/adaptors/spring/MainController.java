@@ -69,7 +69,7 @@ public class MainController {
     
     //</editor-fold>
     
-    //<editor-fold desc="LOGIN">
+    //<editor-fold desc="USER ROUTES">
     @ResponseBody
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public void login(@RequestBody String request, HttpServletResponse response) throws UnsupportedEncodingException {
@@ -269,8 +269,8 @@ public class MainController {
         String sessionId = jsonreq.getString("id");
         String token = jsonreq.getString("token");
         boolean advUser = jsonreq.getBoolean("advUser");
-        String emailOptions = jsonreq.getString("emailOptions");
-        String[] registires = jsonreq.getJSONArray("registires").toString().replace("},{", " ,").split(" ");
+        String emailOptions = jsonreq.getString("emailOption");
+        String[] registires = jsonreq.getJSONArray("registries").toString().replace("},{", " ,").split(" ");
         
         try {
             Session session = Session.findByCredentials(sessionId, token);
