@@ -44,6 +44,15 @@ public class User {
     private String verfiedId;
     @Getter
     private String forgotPasswordKey;
+    @Getter
+    @Setter
+    private boolean advancedUser;
+    @Getter
+    @Setter
+    private String emailOptions;
+    @Getter
+    @Setter
+    private String[] registries;
 
     public User() {
         this.createdOn = null;
@@ -107,5 +116,9 @@ public class User {
             return BCrypt.checkpw(key, this.forgotPasswordKey);
         }
         return false;
+    }
+    
+    public void save() {
+        Database.getInstance().save(this);
     }
 }

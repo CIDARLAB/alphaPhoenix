@@ -259,6 +259,43 @@ public class MainController {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
     }
+    
+    @ResponseBody
+    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    public void updateUser(@RequestBody String request, HttpServletResponse response) throws UnsupportedEncodingException {
+
+        JSONObject jsonreq = new JSONObject(request);
+
+        String sessionId = jsonreq.getString("id");
+        String token = jsonreq.getString("token");
+        boolean advUser = jsonreq.getBoolean("advUser");
+        String emailOptions = jsonreq.getString("emailOptions");
+        String[] registires = jsonreq.getJSONArray("registires").toString().replace("},{", " ,").split(" ");
+        
+        try {
+            Session session = Session.findByCredentials(sessionId, token);
+            if(session != null) {
+                User user = Session.getUser(session);
+                user.setAdvancedUser(advUser);
+                user.setEmailOptions(emailOptions);
+                user.setRegistries(registires);
+                user.save();
+
+                PrintWriter writer;
+                writer = response.getWriter();
+                writer.print("User Updated");
+                writer.flush();
+            } else {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                PrintWriter writer;
+                writer = response.getWriter();
+                writer.print("User not found");
+                writer.flush();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     //</editor-fold>
 
     //<editor-fold desc="SPEC">
