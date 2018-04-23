@@ -443,6 +443,10 @@ public class SampleLibraryTest {
             lasRInt.createParticipation("lasR_product", lasRmdfc2.getIdentity(), productURI);
             lasRmd.addModel(lasRModel);
             
+            ModuleDefinition placIqmd = sbol.createModuleDefinition(baseurl, "placIqmd", version);
+            FunctionalComponent placIqfc = placIqmd.createFunctionalComponent("placIq", AccessType.PRIVATE, placIq.getIdentity(), DirectionType.IN);
+            placIqmd.addModel(placIqModel);
+            
             ModuleDefinition pBADmd = sbol.createModuleDefinition(baseurl, "pBADmd", version);
             FunctionalComponent pBADmdfc1 = pBADmd.createFunctionalComponent("AraCProt_act", AccessType.PRIVATE, araCProt.getIdentity(), DirectionType.OUT);
             FunctionalComponent pBADmdfc2 = pBADmd.createFunctionalComponent("pBAD", AccessType.PRIVATE, pBAD.getIdentity(), DirectionType.IN);
@@ -489,6 +493,187 @@ public class SampleLibraryTest {
         SBOLWriter.write(sbol, libfp + "cascadeMinLib.xml");
         return sbol;
     }
+    
+    
+    public static SBOLDocument createCascadeMinAttachLib() throws IOException, SBOLConversionException{
+        String libfp = rootfp + "library" + Utilities.getSeparater() + "cascadeMin" + Utilities.getSeparater();
+        Utilities.makeDirectory(libfp);
+        
+        SBOLDocument sbol = new SBOLDocument();
+        try {
+            URI complexURI = new URI("http://www.biopax.org/release/biopax-level3.owl#Complex");
+            URI dnaRegionURI = new URI("http://www.biopax.org/release/biopax-level3.owl#DnaRegion");
+            URI proteinURI = new URI("http://www.biopax.org/release/biopax-level3.owl#Protein");
+            URI productionURI = new URI(productionSBO);
+            URI templateURI = new URI(templateSBO);
+            URI productURI = new URI(productSBO);
+
+            URI induciblePromURI = new URI(induciblePromSO);
+            URI constitutivePromURI = new URI(constitutivePromSO);
+            URI rbsURI = new URI(rbsSO);
+            URI cdsURI = new URI(cdsSO);
+            URI terURI = new URI(terSO);
+
+            URI inhibitionURI = new URI(inhibitionSO);
+            URI inhibitorURI = new URI(inhibitorSO);
+            URI inhibitedURI = new URI(inhibitedSO);
+
+            URI stimulationURI = new URI(stimulationSO);
+            URI stimulatorURI = new URI(stimulatorSO);
+            URI stimulatedURI = new URI(stimulatedSO);
+
+            URI sbmlURI = new URI("http://identifiers.org/edam/format_2585");
+            URI frameworkURI = new URI("http://www.ebi.ac.uk/sbo/main/SBO:0000062");
+
+            Map<String, String> modelMap = generateModels(cascadeMinParamsfp, libfp);
+            
+            
+            ComponentDefinition placIq = sbol.createComponentDefinition(baseurl, "placIq_RBS30", version, dnaRegionURI);
+            placIq.addRole(constitutivePromURI);
+            placIq.setName("placIq_RBS30");
+            
+            ComponentDefinition pTet = sbol.createComponentDefinition(baseurl, "pTet_RBS30", version, dnaRegionURI);
+            pTet.addRole(new URI(induciblePromSO));
+            pTet.setName("pTet_RBS30");
+            
+            ComponentDefinition pBAD = sbol.createComponentDefinition(baseurl, "pBAD_RBS30", version, dnaRegionURI);
+            pBAD.addRole(new URI(induciblePromSO));
+            pBAD.setName("pBAD_RBS30");
+            
+            ComponentDefinition pLas = sbol.createComponentDefinition(baseurl, "pLas_RBS30", version, dnaRegionURI);
+            pLas.addRole(new URI(induciblePromSO));
+            pLas.setName("pLas_RBS30");
+            
+            ComponentDefinition GFP = sbol.createComponentDefinition(baseurl, "GFP", version, dnaRegionURI);
+            GFP.addRole(new URI(cdsSO));
+            GFP.setName("GFP");
+            
+            ComponentDefinition GFPProt = sbol.createComponentDefinition(baseurl, "GFPProt", version, proteinURI);
+            GFPProt.setName("GFP Protein");
+            
+            
+            ComponentDefinition araC = sbol.createComponentDefinition(baseurl, "AraC", version, dnaRegionURI);
+            araC.addRole(new URI(cdsSO));
+            araC.setName("AraC");
+            
+            ComponentDefinition araCProt = sbol.createComponentDefinition(baseurl, "AraCProt", version, proteinURI);
+            araCProt.setName("AraC Protein");
+            
+            ComponentDefinition tetR = sbol.createComponentDefinition(baseurl, "TetR", version, dnaRegionURI);
+            tetR.addRole(new URI(cdsSO));
+            tetR.setName("TetR");
+            
+            ComponentDefinition tetRProt = sbol.createComponentDefinition(baseurl, "TetRProt", version, proteinURI);
+            tetRProt.setName("TetR Protein");
+            
+            ComponentDefinition lasR = sbol.createComponentDefinition(baseurl, "LasR", version, dnaRegionURI);
+            lasR.addRole(new URI(cdsSO));
+            lasR.setName("LasR");
+            
+            ComponentDefinition lasRProt = sbol.createComponentDefinition(baseurl, "LasRProt", version, proteinURI);
+            lasRProt.setName("LasR Protein");
+            
+            ComponentDefinition ter1 = sbol.createComponentDefinition(baseurl, "ter1", version, dnaRegionURI);
+            ter1.addRole(new URI(terSO));
+            ter1.setName("Terminator 1");
+
+            ComponentDefinition rbs1 = sbol.createComponentDefinition(baseurl, "RBS30", version, dnaRegionURI);
+            rbs1.addRole(new URI(rbsSO));
+            rbs1.setName("RBS30");
+            
+            Model placIqModel = sbol.createModel(baseurl,"placIq_Model", version, new URI("https://synbiohub.programmingbiology.org/public/ModelAttachments/attachment_00009Vlx5qtJ3q179FRQgq/1"), sbmlURI, frameworkURI);
+            Model pTetModel = sbol.createModel(baseurl,"pTet_Model", version, new URI("https://synbiohub.programmingbiology.org/public/ModelAttachments/attachment_00009Vlx5qsF7nAN5wwa24/1"), sbmlURI, frameworkURI);
+            Model pBADModel = sbol.createModel(baseurl,"pBAD_Model", version, new URI("https://synbiohub.programmingbiology.org/public/ModelAttachments/attachment_00009Vlx5qrt96sn4qmITo/1"), sbmlURI, frameworkURI);
+            Model pLasModel = sbol.createModel(baseurl,"pLas_Model", version, new URI("https://synbiohub.programmingbiology.org/public/ModelAttachments/attachment_00009Vlx5qrXAQbD3kc0vY/1"), sbmlURI, frameworkURI);
+            
+            Model GFPModel = sbol.createModel(baseurl,"GFP_Model", version, new URI("https://synbiohub.programmingbiology.org/public/ModelAttachments/attachment_00009Vlx5qv4xFR1EkGqS8/1"), sbmlURI, frameworkURI);
+            Model araCModel = sbol.createModel(baseurl,"AraC_Model", version, new URI("https://synbiohub.programmingbiology.org/public/ModelAttachments/attachment_00009Vlx5quiyZ9RDe6Yts/1"), sbmlURI, frameworkURI);
+            Model tetRModel = sbol.createModel(baseurl,"TetR_Model", version, new URI("https://synbiohub.programmingbiology.org/public/ModelAttachments/attachment_00009Vlx5quMzsrrCXwHLc/1"), sbmlURI, frameworkURI);
+            Model lasRModel = sbol.createModel(baseurl,"LasR_Model", version, new URI("https://synbiohub.programmingbiology.org/public/ModelAttachments/attachment_00009Vlx5qsx59jX89H98a/1"), sbmlURI, frameworkURI);
+            
+            ModuleDefinition GFPmd = sbol.createModuleDefinition(baseurl, "GFPmd", version);
+            FunctionalComponent GFPmdfc1 = GFPmd.createFunctionalComponent("GFP", AccessType.PRIVATE, GFP.getIdentity(), DirectionType.OUT);
+            FunctionalComponent GFPmdfc2 = GFPmd.createFunctionalComponent("GFPProt", AccessType.PRIVATE, GFPProt.getIdentity(), DirectionType.IN);
+            Interaction GFPInt = GFPmd.createInteraction("GFP_production", productionURI);
+            GFPInt.createParticipation("GFP_template", GFPmdfc1.getIdentity(), templateURI);
+            GFPInt.createParticipation("GFP_product", GFPmdfc2.getIdentity(), productURI);
+            GFPmd.addModel(GFPModel);
+            
+            ModuleDefinition araCmd = sbol.createModuleDefinition(baseurl, "araCmd", version);
+            FunctionalComponent araCmdfc1 = araCmd.createFunctionalComponent("AraC", AccessType.PRIVATE, araC.getIdentity(), DirectionType.OUT);
+            FunctionalComponent araCmdfc2 = araCmd.createFunctionalComponent("AraCProt", AccessType.PRIVATE, araCProt.getIdentity(), DirectionType.IN);
+            Interaction araCInt = araCmd.createInteraction("araC_production", productionURI);
+            araCInt.createParticipation("araC_template", araCmdfc1.getIdentity(), templateURI);
+            araCInt.createParticipation("araC_product", araCmdfc2.getIdentity(), productURI);
+            araCmd.addModel(araCModel);
+            
+            ModuleDefinition tetRmd = sbol.createModuleDefinition(baseurl, "tetRmd", version);
+            FunctionalComponent tetRmdfc1 = tetRmd.createFunctionalComponent("TetR", AccessType.PRIVATE, tetR.getIdentity(), DirectionType.OUT);
+            FunctionalComponent tetRmdfc2 = tetRmd.createFunctionalComponent("TetRProt", AccessType.PRIVATE, tetRProt.getIdentity(), DirectionType.IN);
+            Interaction tetRInt = tetRmd.createInteraction("tetR_production", productionURI);
+            tetRInt.createParticipation("tetR_template", tetRmdfc1.getIdentity(), templateURI);
+            tetRInt.createParticipation("tetR_product", tetRmdfc2.getIdentity(), productURI);
+            tetRmd.addModel(tetRModel);
+            
+            ModuleDefinition lasRmd = sbol.createModuleDefinition(baseurl, "lasRmd", version);
+            FunctionalComponent lasRmdfc1 = lasRmd.createFunctionalComponent("LasR", AccessType.PRIVATE, lasR.getIdentity(), DirectionType.OUT);
+            FunctionalComponent lasRmdfc2 = lasRmd.createFunctionalComponent("LasRProt", AccessType.PRIVATE, lasRProt.getIdentity(), DirectionType.IN);
+            Interaction lasRInt = lasRmd.createInteraction("lasR_production", productionURI);
+            lasRInt.createParticipation("lasR_template", lasRmdfc1.getIdentity(), templateURI);
+            lasRInt.createParticipation("lasR_product", lasRmdfc2.getIdentity(), productURI);
+            lasRmd.addModel(lasRModel);
+            
+            ModuleDefinition placIqmd = sbol.createModuleDefinition(baseurl, "placIqmd", version);
+            FunctionalComponent placIqfc = placIqmd.createFunctionalComponent("placIq", AccessType.PRIVATE, placIq.getIdentity(), DirectionType.IN);
+            placIqmd.addModel(placIqModel);
+            
+            ModuleDefinition pBADmd = sbol.createModuleDefinition(baseurl, "pBADmd", version);
+            FunctionalComponent pBADmdfc1 = pBADmd.createFunctionalComponent("AraCProt_act", AccessType.PRIVATE, araCProt.getIdentity(), DirectionType.OUT);
+            FunctionalComponent pBADmdfc2 = pBADmd.createFunctionalComponent("pBAD", AccessType.PRIVATE, pBAD.getIdentity(), DirectionType.IN);
+            Interaction pBADInt = pBADmd.createInteraction("pBAD_stimulation", stimulationURI);
+            pBADInt.createParticipation("AraCProt_stimulator", pBADmdfc1.getIdentity(), stimulatorURI);
+            pBADInt.createParticipation("pBAD_stimulated", pBADmdfc2.getIdentity(), stimulatedURI);
+            pBADmd.addModel(pBADModel);
+            
+            ModuleDefinition pTetmd = sbol.createModuleDefinition(baseurl, "pTetmd", version);
+            FunctionalComponent pTetmdfc1 = pTetmd.createFunctionalComponent("TetRProt_rep", AccessType.PRIVATE, tetRProt.getIdentity(), DirectionType.OUT);
+            FunctionalComponent pTetmdfc2 = pTetmd.createFunctionalComponent("pTet", AccessType.PRIVATE, pTet.getIdentity(), DirectionType.IN);
+            Interaction pTetInt = pTetmd.createInteraction("pTet_inhibition", inhibitionURI);
+            pTetInt.createParticipation("TetRProt_inhibitor", pTetmdfc1.getIdentity(), inhibitorURI);
+            pTetInt.createParticipation("pTet_inhibited", pTetmdfc2.getIdentity(), inhibitedURI);
+            pTetmd.addModel(pTetModel);
+            
+            ModuleDefinition pLasmd = sbol.createModuleDefinition(baseurl, "pLasmd", version);
+            FunctionalComponent pLasmdfc1 = pLasmd.createFunctionalComponent("LasRProt_act", AccessType.PRIVATE, lasRProt.getIdentity(), DirectionType.OUT);
+            FunctionalComponent pLasmdfc2 = pLasmd.createFunctionalComponent("pLas", AccessType.PRIVATE, pLas.getIdentity(), DirectionType.IN);
+            Interaction pLasInt = pLasmd.createInteraction("pLas_stimulation", stimulationURI);
+            pLasInt.createParticipation("LasRProt_stimulator", pLasmdfc1.getIdentity(), stimulatorURI);
+            pLasInt.createParticipation("pLas_stimulated", pLasmdfc2.getIdentity(), stimulatedURI);
+            pLasmd.addModel(pLasModel);
+            
+            ComponentDefinition testprom = sbol.createComponentDefinition(baseurl,"testProm", version, dnaRegionURI);
+            testprom.addRole(new URI(constitutivePromSO));
+            testprom.setName("Test Promoter");
+            
+            ComponentDefinition testrbs = sbol.createComponentDefinition(baseurl,"testRBS", version, dnaRegionURI);
+            testrbs.addRole(new URI(rbsSO));
+            testrbs.setName("Test RBS");
+            
+            ComponentDefinition testcds = sbol.createComponentDefinition(baseurl,"testCDS", version, dnaRegionURI);
+            testcds.addRole(new URI(cdsSO));
+            testcds.setName("Test CDS");
+            
+            ComponentDefinition testter = sbol.createComponentDefinition(baseurl,"testTer", version, dnaRegionURI);
+            testter.addRole(new URI(terSO));
+            testter.setName("Test Ter");
+            
+        } catch (FileNotFoundException | XMLStreamException | URISyntaxException | SBOLValidationException ex) {
+            Logger.getLogger(SampleLibraryTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        SBOLWriter.write(sbol, libfp + "cascadeMinAttLib.xml");
+        return sbol;
+    }
+    
     
     public static Map<String, String> generateModels(String paramsfp, String libfp) throws FileNotFoundException, XMLStreamException {
         Map<String, String> modelMap = new HashMap<>();
@@ -551,17 +736,30 @@ public class SampleLibraryTest {
         return modelMap;
     }
     
+    public static SBOLDocument createEmptyLib(){
+        String libfp = rootfp + "library" + Utilities.getSeparater();
+        SBOLDocument sbol = new SBOLDocument();
+        try {
+            SBOLWriter.write(sbol, libfp + "empty.xml");
+        } catch (IOException ex) {
+            Logger.getLogger(SampleLibraryTest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SBOLConversionException ex) {
+            Logger.getLogger(SampleLibraryTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return sbol;
+    }
+    
     public static void main(String[] args) {
         try {
             createConstitutiveLib();
             createCascadeMinLib();
+            createCascadeMinAttachLib();
+            createEmptyLib();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(SampleLibraryTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (XMLStreamException | SBOLConversionException | IOException ex) {
             Logger.getLogger(SampleLibraryTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
     
-
 }

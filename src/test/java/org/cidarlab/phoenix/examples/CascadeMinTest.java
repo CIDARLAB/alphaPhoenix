@@ -23,10 +23,10 @@ public class CascadeMinTest {
     private static String libFilepath = expRootFolder + "lib.json";
     
     @Test
-    public void testConstitutiveExpression(){
+    public void testCascadeMin(){
         String eugfp = eugFilepath;
-        int eugCircSize = 4;
-        Integer eugNumSolutions = null;
+        int eugCircSize = 16;
+        Integer eugNumSolutions = 10;
         String stlfp = stlFilepath;
         String libraryfp = libFilepath;
         PhoenixProject.Simulation simulation = PhoenixProject.Simulation.DETERMINISTIC;

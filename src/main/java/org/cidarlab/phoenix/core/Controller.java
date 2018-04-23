@@ -180,8 +180,11 @@ public class Controller {
                     }
                 }
             }
-            loopAssignments = new ArrayList<>();
-            loopAssignments.addAll(tempAssignments);
+            
+            if(!tempAssignments.isEmpty()){
+                loopAssignments = new ArrayList<>();
+                loopAssignments.addAll(tempAssignments);
+            }
             //System.out.println("At the end of i  = " + i + " number of assignments are :: " + loopAssignments.size() );
         }
         return loopAssignments;

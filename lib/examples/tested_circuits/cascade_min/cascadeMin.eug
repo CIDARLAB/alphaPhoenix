@@ -1,9 +1,18 @@
 //Size=16
 
 // COUNTING
-r1 exactly 4
+contains cp1
+contains ip1
+contains ip2
+contains rp1
+contains fl1
+contains c1
+contains c2
+contains g1
 
-t1 exactly 4
+contains r1
+
+contains t1
 
 cp1 exactly 1
 ip1 exactly 1
@@ -15,35 +24,71 @@ c1 exactly 1
 c2 exactly 1
 g1 exactly 1
 
+t1 exactly 4
+r1 exactly 4
+
 // INTERACTIONS
 cp1 drives c1
 ip1 drives g1
 rp1 drives c2
 ip2 drives fl1
 
-c1 activates ip1
+c1 induces ip1
 g1 represses rp1
-c2 activates ip2
+c2 induces ip2
 
 //POSITIONING
-r1 after cp1 
-r1 before c1
-t1 after c1
-t1 before ip1
+startswith cp1 
 
-r1 after ip1
-r1 before g1
-t1 after g1 
-t1 before rp1
+r1 some_after cp1 
+r1 some_nextto cp1
 
-r1 after rp1
-r1 before c2
-t1 after c2
-t1 before ip2
+r1 some_before c1
+r1 some_nextto c1
 
-r1 after ip2
-r1 before fl1
-t1 after fl1
+t1 some_after c1
+t1 some_nextto c1
+
+t1 some_before ip1
+t1 some_nextto ip1
+
+r1 some_after ip1
+r1 some_nextto ip1
+
+r1 some_before g1
+r1 some_nextto g1
+
+t1 some_after g1 
+t1 some_nextto g1 
+
+t1 some_before rp1
+t1 some_nextto rp1
+
+r1 some_after rp1
+r1 some_nextto rp1
+
+
+r1 some_before c2
+r1 some_nextto c2
+
+t1 some_after c2
+t1 some_nextto c2
+
+t1 some_before ip2
+t1 some_nextto ip2
+
+r1 some_after ip2
+r1 some_nextto ip2
+
+r1 some_before fl1
+r1 some_nextto fl1
+
+t1 some_after fl1
+t1 some_nextto fl1
+
+ip1 after cp1
+rp1 after ip1
+ip2 after rp1
 
 //ORIENTATION
 ALL_FORWARD
