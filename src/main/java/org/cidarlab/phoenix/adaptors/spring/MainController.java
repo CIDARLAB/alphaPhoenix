@@ -62,9 +62,10 @@ public class MainController {
         return false;
     }
     
-    private static void createProject(String userId, String projectName, String stl, String eugeneCode, String registry, String collection) throws IOException, SBOLConversionException, SBOLValidationException, InterruptedException{
+    private static PhoenixProject createProject(String userId, String projectName, String stl, String eugeneCode, String registry, String collection) throws IOException, SBOLConversionException, SBOLValidationException, InterruptedException{
         PhoenixProject proj = new PhoenixProject(userId, projectName, stl, eugeneCode, registry, collection);
         proj.design();
+        return proj;
     }
     
     //</editor-fold>
@@ -324,14 +325,19 @@ public class MainController {
                 if(projectExists(user.getId().toString(), projectName)){
                     response.setStatus(HttpServletResponse.SC_CONFLICT);
                     writer = response.getWriter();
-                    writer.write("Project name already exists");
+                    JSONObject res = new JSONObject();
+                    res.append("message", "Project name already exists");
+                    writer.write(res.toString());
                     writer.flush();
                 } else {
                     try {
-                        createProject(user.getId().toString(), projectName, stl, eugeneCode, registry, collection);
+                        PhoenixProject proj = createProject(user.getId().toString(), projectName, stl, eugeneCode, registry, collection);
                         response.setStatus(HttpServletResponse.SC_OK);
+                        JSONObject res = new JSONObject();
+                        res.append("projectID", proj.getJobId());
+                        res.append("message", "Project created.");
                         writer = response.getWriter();
-                        writer.write("Project created.");
+                        writer.write(res.toString());
                         writer.flush();
                     } catch (SBOLValidationException | SBOLConversionException |InterruptedException ex) {
                         response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
