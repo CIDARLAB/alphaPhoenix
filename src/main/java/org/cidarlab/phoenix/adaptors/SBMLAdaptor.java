@@ -20,6 +20,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.Event;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.LocalParameter;
@@ -34,6 +35,7 @@ import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.util.compilers.FormulaCompiler;
@@ -152,6 +154,18 @@ public class SBMLAdaptor {
 		}
 		return composedDoc;
 	}
+        
+        public static void addEvent(SBMLDocument doc, String id, double time, double value) {
+            int counter = 0;
+            while (doc.getModel().containsUniqueNamedSBase("event" + counter)) {
+                counter ++;
+            }
+            Event event = doc.getModel().createEvent("event" + counter);
+            event.createDelay(new ASTNode(time));
+            Trigger t = event.createTrigger(new ASTNode(ASTNode.Type.CONSTANT_TRUE));
+            t.setInitialValue(false);
+            event.createEventAssignment(id, new ASTNode(value));
+        }
 	
 	private static boolean versionSBase(NamedSBase sb, Model mod) {
 		String versionedID = sb.getId();
