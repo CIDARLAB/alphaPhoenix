@@ -164,6 +164,7 @@ public class SBMLAdaptor {
             event.createDelay(new ASTNode(time));
             Trigger t = event.createTrigger(new ASTNode(ASTNode.Type.CONSTANT_TRUE));
             t.setInitialValue(false);
+            t.setPersistent(true);
             event.createEventAssignment(id, new ASTNode(value));
         }
 	

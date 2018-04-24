@@ -43,7 +43,7 @@ public class SBOLAdaptor {
             int i=0;
             for(Component c:m.getComponents()){
                 
-                org.sbolstandard.core2.Component sbolcomponent = cd.createComponent(c.getName(), AccessType.PRIVATE, assignment.get(c.getName()).getCandidate().getComponentDefintion());
+                org.sbolstandard.core2.Component sbolcomponent = cd.createComponent(c.getName() + "_" + i, AccessType.PRIVATE, assignment.get(c.getName()).getCandidate().getComponentDefintion());
                 String saId = "SequenceAnnotation" + i;
                 String locationId = "Location" + i;
                 if(c.getOrientation().equals(Orientation.FORWARD)){

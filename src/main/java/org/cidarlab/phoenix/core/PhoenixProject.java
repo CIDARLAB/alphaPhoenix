@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
@@ -27,14 +28,17 @@ import org.cidarlab.phoenix.adaptors.STLAdaptor;
 import org.cidarlab.phoenix.adaptors.SynbiohubAdaptor;
 import org.cidarlab.phoenix.adaptors.UIAdaptor;
 import org.cidarlab.phoenix.dom.CandidateComponent;
+import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.failuremode.FailureModeGrammar;
 import org.cidarlab.phoenix.library.Library;
 import org.cidarlab.phoenix.utils.Utilities;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLWriter;
+import org.sbml.jsbml.Species;
 import org.sbolstandard.core2.SBOLConversionException;
 import org.sbolstandard.core2.SBOLDocument;
 import org.sbolstandard.core2.SBOLReader;
@@ -322,6 +326,7 @@ public class PhoenixProject {
                 String modelFile;
                 SBMLWriter writer = new SBMLWriter();
                 Map<String, TreeNode> stlsigmap = STLAdaptor.getSignalSTLMap(jobstl);
+                Map<String,Double> eventvalues = new HashMap<String,Double>();
                 switch (simulation) {
                     case DETERMINISTIC:
 
@@ -337,6 +342,29 @@ public class PhoenixProject {
                                 SBMLAdaptor.setValue(decomposedModule.getModel().getSbml(), sig, inputMap.get(sig));
                             }
                         }
+                        //This is where you add events.
+                        
+                        for(Component c:decomposedModule.getComponents()){
+                            switch(c.getRole()){
+                                case PROMOTER:
+                                case PROMOTER_REPRESSIBLE:
+                                case PROMOTER_INDUCIBLE:
+                                    CandidateComponent assignmentcc = assignment.get(c.getName());
+                                    if(assignmentcc.getCandidate().getName().equals("pLas_RBS30")){
+                                        eventvalues.put("ind_" + c.getIOCname(), 1.00);
+                                    } else if(assignmentcc.getCandidate().getName().equals("pBAD_RBS30")){
+                                        eventvalues.put("ind_" + c.getIOCname(), 100.00);
+                                    }
+                                    break;
+                                default: 
+                                    break;
+                            }
+                        }
+                        for(String indkey:eventvalues.keySet()){
+                            SBMLAdaptor.addEvent(decomposedModule.getModel().getSbml(), indkey, 600.00, eventvalues.get(indkey));
+                        }
+                        //End of horrible hard coding.. :( 
+                        
                         writer.write(decomposedModule.getModel().getSbml(), modelFile);
                         double maxtime = STLAdaptor.getMaxTime(jobstl);
                         IBioSimAdaptor.simulateODE(modelFile, assignmentfp, maxtime, 1.0, 1.0);
@@ -370,6 +398,30 @@ public class PhoenixProject {
                                 SBMLAdaptor.setValue(decomposedModule.getModel().getSbml(), sig, inputMap.get(sig));
                             }
                         }
+                        
+                        //This is where you add events.
+                        
+                        for(Component c:decomposedModule.getComponents()){
+                            switch(c.getRole()){
+                                case PROMOTER:
+                                case PROMOTER_REPRESSIBLE:
+                                case PROMOTER_INDUCIBLE:
+                                    CandidateComponent assignmentcc = assignment.get(c.getName());
+                                    if(assignmentcc.getCandidate().getName().equals("pLas_RBS30")){
+                                        eventvalues.put("ind_" + c.getIOCname(), 1.00);
+                                    } else if(assignmentcc.getCandidate().getName().equals("pBAD_RBS30")){
+                                        eventvalues.put("ind_" + c.getIOCname(), 100.00);
+                                    }
+                                    break;
+                                default: System.out.println("NOTHING");
+                                    break;
+                            }
+                        }
+                        for(String indkey:eventvalues.keySet()){
+                            SBMLAdaptor.addEvent(decomposedModule.getModel().getSbml(), indkey, 600.00, eventvalues.get(indkey));
+                        }
+                        //End of horrible hard coding.. :( 
+                        
                         writer.write(decomposedModule.getModel().getSbml(), modelFile);
                         IBioSimAdaptor.simulateStocastic(modelFile, assignmentfp, STLAdaptor.getMaxTime(jobstl), 1, 1, runCount);
                         Map<String, Double> smc = STLAdaptor.smc(jobstl, assignmentfp, plot, runCount, confidence);
@@ -381,7 +433,6 @@ public class PhoenixProject {
                             bestlist.add(i);
                             smccount++;
                         }
-
                         break;
                 }
             }

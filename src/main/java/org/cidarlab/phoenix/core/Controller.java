@@ -845,6 +845,11 @@ public class Controller {
             if(prom.getRole().equals(ComponentRole.PROMOTER_CONSTITUTIVE)){
                 SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "out", cds.getIOCname());
             } else {
+                
+                if(promModule.getModel().getSbml().getModel().containsSpecies("ind")){
+                    SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "ind", "ind_" + prom.getIOCname());
+                }
+                
                 SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "conn", prom.getIOCname());
                 SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "out", cds.getIOCname());
             }

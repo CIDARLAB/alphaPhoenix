@@ -23,7 +23,7 @@ public class CascadeMinTest {
     private static String libFilepath = expRootFolder + "lib.json";
     
     @Test
-    public void testCascadeMin(){
+    public void testCascadeMinDeterministic(){
         String eugfp = eugFilepath;
         int eugCircSize = 16;
         Integer eugNumSolutions = 10;
@@ -33,6 +33,24 @@ public class CascadeMinTest {
         int runCount = 100;
         double confidence = 0.0;
         double threshold = 0.0;
+        Map<String,Double> inputMap = new HashMap<String,Double>(); 
+        boolean plot = true;
+        
+        PhoenixProject newProj = new PhoenixProject( eugfp,  eugCircSize,  eugNumSolutions,  stlfp, libraryfp, simulation, runCount, confidence, threshold,  inputMap, plot);
+        
+    }
+    
+    @Test
+    public void testCascadeMinStochastic(){
+        String eugfp = eugFilepath;
+        int eugCircSize = 16;
+        Integer eugNumSolutions = 10;
+        String stlfp = stlFilepath;
+        String libraryfp = libFilepath;
+        PhoenixProject.Simulation simulation = PhoenixProject.Simulation.STOCHASTIC;
+        int runCount = 100;
+        double confidence = 0.5;
+        double threshold = 0.5;
         Map<String,Double> inputMap = new HashMap<String,Double>(); 
         boolean plot = true;
         
