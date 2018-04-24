@@ -180,8 +180,11 @@ public class Controller {
                     }
                 }
             }
-            loopAssignments = new ArrayList<>();
-            loopAssignments.addAll(tempAssignments);
+            
+            if(!tempAssignments.isEmpty()){
+                loopAssignments = new ArrayList<>();
+                loopAssignments.addAll(tempAssignments);
+            }
             //System.out.println("At the end of i  = " + i + " number of assignments are :: " + loopAssignments.size() );
         }
         return loopAssignments;
@@ -842,6 +845,11 @@ public class Controller {
             if(prom.getRole().equals(ComponentRole.PROMOTER_CONSTITUTIVE)){
                 SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "out", cds.getIOCname());
             } else {
+                
+                if(promModule.getModel().getSbml().getModel().containsSpecies("ind")){
+                    SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "ind", "ind_" + prom.getIOCname());
+                }
+                
                 SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "conn", prom.getIOCname());
                 SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "out", cds.getIOCname());
             }

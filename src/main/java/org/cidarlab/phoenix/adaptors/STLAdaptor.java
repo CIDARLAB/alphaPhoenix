@@ -342,7 +342,7 @@ public class STLAdaptor {
         if(plot){
             for(String key:allsignals.keySet()){
                 String plotfp = folderpath + key + ".png";
-                Grid g = new Grid(allsignals.get(key));
+                Grid g = new Grid(allsignals.get(key),100,50);
                 JavaPlotAdaptor.plotToFile(JavaPlotAdaptor.plotGridwithoutCover(g), plotfp);
             }
         }
@@ -367,7 +367,7 @@ public class STLAdaptor {
                 
                 List<Signal> signals = new ArrayList<>();
                 signals.add(s);
-                Grid g = new Grid(signals,10,10);
+                Grid g = new Grid(signals,100,50);
                 TreeNode stlnode = stlmap.get(key);
                 double val = getRobustness(stlnode, s);
                 //double val = signalRobustness(stlnode,s);

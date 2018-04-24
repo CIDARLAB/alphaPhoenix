@@ -1,0 +1,587 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sbol="http://sbols.org/v2#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:prov="http://www.w3.org/ns/prov#">
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pBADmd/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pBADmd"/>
+    <sbol:displayId>pBADmd</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pBADmd/AraCProt_act/0.2">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pBADmd/AraCProt_act"/>
+        <sbol:displayId>AraCProt_act</sbol:displayId>
+        <sbol:version>0.2</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/AraCProt/0.2"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pBADmd/pBAD/0.2">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pBADmd/pBAD"/>
+        <sbol:displayId>pBAD</sbol:displayId>
+        <sbol:version>0.2</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pBAD_RBS30/0.2"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pBADmd/pBAD_stimulation/0.2">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pBADmd/pBAD_stimulation"/>
+        <sbol:displayId>pBAD_stimulation</sbol:displayId>
+        <sbol:version>0.2</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pBADmd/pBAD_stimulation/pBAD_stimulated/0.2">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pBADmd/pBAD_stimulation/pBAD_stimulated"/>
+            <sbol:displayId>pBAD_stimulated</sbol:displayId>
+            <sbol:version>0.2</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000643"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pBADmd/pBAD/0.2"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pBADmd/pBAD_stimulation/AraCProt_stimulator/0.2">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pBADmd/pBAD_stimulation/AraCProt_stimulator"/>
+            <sbol:displayId>AraCProt_stimulator</sbol:displayId>
+            <sbol:version>0.2</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000459"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pBADmd/AraCProt_act/0.2"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pBAD_Model/0.2"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/placIqmd/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/placIqmd"/>
+    <sbol:displayId>placIqmd</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/placIqmd/placIq/0.2">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/placIqmd/placIq"/>
+        <sbol:displayId>placIq</sbol:displayId>
+        <sbol:version>0.2</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/placIq_RBS30/0.2"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:model rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/placIq_Model/0.2"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pTetmd/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pTetmd"/>
+    <sbol:displayId>pTetmd</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pTetmd/TetRProt_rep/0.2">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pTetmd/TetRProt_rep"/>
+        <sbol:displayId>TetRProt_rep</sbol:displayId>
+        <sbol:version>0.2</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/TetRProt/0.2"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pTetmd/pTet/0.2">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pTetmd/pTet"/>
+        <sbol:displayId>pTet</sbol:displayId>
+        <sbol:version>0.2</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pTet_RBS30/0.2"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pTetmd/pTet_inhibition/0.2">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pTetmd/pTet_inhibition"/>
+        <sbol:displayId>pTet_inhibition</sbol:displayId>
+        <sbol:version>0.2</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000169"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pTetmd/pTet_inhibition/TetRProt_inhibitor/0.2">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pTetmd/pTet_inhibition/TetRProt_inhibitor"/>
+            <sbol:displayId>TetRProt_inhibitor</sbol:displayId>
+            <sbol:version>0.2</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000020"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pTetmd/TetRProt_rep/0.2"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pTetmd/pTet_inhibition/pTet_inhibited/0.2">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pTetmd/pTet_inhibition/pTet_inhibited"/>
+            <sbol:displayId>pTet_inhibited</sbol:displayId>
+            <sbol:version>0.2</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000642"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pTetmd/pTet/0.2"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pTet_Model/0.2"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pLasmd/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pLasmd"/>
+    <sbol:displayId>pLasmd</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pLasmd/pLas/0.2">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pLasmd/pLas"/>
+        <sbol:displayId>pLas</sbol:displayId>
+        <sbol:version>0.2</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pLas_RBS30/0.2"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pLasmd/LasRProt_act/0.2">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pLasmd/LasRProt_act"/>
+        <sbol:displayId>LasRProt_act</sbol:displayId>
+        <sbol:version>0.2</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LasRProt/0.2"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pLasmd/pLas_stimulation/0.2">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pLasmd/pLas_stimulation"/>
+        <sbol:displayId>pLas_stimulation</sbol:displayId>
+        <sbol:version>0.2</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pLasmd/pLas_stimulation/pLas_stimulated/0.2">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pLasmd/pLas_stimulation/pLas_stimulated"/>
+            <sbol:displayId>pLas_stimulated</sbol:displayId>
+            <sbol:version>0.2</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000643"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pLasmd/pLas/0.2"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pLasmd/pLas_stimulation/LasRProt_stimulator/0.2">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pLasmd/pLas_stimulation/LasRProt_stimulator"/>
+            <sbol:displayId>LasRProt_stimulator</sbol:displayId>
+            <sbol:version>0.2</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000459"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pLasmd/LasRProt_act/0.2"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pLas_Model/0.2"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/tetRmd/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/tetRmd"/>
+    <sbol:displayId>tetRmd</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/tetRmd/TetR/0.2">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/tetRmd/TetR"/>
+        <sbol:displayId>TetR</sbol:displayId>
+        <sbol:version>0.2</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/TetR/0.2"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/tetRmd/TetRProt/0.2">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/tetRmd/TetRProt"/>
+        <sbol:displayId>TetRProt</sbol:displayId>
+        <sbol:version>0.2</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/TetRProt/0.2"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/tetRmd/tetR_production/0.2">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/tetRmd/tetR_production"/>
+        <sbol:displayId>tetR_production</sbol:displayId>
+        <sbol:version>0.2</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000589"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/tetRmd/tetR_production/tetR_product/0.2">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/tetRmd/tetR_production/tetR_product"/>
+            <sbol:displayId>tetR_product</sbol:displayId>
+            <sbol:version>0.2</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000011"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/tetRmd/TetRProt/0.2"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/tetRmd/tetR_production/tetR_template/0.2">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/tetRmd/tetR_production/tetR_template"/>
+            <sbol:displayId>tetR_template</sbol:displayId>
+            <sbol:version>0.2</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000645"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/tetRmd/TetR/0.2"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/TetR_Model/0.2"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd"/>
+    <sbol:displayId>GFPmd</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/GFP/0.2">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/GFP"/>
+        <sbol:displayId>GFP</sbol:displayId>
+        <sbol:version>0.2</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFP/0.2"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/GFPProt/0.2">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/GFPProt"/>
+        <sbol:displayId>GFPProt</sbol:displayId>
+        <sbol:version>0.2</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPProt/0.2"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/GFP_production/0.2">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/GFP_production"/>
+        <sbol:displayId>GFP_production</sbol:displayId>
+        <sbol:version>0.2</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000589"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/GFP_production/GFP_product/0.2">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/GFP_production/GFP_product"/>
+            <sbol:displayId>GFP_product</sbol:displayId>
+            <sbol:version>0.2</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000011"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/GFPProt/0.2"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/GFP_production/GFP_template/0.2">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/GFP_production/GFP_template"/>
+            <sbol:displayId>GFP_template</sbol:displayId>
+            <sbol:version>0.2</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000645"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPmd/GFP/0.2"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFP_Model/0.2"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/lasRmd/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/lasRmd"/>
+    <sbol:displayId>lasRmd</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/lasRmd/LasRProt/0.2">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/lasRmd/LasRProt"/>
+        <sbol:displayId>LasRProt</sbol:displayId>
+        <sbol:version>0.2</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LasRProt/0.2"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/lasRmd/LasR/0.2">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/lasRmd/LasR"/>
+        <sbol:displayId>LasR</sbol:displayId>
+        <sbol:version>0.2</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LasR/0.2"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/lasRmd/lasR_production/0.2">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/lasRmd/lasR_production"/>
+        <sbol:displayId>lasR_production</sbol:displayId>
+        <sbol:version>0.2</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000589"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/lasRmd/lasR_production/lasR_product/0.2">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/lasRmd/lasR_production/lasR_product"/>
+            <sbol:displayId>lasR_product</sbol:displayId>
+            <sbol:version>0.2</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000011"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/lasRmd/LasRProt/0.2"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/lasRmd/lasR_production/lasR_template/0.2">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/lasRmd/lasR_production/lasR_template"/>
+            <sbol:displayId>lasR_template</sbol:displayId>
+            <sbol:version>0.2</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000645"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/lasRmd/LasR/0.2"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LasR_Model/0.2"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/araCmd/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/araCmd"/>
+    <sbol:displayId>araCmd</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/araCmd/AraC/0.2">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/araCmd/AraC"/>
+        <sbol:displayId>AraC</sbol:displayId>
+        <sbol:version>0.2</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/AraC/0.2"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/araCmd/AraCProt/0.2">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/araCmd/AraCProt"/>
+        <sbol:displayId>AraCProt</sbol:displayId>
+        <sbol:version>0.2</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/AraCProt/0.2"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/araCmd/araC_production/0.2">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/araCmd/araC_production"/>
+        <sbol:displayId>araC_production</sbol:displayId>
+        <sbol:version>0.2</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000589"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/araCmd/araC_production/araC_product/0.2">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/araCmd/araC_production/araC_product"/>
+            <sbol:displayId>araC_product</sbol:displayId>
+            <sbol:version>0.2</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000011"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/araCmd/AraCProt/0.2"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/araCmd/araC_production/araC_template/0.2">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/araCmd/araC_production/araC_template"/>
+            <sbol:displayId>araC_template</sbol:displayId>
+            <sbol:version>0.2</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000645"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/araCmd/AraC/0.2"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/AraC_Model/0.2"/>
+  </sbol:ModuleDefinition>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/placIq_Model/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/placIq_Model"/>
+    <sbol:displayId>placIq_Model</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:source rdf:resource="placIq_RBS30.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/AraC_Model/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/AraC_Model"/>
+    <sbol:displayId>AraC_Model</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:source rdf:resource="AraC.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/LasR_Model/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LasR_Model"/>
+    <sbol:displayId>LasR_Model</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:source rdf:resource="LasR.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFP_Model/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFP_Model"/>
+    <sbol:displayId>GFP_Model</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:source rdf:resource="GFP.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pTet_Model/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pTet_Model"/>
+    <sbol:displayId>pTet_Model</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:source rdf:resource="pTet_RBS30.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pLas_Model/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pLas_Model"/>
+    <sbol:displayId>pLas_Model</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:source rdf:resource="pLas_RBS30.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/TetR_Model/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/TetR_Model"/>
+    <sbol:displayId>TetR_Model</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:source rdf:resource="TetR.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pBAD_Model/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pBAD_Model"/>
+    <sbol:displayId>pBAD_Model</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:source rdf:resource="pBAD_RBS30.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/ter1/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/ter1"/>
+    <sbol:displayId>ter1</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <dcterms:title>Terminator 1</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000141"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/RBS30/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/RBS30"/>
+    <sbol:displayId>RBS30</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <dcterms:title>RBS30</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000139"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/testProm/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/testProm"/>
+    <sbol:displayId>testProm</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <dcterms:title>Test Promoter</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002050"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/TetRProt/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/TetRProt"/>
+    <sbol:displayId>TetRProt</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <dcterms:title>TetR Protein</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/AraCProt/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/AraCProt"/>
+    <sbol:displayId>AraCProt</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <dcterms:title>AraC Protein</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pBAD_RBS30/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pBAD_RBS30"/>
+    <sbol:displayId>pBAD_RBS30</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <dcterms:title>pBAD_RBS30</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/placIq_RBS30/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/placIq_RBS30"/>
+    <sbol:displayId>placIq_RBS30</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <dcterms:title>placIq_RBS30</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002050"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/LasR/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LasR"/>
+    <sbol:displayId>LasR</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <dcterms:title>LasR</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/testRBS/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/testRBS"/>
+    <sbol:displayId>testRBS</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <dcterms:title>Test RBS</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000139"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPProt/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFPProt"/>
+    <sbol:displayId>GFPProt</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <dcterms:title>GFP Protein</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/AraC/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/AraC"/>
+    <sbol:displayId>AraC</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <dcterms:title>AraC</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pTet_RBS30/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pTet_RBS30"/>
+    <sbol:displayId>pTet_RBS30</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <dcterms:title>pTet_RBS30</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pLas_RBS30/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pLas_RBS30"/>
+    <sbol:displayId>pLas_RBS30</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <dcterms:title>pLas_RBS30</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFP/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFP"/>
+    <sbol:displayId>GFP</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <dcterms:title>GFP</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/testTer/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/testTer"/>
+    <sbol:displayId>testTer</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <dcterms:title>Test Ter</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000141"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/testCDS/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/testCDS"/>
+    <sbol:displayId>testCDS</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <dcterms:title>Test CDS</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/LasRProt/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LasRProt"/>
+    <sbol:displayId>LasRProt</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <dcterms:title>LasR Protein</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/TetR/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/TetR"/>
+    <sbol:displayId>TetR</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <dcterms:title>TetR</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
+  </sbol:ComponentDefinition>
+</rdf:RDF>
