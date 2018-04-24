@@ -63,14 +63,15 @@ public class MainController {
         return false;
     }
     
-    private static void createProject(String userId, String projectName, String stl, String eugeneCode, String registry, String collection) throws IOException, SBOLConversionException, SBOLValidationException, InterruptedException{
+    private static PhoenixProject createProject(String userId, String projectName, String stl, String eugeneCode, String registry, String collection) throws IOException, SBOLConversionException, SBOLValidationException, InterruptedException{
         PhoenixProject proj = new PhoenixProject(userId, projectName, stl, eugeneCode, registry, collection);
         proj.design();
+        return proj;
     }
     
     //</editor-fold>
     
-    //<editor-fold desc="LOGIN">
+    //<editor-fold desc="USER ROUTES">
     @ResponseBody
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public void login(@RequestBody String request, HttpServletResponse response) throws UnsupportedEncodingException {
@@ -148,6 +149,95 @@ public class MainController {
     }
     
     @ResponseBody
+    @RequestMapping(value = "/forgot", method = RequestMethod.POST)
+    public void forgot(@RequestBody String request, HttpServletResponse response) throws UnsupportedEncodingException {
+
+        JSONObject jsonreq = new JSONObject(request);
+
+        String email = jsonreq.getString("email");
+        
+        try {
+            User user = User.getUserByEmail(email);
+            if(user != null) {
+                
+                String key = new ObjectId().toString();
+                user.setForgotPasswordKey(key);
+                response.setStatus(HttpServletResponse.SC_OK);
+                PrintWriter writer;
+                writer = response.getWriter();
+                System.out.println("Send this key via email:" + key);
+                writer.print("Check your email to reset password");
+                writer.flush();
+            } else {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                PrintWriter writer;
+                writer = response.getWriter();
+                writer.print("User not found");
+                writer.flush();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "/reset", method = RequestMethod.POST)
+    public void reset(@RequestBody String request, HttpServletResponse response) throws UnsupportedEncodingException {
+
+        JSONObject jsonreq = new JSONObject(request);
+
+        String email = jsonreq.getString("email");
+        String password = jsonreq.getString("password");
+        String key = jsonreq.getString("key");
+        
+        try {
+            User user = User.getUserByEmail(email);
+            if(user != null) {
+                if(user.checkForgotPasswordKey(key)) {
+                    Session.deleteSessionForUser(user);
+                    user.setPassword(password);
+                    user.setForgotPasswordKey(null);
+                    Database.getInstance().getDatastore().save(user);
+                    response.setStatus(HttpServletResponse.SC_OK);
+                    PrintWriter writer;
+                    writer = response.getWriter();
+                    writer.print("Password Updated");
+                    writer.flush();
+                } else {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    PrintWriter writer;
+                    writer = response.getWriter();
+                    writer.print("Incorrect Key, Check your email link, or resubmit forgot password form");
+                    writer.flush();
+                }
+            } else {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                PrintWriter writer;
+                writer = response.getWriter();
+                writer.print("User not found");
+                writer.flush();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "/verify/{id}", method = RequestMethod.GET)
+    public void verifyEmail(@PathVariable(value="id") String id, HttpServletResponse response) throws IOException {
+        
+        User user = User.findByVerifyId(id);
+        if(user == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        } else if(user.isVerfied()){
+            response.setStatus(HttpServletResponse.SC_CONFLICT);
+        } else {
+            user.verifyUser();
+            response.setStatus(HttpServletResponse.SC_OK);
+        }
+    }
+    
+    @ResponseBody
     @RequestMapping(value = "/projects", method = RequestMethod.POST)
     public void loadProjects(@RequestBody String request, HttpServletResponse response){
         JSONObject jsonreq = new JSONObject(request);
@@ -169,6 +259,43 @@ public class MainController {
             }
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    public void updateUser(@RequestBody String request, HttpServletResponse response) throws UnsupportedEncodingException {
+
+        JSONObject jsonreq = new JSONObject(request);
+
+        String sessionId = jsonreq.getString("id");
+        String token = jsonreq.getString("token");
+        boolean advUser = jsonreq.getBoolean("advUser");
+        String emailOptions = jsonreq.getString("emailOption");
+        String[] registires = jsonreq.getJSONArray("registries").toString().replace("},{", " ,").split(" ");
+        
+        try {
+            Session session = Session.findByCredentials(sessionId, token);
+            if(session != null) {
+                User user = Session.getUser(session);
+                user.setAdvancedUser(advUser);
+                user.setEmailOptions(emailOptions);
+                user.setRegistries(registires);
+                user.save();
+
+                PrintWriter writer;
+                writer = response.getWriter();
+                writer.print("User Updated");
+                writer.flush();
+            } else {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                PrintWriter writer;
+                writer = response.getWriter();
+                writer.print("User not found");
+                writer.flush();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     //</editor-fold>
@@ -199,14 +326,19 @@ public class MainController {
                 if(projectExists(user.getId().toString(), projectName)){
                     response.setStatus(HttpServletResponse.SC_CONFLICT);
                     writer = response.getWriter();
-                    writer.write("Project name already exists");
+                    JSONObject res = new JSONObject();
+                    res.append("message", "Project name already exists");
+                    writer.write(res.toString());
                     writer.flush();
                 } else {
                     try {
-                        createProject(user.getId().toString(), projectName, stl, eugeneCode, registry, collection);
+                        PhoenixProject proj = createProject(user.getId().toString(), projectName, stl, eugeneCode, registry, collection);
                         response.setStatus(HttpServletResponse.SC_OK);
+                        JSONObject res = new JSONObject();
+                        res.append("projectID", proj.getJobId());
+                        res.append("message", "Project created.");
                         writer = response.getWriter();
-                        writer.write("Project created.");
+                        writer.write(res.toString());
                         writer.flush();
                     } catch (SBOLValidationException | SBOLConversionException |InterruptedException ex) {
                         response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
