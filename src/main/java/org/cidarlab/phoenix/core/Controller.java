@@ -821,12 +821,12 @@ public class Controller {
     }
     //</editor-fold>
     
-    public static void assignLeafModels(PhoenixMode mode, Module root, String jobid, SBOLDocument doc, Map<String, CandidateComponent> assignment) {
+    public static void assignLeafModels(PhoenixMode mode, Module root, String jobfp, SBOLDocument doc, Map<String, CandidateComponent> assignment) {
         switch (mode) {
             case BIOCPS:
                 break;
             case MM:
-                assignPartLeafModels(root, jobid, doc, assignment);
+                assignPartLeafModels(root, jobfp, doc, assignment);
                 renameSpecies(root);
                 break;
             default:
@@ -863,7 +863,7 @@ public class Controller {
         }
     }
     
-    public static void assignPartLeafModels(Module root, String jobid, SBOLDocument doc, Map<String, CandidateComponent> assignment) {
+    public static void assignPartLeafModels(Module root, String jobfp, SBOLDocument doc, Map<String, CandidateComponent> assignment) {
         if (root.getRole().equals(ModuleRole.PROMOTER)) {
 
             try {
@@ -872,8 +872,7 @@ public class Controller {
                 ModuleDefinition md = doc.getModuleDefinition(cc.getCandidate().getModuleDefinitions().get(0));
                 List<org.sbolstandard.core2.Model> sbolmodels = new ArrayList<>(md.getModels());
                 URI uri = new URI(sbolmodels.get(0).getSource().toString() + "/download");
-                String fp = Utilities.getResultsFilepath() + jobid + Utilities.getSeparater();
-                SBMLDocument sbml = SynbiohubAdaptor.getModel(uri.toURL(), fp);
+                SBMLDocument sbml = SynbiohubAdaptor.getModel(uri.toURL(), jobfp);
                 Model model = new ModelPart(sbml);
                 root.setModel(model);
             } catch (MalformedURLException | URISyntaxException ex) {
@@ -886,8 +885,8 @@ public class Controller {
                 ModuleDefinition md = doc.getModuleDefinition(cc.getCandidate().getModuleDefinitions().get(0));
                 List<org.sbolstandard.core2.Model> sbolmodels = new ArrayList<>(md.getModels());
                 URI uri = new URI(sbolmodels.get(0).getSource().toString() + "/download");
-                String fp = Utilities.getResultsFilepath() + jobid + Utilities.getSeparater();
-                SBMLDocument sbml = SynbiohubAdaptor.getModel(uri.toURL(), fp);
+               
+                SBMLDocument sbml = SynbiohubAdaptor.getModel(uri.toURL(), jobfp);
                 Model model = new ModelPart(sbml);
                 root.setModel(model);
             } catch (MalformedURLException | URISyntaxException ex) {
@@ -896,30 +895,30 @@ public class Controller {
 
         } else {
             for (Module child : root.getChildren()) {
-                assignPartLeafModels(child, jobid, doc, assignment);
+                assignPartLeafModels(child, jobfp, doc, assignment);
             }
         } 
         
     }
 
-    public static void composeModels(PhoenixMode mode, Module root, String jobid, Map<String, CandidateComponent> assignment) {
+    public static void composeModels(PhoenixMode mode, Module root, String jobfp, Map<String, CandidateComponent> assignment) {
         switch (mode) {
             case BIOCPS:
                 break;
             case MM:
-                composePartModels(root, jobid, assignment);
+                composePartModels(root, jobfp, assignment);
                 break;
             default:
                 break;
         }
     }
 
-    private static void composePartModels(Module root, String jobid, Map<String, CandidateComponent> assignment) {
+    private static void composePartModels(Module root, String jobfp, Map<String, CandidateComponent> assignment) {
 
-        if (!isOverriden(root, jobid, assignment)) {
+        if (!isOverriden(root, jobfp, assignment)) {
             List<org.sbml.jsbml.Model> modelList = new ArrayList<>();
             for (Module child : root.getChildren()) {
-                composePartModels(child, jobid, assignment);
+                composePartModels(child, jobfp, assignment);
                 modelList.add(child.getModel().getSbml().getModel());
             }
             if((!root.getRole().equals(ModuleRole.PROMOTER)) && (!root.getRole().equals(ModuleRole.CDS))) {
@@ -928,7 +927,6 @@ public class Controller {
             }
         } else {
             try {
-                String jobfp = Utilities.getResultsFilepath() + jobid + Utilities.getSeparater();
                 String ofile = jobfp + "override.json";
                 String filecontent = Utilities.getFileContentAsString(ofile);
                 JSONObject json = new JSONObject(filecontent);

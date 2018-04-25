@@ -34,6 +34,7 @@ import org.cidarlab.gridtli.dom.Signal;
 import org.cidarlab.gridtli.dom.TLIException;
 import org.cidarlab.gridtli.tli.Validation;
 import org.cidarlab.phoenix.core.CLI;
+import org.cidarlab.phoenix.dom.SMC;
 import org.cidarlab.phoenix.utils.Utilities;
 
 /**
@@ -298,7 +299,7 @@ public class STLAdaptor {
         }
     }
     
-    public static Map<String,Double> smc(TreeNode stl,String folderpath,boolean plot, int numofruns, double confidence) throws TLIException{
+    public static SMC smc(TreeNode stl,String folderpath,boolean plot, int numofruns, double confidence) throws TLIException{
         
         Map<String,List<Signal>> allsignals = new HashMap<String,List<Signal>>();
         int satisfycount = 0;
@@ -348,11 +349,8 @@ public class STLAdaptor {
         }
         double satisfy = ((double) satisfycount) / ((double) numofruns);
         double error = computeError(satisfy, numofruns, confidence);
-        Map<String,Double> smc = new HashMap<String,Double>();
-        smc.put("perc", satisfy);
-        smc.put("error", error);
+        SMC smc = new SMC(satisfy,error,allsignals);
         return smc;
-        
     }
     
     public static double getRobustness(TreeNode stl,String filepath, String result, boolean plot) throws TLIException{

@@ -14,8 +14,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.stream.XMLStreamException;
 import org.apache.commons.io.IOUtils;
 import org.bson.types.ObjectId;
+import org.cidarlab.gridtli.dom.TLIException;
 import org.cidarlab.phoenix.core.PhoenixProject;
 import org.cidarlab.phoenix.schemas.Session;
 import org.cidarlab.phoenix.schemas.User;
@@ -317,6 +319,11 @@ public class MainController {
         String registry = jsonreq.getString("registry");
         String collection = jsonreq.getString("collection");
         
+        double top = Double.valueOf(jsonreq.getString("top"));
+        double confidence = Double.valueOf(jsonreq.getString("confidence"));
+        double threshold = Double.valueOf(jsonreq.getString("threshold"));
+        int runcount = Integer.valueOf(jsonreq.getString("runcount"));
+        
         try {
         
             Session session = Session.findByCredentials(sessionId, token);
@@ -333,6 +340,8 @@ public class MainController {
                 } else {
                     try {
                         PhoenixProject proj = createProject(user.getId().toString(), projectName, stl, eugeneCode, registry, collection);
+                        proj.executeBasicProject(runcount, confidence, threshold);
+                        
                         response.setStatus(HttpServletResponse.SC_OK);
                         JSONObject res = new JSONObject();
                         res.append("projectID", proj.getJobId());
@@ -341,6 +350,12 @@ public class MainController {
                         writer.write(res.toString());
                         writer.flush();
                     } catch (SBOLValidationException | SBOLConversionException |InterruptedException ex) {
+                        response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+                        writer = response.getWriter();
+                        writer.write(ex.toString());
+                        writer.flush();
+                        Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (XMLStreamException | TLIException ex) {
                         response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
                         writer = response.getWriter();
                         writer.write(ex.toString());
@@ -381,6 +396,45 @@ public class MainController {
                 if(project != null) {
                     
                     writer.write(project.toString());
+                    response.setStatus(HttpServletResponse.SC_OK);
+                } else {
+                    writer.write("Project not found");
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                }
+                writer.flush();
+            } catch (IOException ex) {
+                response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    //</editor-fold>
+    
+    //<editor-fold desc="RESULTS">
+    @ResponseBody
+    @RequestMapping(value = "/results", method = RequestMethod.POST)
+    public void results(@RequestBody String request, HttpServletResponse response) throws UnsupportedEncodingException {
+        
+        JSONObject jsonreq = new JSONObject(request);
+
+        String sessionId = jsonreq.getString("id");
+        String token = jsonreq.getString("token");
+        String projectId = jsonreq.getString("project");
+
+        
+        Session session = Session.findByCredentials(sessionId, token);
+        if(session != null) {
+            User user = Session.getUser(session);
+            
+            PrintWriter writer;
+        
+
+            try {
+                response.setStatus(HttpServletResponse.SC_OK);
+                writer = response.getWriter();
+                JSONArray results = PhoenixProject.getResultsArray(user.getId().toString(), projectId);
+                if(results != null) {
+                    writer.write(results.toString());
                     response.setStatus(HttpServletResponse.SC_OK);
                 } else {
                     writer.write("Project not found");
