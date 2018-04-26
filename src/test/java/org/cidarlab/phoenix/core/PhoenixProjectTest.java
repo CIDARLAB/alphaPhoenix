@@ -28,6 +28,7 @@ import org.cidarlab.phoenix.adaptors.SynbiohubAdaptor;
 import org.cidarlab.phoenix.dom.CandidateComponent;
 import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Module;
+import org.cidarlab.phoenix.dom.SMC;
 import org.cidarlab.phoenix.library.Library;
 import org.cidarlab.phoenix.utils.Utilities;
 import org.junit.After;
@@ -210,9 +211,9 @@ public class PhoenixProjectTest {
                     writer.write(test.getModel().getSbml(), modelFile);
                     IBioSimAdaptor.simulateStocastic(modelFile, assignmentfp, 100, 1, 1, simcount);
                     double confidence = 0.95;
-                    Map<String, Double> smc = STLAdaptor.smc(stl, assignmentfp, false, simcount, confidence);
-                    double perc = smc.get("perc");
-                    double error = smc.get("error");
+                    SMC smc = STLAdaptor.smc(stl, assignmentfp, false, simcount, confidence);
+                    double perc = smc.getSatisfactionPercentage();
+                    double error = smc.getError();
                     percCount += perc;
                     double lower = perc - error;
                     if (lower >= threshold) {
@@ -267,9 +268,9 @@ public class PhoenixProjectTest {
         Utilities.makeDirectory(deterministic);
         double confidence = 0.95;
         String assignmentfp = deterministic + "34" + Utilities.getSeparater();
-        Map<String,Double> smc = STLAdaptor.smc(stl, assignmentfp, true, simcount, confidence);
-        System.out.println("Perc : " + smc.get("perc"));
-        System.out.println("Err : " + smc.get("error"));
+        SMC smc = STLAdaptor.smc(stl, assignmentfp, true, simcount, confidence);
+        System.out.println("Perc : " + smc.getSatisfactionPercentage());
+        System.out.println("Err : " + smc.getError());
     }
     
     //@Test
@@ -334,9 +335,9 @@ public class PhoenixProjectTest {
                 writer.write(test.getModel().getSbml(), modelFile);
                 IBioSimAdaptor.simulateStocastic(modelFile, assignmentfp, 100, 1, 1,simcount);
                 double confidence = 0.95;
-                Map<String,Double> smc = STLAdaptor.smc(stl, assignmentfp, true, simcount, confidence);
-                double perc = smc.get("perc");
-                double error = smc.get("error");
+                SMC smc = STLAdaptor.smc(stl, assignmentfp, true, simcount, confidence);
+                double perc = smc.getSatisfactionPercentage();
+                double error = smc.getError();
                 
                 double lower = perc - error;
                 if(lower >= threshold){

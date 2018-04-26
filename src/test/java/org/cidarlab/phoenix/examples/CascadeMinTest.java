@@ -22,7 +22,7 @@ public class CascadeMinTest {
     private static String stlFilepath = expRootFolder + "stl.txt";
     private static String libFilepath = expRootFolder + "lib.json";
     
-    @Test
+    //@Test
     public void testCascadeMinDeterministic(){
         String eugfp = eugFilepath;
         int eugCircSize = 16;

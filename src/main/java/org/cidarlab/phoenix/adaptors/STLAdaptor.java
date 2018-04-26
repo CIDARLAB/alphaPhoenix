@@ -348,7 +348,11 @@ public class STLAdaptor {
             }
         }
         double satisfy = ((double) satisfycount) / ((double) numofruns);
+        System.out.println("Satisfy count :: " + satisfycount);
+        System.out.println("Number of runs :: " + numofruns);
+        System.out.println("Confidence :: " + confidence);
         double error = computeError(satisfy, numofruns, confidence);
+        System.out.println("Error :: " + error);
         SMC smc = new SMC(satisfy,error,allsignals);
         return smc;
     }

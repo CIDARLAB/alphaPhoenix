@@ -293,7 +293,7 @@ public class PhoenixProject {
                             }
                             break;
                         default:
-                            System.out.println("NOTHING");
+                            //System.out.println("NOTHING");
                             break;
                     }
                 }
@@ -310,11 +310,14 @@ public class PhoenixProject {
                 
                 double lower = perc - error;
                 storeslines.add(i + "," + perc + "," + error);
-                if (lower >= threshold) {
+                System.out.println("Lower : " + lower);
+                System.out.println("Threshold : " + threshold);
+                if (perc >= threshold) {
+                //if (true) {    
                     JSONObject resultObj = new JSONObject();
                     resultObj.put("name", ("Result " + resultCount++));
                     resultObj.put("img", moduleImage);
-                    resultObj.put("score", lower);
+                    resultObj.put("score", perc);
                     
                     JSONArray tracesArr = new JSONArray();
                     
@@ -323,7 +326,8 @@ public class PhoenixProject {
                         
                         for(Signal sig:smc.getSimulations().get(signalkey)){
                             JSONObject traceObj = new JSONObject();
-                            traceObj.put("name", "trace" + traceCount++);
+                            //traceObj.put("name", "trace" + traceCount++);
+                            traceObj.put("name", signalkey);
                             traceObj.put("legendgroup", signalkey);
                             traceObj.put("type", "scatter");
                             JSONArray xarr = new JSONArray();
@@ -334,6 +338,10 @@ public class PhoenixProject {
                             }
                             traceObj.put("x", xarr);
                             traceObj.put("y", yarr);
+                            JSONObject lineobj = new JSONObject();
+                            lineobj.put("color", "#2196F3AA");
+                            traceObj.put("line", lineobj);
+                            
                             tracesArr.put(traceObj);
                         }
                         
@@ -348,6 +356,7 @@ public class PhoenixProject {
 
         }
         
+        System.out.println(results.toString());
         Utilities.writeToFile(jobfp + "results.json", results.toString());
 
     }
@@ -560,11 +569,11 @@ public class PhoenixProject {
                                     if (assignmentcc.getCandidate().getName().equals("pLas_RBS30")) {
                                         eventvalues.put("ind_" + c.getIOCname(), 1.00);
                                     } else if (assignmentcc.getCandidate().getName().equals("pBAD_RBS30")) {
-                                        eventvalues.put("ind_" + c.getIOCname(), 100.00);
+                                        eventvalues.put("ind_" + c.getIOCname(), 0.00);
                                     }
                                     break;
                                 default:
-                                    System.out.println("NOTHING");
+                                    //System.out.println("NOTHING");
                                     break;
                             }
                         }

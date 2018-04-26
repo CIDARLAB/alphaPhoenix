@@ -319,10 +319,10 @@ public class MainController {
         String registry = jsonreq.getString("registry");
         String collection = jsonreq.getString("collection");
         
-        double top = Double.valueOf(jsonreq.getString("top"));
-        double confidence = Double.valueOf(jsonreq.getString("confidence"));
-        double threshold = Double.valueOf(jsonreq.getString("threshold"));
-        int runcount = Integer.valueOf(jsonreq.getString("runcount"));
+        double top = jsonreq.getDouble("top")/100.00;
+        double confidence = jsonreq.getDouble("confidence");
+        double threshold = jsonreq.getDouble("threshold");
+        int runcount = jsonreq.getInt("runCount");
         
         try {
         
