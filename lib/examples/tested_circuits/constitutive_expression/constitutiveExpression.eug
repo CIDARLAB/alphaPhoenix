@@ -1,0 +1,22 @@
+//Size=4
+
+// COUNTING
+cp1 exactly 1
+fl1 exactly 1
+r1 exactly 1
+t1 exactly 1
+
+// INTERACTIONS
+cp1 drives fl1
+
+//POSITIONING
+t1 after fl1
+fl1 after r1
+r1 after cp1
+
+//ORIENTATION
+cp1 SAME_ORIENTATION r1
+cp1 SAME_ORIENTATION t1
+cp1 SAME_ORIENTATION fl1
+
+ALL_FORWARD
