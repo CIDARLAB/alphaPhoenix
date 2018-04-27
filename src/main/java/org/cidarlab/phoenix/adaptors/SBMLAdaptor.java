@@ -136,12 +136,12 @@ public class SBMLAdaptor {
 			}
 			for (Reaction rxn : mod.getListOfReactions()) {
 				Reaction composedRxn = rxn.clone();
-				if (composedRxn.getSBOTermID().equals(SBOTerm.EXPRESSION.getID())) {
-					versionSBase(composedRxn, composedMod);
-					composedMod.addReaction(composedRxn);
-				} else if (composedRxn.getSBOTermID().equals(SBOTerm.DEGRADATION.getID()) && !composedMod.containsReaction(composedRxn.getId())) {
-					composedMod.addReaction(composedRxn);
-				}
+//				if (composedRxn.getSBOTermID().equals(SBOTerm.EXPRESSION.getID())) {
+				versionSBase(composedRxn, composedMod);
+				composedMod.addReaction(composedRxn);
+//				} else if (composedRxn.getSBOTermID().equals(SBOTerm.DEGRADATION.getID()) && !composedMod.containsReaction(composedRxn.getId())) {
+//					composedMod.addReaction(composedRxn);
+//				}
 			}
 		}
 		if (substitutions.isEmpty()) {
