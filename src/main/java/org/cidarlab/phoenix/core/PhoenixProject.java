@@ -569,7 +569,7 @@ public class PhoenixProject {
                                     if (assignmentcc.getCandidate().getName().equals("pLas_RBS30")) {
                                         eventvalues.put("ind_" + c.getIOCname(), 1.00);
                                     } else if (assignmentcc.getCandidate().getName().equals("pBAD_RBS30")) {
-                                        eventvalues.put("ind_" + c.getIOCname(), 0.00);
+                                        eventvalues.put("ind_" + c.getIOCname(), 1.00);
                                     }
                                     break;
                                 default:

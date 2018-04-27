@@ -308,7 +308,6 @@ public class SampleLibraryTest {
         return sbol;
     }
     
-    
     public static SBOLDocument createConstitutiveLibAttachLib() throws FileNotFoundException, XMLStreamException, IOException, SBOLConversionException {
         String libfp = rootfp + "library" + Utilities.getSeparater() + "constitutive" + Utilities.getSeparater();
         Utilities.makeDirectory(libfp);

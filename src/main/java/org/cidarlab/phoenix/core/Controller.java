@@ -34,7 +34,9 @@ import org.cidarlab.phoenix.library.Library;
 import org.cidarlab.phoenix.utils.Utilities;
 import org.json.JSONObject;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
+import org.sbml.jsbml.SBMLWriter;
 import org.sbolstandard.core2.FunctionalComponent;
 import org.sbolstandard.core2.ModuleDefinition;
 import org.sbolstandard.core2.SBOLDocument;
@@ -631,6 +633,10 @@ public class Controller {
             }
         }
         root.setIOCNames();
+        
+        System.out.println("IOC Names for current Module :: ");
+        root.printIOCNames();
+        
         return root;
 
     }
@@ -836,15 +842,26 @@ public class Controller {
     }
     
     public static void renameSpecies(Module root){
+        SBMLWriter swriter = new SBMLWriter();
+        int tucount = 0;
         for(Module tu:root.getChildren()){
+            System.out.println("Starting TU " + tucount++);
             Module promModule = tu.getChildren().get(0);
             Module cdsModule = tu.getChildren().get(1);
             
             Component prom = promModule.getComponents().get(0);
             Component cds = cdsModule.getComponents().get(0);
             if(prom.getRole().equals(ComponentRole.PROMOTER_CONSTITUTIVE)){
+                System.out.println("Constitutive Promoter Rewrite :: ");
                 SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "out", cds.getIOCname());
+                try {
+                    System.out.println(swriter.writeSBMLToString(promModule.getModel().getSbml()));
+                } catch (XMLStreamException | SBMLException ex) {
+                    Logger.getLogger(SBMLAdaptor.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
             } else {
+                System.out.println("Inducible Promoter Rewrite :: ");
                 
                 if(promModule.getModel().getSbml().getModel().containsSpecies("ind")){
                     SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "ind", "ind_" + prom.getIOCname());
@@ -852,15 +869,41 @@ public class Controller {
                 
                 SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "conn", prom.getIOCname());
                 SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "out", cds.getIOCname());
+                
+                try {
+                    System.out.println(swriter.writeSBMLToString(promModule.getModel().getSbml()));
+                } catch (XMLStreamException | SBMLException ex) {
+                    Logger.getLogger(SBMLAdaptor.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             if(cds.getInteractions().isEmpty()){
                 //Output CDS
+                System.out.println("Reporter CDS Rewrite :: ");
+                
                 SBMLAdaptor.renameSpecies(cdsModule.getModel().getSbml(), "out", cds.getIOCname());
+                
+                try {
+                    System.out.println(swriter.writeSBMLToString(cdsModule.getModel().getSbml()));
+                } catch (XMLStreamException | SBMLException ex) {
+                    Logger.getLogger(SBMLAdaptor.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
             } else {
                 //Connector CDS
+                System.out.println("Connector CDS Rewrite :: ");
+                
                 SBMLAdaptor.renameSpecies(cdsModule.getModel().getSbml(), "conn", cds.getIOCname());
+                
+                try {
+                    System.out.println(swriter.writeSBMLToString(cdsModule.getModel().getSbml()));
+                } catch (XMLStreamException | SBMLException ex) {
+                    Logger.getLogger(SBMLAdaptor.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
             }
         }
+        System.out.println("Done with renaming Species. :) ");
+        
     }
     
     public static void assignPartLeafModels(Module root, String jobfp, SBOLDocument doc, Map<String, CandidateComponent> assignment) {
@@ -916,12 +959,12 @@ public class Controller {
     private static void composePartModels(Module root, String jobfp, Map<String, CandidateComponent> assignment) {
 
         if (!isOverriden(root, jobfp, assignment)) {
-            List<org.sbml.jsbml.Model> modelList = new ArrayList<>();
-            for (Module child : root.getChildren()) {
-                composePartModels(child, jobfp, assignment);
-                modelList.add(child.getModel().getSbml().getModel());
-            }
             if((!root.getRole().equals(ModuleRole.PROMOTER)) && (!root.getRole().equals(ModuleRole.CDS))) {
+                List<org.sbml.jsbml.Model> modelList = new ArrayList<>();
+                for (Module child : root.getChildren()) {
+                    composePartModels(child, jobfp, assignment);
+                    modelList.add(child.getModel().getSbml().getModel());
+                }
                 Model composedModel = new ModelPart(SBMLAdaptor.composeModels(modelList));
                 root.setModel(composedModel);
             }
