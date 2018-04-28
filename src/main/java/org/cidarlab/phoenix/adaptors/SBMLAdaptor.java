@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +21,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.Event;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.LocalParameter;
@@ -31,9 +33,11 @@ import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
+import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.util.compilers.FormulaCompiler;
@@ -47,9 +51,7 @@ import org.sbml.jsbml.text.parser.ParseException;
  * @author prash
  */
 public class SBMLAdaptor {
-	
-    
-        
+            
         public static SBMLDocument convertParamsLocalToGlobal(SBMLDocument doc){
             Model model = doc.getModel();
             ListOf<Reaction> reactions = model.getListOfReactions();
@@ -134,12 +136,12 @@ public class SBMLAdaptor {
 			}
 			for (Reaction rxn : mod.getListOfReactions()) {
 				Reaction composedRxn = rxn.clone();
-				if (composedRxn.getSBOTermID().equals(SBOTerm.EXPRESSION.getID())) {
-					versionSBase(composedRxn, composedMod);
-					composedMod.addReaction(composedRxn);
-				} else if (composedRxn.getSBOTermID().equals(SBOTerm.DEGRADATION.getID()) && !composedMod.containsReaction(composedRxn.getId())) {
-					composedMod.addReaction(composedRxn);
-				}
+//				if (composedRxn.getSBOTermID().equals(SBOTerm.EXPRESSION.getID())) {
+				versionSBase(composedRxn, composedMod);
+				composedMod.addReaction(composedRxn);
+//				} else if (composedRxn.getSBOTermID().equals(SBOTerm.DEGRADATION.getID()) && !composedMod.containsReaction(composedRxn.getId())) {
+//					composedMod.addReaction(composedRxn);
+//				}
 			}
 		}
 		if (substitutions.isEmpty()) {
@@ -152,6 +154,19 @@ public class SBMLAdaptor {
 		}
 		return composedDoc;
 	}
+        
+        public static void addEvent(SBMLDocument doc, String id, double time, double value) {
+            int counter = 0;
+            while (doc.getModel().containsUniqueNamedSBase("event" + counter)) {
+                counter ++;
+            }
+            Event event = doc.getModel().createEvent("event" + counter);
+            event.createDelay(new ASTNode(time));
+            Trigger t = event.createTrigger(new ASTNode(ASTNode.Type.CONSTANT_TRUE));
+            t.setInitialValue(false);
+            t.setPersistent(true);
+            event.createEventAssignment(id, new ASTNode(value));
+        }
 	
 	private static boolean versionSBase(NamedSBase sb, Model mod) {
 		String versionedID = sb.getId();
@@ -283,6 +298,52 @@ public class SBMLAdaptor {
 		}
 		return substitutions;
 	}
+        
+        
+        
+    public static String convertModelToLaTeXEquations(SBMLDocument doc){
+        String result = "";
+        Map<String, ASTNode> map = new HashMap<String, ASTNode>();
+        Model m = doc.getModel();
+        for (Reaction r : m.getListOfReactions()) {
+            for (SpeciesReference prod : r.getListOfProducts()) {
+                ASTNode node = r.getKineticLaw().getMath();
+                if (prod.getStoichiometry() != 1) {
+                    ASTNode newNode = new ASTNode(ASTNode.Type.TIMES);
+                    newNode.addChild(new ASTNode(prod.getStoichiometry()));
+                    newNode.addChild(node);
+                    node = newNode;
+                }
+                if (map.containsKey(prod.getSpecies())) {
+                    ASTNode newNode = new ASTNode(ASTNode.Type.PLUS);
+                    newNode.addChild(map.get(prod.getSpecies()));
+                    newNode.addChild(node);
+                    node = newNode;
+                }
+                map.put(prod.getSpecies(), node);
+            }
+            for (SpeciesReference reac : r.getListOfReactants()) {
+                ASTNode node = r.getKineticLaw().getMath();
+                if (reac.getStoichiometry() != 1) {
+                    ASTNode newNode = new ASTNode(ASTNode.Type.TIMES);
+                    newNode.addChild(new ASTNode(reac.getStoichiometry()));
+                    newNode.addChild(node);
+                    node = newNode;
+                }
+                if (map.containsKey(reac.getSpecies())) {
+                    ASTNode newNode = new ASTNode(ASTNode.Type.MINUS);
+                    newNode.addChild(map.get(reac.getSpecies()));
+                    newNode.addChild(node);
+                    node = newNode;
+                }
+                map.put(reac.getSpecies(), node);
+            }
+        }
+        for (String species : map.keySet()) {
+            result += "\\frac{d" + species + "}{dt} = " + myFormulaToLaTeXString(map.get(species)) + "\n";
+        }
+        return result;
+    }
 	
 	/*
      * Methods for creating SBML models of gene expression
@@ -587,6 +648,289 @@ public class SBMLAdaptor {
             return null;
         }
         return tree;
+    }
+    
+    private static String myFormulaToLaTeXString(ASTNode math) {
+        if (math.getType() == ASTNode.Type.CONSTANT_E) {
+            return "exponentiale";
+        } else if (math.getType() == ASTNode.Type.CONSTANT_FALSE) {
+            return "false";
+        } else if (math.getType() == ASTNode.Type.CONSTANT_PI) {
+            return "pi";
+        } else if (math.getType() == ASTNode.Type.CONSTANT_TRUE) {
+            return "true";
+        } else if (math.getType() == ASTNode.Type.DIVIDE) {
+            String leftStr = myFormulaToLaTeXString(math.getLeftChild());
+            String rightStr = myFormulaToLaTeXString(math.getRightChild());
+            return "\\frac{" + leftStr + ", " + rightStr + "}";
+        } else if (math.getType() == ASTNode.Type.FUNCTION) {
+            String result = math.getName() + "(";
+                for (int i = 0; i < math.getChildCount(); i++) {
+                    String child = myFormulaToLaTeXString(math.getChild(i));
+                    result += child;
+                    if (i + 1 < math.getChildCount()) {
+                        result += ", ";
+                    }
+                }
+                result += ")";
+            return result;
+        } else if (math.getType() == ASTNode.Type.FUNCTION_ABS) {
+            return "abs(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_ARCCOS) {
+            return "acos(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_ARCCOSH) {
+            return "acosh(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_ARCCOT) {
+            return "acot(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_ARCCOTH) {
+            return "acoth(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_ARCCSC) {
+            return "acsc(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_ARCCSCH) {
+            return "acsch(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_ARCSEC) {
+            return "asec(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_ARCSECH) {
+            return "asech(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_ARCSIN) {
+            return "asin(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_ARCSINH) {
+            return "asinh(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_ARCTAN) {
+            return "atan(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_ARCTANH) {
+            return "atanh(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_CEILING) {
+            return "ceil(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_COS) {
+            return "cos(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_COSH) {
+            return "cosh(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_COT) {
+            return "cot(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_COTH) {
+            return "coth(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_CSC) {
+            return "csc(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_CSCH) {
+            return "csch(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_DELAY) {
+            String leftStr = myFormulaToLaTeXString(math.getLeftChild());
+            String rightStr = myFormulaToLaTeXString(math.getRightChild());
+            return "delay(" + leftStr + ", " + rightStr + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_EXP) {
+            return "exp(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_FACTORIAL) {
+            return "factorial(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_FLOOR) {
+            return "floor(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_LN) {
+            return "ln(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_LOG) {
+            String result = "log(";
+            for (int i = 0; i < math.getChildCount(); i++) {
+                String child = myFormulaToLaTeXString(math.getChild(i));
+                result += child;
+                if (i + 1 < math.getChildCount()) {
+                    result += ", ";
+                }
+            }
+            result += ")";
+            return result;
+        } else if (math.getType() == ASTNode.Type.FUNCTION_PIECEWISE) {
+            String result = "piecewise(";
+            for (int i = 0; i < math.getChildCount(); i++) {
+                String child = myFormulaToLaTeXString(math.getChild(i));
+                result += child;
+                if (i + 1 < math.getChildCount()) {
+                    result += ", ";
+                }
+            }
+            result += ")";
+            return result;
+        } else if (math.getType() == ASTNode.Type.FUNCTION_POWER) {
+            String leftStr = myFormulaToLaTeXString(math.getLeftChild());
+            String rightStr = myFormulaToLaTeXString(math.getRightChild());
+            return leftStr + "^{" + rightStr + "}";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_ROOT) {
+            String leftStr = myFormulaToLaTeXString(math.getLeftChild());
+            String rightStr = myFormulaToLaTeXString(math.getRightChild());
+            return "\\sqrt[" + rightStr + "]{" + leftStr + "}";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_SEC) {
+            return "sec(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_SECH) {
+            return "sech(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_SIN) {
+            return "sin(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_SINH) {
+            return "sinh(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_TAN) {
+            return "tan(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.FUNCTION_TANH) {
+            return "tanh(" + myFormulaToLaTeXString(math.getChild(0)) + ")";
+        } else if (math.getType() == ASTNode.Type.INTEGER) {
+            if (math.hasUnits()) {
+                return "" + math.getInteger() + " \\text{" + math.getUnits() + "}";
+            }
+            return "" + math.getInteger();
+        } else if (math.getType() == ASTNode.Type.LOGICAL_AND) {
+            if (math.getChildCount() == 0) {
+                return "";
+            }
+            String result = "(";
+            for (int i = 0; i < math.getChildCount(); i++) {
+                String child = myFormulaToLaTeXString(math.getChild(i));
+                result += child;
+                if (i + 1 < math.getChildCount()) {
+                    result += " \\land ";
+                }
+            }
+            result += ")";
+            return result;
+        } else if (math.getType() == ASTNode.Type.LOGICAL_NOT) {
+            if (math.getChildCount() == 0) {
+                return "";
+            }
+            String result = "\\lnot(";
+            String child = myFormulaToLaTeXString(math.getChild(0));
+            result += child;
+            result += ")";
+            return result;
+        } else if (math.getType() == ASTNode.Type.LOGICAL_OR) {
+            if (math.getChildCount() == 0) {
+                return "";
+            }
+            String result = "(";
+            for (int i = 0; i < math.getChildCount(); i++) {
+                String child = myFormulaToLaTeXString(math.getChild(i));
+                result += child;
+                if (i + 1 < math.getChildCount()) {
+                    result += " \\lor( ";
+                }
+            }
+            result += ")";
+            return result;
+        } else if (math.getType() == ASTNode.Type.LOGICAL_XOR) {
+            if (math.getChildCount() == 0) {
+                return "";
+            }
+            String result = "(";
+            for (int i = 0; i < math.getChildCount(); i++) {
+                String child = myFormulaToLaTeXString(math.getChild(i));
+                result += child;
+                if (i + 1 < math.getChildCount()) {
+                    result += " \\oplus ";
+                }
+            }
+            result += ")";
+            return result;
+        } else if (math.getType() == ASTNode.Type.MINUS) {
+            if (math.getChildCount() == 1) {
+                return "-" + myFormulaToLaTeXString(math.getChild(0));
+            }
+            String leftStr = myFormulaToLaTeXString(math.getLeftChild());
+            String rightStr = myFormulaToLaTeXString(math.getRightChild());
+            return "(" + leftStr + " - " + rightStr + ")";
+        } else if (math.getType() == ASTNode.Type.NAME) {
+            return math.getName();
+        } else if (math.getType() == ASTNode.Type.NAME_AVOGADRO) {
+            return "avogadro";
+        } else if (math.getType() == ASTNode.Type.NAME_TIME) {
+            return "t";
+        } else if (math.getType() == ASTNode.Type.PLUS) {
+            String returnVal = "(";
+            boolean first = true;
+            for (int i = 0; i < math.getChildCount(); i++) {
+                if (first) {
+                    first = false;
+                } else {
+                    returnVal += " + ";
+                }
+                returnVal += myFormulaToLaTeXString(math.getChild(i));
+            }
+            returnVal += ")";
+            return returnVal;
+        } else if (math.getType() == ASTNode.Type.POWER) {
+            String leftStr = myFormulaToLaTeXString(math.getLeftChild());
+            String rightStr = myFormulaToLaTeXString(math.getRightChild());
+            return "(" + leftStr + "^{" + rightStr + "})";
+        } else if (math.getType() == ASTNode.Type.RATIONAL) {
+            if (math.hasUnits()) {
+                return "\\frac{" + math.getNumerator() + "}{" + math.getDenominator() + "} \\text{" + math.getUnits() + "}";
+            }
+            return "\\frac{" + math.getNumerator() + "}{" + math.getDenominator() + "}";
+        } else if (math.getType() == ASTNode.Type.REAL) {
+            if (math.hasUnits()) {
+                return "" + math.getReal() + " \\text{" + math.getUnits() + "}";
+            }
+            return "" + math.getReal();
+        } else if (math.getType() == ASTNode.Type.REAL_E) {
+            if (math.hasUnits()) {
+                return math.getMantissa() + "E" + math.getExponent() + " \\text{" + math.getUnits() + "}";
+            }
+            return math.getMantissa() + "E" + math.getExponent();
+        } else if (math.getType() == ASTNode.Type.RELATIONAL_EQ) {
+            String leftStr = myFormulaToLaTeXString(math.getLeftChild());
+            String rightStr = myFormulaToLaTeXString(math.getRightChild());
+            return "(" + leftStr + " = " + rightStr + ")";
+        } else if (math.getType() == ASTNode.Type.RELATIONAL_GEQ) {
+            String leftStr = myFormulaToLaTeXString(math.getLeftChild());
+            String rightStr = myFormulaToLaTeXString(math.getRightChild());
+            return "(" + leftStr + " \\geq " + rightStr + ")";
+        } else if (math.getType() == ASTNode.Type.RELATIONAL_GT) {
+            String leftStr = myFormulaToLaTeXString(math.getLeftChild());
+            String rightStr = myFormulaToLaTeXString(math.getRightChild());
+            return "(" + leftStr + " > " + rightStr + ")";
+        } else if (math.getType() == ASTNode.Type.RELATIONAL_LEQ) {
+            String leftStr = myFormulaToLaTeXString(math.getLeftChild());
+            String rightStr = myFormulaToLaTeXString(math.getRightChild());
+            return "(" + leftStr + " \\leq " + rightStr + ")";
+        } else if (math.getType() == ASTNode.Type.RELATIONAL_LT) {
+            String leftStr = myFormulaToLaTeXString(math.getLeftChild());
+            String rightStr = myFormulaToLaTeXString(math.getRightChild());
+            return "(" + leftStr + " < " + rightStr + ")";
+        } else if (math.getType() == ASTNode.Type.RELATIONAL_NEQ) {
+            String leftStr = myFormulaToLaTeXString(math.getLeftChild());
+            String rightStr = myFormulaToLaTeXString(math.getRightChild());
+            return "(" + leftStr + " \\neq " + rightStr + ")";
+        } else if (math.getType() == ASTNode.Type.TIMES) {
+            String returnVal = "(";
+            boolean first = true;
+            for (int i = 0; i < math.getChildCount(); i++) {
+                if (first) {
+                    first = false;
+                } else {
+                    returnVal += " \\times ";
+                }
+                returnVal += myFormulaToLaTeXString(math.getChild(i));
+            }
+            returnVal += ")";
+            return returnVal;
+        } else if (math.getType() == ASTNode.Type.FUNCTION_SELECTOR) {
+            String returnVal = myFormulaToLaTeXString(math.getChild(0));
+            for (int i = 1; i < math.getChildCount(); i++) {
+                returnVal += "[" + myFormulaToLaTeXString(math.getChild(i)) + "]";
+            }
+            return returnVal;
+        } else if (math.getType() == ASTNode.Type.VECTOR) {
+            String returnVal = "[";
+            boolean first = true;
+            for (int i = 0; i < math.getChildCount(); i++) {
+                if (first) {
+                    first = false;
+                } else {
+                    returnVal += ", ";
+                }
+                returnVal += myFormulaToLaTeXString(math.getChild(i));
+            }
+            returnVal += "]";
+            return returnVal;
+        } else if (math.isOperator()) {
+            System.err.println("Operator " + math.getName() + " is not currently supported.");
+        } else {
+            System.err.println(math.getName() + " is not currently supported.");
+        }
+        return "";
     }
     
     private static String compileFormula(ASTNode tree) {

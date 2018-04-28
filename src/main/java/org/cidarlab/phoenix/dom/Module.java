@@ -109,6 +109,14 @@ public class Module {
         printTree(0);
     }
     
+    public void printIOCNames(){
+        for(Component c:this.components){
+            if(c.getIOCname() != null){
+                System.out.println(c.getName() + ":" + c.getIOCname()); 
+            }
+        }
+    }
+    
     public void setIOCNames(){
         int in = 0;
         int out = 0;
@@ -119,6 +127,7 @@ public class Module {
                 if(Controller.isPromoter(c)){
                     if(c.getInteractions().isEmpty()){
                         if(c.getRole().equals(ComponentRole.PROMOTER_CONSTITUTIVE)){
+                            //Shouldn't this be in_x++? 
                             
                         } else {
                             c.setIOCname("in" + in);

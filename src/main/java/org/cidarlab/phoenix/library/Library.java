@@ -349,4 +349,31 @@ public class Library {
         }
         return ComponentRole.WILDCARD ;
     }
+
+    public Map<URI,LibraryComponent> getAllLibraryComponents(){
+        Map<URI,LibraryComponent> all = new HashMap<URI,LibraryComponent>();
+        all.putAll(constitutivePromoters);
+        all.putAll(repressiblePromoters);
+        all.putAll(activatiblePromoters);
+        all.putAll(inputActPromoters);
+        all.putAll(inputRepPromoters);
+        all.putAll(repressorCDS);
+        all.putAll(activatorCDS);
+        all.putAll(outputCDS);
+        all.putAll(rbs);
+        all.putAll(terminators);
+        all.putAll(testers);
+        all.putAll(proteins);
+        all.putAll(inducers);
+        return all;
+    }
+    
+    public LibraryComponent fromURI(URI uri){
+        Map<URI,LibraryComponent> all = getAllLibraryComponents();
+        if(all.containsKey(uri)){
+            return all.get(uri);
+        }
+        return null;
+    }
+    
 }

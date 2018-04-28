@@ -34,6 +34,7 @@ import org.cidarlab.gridtli.dom.Signal;
 import org.cidarlab.gridtli.dom.TLIException;
 import org.cidarlab.gridtli.tli.Validation;
 import org.cidarlab.phoenix.core.CLI;
+import org.cidarlab.phoenix.dom.SMC;
 import org.cidarlab.phoenix.utils.Utilities;
 
 /**
@@ -298,7 +299,7 @@ public class STLAdaptor {
         }
     }
     
-    public static Map<String,Double> smc(TreeNode stl,String folderpath,boolean plot, int numofruns, double confidence) throws TLIException{
+    public static SMC smc(TreeNode stl,String folderpath,boolean plot, int numofruns, double confidence) throws TLIException{
         
         Map<String,List<Signal>> allsignals = new HashMap<String,List<Signal>>();
         int satisfycount = 0;
@@ -342,17 +343,18 @@ public class STLAdaptor {
         if(plot){
             for(String key:allsignals.keySet()){
                 String plotfp = folderpath + key + ".png";
-                Grid g = new Grid(allsignals.get(key));
+                Grid g = new Grid(allsignals.get(key),100,50);
                 JavaPlotAdaptor.plotToFile(JavaPlotAdaptor.plotGridwithoutCover(g), plotfp);
             }
         }
         double satisfy = ((double) satisfycount) / ((double) numofruns);
+        System.out.println("Satisfy count :: " + satisfycount);
+        System.out.println("Number of runs :: " + numofruns);
+        System.out.println("Confidence :: " + confidence);
         double error = computeError(satisfy, numofruns, confidence);
-        Map<String,Double> smc = new HashMap<String,Double>();
-        smc.put("perc", satisfy);
-        smc.put("error", error);
+        System.out.println("Error :: " + error);
+        SMC smc = new SMC(satisfy,error,allsignals);
         return smc;
-        
     }
     
     public static double getRobustness(TreeNode stl,String filepath, String result, boolean plot) throws TLIException{
@@ -367,7 +369,7 @@ public class STLAdaptor {
                 
                 List<Signal> signals = new ArrayList<>();
                 signals.add(s);
-                Grid g = new Grid(signals,10,10);
+                Grid g = new Grid(signals,100,50);
                 TreeNode stlnode = stlmap.get(key);
                 double val = getRobustness(stlnode, s);
                 //double val = signalRobustness(stlnode,s);
