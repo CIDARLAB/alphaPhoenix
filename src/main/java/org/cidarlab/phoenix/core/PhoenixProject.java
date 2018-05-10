@@ -338,11 +338,13 @@ public class PhoenixProject {
                             }
                             traceObj.put("x", xarr);
                             traceObj.put("y", yarr);
+                            traceObj.put("showlegend",traceCount == 0);
                             JSONObject lineobj = new JSONObject();
                             lineobj.put("color", "#2196F3AA");
                             traceObj.put("line", lineobj);
                             
                             tracesArr.put(traceObj);
+                            traceCount++;
                         }
                         
                     }
