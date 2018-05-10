@@ -968,7 +968,7 @@ public class SampleLibraryTest {
             }
             SBMLWriter writer = new SBMLWriter();
             writer.writeSBMLToFile(model, libfp + (param.getString("id")) + ".xml");
-            modelMap.put((param.getString("id")), (param.getString("id")) + ".xml");
+            modelMap.put((param.getString("id")), "file:" + (param.getString("id")) + ".xml");
         }
         return modelMap;
     }

@@ -584,11 +584,11 @@
     </sbol:interaction>
     <sbol:model rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437_Model/0.2"/>
   </sbol:ModuleDefinition>
-  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437_Model/0.2">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437_Model"/>
-    <sbol:displayId>pL2f1437_Model</sbol:displayId>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1435_Model/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1435_Model"/>
+    <sbol:displayId>pL2f1435_Model</sbol:displayId>
     <sbol:version>0.2</sbol:version>
-    <sbol:source rdf:resource="pL2f1437.xml"/>
+    <sbol:source rdf:resource="file:pL2f1435.xml"/>
     <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
     <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
   </sbol:Model>
@@ -596,47 +596,7 @@
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U017_Model"/>
     <sbol:displayId>P018U017_Model</sbol:displayId>
     <sbol:version>0.2</sbol:version>
-    <sbol:source rdf:resource="P018U017.xml"/>
-    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
-    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
-  </sbol:Model>
-  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxR_Model/0.2">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxR_Model"/>
-    <sbol:displayId>LuxR_Model</sbol:displayId>
-    <sbol:version>0.2</sbol:version>
-    <sbol:source rdf:resource="LuxR.xml"/>
-    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
-    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
-  </sbol:Model>
-  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1436_Model/0.2">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1436_Model"/>
-    <sbol:displayId>pL2f1436_Model</sbol:displayId>
-    <sbol:version>0.2</sbol:version>
-    <sbol:source rdf:resource="pL2f1436.xml"/>
-    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
-    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
-  </sbol:Model>
-  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U016_Model/0.2">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U016_Model"/>
-    <sbol:displayId>P018U016_Model</sbol:displayId>
-    <sbol:version>0.2</sbol:version>
-    <sbol:source rdf:resource="P018U016.xml"/>
-    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
-    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
-  </sbol:Model>
-  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1433_Model/0.2">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1433_Model"/>
-    <sbol:displayId>pL2f1433_Model</sbol:displayId>
-    <sbol:version>0.2</sbol:version>
-    <sbol:source rdf:resource="pL2f1433.xml"/>
-    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
-    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
-  </sbol:Model>
-  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U015_Model/0.2">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U015_Model"/>
-    <sbol:displayId>P018U015_Model</sbol:displayId>
-    <sbol:version>0.2</sbol:version>
-    <sbol:source rdf:resource="P018U015.xml"/>
+    <sbol:source rdf:resource="file:P018U017.xml"/>
     <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
     <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
   </sbol:Model>
@@ -644,23 +604,7 @@
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/GFP_Model"/>
     <sbol:displayId>GFP_Model</sbol:displayId>
     <sbol:version>0.2</sbol:version>
-    <sbol:source rdf:resource="GFP.xml"/>
-    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
-    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
-  </sbol:Model>
-  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1440_Model/0.2">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1440_Model"/>
-    <sbol:displayId>pL2f1440_Model</sbol:displayId>
-    <sbol:version>0.2</sbol:version>
-    <sbol:source rdf:resource="pL2f1440.xml"/>
-    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
-    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
-  </sbol:Model>
-  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1435_Model/0.2">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1435_Model"/>
-    <sbol:displayId>pL2f1435_Model</sbol:displayId>
-    <sbol:version>0.2</sbol:version>
-    <sbol:source rdf:resource="pL2f1435.xml"/>
+    <sbol:source rdf:resource="file:GFP.xml"/>
     <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
     <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
   </sbol:Model>
@@ -668,23 +612,7 @@
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1438_Model"/>
     <sbol:displayId>pL2f1438_Model</sbol:displayId>
     <sbol:version>0.2</sbol:version>
-    <sbol:source rdf:resource="pL2f1438.xml"/>
-    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
-    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
-  </sbol:Model>
-  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1439_Model/0.2">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1439_Model"/>
-    <sbol:displayId>pL2f1439_Model</sbol:displayId>
-    <sbol:version>0.2</sbol:version>
-    <sbol:source rdf:resource="pL2f1439.xml"/>
-    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
-    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
-  </sbol:Model>
-  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1434_Model/0.2">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1434_Model"/>
-    <sbol:displayId>pL2f1434_Model</sbol:displayId>
-    <sbol:version>0.2</sbol:version>
-    <sbol:source rdf:resource="pL2f1434.xml"/>
+    <sbol:source rdf:resource="file:pL2f1438.xml"/>
     <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
     <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
   </sbol:Model>
@@ -692,7 +620,79 @@
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U018_Model"/>
     <sbol:displayId>P018U018_Model</sbol:displayId>
     <sbol:version>0.2</sbol:version>
-    <sbol:source rdf:resource="P018U018.xml"/>
+    <sbol:source rdf:resource="file:P018U018.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1434_Model/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1434_Model"/>
+    <sbol:displayId>pL2f1434_Model</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:source rdf:resource="file:pL2f1434.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1439_Model/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1439_Model"/>
+    <sbol:displayId>pL2f1439_Model</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:source rdf:resource="file:pL2f1439.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1440_Model/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1440_Model"/>
+    <sbol:displayId>pL2f1440_Model</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:source rdf:resource="file:pL2f1440.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1433_Model/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1433_Model"/>
+    <sbol:displayId>pL2f1433_Model</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:source rdf:resource="file:pL2f1433.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U015_Model/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U015_Model"/>
+    <sbol:displayId>P018U015_Model</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:source rdf:resource="file:P018U015.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437_Model/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1437_Model"/>
+    <sbol:displayId>pL2f1437_Model</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:source rdf:resource="file:pL2f1437.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1436_Model/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/pL2f1436_Model"/>
+    <sbol:displayId>pL2f1436_Model</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:source rdf:resource="file:pL2f1436.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U016_Model/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/P018U016_Model"/>
+    <sbol:displayId>P018U016_Model</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:source rdf:resource="file:P018U016.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxR_Model/0.2">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/testedCircuits/contitutiveExpression/LuxR_Model"/>
+    <sbol:displayId>LuxR_Model</sbol:displayId>
+    <sbol:version>0.2</sbol:version>
+    <sbol:source rdf:resource="file:LuxR.xml"/>
     <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
     <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
   </sbol:Model>

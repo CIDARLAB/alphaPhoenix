@@ -196,8 +196,8 @@ public class PhoenixProjectTest {
                 errSatCount = 0.0;
                 for (int i = 0; i < assignments.size(); i++) {
                     Map<String, CandidateComponent> assignment = assignments.get(i);
-                    Controller.assignLeafModels(PhoenixMode.MM, test, proj.getJobId(), sbol, assignment);
-                    Controller.composeModels(PhoenixMode.MM, test, proj.getJobId(), assignment);
+                    Controller.assignLeafModels(test, proj.getJobId(), sbol, assignment);
+                    Controller.composeModels(test, proj.getJobId(), assignment);
 
                     String model = Utilities.getResultsFilepath() + proj.getJobId() + Utilities.getSeparater() + "results" + Utilities.getSeparater();
                     Utilities.makeDirectory(model);
@@ -320,8 +320,8 @@ public class PhoenixProjectTest {
 //                System.out.println("");
             
                 
-                Controller.assignLeafModels(PhoenixMode.MM, test, proj.getJobId(), sbol, assignment);
-                Controller.composeModels(PhoenixMode.MM, test, proj.getJobId(), assignment);
+                Controller.assignLeafModels(test, proj.getJobId(), sbol, assignment);
+                Controller.composeModels(test, proj.getJobId(), assignment);
 
                 String model = Utilities.getResultsFilepath() + proj.getJobId() + Utilities.getSeparater() + "results" + Utilities.getSeparater();
                 Utilities.makeDirectory(model);
@@ -486,8 +486,8 @@ public class PhoenixProjectTest {
                 System.out.println("");
             
 
-                Controller.assignLeafModels(PhoenixMode.MM, test, proj.getJobId(), sbol, assignment);
-                Controller.composeModels(PhoenixMode.MM, test, proj.getJobId(), assignment);
+                Controller.assignLeafModels(test, proj.getJobId(), sbol, assignment);
+                Controller.composeModels(test, proj.getJobId(), assignment);
 
                 String model = Utilities.getResultsFilepath() + proj.getJobId() + Utilities.getSeparater() + "results" + Utilities.getSeparater();
                 Utilities.makeDirectory(model);

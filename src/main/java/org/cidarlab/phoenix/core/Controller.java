@@ -827,83 +827,37 @@ public class Controller {
     }
     //</editor-fold>
     
-    public static void assignLeafModels(PhoenixMode mode, Module root, String jobfp, SBOLDocument doc, Map<String, CandidateComponent> assignment) {
-        switch (mode) {
-            case BIOCPS:
-                break;
-            case MM:
-                assignPartLeafModels(root, jobfp, doc, assignment);
-                renameSpecies(root);
-                break;
-            default:
-                break;
+    public static void assignLeafModels(Module root, String jobfp, SBOLDocument doc, Map<String, CandidateComponent> assignment) {
+        
+        assignPartLeafModels(root, jobfp, doc, assignment);
+        renameSpecies(root);
 
-        }
     }
     
     public static void renameSpecies(Module root){
-        SBMLWriter swriter = new SBMLWriter();
-        int tucount = 0;
         for(Module tu:root.getChildren()){
-            System.out.println("Starting TU " + tucount++);
             Module promModule = tu.getChildren().get(0);
             Module cdsModule = tu.getChildren().get(1);
-            
             Component prom = promModule.getComponents().get(0);
             Component cds = cdsModule.getComponents().get(0);
             if(prom.getRole().equals(ComponentRole.PROMOTER_CONSTITUTIVE)){
-                System.out.println("Constitutive Promoter Rewrite :: ");
                 SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "out", cds.getIOCname());
-                try {
-                    System.out.println(swriter.writeSBMLToString(promModule.getModel().getSbml()));
-                } catch (XMLStreamException | SBMLException ex) {
-                    Logger.getLogger(SBMLAdaptor.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
             } else {
-                System.out.println("Inducible Promoter Rewrite :: ");
-                
                 if(promModule.getModel().getSbml().getModel().containsSpecies("ind")){
                     SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "ind", "ind_" + prom.getIOCname());
                 }
-                
                 SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "conn", prom.getIOCname());
                 SBMLAdaptor.renameSpecies(promModule.getModel().getSbml(), "out", cds.getIOCname());
-                
-                try {
-                    System.out.println(swriter.writeSBMLToString(promModule.getModel().getSbml()));
-                } catch (XMLStreamException | SBMLException ex) {
-                    Logger.getLogger(SBMLAdaptor.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            
             }
             if(cds.getInteractions().isEmpty()){
                 //Output CDS
-                System.out.println("Reporter CDS Rewrite :: ");
-                
                 SBMLAdaptor.renameSpecies(cdsModule.getModel().getSbml(), "out", cds.getIOCname());
-                
-                try {
-                    System.out.println(swriter.writeSBMLToString(cdsModule.getModel().getSbml()));
-                } catch (XMLStreamException | SBMLException ex) {
-                    Logger.getLogger(SBMLAdaptor.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
-            } else {
+                } else {
                 //Connector CDS
-                System.out.println("Connector CDS Rewrite :: ");
-                
                 SBMLAdaptor.renameSpecies(cdsModule.getModel().getSbml(), "conn", cds.getIOCname());
-                
-                try {
-                    System.out.println(swriter.writeSBMLToString(cdsModule.getModel().getSbml()));
-                } catch (XMLStreamException | SBMLException ex) {
-                    Logger.getLogger(SBMLAdaptor.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
             }
         }
-        System.out.println("Done with renaming Species. :) ");
-        
     }
     
     public static void assignPartLeafModels(Module root, String jobfp, SBOLDocument doc, Map<String, CandidateComponent> assignment) {
@@ -944,16 +898,8 @@ public class Controller {
         
     }
 
-    public static void composeModels(PhoenixMode mode, Module root, String jobfp, Map<String, CandidateComponent> assignment) {
-        switch (mode) {
-            case BIOCPS:
-                break;
-            case MM:
-                composePartModels(root, jobfp, assignment);
-                break;
-            default:
-                break;
-        }
+    public static void composeModels(Module root, String jobfp, Map<String, CandidateComponent> assignment) {
+        composePartModels(root, jobfp, assignment);
     }
 
     private static void composePartModels(Module root, String jobfp, Map<String, CandidateComponent> assignment) {

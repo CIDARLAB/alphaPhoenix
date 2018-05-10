@@ -267,8 +267,8 @@ public class PhoenixProject {
                 Utilities.makeDirectory(assignmentfp);
                 
                 Map<String, CandidateComponent> assignment = assignments.get(i);
-                Controller.assignLeafModels(PhoenixMode.MM, decomposedModule, assignmentfp, sbol, assignment);
-                Controller.composeModels(PhoenixMode.MM, decomposedModule, assignmentfp, assignment);
+                Controller.assignLeafModels(decomposedModule, assignmentfp, sbol, assignment);
+                Controller.composeModels(decomposedModule, assignmentfp, assignment);
                 
                 
                 String modelFile;
@@ -321,7 +321,7 @@ public class PhoenixProject {
                     
                     JSONArray tracesArr = new JSONArray();
                     
-                    int traceCount = 0;
+                    //int traceCount = 0;
                     for(String signalkey:smc.getSimulations().keySet()){
                         
                         for(Signal sig:smc.getSimulations().get(signalkey)){
@@ -356,7 +356,7 @@ public class PhoenixProject {
 
         }
         
-        System.out.println(results.toString());
+        //System.out.println(results.toString());
         Utilities.writeToFile(jobfp + "results.json", results.toString());
 
     }
@@ -475,8 +475,8 @@ public class PhoenixProject {
             for (int i = 0; i < assignments.size(); i++) {
                 Map<String, CandidateComponent> assignment = assignments.get(i);
 
-                Controller.assignLeafModels(PhoenixMode.MM, decomposedModule, jobid, sbol, assignment);
-                Controller.composeModels(PhoenixMode.MM, decomposedModule, jobid, assignment);
+                Controller.assignLeafModels(decomposedModule, jobid, sbol, assignment);
+                Controller.composeModels(decomposedModule, jobid, assignment);
                 String jobresultsfp;
                 jobresultsfp = jobfp + "results" + Utilities.getSeparater();
                 if (!Utilities.validFilepath(jobresultsfp)) {
@@ -801,6 +801,7 @@ public class PhoenixProject {
     }
 
     //</editor-fold>
+    
     public static enum Simulation {
 
         DETERMINISTIC,

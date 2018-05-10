@@ -311,9 +311,9 @@ public class DnaPlotlibAdaptor {
         scr += "'type': ";
         
         if(type == InteractionType.INDUCES)
-            scr += "'Repression',"; 
+            scr += "'Activation',"; 
         else 
-            scr += "'Activation',";
+            scr += "'Repression',";
         
         scr += "'from_part':" + from + ", 'to_part':" + to + ", 'opts':{'color':(0.0,0.0,0.0), 'linewidth':lw";  
         if(arcHeight > 0){
@@ -321,8 +321,6 @@ public class DnaPlotlibAdaptor {
         } else {
             scr += "}}";
         }
-        
-        
         
         return scr;
     }
