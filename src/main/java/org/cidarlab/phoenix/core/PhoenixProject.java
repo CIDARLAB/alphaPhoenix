@@ -321,7 +321,7 @@ public class PhoenixProject {
                     
                     JSONArray tracesArr = new JSONArray();
                     
-                    //int traceCount = 0;
+                    int traceCount = 0;
                     for(String signalkey:smc.getSimulations().keySet()){
                         
                         for(Signal sig:smc.getSimulations().get(signalkey)){
@@ -338,11 +338,13 @@ public class PhoenixProject {
                             }
                             traceObj.put("x", xarr);
                             traceObj.put("y", yarr);
+                            traceObj.put("showlegend",traceCount == 0);
                             JSONObject lineobj = new JSONObject();
                             lineobj.put("color", "#2196F3AA");
                             traceObj.put("line", lineobj);
                             
                             tracesArr.put(traceObj);
+                            traceCount++;
                         }
                         
                     }
