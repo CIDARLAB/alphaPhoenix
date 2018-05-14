@@ -144,8 +144,19 @@ public class Utilities {
         return fp;
     }
     
+    
+    public static String getLibFilepath(){
+        String fp = getFilepath() + getSeparater() + "lib" + getSeparater() ;
+        if(!validFilepath(fp)){
+            makeDirectory(fp);
+            System.out.println("Created a Lib folder at : " + fp);
+        }
+        return fp;
+    }
+    
+    
     public static String getDnaFiguresFilepath(){
-        String fp = getFilepath() + getSeparater() + "lib" + getSeparater() + "dnaFigures" + getSeparater();
+        String fp = getLibFilepath() + "dnaFigures" + getSeparater();
         if(!validFilepath(fp)){
             makeDirectory(fp);
             System.out.println("Created a DNA Figures folder at : " + fp);
@@ -171,6 +182,16 @@ public class Utilities {
         }
         return fp;
     }
+    
+    public static String getTestedCircuitsFilepath(){
+        String fp = getLibFilepath() + "examples" + Utilities.getSeparater() + "tested_circuits" + Utilities.getSeparater();
+        if(!validFilepath(fp)){
+            makeDirectory(fp);
+            System.out.println("Created a Lib folder at : " + fp);
+        }
+        return fp;
+    }
+    
     
     //</editor-fold>
     

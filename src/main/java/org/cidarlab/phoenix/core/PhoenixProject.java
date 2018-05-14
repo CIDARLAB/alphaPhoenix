@@ -321,7 +321,7 @@ public class PhoenixProject {
                     
                     JSONArray tracesArr = new JSONArray();
                     
-                    //int traceCount = 0;
+                    int traceCount = 0;
                     for(String signalkey:smc.getSimulations().keySet()){
                         
                         for(Signal sig:smc.getSimulations().get(signalkey)){
