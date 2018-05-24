@@ -5,6 +5,9 @@
  */
 package org.cidarlab.phoenix.adaptors;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -29,6 +32,12 @@ import org.sbolstandard.core2.SequenceAnnotation;
  * @author prash
  */
 public class SBOLAdaptor {
+    
+    public static void convertSBOLToGenbank(SBOLDocument sbol, String filepath) throws FileNotFoundException, SBOLConversionException, IOException {
+        FileOutputStream out =  new FileOutputStream(new File(filepath));
+        SBOLWriter.write(sbol, out, SBOLDocument.GENBANK);
+        out.close();
+    }
     
     public static void writeCircuitSBOL(Module m, Map<String,CandidateComponent> assignment, String filepath, String jobid, int assignmentindex){
         try {
