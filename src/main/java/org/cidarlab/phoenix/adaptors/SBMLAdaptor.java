@@ -592,8 +592,8 @@ public class SBMLAdaptor {
     private static Reaction createInducibleActivatableExpressionReaction(Species activator, Species inducer, Species expressed, Model mod) {
         Reaction inducibleActivatableExpression = createRatelessInducibleActivatableExpressionReaction(activator, inducer, expressed, mod);
         KineticLaw inducibleActivatableExpressionLaw = inducibleActivatableExpression.createKineticLaw();
-        LocalParameter basalExpressionRate = inducibleActivatableExpressionLaw.createLocalParameter("basal");
-        basalExpressionRate.setName("basal");
+        LocalParameter basalExpressionRate = inducibleActivatableExpressionLaw.createLocalParameter("basal_rate");
+        basalExpressionRate.setName("basal_rate");
         basalExpressionRate.setValue(1.0);
         LocalParameter maxBasalExpressionRate = inducibleActivatableExpressionLaw.createLocalParameter("max_basal");
         maxBasalExpressionRate.setName("max_basal");
