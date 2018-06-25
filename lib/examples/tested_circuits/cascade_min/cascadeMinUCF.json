@@ -28,6 +28,12 @@
             "type":"connector"
         },
         {
+            "id":"Garbage",
+            "k_loss":0.008,
+            "part":"cds",
+            "type":"connector"
+        },
+        {
             "id":"LasR",
             "k_loss":0.008,
             "part":"cds",
@@ -45,6 +51,15 @@
             "id":"pTet_RBS30",
             "max_rate":5,
             "n":2,
+            "part":"promoter",
+            "type":"repressed"
+        },
+        {
+            "K_d":20,
+            "basal_rate":0.00001,
+            "id":"pGarbage_RBS30",
+            "max_rate":0.00002,
+            "n":100,
             "part":"promoter",
             "type":"repressed"
         },
@@ -149,6 +164,13 @@
             "parts" : [
                 "TetR",
                 "pTet_RBS30"
+            ], 
+            "interaction" : "repression"
+        },
+        {
+            "parts" : [
+                "Garbage",
+                "pGarbage_RBS30"
             ], 
             "interaction" : "repression"
         }

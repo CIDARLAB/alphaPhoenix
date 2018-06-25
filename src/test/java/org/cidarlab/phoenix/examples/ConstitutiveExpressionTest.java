@@ -39,7 +39,7 @@ public class ConstitutiveExpressionTest {
         Integer eugNumSolutions = null;
         String stlfp = stlFilepath;
         String libraryfp = libFilepath;
-        Simulation simulation = PhoenixProject.Simulation.DETERMINISTIC;
+        Simulation simulation = PhoenixProject.Simulation.STOCHASTIC;
         int runCount = 100;
         double confidence = 0.0;
         double threshold = 0.0;

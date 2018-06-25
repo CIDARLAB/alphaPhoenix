@@ -58,18 +58,6 @@ public class SBOLAdaptor {
     private static final String constitutivePromSO = so + "SO:0002050";
     private static final String rbsSO = so + "SO:0000139";
     
-    
-
-    private static final String inhibitionSO = sbo + "SBO:0000169";
-    private static final String inhibitorSO = sbo + "SBO:0000020";
-    private static final String inhibitedSO = sbo + "SBO:0000642";
-
-    private static final String stimulationSO = sbo + "SBO:0000170";
-    private static final String stimulatorSO = sbo + "SBO:0000459";
-    private static final String stimulatedSO = sbo + "SBO:0000643";
-
-    private static final String inducerSO = "http://www.biopax.org/release/biopax-level3.owl#SmallMolecule";
-    
     private static final String sbmlO = "http://identifiers.org/edam/format_2585";
     private static final String frameworkSBO = "http://www.ebi.ac.uk/sbo/main/SBO:0000062";
     

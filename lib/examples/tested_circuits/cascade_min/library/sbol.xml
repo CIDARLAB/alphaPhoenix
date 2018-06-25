@@ -1,15 +1,205 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sbol="http://sbols.org/v2#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:prov="http://www.w3.org/ns/prov#">
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/library/Garbage_Protein_pGarbage_RBS30_ModuleDefinition/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/Garbage_Protein_pGarbage_RBS30_ModuleDefinition"/>
+    <sbol:displayId>Garbage_Protein_pGarbage_RBS30_ModuleDefinition</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/Garbage_Protein_pGarbage_RBS30_ModuleDefinition/pGarbage_RBS30/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/Garbage_Protein_pGarbage_RBS30_ModuleDefinition/pGarbage_RBS30"/>
+        <sbol:displayId>pGarbage_RBS30</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/pGarbage_RBS30/0.3"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/Garbage_Protein_pGarbage_RBS30_ModuleDefinition/Garbage_Protein/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/Garbage_Protein_pGarbage_RBS30_ModuleDefinition/Garbage_Protein"/>
+        <sbol:displayId>Garbage_Protein</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/Garbage_Protein/0.3"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/library/Garbage_Protein_pGarbage_RBS30_ModuleDefinition/Garbage_Protein_pGarbage_RBS30_Inhibition/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/Garbage_Protein_pGarbage_RBS30_ModuleDefinition/Garbage_Protein_pGarbage_RBS30_Inhibition"/>
+        <sbol:displayId>Garbage_Protein_pGarbage_RBS30_Inhibition</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000169"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/library/Garbage_Protein_pGarbage_RBS30_ModuleDefinition/Garbage_Protein_pGarbage_RBS30_Inhibition/Garbage_Protein_inhibitor/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/Garbage_Protein_pGarbage_RBS30_ModuleDefinition/Garbage_Protein_pGarbage_RBS30_Inhibition/Garbage_Protein_inhibitor"/>
+            <sbol:displayId>Garbage_Protein_inhibitor</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000020"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/library/Garbage_Protein_pGarbage_RBS30_ModuleDefinition/Garbage_Protein/0.3"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/library/Garbage_Protein_pGarbage_RBS30_ModuleDefinition/Garbage_Protein_pGarbage_RBS30_Inhibition/pGarbage_RBS30_inhibited/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/Garbage_Protein_pGarbage_RBS30_ModuleDefinition/Garbage_Protein_pGarbage_RBS30_Inhibition/pGarbage_RBS30_inhibited"/>
+            <sbol:displayId>pGarbage_RBS30_inhibited</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000642"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/library/Garbage_Protein_pGarbage_RBS30_ModuleDefinition/pGarbage_RBS30/0.3"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="http://www.phoenix.org/library/pGarbage_RBS30_Model/0.3"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition"/>
+    <sbol:displayId>las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/las_AHL_LasR_Protein_Compelx/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/las_AHL_LasR_Protein_Compelx"/>
+        <sbol:displayId>las_AHL_LasR_Protein_Compelx</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_Complex/0.3"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/pLas_RBS30/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/pLas_RBS30"/>
+        <sbol:displayId>pLas_RBS30</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/pLas_RBS30/0.3"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/las_AHL_LasR_Protein_Compelx_pLas_RBS30_Stimulation/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/las_AHL_LasR_Protein_Compelx_pLas_RBS30_Stimulation"/>
+        <sbol:displayId>las_AHL_LasR_Protein_Compelx_pLas_RBS30_Stimulation</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/las_AHL_LasR_Protein_Compelx_pLas_RBS30_Stimulation/las_AHL_LasR_Protein_Compelx_stimulator/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/las_AHL_LasR_Protein_Compelx_pLas_RBS30_Stimulation/las_AHL_LasR_Protein_Compelx_stimulator"/>
+            <sbol:displayId>las_AHL_LasR_Protein_Compelx_stimulator</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000459"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/las_AHL_LasR_Protein_Compelx/0.3"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/las_AHL_LasR_Protein_Compelx_pLas_RBS30_Stimulation/pLas_RBS30_stimulated/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/las_AHL_LasR_Protein_Compelx_pLas_RBS30_Stimulation/pLas_RBS30_stimulated"/>
+            <sbol:displayId>pLas_RBS30_stimulated</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000643"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/pLas_RBS30/0.3"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="http://www.phoenix.org/library/pLas_RBS30_Model/0.3"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition"/>
+    <sbol:displayId>las_AHL_LasR_Protein_complex_ModuleDefinition</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/LasR_Protein/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/LasR_Protein"/>
+        <sbol:displayId>LasR_Protein</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/LasR_Protein/0.3"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#none"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL_LasR_Protein_Complex/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL_LasR_Protein_Complex"/>
+        <sbol:displayId>las_AHL_LasR_Protein_Complex</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_Complex/0.3"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#none"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL"/>
+        <sbol:displayId>las_AHL</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/las_AHL/0.3"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#none"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL_LasR_Protein_complex_formation/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL_LasR_Protein_complex_formation"/>
+        <sbol:displayId>las_AHL_LasR_Protein_complex_formation</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000177"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL_LasR_Protein_complex_formation/las_AHL/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL_LasR_Protein_complex_formation/las_AHL"/>
+            <sbol:displayId>las_AHL</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000010"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL/0.3"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL_LasR_Protein_complex_formation/LasR_Protein/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL_LasR_Protein_complex_formation/LasR_Protein"/>
+            <sbol:displayId>LasR_Protein</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000010"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/LasR_Protein/0.3"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL_LasR_Protein_complex_formation/las_AHL_LasR_Protein_Complex/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL_LasR_Protein_complex_formation/las_AHL_LasR_Protein_Complex"/>
+            <sbol:displayId>las_AHL_LasR_Protein_Complex</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000011"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL_LasR_Protein_Complex/0.3"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/library/placIq_RBS30_ModuleDefinition/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/placIq_RBS30_ModuleDefinition"/>
+    <sbol:displayId>placIq_RBS30_ModuleDefinition</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/placIq_RBS30_ModuleDefinition/placIq_RBS30/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/placIq_RBS30_ModuleDefinition/placIq_RBS30"/>
+        <sbol:displayId>placIq_RBS30</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/placIq_RBS30/0.3"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:model rdf:resource="http://www.phoenix.org/library/placIq_RBS30_Model/0.3"/>
+  </sbol:ModuleDefinition>
   <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_complex_ModuleDefinition/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_complex_ModuleDefinition"/>
     <sbol:displayId>rhl_AHL_LasR_Protein_complex_ModuleDefinition</sbol:displayId>
     <sbol:version>0.3</sbol:version>
     <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_complex_ModuleDefinition/LasR_Protein/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_complex_ModuleDefinition/LasR_Protein"/>
-        <sbol:displayId>LasR_Protein</sbol:displayId>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_complex_ModuleDefinition/rhl_AHL_LasR_Protein_Complex/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_complex_ModuleDefinition/rhl_AHL_LasR_Protein_Complex"/>
+        <sbol:displayId>rhl_AHL_LasR_Protein_Complex</sbol:displayId>
         <sbol:version>0.3</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/LasR_Protein/0.3"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Complex/0.3"/>
         <sbol:access rdf:resource="http://sbols.org/v2#private"/>
         <sbol:direction rdf:resource="http://sbols.org/v2#none"/>
       </sbol:FunctionalComponent>
@@ -25,11 +215,11 @@
       </sbol:FunctionalComponent>
     </sbol:functionalComponent>
     <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_complex_ModuleDefinition/rhl_AHL_LasR_Protein_Complex/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_complex_ModuleDefinition/rhl_AHL_LasR_Protein_Complex"/>
-        <sbol:displayId>rhl_AHL_LasR_Protein_Complex</sbol:displayId>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_complex_ModuleDefinition/LasR_Protein/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_complex_ModuleDefinition/LasR_Protein"/>
+        <sbol:displayId>LasR_Protein</sbol:displayId>
         <sbol:version>0.3</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Complex/0.3"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/LasR_Protein/0.3"/>
         <sbol:access rdf:resource="http://sbols.org/v2#private"/>
         <sbol:direction rdf:resource="http://sbols.org/v2#none"/>
       </sbol:FunctionalComponent>
@@ -70,62 +260,72 @@
       </sbol:Interaction>
     </sbol:interaction>
   </sbol:ModuleDefinition>
-  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition"/>
-    <sbol:displayId>TetR_Protein_pTet_RBS30_ModuleDefinition</sbol:displayId>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition"/>
+    <sbol:displayId>arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition</sbol:displayId>
     <sbol:version>0.3</sbol:version>
     <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/pTet_RBS30/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/pTet_RBS30"/>
-        <sbol:displayId>pTet_RBS30</sbol:displayId>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/arabinose_AraC_Protein_Compelx/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/arabinose_AraC_Protein_Compelx"/>
+        <sbol:displayId>arabinose_AraC_Protein_Compelx</sbol:displayId>
         <sbol:version>0.3</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/pTet_RBS30/0.3"/>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
-      </sbol:FunctionalComponent>
-    </sbol:functionalComponent>
-    <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/TetR_Protein/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/TetR_Protein"/>
-        <sbol:displayId>TetR_Protein</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/TetR_Protein/0.3"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/arabinose_AraC_Protein_Complex/0.3"/>
         <sbol:access rdf:resource="http://sbols.org/v2#private"/>
         <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
       </sbol:FunctionalComponent>
     </sbol:functionalComponent>
-    <sbol:interaction>
-      <sbol:Interaction rdf:about="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/TetR_Protein_pTet_RBS30_Inhibition/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/TetR_Protein_pTet_RBS30_Inhibition"/>
-        <sbol:displayId>TetR_Protein_pTet_RBS30_Inhibition</sbol:displayId>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/pBAD_RBS30/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/pBAD_RBS30"/>
+        <sbol:displayId>pBAD_RBS30</sbol:displayId>
         <sbol:version>0.3</sbol:version>
-        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000169"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/pBAD_RBS30/0.3"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/arabinose_AraC_Protein_Compelx_pBAD_RBS30_Stimulation/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/arabinose_AraC_Protein_Compelx_pBAD_RBS30_Stimulation"/>
+        <sbol:displayId>arabinose_AraC_Protein_Compelx_pBAD_RBS30_Stimulation</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
         <sbol:participation>
-          <sbol:Participation rdf:about="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/TetR_Protein_pTet_RBS30_Inhibition/TetR_Protein_inhibitor/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/TetR_Protein_pTet_RBS30_Inhibition/TetR_Protein_inhibitor"/>
-            <sbol:displayId>TetR_Protein_inhibitor</sbol:displayId>
+          <sbol:Participation rdf:about="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/arabinose_AraC_Protein_Compelx_pBAD_RBS30_Stimulation/pBAD_RBS30_stimulated/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/arabinose_AraC_Protein_Compelx_pBAD_RBS30_Stimulation/pBAD_RBS30_stimulated"/>
+            <sbol:displayId>pBAD_RBS30_stimulated</sbol:displayId>
             <sbol:version>0.3</sbol:version>
-            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000020"/>
-            <sbol:participant rdf:resource="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/TetR_Protein/0.3"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000643"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/pBAD_RBS30/0.3"/>
           </sbol:Participation>
         </sbol:participation>
         <sbol:participation>
-          <sbol:Participation rdf:about="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/TetR_Protein_pTet_RBS30_Inhibition/pTet_RBS30_inhibited/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/TetR_Protein_pTet_RBS30_Inhibition/pTet_RBS30_inhibited"/>
-            <sbol:displayId>pTet_RBS30_inhibited</sbol:displayId>
+          <sbol:Participation rdf:about="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/arabinose_AraC_Protein_Compelx_pBAD_RBS30_Stimulation/arabinose_AraC_Protein_Compelx_stimulator/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/arabinose_AraC_Protein_Compelx_pBAD_RBS30_Stimulation/arabinose_AraC_Protein_Compelx_stimulator"/>
+            <sbol:displayId>arabinose_AraC_Protein_Compelx_stimulator</sbol:displayId>
             <sbol:version>0.3</sbol:version>
-            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000642"/>
-            <sbol:participant rdf:resource="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/pTet_RBS30/0.3"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000459"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/arabinose_AraC_Protein_Compelx/0.3"/>
           </sbol:Participation>
         </sbol:participation>
       </sbol:Interaction>
     </sbol:interaction>
-    <sbol:model rdf:resource="http://www.phoenix.org/library/pTet_RBS30_Model/0.3"/>
+    <sbol:model rdf:resource="http://www.phoenix.org/library/pBAD_RBS30_Model/0.3"/>
   </sbol:ModuleDefinition>
   <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/library/arabinose_AraC_Protein_complex_ModuleDefinition/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/arabinose_AraC_Protein_complex_ModuleDefinition"/>
     <sbol:displayId>arabinose_AraC_Protein_complex_ModuleDefinition</sbol:displayId>
     <sbol:version>0.3</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/arabinose_AraC_Protein_complex_ModuleDefinition/arabinose_AraC_Protein_Complex/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/arabinose_AraC_Protein_complex_ModuleDefinition/arabinose_AraC_Protein_Complex"/>
+        <sbol:displayId>arabinose_AraC_Protein_Complex</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/arabinose_AraC_Protein_Complex/0.3"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#none"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
     <sbol:functionalComponent>
       <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/arabinose_AraC_Protein_complex_ModuleDefinition/arabinose/0.3">
         <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/arabinose_AraC_Protein_complex_ModuleDefinition/arabinose"/>
@@ -142,16 +342,6 @@
         <sbol:displayId>AraC_Protein</sbol:displayId>
         <sbol:version>0.3</sbol:version>
         <sbol:definition rdf:resource="http://www.phoenix.org/library/AraC_Protein/0.3"/>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:direction rdf:resource="http://sbols.org/v2#none"/>
-      </sbol:FunctionalComponent>
-    </sbol:functionalComponent>
-    <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/arabinose_AraC_Protein_complex_ModuleDefinition/arabinose_AraC_Protein_Complex/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/arabinose_AraC_Protein_complex_ModuleDefinition/arabinose_AraC_Protein_Complex"/>
-        <sbol:displayId>arabinose_AraC_Protein_Complex</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/arabinose_AraC_Protein_Complex/0.3"/>
         <sbol:access rdf:resource="http://sbols.org/v2#private"/>
         <sbol:direction rdf:resource="http://sbols.org/v2#none"/>
       </sbol:FunctionalComponent>
@@ -198,16 +388,6 @@
     <sbol:version>0.3</sbol:version>
     <dcterms:title>GFP Protein Production</dcterms:title>
     <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/GFP_protein_production/GFP_Protein/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/GFP_protein_production/GFP_Protein"/>
-        <sbol:displayId>GFP_Protein</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/GFP_Protein/0.3"/>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
-      </sbol:FunctionalComponent>
-    </sbol:functionalComponent>
-    <sbol:functionalComponent>
       <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/GFP_protein_production/GFP/0.3">
         <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/GFP_protein_production/GFP"/>
         <sbol:displayId>GFP</sbol:displayId>
@@ -215,6 +395,16 @@
         <sbol:definition rdf:resource="http://www.phoenix.org/library/GFP/0.3"/>
         <sbol:access rdf:resource="http://sbols.org/v2#private"/>
         <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/GFP_protein_production/GFP_Protein/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/GFP_protein_production/GFP_Protein"/>
+        <sbol:displayId>GFP_Protein</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/GFP_Protein/0.3"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
       </sbol:FunctionalComponent>
     </sbol:functionalComponent>
     <sbol:interaction>
@@ -298,162 +488,6 @@
     </sbol:interaction>
     <sbol:model rdf:resource="http://www.phoenix.org/library/TetR_Model/0.3"/>
   </sbol:ModuleDefinition>
-  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition"/>
-    <sbol:displayId>las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/pLas_RBS30/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/pLas_RBS30"/>
-        <sbol:displayId>pLas_RBS30</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/pLas_RBS30/0.3"/>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
-      </sbol:FunctionalComponent>
-    </sbol:functionalComponent>
-    <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/las_AHL_LasR_Protein_Compelx/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/las_AHL_LasR_Protein_Compelx"/>
-        <sbol:displayId>las_AHL_LasR_Protein_Compelx</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_Complex/0.3"/>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
-      </sbol:FunctionalComponent>
-    </sbol:functionalComponent>
-    <sbol:interaction>
-      <sbol:Interaction rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/las_AHL_LasR_Protein_Compelx_pLas_RBS30_Stimulation/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/las_AHL_LasR_Protein_Compelx_pLas_RBS30_Stimulation"/>
-        <sbol:displayId>las_AHL_LasR_Protein_Compelx_pLas_RBS30_Stimulation</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
-        <sbol:participation>
-          <sbol:Participation rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/las_AHL_LasR_Protein_Compelx_pLas_RBS30_Stimulation/las_AHL_LasR_Protein_Compelx_stimulator/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/las_AHL_LasR_Protein_Compelx_pLas_RBS30_Stimulation/las_AHL_LasR_Protein_Compelx_stimulator"/>
-            <sbol:displayId>las_AHL_LasR_Protein_Compelx_stimulator</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000459"/>
-            <sbol:participant rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/las_AHL_LasR_Protein_Compelx/0.3"/>
-          </sbol:Participation>
-        </sbol:participation>
-        <sbol:participation>
-          <sbol:Participation rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/las_AHL_LasR_Protein_Compelx_pLas_RBS30_Stimulation/pLas_RBS30_stimulated/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/las_AHL_LasR_Protein_Compelx_pLas_RBS30_Stimulation/pLas_RBS30_stimulated"/>
-            <sbol:displayId>pLas_RBS30_stimulated</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000643"/>
-            <sbol:participant rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_Compelx_pLas_RBS30_ModuleDefinition/pLas_RBS30/0.3"/>
-          </sbol:Participation>
-        </sbol:participation>
-      </sbol:Interaction>
-    </sbol:interaction>
-    <sbol:model rdf:resource="http://www.phoenix.org/library/pLas_RBS30_Model/0.3"/>
-  </sbol:ModuleDefinition>
-  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition"/>
-    <sbol:displayId>arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/pBAD_RBS30/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/pBAD_RBS30"/>
-        <sbol:displayId>pBAD_RBS30</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/pBAD_RBS30/0.3"/>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
-      </sbol:FunctionalComponent>
-    </sbol:functionalComponent>
-    <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/arabinose_AraC_Protein_Compelx/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/arabinose_AraC_Protein_Compelx"/>
-        <sbol:displayId>arabinose_AraC_Protein_Compelx</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/arabinose_AraC_Protein_Complex/0.3"/>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
-      </sbol:FunctionalComponent>
-    </sbol:functionalComponent>
-    <sbol:interaction>
-      <sbol:Interaction rdf:about="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/arabinose_AraC_Protein_Compelx_pBAD_RBS30_Stimulation/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/arabinose_AraC_Protein_Compelx_pBAD_RBS30_Stimulation"/>
-        <sbol:displayId>arabinose_AraC_Protein_Compelx_pBAD_RBS30_Stimulation</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
-        <sbol:participation>
-          <sbol:Participation rdf:about="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/arabinose_AraC_Protein_Compelx_pBAD_RBS30_Stimulation/pBAD_RBS30_stimulated/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/arabinose_AraC_Protein_Compelx_pBAD_RBS30_Stimulation/pBAD_RBS30_stimulated"/>
-            <sbol:displayId>pBAD_RBS30_stimulated</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000643"/>
-            <sbol:participant rdf:resource="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/pBAD_RBS30/0.3"/>
-          </sbol:Participation>
-        </sbol:participation>
-        <sbol:participation>
-          <sbol:Participation rdf:about="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/arabinose_AraC_Protein_Compelx_pBAD_RBS30_Stimulation/arabinose_AraC_Protein_Compelx_stimulator/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/arabinose_AraC_Protein_Compelx_pBAD_RBS30_Stimulation/arabinose_AraC_Protein_Compelx_stimulator"/>
-            <sbol:displayId>arabinose_AraC_Protein_Compelx_stimulator</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000459"/>
-            <sbol:participant rdf:resource="http://www.phoenix.org/library/arabinose_AraC_Protein_Compelx_pBAD_RBS30_ModuleDefinition/arabinose_AraC_Protein_Compelx/0.3"/>
-          </sbol:Participation>
-        </sbol:participation>
-      </sbol:Interaction>
-    </sbol:interaction>
-    <sbol:model rdf:resource="http://www.phoenix.org/library/pBAD_RBS30_Model/0.3"/>
-  </sbol:ModuleDefinition>
-  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition"/>
-    <sbol:displayId>rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/rhl_AHL_LasR_Protein_Compelx/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/rhl_AHL_LasR_Protein_Compelx"/>
-        <sbol:displayId>rhl_AHL_LasR_Protein_Compelx</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Complex/0.3"/>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
-      </sbol:FunctionalComponent>
-    </sbol:functionalComponent>
-    <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/pRhl_RBS30/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/pRhl_RBS30"/>
-        <sbol:displayId>pRhl_RBS30</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/pRhl_RBS30/0.3"/>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
-      </sbol:FunctionalComponent>
-    </sbol:functionalComponent>
-    <sbol:interaction>
-      <sbol:Interaction rdf:about="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_Stimulation/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_Stimulation"/>
-        <sbol:displayId>rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_Stimulation</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
-        <sbol:participation>
-          <sbol:Participation rdf:about="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_Stimulation/rhl_AHL_LasR_Protein_Compelx_stimulator/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_Stimulation/rhl_AHL_LasR_Protein_Compelx_stimulator"/>
-            <sbol:displayId>rhl_AHL_LasR_Protein_Compelx_stimulator</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000459"/>
-            <sbol:participant rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/rhl_AHL_LasR_Protein_Compelx/0.3"/>
-          </sbol:Participation>
-        </sbol:participation>
-        <sbol:participation>
-          <sbol:Participation rdf:about="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_Stimulation/pRhl_RBS30_stimulated/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_Stimulation/pRhl_RBS30_stimulated"/>
-            <sbol:displayId>pRhl_RBS30_stimulated</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000643"/>
-            <sbol:participant rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/pRhl_RBS30/0.3"/>
-          </sbol:Participation>
-        </sbol:participation>
-      </sbol:Interaction>
-    </sbol:interaction>
-    <sbol:model rdf:resource="http://www.phoenix.org/library/pRhl_RBS30_Model/0.3"/>
-  </sbol:ModuleDefinition>
   <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/library/AraC_protein_production/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/AraC_protein_production"/>
     <sbol:displayId>AraC_protein_production</sbol:displayId>
@@ -507,107 +541,116 @@
     </sbol:interaction>
     <sbol:model rdf:resource="http://www.phoenix.org/library/AraC_Model/0.3"/>
   </sbol:ModuleDefinition>
-  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition"/>
-    <sbol:displayId>las_AHL_LasR_Protein_complex_ModuleDefinition</sbol:displayId>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/library/Garbage_protein_production/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/Garbage_protein_production"/>
+    <sbol:displayId>Garbage_protein_production</sbol:displayId>
     <sbol:version>0.3</sbol:version>
+    <dcterms:title>Garbage Protein Production</dcterms:title>
     <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL"/>
-        <sbol:displayId>las_AHL</sbol:displayId>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/Garbage_protein_production/Garbage_Protein/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/Garbage_protein_production/Garbage_Protein"/>
+        <sbol:displayId>Garbage_Protein</sbol:displayId>
         <sbol:version>0.3</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/las_AHL/0.3"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/Garbage_Protein/0.3"/>
         <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:direction rdf:resource="http://sbols.org/v2#none"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
       </sbol:FunctionalComponent>
     </sbol:functionalComponent>
     <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/LasR_Protein/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/LasR_Protein"/>
-        <sbol:displayId>LasR_Protein</sbol:displayId>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/Garbage_protein_production/Garbage/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/Garbage_protein_production/Garbage"/>
+        <sbol:displayId>Garbage</sbol:displayId>
         <sbol:version>0.3</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/LasR_Protein/0.3"/>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:direction rdf:resource="http://sbols.org/v2#none"/>
-      </sbol:FunctionalComponent>
-    </sbol:functionalComponent>
-    <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL_LasR_Protein_Complex/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL_LasR_Protein_Complex"/>
-        <sbol:displayId>las_AHL_LasR_Protein_Complex</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_Complex/0.3"/>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:direction rdf:resource="http://sbols.org/v2#none"/>
-      </sbol:FunctionalComponent>
-    </sbol:functionalComponent>
-    <sbol:interaction>
-      <sbol:Interaction rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL_LasR_Protein_complex_formation/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL_LasR_Protein_complex_formation"/>
-        <sbol:displayId>las_AHL_LasR_Protein_complex_formation</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000177"/>
-        <sbol:participation>
-          <sbol:Participation rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL_LasR_Protein_complex_formation/las_AHL/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL_LasR_Protein_complex_formation/las_AHL"/>
-            <sbol:displayId>las_AHL</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000010"/>
-            <sbol:participant rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL/0.3"/>
-          </sbol:Participation>
-        </sbol:participation>
-        <sbol:participation>
-          <sbol:Participation rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL_LasR_Protein_complex_formation/LasR_Protein/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL_LasR_Protein_complex_formation/LasR_Protein"/>
-            <sbol:displayId>LasR_Protein</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000010"/>
-            <sbol:participant rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/LasR_Protein/0.3"/>
-          </sbol:Participation>
-        </sbol:participation>
-        <sbol:participation>
-          <sbol:Participation rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL_LasR_Protein_complex_formation/las_AHL_LasR_Protein_Complex/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL_LasR_Protein_complex_formation/las_AHL_LasR_Protein_Complex"/>
-            <sbol:displayId>las_AHL_LasR_Protein_Complex</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000011"/>
-            <sbol:participant rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_complex_ModuleDefinition/las_AHL_LasR_Protein_Complex/0.3"/>
-          </sbol:Participation>
-        </sbol:participation>
-      </sbol:Interaction>
-    </sbol:interaction>
-  </sbol:ModuleDefinition>
-  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/library/placIq_RBS30_ModuleDefinition/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/placIq_RBS30_ModuleDefinition"/>
-    <sbol:displayId>placIq_RBS30_ModuleDefinition</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/placIq_RBS30_ModuleDefinition/placIq_RBS30/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/placIq_RBS30_ModuleDefinition/placIq_RBS30"/>
-        <sbol:displayId>placIq_RBS30</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/placIq_RBS30/0.3"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/Garbage/0.3"/>
         <sbol:access rdf:resource="http://sbols.org/v2#private"/>
         <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
       </sbol:FunctionalComponent>
     </sbol:functionalComponent>
-    <sbol:model rdf:resource="http://www.phoenix.org/library/placIq_RBS30_Model/0.3"/>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/library/Garbage_protein_production/Garbage_production/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/Garbage_protein_production/Garbage_production"/>
+        <sbol:displayId>Garbage_production</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000393"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/library/Garbage_protein_production/Garbage_production/Garbage_template/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/Garbage_protein_production/Garbage_production/Garbage_template"/>
+            <sbol:displayId>Garbage_template</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000645"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/library/Garbage_protein_production/Garbage/0.3"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/library/Garbage_protein_production/Garbage_production/Garbage_product/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/Garbage_protein_production/Garbage_production/Garbage_product"/>
+            <sbol:displayId>Garbage_product</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000011"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/library/Garbage_protein_production/Garbage_Protein/0.3"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="http://www.phoenix.org/library/Garbage_Model/0.3"/>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition"/>
+    <sbol:displayId>TetR_Protein_pTet_RBS30_ModuleDefinition</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/TetR_Protein/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/TetR_Protein"/>
+        <sbol:displayId>TetR_Protein</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/TetR_Protein/0.3"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/pTet_RBS30/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/pTet_RBS30"/>
+        <sbol:displayId>pTet_RBS30</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/pTet_RBS30/0.3"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/TetR_Protein_pTet_RBS30_Inhibition/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/TetR_Protein_pTet_RBS30_Inhibition"/>
+        <sbol:displayId>TetR_Protein_pTet_RBS30_Inhibition</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000169"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/TetR_Protein_pTet_RBS30_Inhibition/TetR_Protein_inhibitor/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/TetR_Protein_pTet_RBS30_Inhibition/TetR_Protein_inhibitor"/>
+            <sbol:displayId>TetR_Protein_inhibitor</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000020"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/TetR_Protein/0.3"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/TetR_Protein_pTet_RBS30_Inhibition/pTet_RBS30_inhibited/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/TetR_Protein_pTet_RBS30_Inhibition/pTet_RBS30_inhibited"/>
+            <sbol:displayId>pTet_RBS30_inhibited</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000642"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/library/TetR_Protein_pTet_RBS30_ModuleDefinition/pTet_RBS30/0.3"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="http://www.phoenix.org/library/pTet_RBS30_Model/0.3"/>
   </sbol:ModuleDefinition>
   <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/library/LasR_protein_production/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/LasR_protein_production"/>
     <sbol:displayId>LasR_protein_production</sbol:displayId>
     <sbol:version>0.3</sbol:version>
     <dcterms:title>LasR Protein Production</dcterms:title>
-    <sbol:functionalComponent>
-      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/LasR_protein_production/LasR_Protein/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/LasR_protein_production/LasR_Protein"/>
-        <sbol:displayId>LasR_Protein</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/LasR_Protein/0.3"/>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
-      </sbol:FunctionalComponent>
-    </sbol:functionalComponent>
     <sbol:functionalComponent>
       <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/LasR_protein_production/LasR/0.3">
         <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/LasR_protein_production/LasR"/>
@@ -616,6 +659,16 @@
         <sbol:definition rdf:resource="http://www.phoenix.org/library/LasR/0.3"/>
         <sbol:access rdf:resource="http://sbols.org/v2#private"/>
         <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/LasR_protein_production/LasR_Protein/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/LasR_protein_production/LasR_Protein"/>
+        <sbol:displayId>LasR_Protein</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/LasR_Protein/0.3"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
       </sbol:FunctionalComponent>
     </sbol:functionalComponent>
     <sbol:interaction>
@@ -646,11 +699,71 @@
     </sbol:interaction>
     <sbol:model rdf:resource="http://www.phoenix.org/library/LasR_Model/0.3"/>
   </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition"/>
+    <sbol:displayId>rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/rhl_AHL_LasR_Protein_Compelx/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/rhl_AHL_LasR_Protein_Compelx"/>
+        <sbol:displayId>rhl_AHL_LasR_Protein_Compelx</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Complex/0.3"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#out"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:functionalComponent>
+      <sbol:FunctionalComponent rdf:about="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/pRhl_RBS30/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/pRhl_RBS30"/>
+        <sbol:displayId>pRhl_RBS30</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/pRhl_RBS30/0.3"/>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:direction rdf:resource="http://sbols.org/v2#in"/>
+      </sbol:FunctionalComponent>
+    </sbol:functionalComponent>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_Stimulation/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_Stimulation"/>
+        <sbol:displayId>rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_Stimulation</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_Stimulation/rhl_AHL_LasR_Protein_Compelx_stimulator/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_Stimulation/rhl_AHL_LasR_Protein_Compelx_stimulator"/>
+            <sbol:displayId>rhl_AHL_LasR_Protein_Compelx_stimulator</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000459"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/rhl_AHL_LasR_Protein_Compelx/0.3"/>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_Stimulation/pRhl_RBS30_stimulated/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_Stimulation/pRhl_RBS30_stimulated"/>
+            <sbol:displayId>pRhl_RBS30_stimulated</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000643"/>
+            <sbol:participant rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Compelx_pRhl_RBS30_ModuleDefinition/pRhl_RBS30/0.3"/>
+          </sbol:Participation>
+        </sbol:participation>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:model rdf:resource="http://www.phoenix.org/library/pRhl_RBS30_Model/0.3"/>
+  </sbol:ModuleDefinition>
   <sbol:Model rdf:about="http://www.phoenix.org/library/GFP_Model/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/GFP_Model"/>
     <sbol:displayId>GFP_Model</sbol:displayId>
     <sbol:version>0.3</sbol:version>
     <sbol:source rdf:resource="file:GFP.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/library/Garbage_Model/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/Garbage_Model"/>
+    <sbol:displayId>Garbage_Model</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <sbol:source rdf:resource="file:Garbage.xml"/>
     <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
     <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
   </sbol:Model>
@@ -686,6 +799,14 @@
     <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
     <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
   </sbol:Model>
+  <sbol:Model rdf:about="http://www.phoenix.org/library/pGarbage_RBS30_Model/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pGarbage_RBS30_Model"/>
+    <sbol:displayId>pGarbage_RBS30_Model</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <sbol:source rdf:resource="file:pGarbage_RBS30.xml"/>
+    <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
+    <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
+  </sbol:Model>
   <sbol:Model rdf:about="http://www.phoenix.org/library/placIq_RBS30_Model/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/placIq_RBS30_Model"/>
     <sbol:displayId>placIq_RBS30_Model</sbol:displayId>
@@ -718,18 +839,11 @@
     <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
     <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
   </sbol:Model>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/arabinose/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/arabinose"/>
-    <sbol:displayId>arabinose</sbol:displayId>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pGarbage_RBS30/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pGarbage_RBS30"/>
+    <sbol:displayId>pGarbage_RBS30</sbol:displayId>
     <sbol:version>0.3</sbol:version>
-    <dcterms:title>arabinose</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#SmallMolecule"/>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pTet_RBS30/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pTet_RBS30"/>
-    <sbol:displayId>pTet_RBS30</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>pTet_RBS30</dcterms:title>
+    <dcterms:title>pGarbage_RBS30</dcterms:title>
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
     <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
   </sbol:ComponentDefinition>
@@ -739,13 +853,6 @@
     <sbol:version>0.3</sbol:version>
     <dcterms:title>rhl_AHL</dcterms:title>
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#SmallMolecule"/>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_Complex/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_Complex"/>
-    <sbol:displayId>las_AHL_LasR_Protein_Complex</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>las_AHL_LasR_Protein Complex</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Complex"/>
   </sbol:ComponentDefinition>
   <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Complex/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/rhl_AHL_LasR_Protein_Complex"/>
@@ -776,6 +883,66 @@
     <dcterms:title>las_AHL</dcterms:title>
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#SmallMolecule"/>
   </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/LasR_Protein/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/LasR_Protein"/>
+    <sbol:displayId>LasR_Protein</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>LasR Protein</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLas_RBS30/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas_RBS30"/>
+    <sbol:displayId>pLas_RBS30</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>pLas_RBS30</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/AraC/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/AraC"/>
+    <sbol:displayId>AraC</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>AraC</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/GFP_Protein/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/GFP_Protein"/>
+    <sbol:displayId>GFP_Protein</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>GFP Protein</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/LasR/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/LasR"/>
+    <sbol:displayId>LasR</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>LasR</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/arabinose/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/arabinose"/>
+    <sbol:displayId>arabinose</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>arabinose</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#SmallMolecule"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pTet_RBS30/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pTet_RBS30"/>
+    <sbol:displayId>pTet_RBS30</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>pTet_RBS30</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/las_AHL_LasR_Protein_Complex/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/las_AHL_LasR_Protein_Complex"/>
+    <sbol:displayId>las_AHL_LasR_Protein_Complex</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>las_AHL_LasR_Protein Complex</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Complex"/>
+  </sbol:ComponentDefinition>
   <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/TetR/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/TetR"/>
     <sbol:displayId>TetR</sbol:displayId>
@@ -783,14 +950,6 @@
     <dcterms:title>TetR</dcterms:title>
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
     <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pRhl_RBS30/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pRhl_RBS30"/>
-    <sbol:displayId>pRhl_RBS30</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>pRhl_RBS30</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
-    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
   </sbol:ComponentDefinition>
   <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/TetR_Protein/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/TetR_Protein"/>
@@ -807,6 +966,22 @@
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
     <sbol:role rdf:resource="http://identifiers.org/so/SO:0000139"/>
   </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pRhl_RBS30/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pRhl_RBS30"/>
+    <sbol:displayId>pRhl_RBS30</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>pRhl_RBS30</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/Garbage/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/Garbage"/>
+    <sbol:displayId>Garbage</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>Garbage</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
+  </sbol:ComponentDefinition>
   <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/GFP/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/GFP"/>
     <sbol:displayId>GFP</sbol:displayId>
@@ -816,21 +991,6 @@
     <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
     <sbol:sequence rdf:resource="http://www.phoenix.org/library/GFP_Sequence/0.3"/>
   </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/LasR_Protein/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/LasR_Protein"/>
-    <sbol:displayId>LasR_Protein</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>LasR Protein</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLas_RBS30/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas_RBS30"/>
-    <sbol:displayId>pLas_RBS30</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>pLas_RBS30</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
-    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
-  </sbol:ComponentDefinition>
   <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pBAD_RBS30/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pBAD_RBS30"/>
     <sbol:displayId>pBAD_RBS30</sbol:displayId>
@@ -838,14 +998,6 @@
     <dcterms:title>pBAD_RBS30</dcterms:title>
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
     <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/AraC/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/AraC"/>
-    <sbol:displayId>AraC</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>AraC</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
-    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
   </sbol:ComponentDefinition>
   <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/placIq_RBS30/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/placIq_RBS30"/>
@@ -862,11 +1014,11 @@
     <dcterms:title>arabinose_AraC_Protein Complex</dcterms:title>
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Complex"/>
   </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/GFP_Protein/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/GFP_Protein"/>
-    <sbol:displayId>GFP_Protein</sbol:displayId>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/Garbage_Protein/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/Garbage_Protein"/>
+    <sbol:displayId>Garbage_Protein</sbol:displayId>
     <sbol:version>0.3</sbol:version>
-    <dcterms:title>GFP Protein</dcterms:title>
+    <dcterms:title>Garbage Protein</dcterms:title>
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
   </sbol:ComponentDefinition>
   <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/atc/0.3">
@@ -875,14 +1027,6 @@
     <sbol:version>0.3</sbol:version>
     <dcterms:title>atc</dcterms:title>
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#SmallMolecule"/>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/LasR/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/LasR"/>
-    <sbol:displayId>LasR</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>LasR</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
-    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
   </sbol:ComponentDefinition>
   <sbol:Sequence rdf:about="http://www.phoenix.org/library/GFP_Sequence/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/GFP_Sequence"/>

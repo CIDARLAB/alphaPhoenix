@@ -251,7 +251,6 @@ public class PhoenixProject {
             List<Map<String, CandidateComponent>> assignments = Controller.assign(decomposedModule, lib, sbol);
             System.out.println("");
             System.out.println(assignments.size() + " candidate assignments found for design " + resultCount);
-            
             String designfp = jobresultsfp + "design" + resultCount + Utilities.getSeparater();
             Utilities.makeDirectory(designfp);
             
@@ -261,6 +260,11 @@ public class PhoenixProject {
             String moduleImage = decomposedModule.getAbstractSBOLVisual(new HashMap<String,String>());
             
             for (int i = 0; i < assignments.size(); i++) {
+                
+                System.out.println("Assignment Number : " + i);
+                for(String key:assignments.get(i).keySet()){
+                    System.out.println(key + "::" + assignments.get(i).get(key).getCandidate().getName());
+                }
                 
                 String assignmentfp;
                 assignmentfp = designfp + i + Utilities.getSeparater();
@@ -289,7 +293,7 @@ public class PhoenixProject {
                             if (assignmentcc.getCandidate().getName().equals("pLas_RBS30")) {
                                 eventvalues.put("ind_" + c.getIOCname(), 1.00);
                             } else if (assignmentcc.getCandidate().getName().equals("pBAD_RBS30")) {
-                                eventvalues.put("ind_" + c.getIOCname(), 100.00);
+                                eventvalues.put("ind_" + c.getIOCname(), 0.00);
                             }
                             break;
                         default:
@@ -513,9 +517,9 @@ public class PhoenixProject {
                                 case PROMOTER_INDUCIBLE:
                                     CandidateComponent assignmentcc = assignment.get(c.getName());
                                     if (assignmentcc.getCandidate().getName().equals("pLas_RBS30")) {
-                                        eventvalues.put("ind_" + c.getIOCname(), 1.00);
+                                        eventvalues.put("ind_" + c.getIOCname(), 0.00);
                                     } else if (assignmentcc.getCandidate().getName().equals("pBAD_RBS30")) {
-                                        eventvalues.put("ind_" + c.getIOCname(), 100.00);
+                                        eventvalues.put("ind_" + c.getIOCname(), 0.00);
                                     }
                                     break;
                                 default:
@@ -569,9 +573,9 @@ public class PhoenixProject {
                                 case PROMOTER_INDUCIBLE:
                                     CandidateComponent assignmentcc = assignment.get(c.getName());
                                     if (assignmentcc.getCandidate().getName().equals("pLas_RBS30")) {
-                                        eventvalues.put("ind_" + c.getIOCname(), 1.00);
+                                        eventvalues.put("ind_" + c.getIOCname(), 0.00);
                                     } else if (assignmentcc.getCandidate().getName().equals("pBAD_RBS30")) {
-                                        eventvalues.put("ind_" + c.getIOCname(), 100.00);
+                                        eventvalues.put("ind_" + c.getIOCname(), 0.00);
                                     }
                                     break;
                                 default:

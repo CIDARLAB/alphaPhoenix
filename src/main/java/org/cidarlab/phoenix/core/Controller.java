@@ -879,6 +879,7 @@ public class Controller {
             try {
                 Component cds = root.getComponents().get(0);
                 CandidateComponent cc = assignment.get(cds.getName());
+                System.out.println("DEBUGGING CDS :: "  + cds.getName());
                 ModuleDefinition md = doc.getModuleDefinition(cc.getCandidate().getModuleDefinitions().get(0));
                 List<org.sbolstandard.core2.Model> sbolmodels = new ArrayList<>(md.getModels());
                 URI uri = new URI(sbolmodels.get(0).getSource().toString() + "/download");
