@@ -5,7 +5,9 @@
  */
 package org.cidarlab.phoenix.adaptors;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -57,17 +59,23 @@ public class SBOLAdaptor {
     private static final String induciblePromSO = so + "SO:0002051";
     private static final String constitutivePromSO = so + "SO:0002050";
     private static final String rbsSO = so + "SO:0000139";
+    private static final String engineeredRegionSO = so + "SO:0000804";
     
     private static final String sbmlO = "http://identifiers.org/edam/format_2585";
     private static final String frameworkSBO = "http://www.ebi.ac.uk/sbo/main/SBO:0000062";
     
     
     
+    public static void convertSBOLToGenbank(SBOLDocument sbol, String filepath) throws FileNotFoundException, SBOLConversionException, IOException {
+        FileOutputStream out =  new FileOutputStream(new File(filepath));
+        SBOLWriter.write(sbol, out, SBOLDocument.GENBANK);
+        out.close();
+    }
+    
     public static void writeCircuitSBOL(Module m, Map<String,CandidateComponent> assignment, String filepath, String jobid, int assignmentindex){
         try {
             SBOLDocument sbol = new SBOLDocument();
-            String so = "http://identifiers.org/so/";
-            String engineeredRegionSO = so + "SO:0000804";
+                    
             String urlprefix = "https://phoenix.org/results/" + jobid + "/";
             String displayid = "circuit" + assignmentindex;
             String version = "0.1";
@@ -115,7 +123,9 @@ public class SBOLAdaptor {
                 
                 if(part.getString("part").equals("promoter")){
                     if(part.getString("type").equals("constitutive")){
-                        constitutiveProms.add(part);
+                        if(part.has("k_express")){
+                            constitutiveProms.add(part);
+                        }
                     }
                 }
                 if(part.getString("part").equals("cds")){
@@ -127,6 +137,27 @@ public class SBOLAdaptor {
             }
         }
         
+        if(ucf.has("composite-parts")){
+            JSONArray cpartsArr = ucf.getJSONArray("composite-parts");
+            for(Object obj:cpartsArr){
+                JSONObject cpart = (JSONObject)obj;
+                partMap.put(cpart.getString("id"), cpart);
+                partURImap.put(cpart.getString("id"), createCompositePart(sbol,cpart,partURImap));
+                
+                if(cpart.getString("type").equals("promoter-rbs")){
+                    String promId = (String)cpart.getJSONArray("parts").get(0);
+                    if (partMap.get(promId).getString("part").equals("promoter")) {
+                        if (partMap.get(promId).getString("type").equals("constitutive")) {
+                            constitutiveProms.add(cpart);
+                        }
+                    }
+                    
+                }
+                
+            }
+        }
+        
+        
         if(ucf.has("modules")){
             JSONArray modulesArr = ucf.getJSONArray("modules");
             for(Object obj:modulesArr){
@@ -137,7 +168,7 @@ public class SBOLAdaptor {
         
         for(JSONObject part:constitutiveProms){
             ComponentDefinition prom = sbol.getComponentDefinition(partURImap.get(part.getString("id")));
-            createConstitutivePromoterModels(sbol,part,prom,outputfp);
+            createConstitutivePromoterModels(sbol,part,prom,partMap,outputfp);
         }
         
         for(JSONObject part:reporterProteins){
@@ -153,16 +184,44 @@ public class SBOLAdaptor {
         return sbol;
     }
     
-    private static void createConstitutivePromoterModels(SBOLDocument sbol, JSONObject part, ComponentDefinition prom, String outputfp) throws SBOLValidationException, FileNotFoundException, XMLStreamException, URISyntaxException{
+    private static URI createCompositePart(SBOLDocument sbol, JSONObject part, Map<String,URI> partURImap) throws SBOLValidationException, URISyntaxException{
+        switch(part.getString("type")){
+            case "promoter-rbs":
+                return createPromoterRBSPart(sbol,part,partURImap);
+            default: 
+                return null;
+        }
+    }
+    
+    private static URI createPromoterRBSPart(SBOLDocument sbol, JSONObject part, Map<String,URI> partURImap) throws SBOLValidationException, URISyntaxException{
+        ComponentDefinition promrbs = sbol.createComponentDefinition(baseurl, part.getString("id"), version, ComponentDefinition.DNA);
+        if(part.has("name")){
+            promrbs.setName(part.getString("name"));
+        } else {
+            promrbs.setName(part.getString("id"));
+        }
+        promrbs.addType(new URI(engineeredRegionSO));
+        int cindex = 0;
+        for(Object p:part.getJSONArray("parts")){
+            String pid = (String)p;
+            org.sbolstandard.core2.Component sbolcomponent = promrbs.createComponent(pid + "_" + cindex, AccessType.PRIVATE, partURImap.get(pid));
+            String locationId = "Location" + cindex;
+            String saId = "SequenceAnnotation" + cindex;
+            SequenceAnnotation sa = promrbs.createSequenceAnnotation(saId, locationId);
+            sa.setComponent(sbolcomponent.getIdentity());
+            cindex++;
+        }
+        return promrbs.getIdentity();
+    }
+    
+    private static void createConstitutivePromoterModels(SBOLDocument sbol, JSONObject part, ComponentDefinition prom, Map<String, JSONObject> partMap, String outputfp) throws SBOLValidationException, FileNotFoundException, XMLStreamException, URISyntaxException{
         String promId = part.getString("id");
         ModuleDefinition md = sbol.createModuleDefinition(baseurl, promId + "_ModuleDefinition", version);
         md.createFunctionalComponent(promId, AccessType.PRIVATE, prom.getIdentity(), DirectionType.OUT);
-        createPromModel(part,outputfp);
+        createPromModel(part,partMap,outputfp);
         Model model = sbol.createModel(baseurl, promId + "_Model",version, new URI("file:" + promId + ".xml") , new URI(sbmlO), new URI(frameworkSBO));
         md.addModel(model);
     }
-    
-    
     
     private static void createModuleDefinition(SBOLDocument sbol, JSONObject module, Map<String,URI> partURImap, Map<String,JSONObject> partMap, String outputfp) throws URISyntaxException, SBOLValidationException, FileNotFoundException, XMLStreamException{
         
@@ -171,17 +230,26 @@ public class SBOLAdaptor {
         Set<String> smIds = new HashSet<>();
         for(Object obj:module.getJSONArray("parts")){
             String id = (String)obj;
-            switch(partMap.get(id).getString("part")){
-                case "promoter":
-                    promId = id;
-                    break;
-                case "cds":
-                    cdsId = id;
-                    break;
-                case "smallMolecule":
-                    smIds.add(id);
-                    break;
+            if(partMap.get(id).has("part")){
+                switch (partMap.get(id).getString("part")) {
+                    case "promoter":
+                        promId = id;
+                        break;
+                    case "cds":
+                        cdsId = id;
+                        break;
+                    case "smallMolecule":
+                        smIds.add(id);
+                        break;
+                }
+            } else {
+                switch(partMap.get(id).getString("type")){
+                    case "promoter-rbs":
+                        promId = id;
+                        break;
+                }
             }
+            
         }
         
         String protMD = baseurl + cdsId + "_protein_production/" + version;
@@ -197,7 +265,7 @@ public class SBOLAdaptor {
             if(sbol.getModuleDefinition(new URI(promMD)) == null){
                 ComponentDefinition prot = sbol.getComponentDefinition(partURImap.get(cdsId + "_Protein"));
                 ComponentDefinition prom = sbol.getComponentDefinition(partURImap.get(promId));
-                createInduction(sbol, partMap.get(promId), interaction, cdsId + "_Protein", prot, promId, prom, outputfp);
+                createInduction(sbol, partMap.get(promId), interaction, cdsId + "_Protein", prot, promId, prom, partMap, outputfp);
             }
         } else {
             String interaction = module.getString("interaction");
@@ -222,23 +290,23 @@ public class SBOLAdaptor {
                 String complexURL = baseurl + complex + "_Complex/" + version;
                 ComponentDefinition complexCD = sbol.getComponentDefinition(new URI(complexURL));
                 ComponentDefinition prom = sbol.getComponentDefinition(partURImap.get(promId));
-                createInduction(sbol, partMap.get(promId), interaction, complex + "_Compelx", complexCD, promId, prom, outputfp);
+                createInduction(sbol, partMap.get(promId), interaction, complex + "_Compelx", complexCD, promId, prom, partMap, outputfp);
             }
         }
     }
     
-    private static void createInduction(SBOLDocument sbol, JSONObject part, String interaction, String inducerId, ComponentDefinition inducer, String promId, ComponentDefinition prom, String outputfp) throws SBOLValidationException, FileNotFoundException, XMLStreamException, URISyntaxException{
+    private static void createInduction(SBOLDocument sbol, JSONObject part, String interaction, String inducerId, ComponentDefinition inducer, String promId, ComponentDefinition prom, Map<String,JSONObject> partMap, String outputfp) throws SBOLValidationException, FileNotFoundException, XMLStreamException, URISyntaxException{
         switch(interaction){
             case "activation":
-                createActivation(sbol, part, inducerId, inducer, promId, prom, outputfp);
+                createActivation(sbol, part, inducerId, inducer, promId, prom, partMap, outputfp);
                 break;
             case "repression":
-                createRepression(sbol, part, inducerId, inducer, promId, prom, outputfp);
+                createRepression(sbol, part, inducerId, inducer, promId, prom, partMap, outputfp);
                 break;
         }
     }
     
-    private static void createActivation(SBOLDocument sbol, JSONObject part, String inducerId, ComponentDefinition inducer, String promId, ComponentDefinition prom, String outputfp) throws SBOLValidationException, FileNotFoundException, XMLStreamException, URISyntaxException{
+    private static void createActivation(SBOLDocument sbol, JSONObject part, String inducerId, ComponentDefinition inducer, String promId, ComponentDefinition prom, Map<String,JSONObject> partMap, String outputfp) throws SBOLValidationException, FileNotFoundException, XMLStreamException, URISyntaxException{
         ModuleDefinition md = sbol.createModuleDefinition(baseurl, inducerId + "_" +  promId + "_ModuleDefinition", version);
         FunctionalComponent inducerFC = md.createFunctionalComponent(inducerId, AccessType.PRIVATE, inducer.getIdentity(), DirectionType.OUT);
         FunctionalComponent promoterFC = md.createFunctionalComponent(promId, AccessType.PRIVATE, prom.getIdentity(), DirectionType.IN);
@@ -248,7 +316,7 @@ public class SBOLAdaptor {
         
         String modelURL = baseurl + promId + "_Model/" + version;
         if(sbol.getModel(new URI(modelURL)) == null){
-            createPromModel(part,outputfp);
+            createPromModel(part, partMap, outputfp);
             Model model = sbol.createModel(baseurl, promId + "_Model",version, new URI("file:" + promId + ".xml") , new URI(sbmlO), new URI(frameworkSBO));
             md.addModel(model);
         } else {
@@ -256,7 +324,7 @@ public class SBOLAdaptor {
         }
     }
     
-    private static void createRepression(SBOLDocument sbol, JSONObject part, String inducerId, ComponentDefinition inducer, String promId, ComponentDefinition prom, String outputfp) throws SBOLValidationException, URISyntaxException, FileNotFoundException, XMLStreamException{
+    private static void createRepression(SBOLDocument sbol, JSONObject part, String inducerId, ComponentDefinition inducer, String promId, ComponentDefinition prom, Map<String,JSONObject> partMap, String outputfp) throws SBOLValidationException, URISyntaxException, FileNotFoundException, XMLStreamException{
         ModuleDefinition md = sbol.createModuleDefinition(baseurl, inducerId + "_" +  promId + "_ModuleDefinition", version);
         FunctionalComponent inducerFC = md.createFunctionalComponent(inducerId, AccessType.PRIVATE, inducer.getIdentity(), DirectionType.OUT);
         FunctionalComponent promoterFC = md.createFunctionalComponent(promId, AccessType.PRIVATE, prom.getIdentity(), DirectionType.IN);
@@ -266,7 +334,7 @@ public class SBOLAdaptor {
         
         String modelURL = baseurl + promId + "_Model/" + version;
         if(sbol.getModel(new URI(modelURL)) == null){
-            createPromModel(part,outputfp);
+            createPromModel(part, partMap, outputfp);
             Model model = sbol.createModel(baseurl, promId + "_Model",version, new URI("file:" + promId + ".xml") , new URI(sbmlO), new URI(frameworkSBO));
             md.addModel(model);
         } else {
@@ -274,50 +342,64 @@ public class SBOLAdaptor {
         }
     }
     
-    private static void createPromModel(JSONObject part, String outputfp) throws FileNotFoundException, XMLStreamException{
+    private static void createPromModel(JSONObject part, Map<String,JSONObject> partMap, String outputfp) throws FileNotFoundException, XMLStreamException{
+        String activationType = "";
+        if(part.getString("type").equals("promoter-rbs")){
+            String promId = (String)part.getJSONArray("parts").get(0);
+            activationType = partMap.get(promId).getString("type");
+        } else {
+            activationType = part.getString("type");
+        }
         SBMLDocument model = null;
-        switch (part.getString("type")) {
+        switch (activationType) {
             case "constitutive":
                 model = SBMLAdaptor.createConstituativePromoterModel("out");
                 SBMLAdaptor.setReactionParameterValue(model, "out_expression", "k_express", part.getDouble("k_express"));
                 break;
             case "activated":
                 model = SBMLAdaptor.createActivatedPromoterModel("conn", "out");
+                
                 SBMLAdaptor.setReactionParameterValue(model, "out_expression", "K_d", part.getDouble("K_d"));
-                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "basal_rate", part.getDouble("basal_rate"));
-                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "max_rate", part.getDouble("max_rate"));
+                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "basal", part.getDouble("basal"));
+                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "max", part.getDouble("max"));
                 SBMLAdaptor.setReactionParameterValue(model, "out_expression", "n", part.getDouble("n"));
                 break;
             case "repressed":
                 model = SBMLAdaptor.createRepressedPromoterModel("conn", "out");
                 SBMLAdaptor.setReactionParameterValue(model, "out_expression", "K_d", part.getDouble("K_d"));
-                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "basal_rate", part.getDouble("basal_rate"));
-                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "max_rate", part.getDouble("max_rate"));
+                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "basal", part.getDouble("basal"));
+                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "max", part.getDouble("max"));
                 SBMLAdaptor.setReactionParameterValue(model, "out_expression", "n", part.getDouble("n"));
                 break;
             case "activated-induced":
                 model = SBMLAdaptor.createInducibleActivatedPromoterModel("conn", "ind", "out");
-                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "K_d1", part.getDouble("K_d1"));
-                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "basal_rate1", part.getDouble("basal_rate1"));
-                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "max_rate1", part.getDouble("max_rate1"));
-                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "n1", part.getDouble("n1"));
-
-                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "K_d2", part.getDouble("K_d2"));
-                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "basal_rate2", part.getDouble("basal_rate2"));
-                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "max_rate2", part.getDouble("max_rate2"));
-                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "n2", part.getDouble("n2"));
+                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "K_d", part.getDouble("K_d"));
+                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "basal", part.getDouble("basal"));
+                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "max", part.getDouble("max"));
+                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "n", part.getDouble("n"));
+                
+                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "max_TF", part.getDouble("max_TF"));
+                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "K_d_TF", part.getDouble("K_d_TF"));
+                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "n_TF", part.getDouble("n_TF"));
+                
+                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "max_SM", part.getDouble("max_SM"));
+                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "K_d_SM", part.getDouble("K_d_SM"));
+                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "n_SM", part.getDouble("n_SM"));
                 break;
             case "repressed-induced":
                 model = SBMLAdaptor.createInducibleActivatedPromoterModel("conn", "ind", "out"); //THIS IS WRONG AND NEEDS TO CHANGE
-                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "K_d1", part.getDouble("K_d1"));
-                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "basal_rate1", part.getDouble("basal_rate1"));
-                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "max_rate1", part.getDouble("max_rate1"));
-                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "n1", part.getDouble("n1"));
-
-                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "K_d2", part.getDouble("K_d2"));
-                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "basal_rate2", part.getDouble("basal_rate2"));
-                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "max_rate2", part.getDouble("max_rate2"));
-                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "n2", part.getDouble("n2"));
+                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "K_d", part.getDouble("K_d"));
+                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "basal", part.getDouble("basal"));
+                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "max", part.getDouble("max"));
+                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "n", part.getDouble("n"));
+                
+                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "max_TF", part.getDouble("max_TF"));
+                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "K_d_TF", part.getDouble("K_d_TF"));
+                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "n_TF", part.getDouble("n_TF"));
+                
+                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "max_SM", part.getDouble("max_SM"));
+                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "K_d_SM", part.getDouble("K_d_SM"));
+                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "n_SM", part.getDouble("n_SM"));
                 break;
         }
         SBMLWriter writer = new SBMLWriter();

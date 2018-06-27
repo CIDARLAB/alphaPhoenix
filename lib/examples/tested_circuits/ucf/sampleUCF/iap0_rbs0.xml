@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+  <model>
+    <listOfCompartments>
+      <compartment constant="false" id="cell" name="cell" size="1"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species boundaryCondition="false" compartment="cell" constant="false" hasOnlySubstanceUnits="true" id="out" initialAmount="0" name="out" sboTerm="SBO:0000601"/>
+      <species boundaryCondition="false" compartment="cell" constant="false" hasOnlySubstanceUnits="true" id="conn" initialAmount="0" name="conn" sboTerm="SBO:0000600"/>
+      <species boundaryCondition="false" compartment="cell" constant="false" hasOnlySubstanceUnits="true" id="ind" initialAmount="0" name="ind" sboTerm="SBO:0000600"/>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction fast="false" id="out_expression" name="out_expression" reversible="false" sboTerm="SBO:0000589">
+        <listOfProducts>
+          <speciesReference constant="true" species="out" stoichiometry="1"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference sboTerm="SBO:0000459" species="conn"/>
+          <modifierSpeciesReference sboTerm="SBO:0000459" species="ind"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <plus/>
+              <apply>
+                <plus/>
+                <ci> basal </ci>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times/>
+                    <ci> max </ci>
+                    <apply>
+                      <power/>
+                      <ci> conn </ci>
+                      <ci> n </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <apply>
+                      <power/>
+                      <ci> K_d </ci>
+                      <ci> n </ci>
+                    </apply>
+                    <apply>
+                      <power/>
+                      <ci> conn </ci>
+                      <ci> n </ci>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <times/>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times/>
+                    <ci> max_TF </ci>
+                    <apply>
+                      <power/>
+                      <ci> conn </ci>
+                      <ci> n_TF </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <apply>
+                      <power/>
+                      <ci> K_d_TF </ci>
+                      <ci> n_TF </ci>
+                    </apply>
+                    <apply>
+                      <power/>
+                      <ci> conn </ci>
+                      <ci> n_TF </ci>
+                    </apply>
+                  </apply>
+                </apply>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times/>
+                    <ci> max_SM </ci>
+                    <apply>
+                      <power/>
+                      <ci> ind </ci>
+                      <ci> n_SM </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <apply>
+                      <power/>
+                      <ci> K_d_SM </ci>
+                      <ci> n_SM </ci>
+                    </apply>
+                    <apply>
+                      <power/>
+                      <ci> ind </ci>
+                      <ci> n_SM </ci>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+            </apply>
+          </math>
+                  <listOfLocalParameters>
+            <localParameter id="basal" name="basal" value="0.827268349"/>
+            <localParameter id="max" name="max" value="20.2925674"/>
+            <localParameter id="K_d" name="K_d" value="1.19098289E4"/>
+            <localParameter id="n" name="n" value="1.7597246"/>
+            <localParameter id="max_TF" name="max_TF" value="46.6702354"/>
+            <localParameter id="K_d_TF" name="K_d_TF" value="1864.1196"/>
+            <localParameter id="n_TF" name="n_TF" value="0.657793043"/>
+            <localParameter id="max_SM" name="max_SM" value="46.6259581"/>
+            <localParameter id="K_d_SM" name="K_d_SM" value="25.1186905"/>
+            <localParameter id="n_SM" name="n_SM" value="1.24158724"/>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

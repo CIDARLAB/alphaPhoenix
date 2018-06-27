@@ -1,0 +1,461 @@
+{
+    "header":{
+        "author":[
+            "Prashant Vaidyanathan",
+            "Nicholas A DeLateur",
+            "Curtis Madsen"
+        ],
+        "description":"Sample UCF for Phoenix."
+    },
+    "parts":[
+		{
+			"id":"cp0",
+			"sequence":"TAACT",
+			"part":"promoter",
+			"type":"constitutive",
+		},
+		{
+			"id":"cp1",
+			"sequence":"GATACA",
+			"part":"promoter",
+			"type":"constitutive",
+		},
+		{
+			"id":"iap0",
+			"sequence":"ATCAG",
+			"part":"promoter",
+			"type":"activated-induced",
+		},
+		{
+			"id":"iap1",
+			"sequence":"CTTCTCA",
+			"part":"promoter",
+			"type":"activated-induced",
+		},
+		{
+			"id":"iap2",
+			"sequence":"TAGCGAA",
+			"part":"promoter",
+			"type":"activated-induced",
+		},
+		{
+			"id":"ap0",
+			"sequence":"TGGTAGGTCCT",
+			"part":"promoter",
+			"type":"activated",
+		},
+		{
+			"id":"ap1",
+			"sequence":"TGGGCGTGATC",
+			"part":"promoter",
+			"type":"activated",
+		},
+		{
+			"id":"rp0",
+			"sequence":"ACCTCTAC",
+			"part":"promoter",
+			"type":"repressed",
+		},
+		{
+			"id":"rp1",
+			"sequence":"CGGGC",
+			"part":"promoter",
+			"type":"repressed",
+		},
+		{
+			"id":"rbs0",
+			"part":"rbs",
+			"sequence":"GTATATCTCGA"
+		}, 
+		{
+			"id":"rbs1",
+			"part":"rbs",
+			"sequence":"CCTGGTAG"
+		},
+		{
+			"id":"rbs2",
+			"part":"rbs",
+			"sequence":"AAACAGTAAGG"
+		},
+		{
+			"id":"rbs3",
+			"part":"rbs",
+			"sequence":"TACCCATT"
+		},
+		{
+            		"id":"GFP",
+            		"k_loss":0.008,
+            		"part":"cds",
+            		"type":"reporter",
+	    		"sequence":"CTCAAGCG"
+        	},
+		{
+            		"id":"RFP",
+            		"k_loss":0.006,
+            		"part":"cds",
+            		"type":"reporter",
+	    		"sequence":"TCTCG"
+        	},
+		{
+            		"id":"cds0",
+            		"k_loss":0.008,
+            		"part":"cds",
+            		"type":"connector",
+	 	   	"sequence":"AGATT"
+        	},
+        	{
+ 	           	"id":"cds1",
+        	    	"k_loss":0.0003,
+            		"part":"cds",
+            		"type":"connector",
+	    		"sequence":"GTGCTCTG"
+        	},
+        	{
+            		"id":"cds2",
+            		"k_loss":0.001,
+            		"part":"cds",
+            		"type":"connector",
+	    		"sequence":"GTACTATGTC"
+        	},
+        	{
+            		"id":"cds3",
+            		"k_loss":0.006,
+            		"part":"cds",
+            		"type":"connector",
+	    		"sequence":"GGCGACTC"
+        	},
+		{
+            		"id":"cds4",
+            		"k_loss":0.009,
+            		"part":"cds",
+            		"type":"connector",
+	    		"sequence":"GCGTCAGA"
+        	},
+		{
+            		"id":"cds5",
+            		"k_loss":0.009,
+            		"part":"cds",
+            		"type":"connector",
+	    		"sequence":"GATCAC"
+        	},
+		{
+            		"id":"Ter1",
+            		"part":"terminator",
+	    		"sequence":"AACATCA"
+        	},
+		{
+            		"id":"sm0",
+            		"part":"smallMolecule",
+            		"min":0,
+            		"max":100
+        	},
+        	{
+            		"id":"sm1",
+            		"part":"smallMolecule",
+            		"min":0,
+            		"max":1
+        	},
+        	{
+            		"id":"sm2",
+            		"part":"smallMolecule",
+            		"min":0,
+            		"max":1
+        	}
+	],
+	"composite-parts" : [
+		{
+			"id":"cp0_rbs0",
+			"type":"promoter-rbs",
+			"parts":[
+				"cp0",
+				"rbs0"
+			], 
+			"k_express":1.5
+		},
+		{
+			"id":"cp0_rbs1",
+			"type":"promoter-rbs",
+			"parts":[
+				"cp0",
+				"rbs1"
+			], 
+			"k_express":2.55183
+		},
+		{
+			"id":"cp0_rbs2",
+			"type":"promoter-rbs",
+			"parts":[
+				"cp0",
+				"rbs2"
+			], 
+			"k_express":0.14817
+		},
+		{
+			"id":"cp0_rbs3",
+			"type":"promoter-rbs",
+			"parts":[
+				"cp0",
+				"rbs3"
+			], 
+			"k_express":0.40515
+		},
+		{
+			"id":"cp1_rbs0",
+			"type":"promoter-rbs",
+			"parts":[
+				"cp1",
+				"rbs0"
+			], 
+			"k_express":0.10530
+		},
+		{
+			"id":"cp1_rbs1",
+			"type":"promoter-rbs",
+			"parts":[
+				"cp1",
+				"rbs1"
+			], 
+			"k_express":0.70530
+		},
+		{
+			"id":"ap0_rbs1",
+			"type":"promoter-rbs",
+			"parts":[
+				"ap0",
+				"rbs1"
+			], 
+			"basal": 0.827268349,
+        		"max": 20.2925674,
+        		"K_d": 11909.8289,
+        		"n": 1.75972460
+		},
+		{
+			"id":"ap0_rbs2",
+			"type":"promoter-rbs",
+			"parts":[
+				"ap0",
+				"rbs2"
+			], 
+			"basal": 0.227268349,
+        		"max": 4.2925674,
+        		"K_d": 909.8289,
+        		"n": 6.75972460
+		},
+		{
+			"id":"ap1_rbs1",
+			"type":"promoter-rbs",
+			"parts":[
+				"ap1",
+				"rbs1"
+			], 
+			"basal": 1.827268349,
+        		"max": 23.2925674,
+        		"K_d": 59.8289,
+        		"n": 0.75972460
+		},
+		{
+			"id":"ap1_rbs3",
+			"type":"promoter-rbs",
+			"parts":[
+				"ap1",
+				"rbs3"
+			], 
+			"basal": 1.827268349,
+        		"max": 27.2925674,
+        		"K_d": 1199.8289,
+        		"n": 0.75972460
+		},
+		{
+			"id":"ap1_rbs2",
+			"type":"promoter-rbs",
+			"parts":[
+				"ap1",
+				"rbs2"
+			], 
+			"basal": 3.221268349,
+        		"max": 15.2925674,
+        		"K_d": 60.8289,
+        		"n": 1.75972460
+		},
+		{
+			"id":"rp0_rbs3",
+			"type":"promoter-rbs",
+			"parts":[
+				"rp0",
+				"rbs3"
+			], 
+			"basal": 0.827268349,
+        		"max": 20.2925674,
+        		"K_d": 190.8289,
+        		"n": 0.75972460
+		},
+		{
+			"id":"rp1_rbs0",
+			"type":"promoter-rbs",
+			"parts":[
+				"rp1",
+				"rbs0"
+			], 
+			"basal": 0.221268349,
+        		"max": 30.2925674,
+        		"K_d": 11.8289,
+        		"n": 8.75972460
+		},
+		{
+			"id":"iap0_rbs0",
+			"type":"promoter-rbs",
+			"parts":[
+				"iap0",
+				"rbs0"
+			], 
+			"basal": 0.827268349,
+        		"max": 20.2925674,
+        		"K_d": 11909.8289,
+        		"n": 1.75972460,
+        		"max_TF": 46.6702354,
+        		"K_d_TF": 1864.11960,
+        		"n_TF": 0.657793043,
+        		"max_SM": 46.6259581,
+        		"K_d_SM": 25.1186905,
+        		"n_SM": 1.24158724
+		},
+		{
+			"id":"iap0_rbs1",
+			"type":"promoter-rbs",
+			"parts":[
+				"iap0",
+				"rbs1"
+			], 
+			"basal": 0.388427809,
+        		"max": 1.21429620,
+        		"K_d": 25916.4967,
+        		"n": 0.778290957,
+        		"max_TF": 17.5756798,
+        		"K_d_TF": 1731.33072,
+        		"n_TF": 0.680636018,
+        		"max_SM": 17.5840070,
+        		"K_d_SM": 48.9512867,
+        		"n_SM": 0.939678198
+		},
+		{
+			"id":"iap1_rbs0",
+			"type":"promoter-rbs",
+			"parts":[
+				"iap1",
+				"rbs0"
+			], 
+			"basal": 1.65416053,
+        		"max": 5.19757143,
+        		"K_d": 4559.44415,
+        		"n": 9.87312760,
+        		"max_TF": 53.8087369,
+        		"K_d_TF": 37812.7585,
+        		"n_TF": 0.554394336,
+        		"max_SM": 53.2539156,
+        		"K_d_SM": 28.0026157,
+        		"n_SM": 0.899674268
+		},
+		{
+			"id":"iap2_rbs0",
+			"type":"promoter-rbs",
+			"parts":[
+				"iap2",
+				"rbs0"
+			], 
+			"basal": 0.300047742,
+        		"max": 1.40385257,
+        		"K_d": 2368.67123,
+        		"n": 2.07094514,
+        		"max_TF": 52.3290751,
+        		"K_d_TF": 20835.9364,
+        		"n_TF": 0.649992382,
+        		"max_SM": 53.6334740,
+        		"K_d_SM": 123.153382,
+        		"n_SM": 0.843961952
+		}
+	],
+    "modules" : [
+        {
+            "parts" : [
+                "ap0_rbs1",
+                "cds0"
+	    ], 
+            "interaction" : "activation"
+        },
+		{
+            "parts" : [
+                "ap0_rbs2",
+                "cds0"
+	    ], 
+            "interaction" : "activation"
+        },
+		{
+            "parts" : [
+                "ap1_rbs1",
+                "cds1"
+	    ], 
+            "interaction" : "activation"
+        },
+		{
+            "parts" : [
+                "ap1_rbs3",
+                "cds1"
+	    ], 
+            "interaction" : "activation"
+        },
+		{
+            "parts" : [
+                "ap1_rbs2",
+                "cds1"
+	    ], 
+            "interaction" : "activation"
+        },
+        {
+            "parts" : [
+                "rp0_rbs3",
+                "cds2"
+            ], 
+            "interaction" : "repression"
+        },
+        {
+            "parts" : [
+                "rp1_rbs0",
+                "cds3"
+            ], 
+            "interaction" : "repression"
+        },
+        {
+            "parts" : [
+                "iap0_rbs0",
+                "cds4",
+		"sm0"
+            ], 
+            "interaction" : "activation"
+        },
+        {
+            "parts" : [
+                "iap0_rbs1",
+                "cds4",
+		"sm0"
+            ], 
+            "interaction" : "activation"
+        },
+        {
+            "parts" : [
+                "iap1_rbs0",
+                "cds5",
+		"sm1"
+            ], 
+            "interaction" : "activation"
+        },
+        {
+            "parts" : [
+                "iap2_rbs0",
+                "cds5",
+		"sm2"
+            ], 
+            "interaction" : "activation"
+        }
+        
+    ]
+}
