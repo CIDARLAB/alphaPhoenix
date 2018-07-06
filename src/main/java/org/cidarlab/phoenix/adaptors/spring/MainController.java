@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletResponse;
@@ -65,7 +66,7 @@ public class MainController {
         return false;
     }
     
-    private static PhoenixProject createProject(String userId, String projectName, String stl, String eugeneCode, String registry, String collection) throws IOException, SBOLConversionException, SBOLValidationException, InterruptedException{
+    private static PhoenixProject createProject(String userId, String projectName, String stl, String eugeneCode, String registry, String collection) throws IOException, SBOLConversionException, SBOLValidationException, InterruptedException, URISyntaxException{
         PhoenixProject proj = new PhoenixProject(userId, projectName, stl, eugeneCode, registry, collection);
         proj.design();
         return proj;
@@ -305,7 +306,7 @@ public class MainController {
     //<editor-fold desc="SPEC">
     @ResponseBody
     @RequestMapping(value = "/specification", method = RequestMethod.POST)
-    public void specification(@RequestBody String request, HttpServletResponse response) throws UnsupportedEncodingException {
+    public void specification(@RequestBody String request, HttpServletResponse response) throws UnsupportedEncodingException, URISyntaxException {
 
         PrintWriter writer;
 

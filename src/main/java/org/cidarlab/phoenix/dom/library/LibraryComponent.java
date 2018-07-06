@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.cidarlab.phoenix.dom;
+package org.cidarlab.phoenix.dom.library;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -16,27 +16,27 @@ import lombok.Setter;
  *
  * @author prash
  */
-public class LibraryComponent {
+public abstract class LibraryComponent {
     
     //Does this cover everything?
     
     @Getter
-    private String name;
+    protected String name;
     
     @Getter
-    private String displayId;
-    
-    @Getter
-    @Setter
-    private URI componentDefintion;
+    protected String displayId;
     
     @Getter
     @Setter
-    private List<URI> moduleDefinitions = new ArrayList<>();
+    protected URI componentDefintion;
     
     @Getter
     @Setter
-    private List<URI> models = new ArrayList<>();
+    protected List<URI> moduleDefinitions = new ArrayList<>();
+    
+    @Getter
+    @Setter
+    protected List<URI> models = new ArrayList<>();
     
     public void addModel(URI uri){
         this.models.add(uri);
@@ -44,12 +44,6 @@ public class LibraryComponent {
     
     public void addModuleDefinition(URI uri){
         this.moduleDefinitions.add(uri);
-    }
-    
-    public LibraryComponent(String _name, String _displayId, URI _cd){
-        this.name = _name;
-        this.displayId = _displayId;
-        this.componentDefintion = _cd;
     }
     
     @Override

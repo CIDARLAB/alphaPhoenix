@@ -7,6 +7,7 @@ package org.cidarlab.phoenix.core;
 
 import hyness.stl.TreeNode;
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -18,7 +19,9 @@ import org.cidarlab.gridtli.dom.Signal;
 import org.cidarlab.gridtli.dom.TLIException;
 import org.cidarlab.gridtli.tli.TemporalLogicInference;
 import org.cidarlab.phoenix.adaptors.STLAdaptor;
-import org.cidarlab.phoenix.core.PhoenixProject.Simulation;
+import org.cidarlab.phoenix.utils.Args;
+import org.cidarlab.phoenix.utils.Args.Simulation;
+
 import org.cidarlab.phoenix.utils.Utilities;
 
 /**
@@ -27,7 +30,7 @@ import org.cidarlab.phoenix.utils.Utilities;
  */
 public class CLI {
     
-    public static void main(String[] args) throws TLIException {
+    public static void main(String[] args) throws TLIException, URISyntaxException {
         if(args.length == 0){
             System.out.println("Please specify a command.");
             System.out.println("To view options or usage try: java -jar phoenix.jar --help");
@@ -388,7 +391,8 @@ public class CLI {
                                     }
                                 }
                                 //String eugfp, int eugCircSize, Integer eugNumSolutions, String stlfp,String libraryfp, Simulation simulation, boolean plot
-                                PhoenixProject proj = new PhoenixProject(runeug,eugCircSize,eugNumSolutions,runstl,runlib,runsim,runCount,confidence,threshold,runInMap,runplots);
+                                Args.Decomposition runDecomposition = Args.Decomposition.PR_C_T;
+                                PhoenixProject proj = new PhoenixProject(runeug,eugCircSize,eugNumSolutions,runstl,runlib,runsim,runDecomposition,runCount,confidence,threshold,runInMap,runplots);
                                 break;
                             case "--override":
                                 break;

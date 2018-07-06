@@ -17,11 +17,9 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.sbolstandard.core2.SBOLConversionException;
 import org.sbolstandard.core2.SBOLDocument;
 import org.sbolstandard.core2.SBOLValidationException;
-import org.sbolstandard.core2.SBOLWriter;
 
 /**
  *
@@ -62,11 +60,10 @@ public class SBOLAdaptorTest {
      */
     @Test
     public void testConvertUCFtoSBOL() throws SBOLValidationException, URISyntaxException, IOException, SBOLConversionException, FileNotFoundException, XMLStreamException {
-        String ucfFP = Utilities.getTestedCircuitsFilepath() + "ucf" + Utilities.getSeparater() + "sampleUCF" + Utilities.getSeparater() + "sampleUCF.json";
+        String ucfFP = Utilities.getTestedCircuitsFilepath() + "ucf" + Utilities.getSeparater() +  "sampleUCF.json";
         String outputfp = Utilities.getTestedCircuitsFilepath() + "ucf" + Utilities.getSeparater() + "sampleUCF" + Utilities.getSeparater();
         JSONObject ucf = new JSONObject(Utilities.getFileContentAsString(ucfFP)); 
         SBOLDocument doc = SBOLAdaptor.convertUCFtoSBOL(ucf,outputfp);
-        SBOLWriter.write(doc, outputfp + "ucf.xml");
     }
     
     

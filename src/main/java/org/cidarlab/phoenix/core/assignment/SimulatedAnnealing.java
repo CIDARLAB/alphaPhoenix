@@ -8,7 +8,8 @@ package org.cidarlab.phoenix.core.assignment;
 import hyness.stl.TreeNode;
 import java.util.List;
 import org.cidarlab.phoenix.dom.Module;
-import org.cidarlab.phoenix.library.Library;
+import org.cidarlab.phoenix.dom.library.Library;
+import org.cidarlab.phoenix.utils.Args;
 
 /**
  *
@@ -17,7 +18,7 @@ import org.cidarlab.phoenix.library.Library;
 public class SimulatedAnnealing extends AbstractAssignment {
 
     @Override
-    public void solve(List<Module> modules, Library library, TreeNode stl, int runCount, double confidence, double threshold) {
+    public void solve(List<Module> modules, Library library, TreeNode stl, Args args) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

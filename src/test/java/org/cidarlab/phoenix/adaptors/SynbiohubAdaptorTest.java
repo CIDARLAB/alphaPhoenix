@@ -10,7 +10,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.cidarlab.phoenix.core.PhoenixProjectTest;
 import org.cidarlab.phoenix.utils.Utilities;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -361,7 +360,7 @@ public class SynbiohubAdaptorTest {
 
             //</editor-fold>    
         } catch (URISyntaxException | SBOLValidationException | IOException | SBOLConversionException ex) {
-            Logger.getLogger(PhoenixProjectTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SynbiohubAdaptorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

@@ -64,12 +64,12 @@ public class DnaPlotlibAdaptorTest {
 
         p10 = new Component();
         p10.setName("p1");
-        p10.setRole(Component.ComponentRole.PROMOTER);
+        p10.setRole(Component.ComponentRole.PROMOTER_INDUCIBLE);
         p10.setOrientation(Orientation.FORWARD);
         
         p11 = new Component();
         p11.setName("p1");
-        p11.setRole(Component.ComponentRole.PROMOTER);
+        p11.setRole(Component.ComponentRole.PROMOTER_INDUCIBLE);
         p11.setOrientation(Orientation.FORWARD);
 
         r1 = new Component();
@@ -89,12 +89,12 @@ public class DnaPlotlibAdaptorTest {
 
         p20 = new Component();
         p20.setName("p2");
-        p20.setRole(Component.ComponentRole.PROMOTER);
+        p20.setRole(Component.ComponentRole.PROMOTER_INDUCIBLE);
         p20.setOrientation(Orientation.FORWARD);
 
         p21 = new Component();
         p21.setName("p2");
-        p21.setRole(Component.ComponentRole.PROMOTER);
+        p21.setRole(Component.ComponentRole.PROMOTER_INDUCIBLE);
         p21.setOrientation(Orientation.FORWARD);
 
         r2 = new Component();

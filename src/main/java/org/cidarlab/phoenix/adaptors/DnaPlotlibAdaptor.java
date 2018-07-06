@@ -400,11 +400,9 @@ public class DnaPlotlibAdaptor {
         switch(role){
             case PROTEIN:
                 return 'w';
-            case INDUCER:
-                return 'w';
             case PROMOTER:
             case PROMOTER_REPRESSIBLE:
-            case PROMOTER_INDUCIBLE:
+            case PROMOTER_ACTIVATABLE:
             case PROMOTER_CONSTITUTIVE:
                 return 'p';
             case RBS:
@@ -412,8 +410,8 @@ public class DnaPlotlibAdaptor {
             case CDS:
             case CDS_REPRESSOR:
             case CDS_ACTIVATOR:
-            case CDS_REPRESSIBLE_REPRESSOR:
-            case CDS_ACTIVATIBLE_ACTIVATOR:
+            //case CDS_REPRESSIBLE_REPRESSOR:
+            //case CDS_ACTIVATIBLE_ACTIVATOR:
             case CDS_LINKER:
             case CDS_TAG:
             case CDS_RESISTANCE:

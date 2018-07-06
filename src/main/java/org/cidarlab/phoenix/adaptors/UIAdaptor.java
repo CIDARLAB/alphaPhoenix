@@ -56,7 +56,7 @@ public class UIAdaptor {
         String cdsImg = "";
         for(Module child:module.getChildren()){
             switch(child.getRole()){
-                case PROMOTER:
+                /*case PROMOTER:
                     for (List<CandidateComponent> candidates : child.getAssignments()) {
                         promCandidates.add(getCandidateComponentString(child.getRole(), candidates));
                         promImg = child.getAbstractSBOLVisual(getPromoterColorMap(child));
@@ -67,7 +67,7 @@ public class UIAdaptor {
                         cdsCandidates.add(getCandidateComponentString(child.getRole(), candidates));
                         cdsImg = child.getAbstractSBOLVisual(new HashMap<String,String>());
                     }
-                    break;
+                    break;*/
                 default:
                     System.err.println("Unexpected child for a Transcriptional Unit Module");
             }
@@ -136,8 +136,8 @@ public class UIAdaptor {
                         case CDS:
                         case CDS_REPRESSOR:
                         case CDS_ACTIVATOR:
-                        case CDS_REPRESSIBLE_REPRESSOR:
-                        case CDS_ACTIVATIBLE_ACTIVATOR:
+                        //case CDS_REPRESSIBLE_REPRESSOR:
+                        //case CDS_ACTIVATIBLE_ACTIVATOR:
                         case CDS_LINKER:
                         case CDS_TAG:
                         case CDS_RESISTANCE:

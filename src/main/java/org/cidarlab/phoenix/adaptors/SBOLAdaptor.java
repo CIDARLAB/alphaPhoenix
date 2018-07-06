@@ -19,12 +19,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import org.cidarlab.phoenix.dom.CandidateComponent;
 import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.Orientation;
-import org.cidarlab.phoenix.utils.Utilities;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.sbml.jsbml.SBMLDocument;
@@ -202,13 +202,25 @@ public class SBOLAdaptor {
         }
         promrbs.addType(new URI(engineeredRegionSO));
         int cindex = 0;
+        int startIndex = 1;
         for(Object p:part.getJSONArray("parts")){
             String pid = (String)p;
             org.sbolstandard.core2.Component sbolcomponent = promrbs.createComponent(pid + "_" + cindex, AccessType.PRIVATE, partURImap.get(pid));
             String locationId = "Location" + cindex;
             String saId = "SequenceAnnotation" + cindex;
+            String rangeId = "Range" + cindex;
             SequenceAnnotation sa = promrbs.createSequenceAnnotation(saId, locationId);
             sa.setComponent(sbolcomponent.getIdentity());
+            int seqLen = 0;
+            for(Sequence s:sbol.getComponentDefinition(partURImap.get(pid)).getSequences()){
+                seqLen = s.getElements().length();
+                break;
+            }
+            if(seqLen == 0){
+                seqLen = 1;
+            } 
+            sa.addRange(rangeId, startIndex, startIndex + seqLen-1);    
+            startIndex += seqLen;
             cindex++;
         }
         return promrbs.getIdentity();
@@ -282,7 +294,7 @@ public class SBOLAdaptor {
             String complexMD = baseurl + complex + "_complex_ModuleDefinition" + "/" + version;
             if(sbol.getModuleDefinition(new URI(complexMD)) == null){
                 ComponentDefinition prot = sbol.getComponentDefinition(partURImap.get(cdsId + "_Protein"));
-                createComplex(sbol, smIdList, smCDs, cdsId + "_Protein", prot);
+                createComplex(sbol, smIdList, smCDs, cdsId + "_Protein", prot, partURImap);
             }
             
             String promMD = baseurl + complex + "_Complex_" + promId + "_" + interaction + "/" + version;
@@ -406,7 +418,7 @@ public class SBOLAdaptor {
         writer.writeSBMLToFile(model, outputfp + part.getString("id") + ".xml");
     }
     
-    private static void createComplex(SBOLDocument sbol, List<String> smIds, List<ComponentDefinition> smCDS, String protId, ComponentDefinition prot) throws SBOLValidationException{
+    private static void createComplex(SBOLDocument sbol, List<String> smIds, List<ComponentDefinition> smCDS, String protId, ComponentDefinition prot, Map<String,URI> partURImap) throws SBOLValidationException{
         String complex = "";
         for(String s: smIds){
             complex += s + "_";
@@ -414,6 +426,16 @@ public class SBOLAdaptor {
         complex += protId ;
         ComponentDefinition cmplx = sbol.createComponentDefinition(baseurl, complex + "_Complex", version, ComponentDefinition.COMPLEX);
         cmplx.setName(complex + " Complex");
+        
+        QName qname = new QName(baseurl,"complexType");
+            
+        
+        for(String s:smIds){
+            org.sbolstandard.core2.Component smcomp = cmplx.createComponent(s, AccessType.PRIVATE, partURImap.get(s));
+            smcomp.createAnnotation(qname, "SmallMolecule");
+        }
+        org.sbolstandard.core2.Component protComplex = cmplx.createComponent(protId, AccessType.PRIVATE, prot.getIdentity());
+        protComplex.createAnnotation(qname, "Protein");
         
         ModuleDefinition md = sbol.createModuleDefinition(baseurl, complex + "_complex_ModuleDefinition", version);
         List<FunctionalComponent> smFCList = new ArrayList<>();
@@ -563,6 +585,14 @@ public class SBOLAdaptor {
             sm.setName(part.getString("name"));
         } else {
             sm.setName(part.getString("id"));
+        }
+        if(part.has("max")){
+            QName qnmax = new QName(baseurl,"max");
+            sm.createAnnotation(qnmax, part.getDouble("max"));
+        }
+        if(part.has("min")){
+            QName qnmin = new QName(baseurl,"min");
+            sm.createAnnotation(qnmin, part.getDouble("min"));
         }
         return sm.getIdentity();
     }

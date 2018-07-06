@@ -199,15 +199,16 @@ public class Serializer {
     
     private static String createComboString(Module module){
         String str = "";
-        if(!module.getAssignments().isEmpty()){
+        /*if(!module.getAssignments().isEmpty()){
             str += createComboString(module.getAssignments().get(0));
             for(int i=1;i<module.getAssignments().size();i++){
                 str += ("," + createComboString(module.getAssignments().get(i)));
             }
-        }
+        }*/
         
         return str;
     }
+    
     private static String createComboString(List<CandidateComponent> assignment){
         String str = "";
         for(CandidateComponent cc:assignment){

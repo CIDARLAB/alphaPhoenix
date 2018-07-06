@@ -24,13 +24,14 @@ import org.cidarlab.phoenix.dom.CandidateComponent;
 import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Component.ComponentRole;
 import org.cidarlab.phoenix.dom.Interaction;
-import org.cidarlab.phoenix.dom.LibraryComponent;
+import org.cidarlab.phoenix.dom.library.LibraryComponent;
 import org.cidarlab.phoenix.dom.Model;
 import org.cidarlab.phoenix.dom.ModelPart;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.Module.ModuleRole;
 import org.cidarlab.phoenix.dom.Orientation;
-import org.cidarlab.phoenix.library.Library;
+import org.cidarlab.phoenix.dom.library.Library;
+import org.cidarlab.phoenix.utils.Args;
 import org.cidarlab.phoenix.utils.Utilities;
 import org.json.JSONObject;
 import org.sbml.jsbml.SBMLDocument;
@@ -192,90 +193,6 @@ public class Controller {
         return loopAssignments;
     }
 
-    public static void assignPromCandidates(Module module, Library lib, SBOLDocument doc, Orientation o) {
-        List<List<CandidateComponent>> tempAssignments;
-        List<List<CandidateComponent>> loopAssignments = new ArrayList<>();
-        for (int i = 0; i < module.getComponents().size(); i++) {
-            tempAssignments = new ArrayList<>();
-            Component c = module.getComponents().get(i);
-            if (c.getOrientation().equals(getOppositeOrientation(o))) {
-                //Assign test here for all Reverse strand weirdness.
-                if (isPromoter(c)) {
-                    for (List<CandidateComponent> lassignment : loopAssignments) {
-                        List<CandidateComponent> assignment = new ArrayList<>();
-                        assignment.addAll(lassignment);
-                        assignment.add(new CandidateComponent(c, lib.getPromoterTest()));
-                        tempAssignments.add(assignment);
-                    }
-
-                } else if (isRBS(c)) {
-                    for (List<CandidateComponent> lassignment : loopAssignments) {
-                        List<CandidateComponent> assignment = new ArrayList<>();
-                        assignment.addAll(lassignment);
-                        assignment.add(new CandidateComponent(c, lib.getRbsTest()));
-                        tempAssignments.add(assignment);
-                    }
-                } else if (isCDS(c)) {
-                    for (List<CandidateComponent> lassignment : loopAssignments) {
-                        List<CandidateComponent> assignment = new ArrayList<>();
-                        assignment.addAll(lassignment);
-                        assignment.add(new CandidateComponent(c, lib.getCdsTest()));
-                        tempAssignments.add(assignment);
-                    }
-
-                } else if (isTerminator(c)) {
-                    for (List<CandidateComponent> lassignment : loopAssignments) {
-                        List<CandidateComponent> assignment = new ArrayList<>();
-                        assignment.addAll(lassignment);
-                        assignment.add(new CandidateComponent(c, lib.getTerTest()));
-                        tempAssignments.add(assignment);
-                    }
-                }
-            } else {
-                if (loopAssignments.isEmpty()) {
-                    for (LibraryComponent lc : c.getCandidates()) {
-                        List<CandidateComponent> assignment = new ArrayList<>();
-                        assignment.add(new CandidateComponent(c, lc));
-                        tempAssignments.add(assignment);
-                    }
-                } else {
-
-                    for (List<CandidateComponent> lassignment : loopAssignments) {
-                        //Do checks to see if you can assign this specific Component....
-                        if (isCDS(c) || (c.getRole().equals(ComponentRole.TESTING))) {
-                            List<CandidateComponent> assignment = new ArrayList<>();
-                            assignment.addAll(lassignment);
-                            assignment.add(new CandidateComponent(c, lib.getCdsTest()));
-                            tempAssignments.add(assignment);
-                        } else {
-                            for (LibraryComponent lc : c.getCandidates()) {
-                                List<CandidateComponent> assignment = new ArrayList<>();
-                                assignment.addAll(lassignment);
-                                assignment.add(new CandidateComponent(c, lc));
-                                tempAssignments.add(assignment);
-                            }
-                        }
-                    }
-                }
-            }
-            loopAssignments = new ArrayList<>();
-            loopAssignments.addAll(tempAssignments);
-
-        }
-        module.setAssignments(loopAssignments);
-    }
-
-    public static void assignCDSCandidates(Module module) {
-        List<List<CandidateComponent>> assignments = new ArrayList<>();
-        Component cds = module.getComponents().get(0);
-        for (LibraryComponent c : cds.getCandidates()) {
-            List<CandidateComponent> assignment = new ArrayList<>();
-            assignment.add(new CandidateComponent(cds, c));
-            assignments.add(assignment);
-        }
-        module.setAssignments(assignments);
-    }
-
     private static int getCDSindex(Module module) {
         for (int i = 0; i < module.getComponents().size(); i++) {
             Component c = module.getComponents().get(i);
@@ -286,124 +203,7 @@ public class Controller {
         return -1;
     }
 
-    public static void assignTUCandidates(Module module, Library lib, SBOLDocument doc, Orientation o) {
-
-        Module promModule = module.getChildren().get(0);
-        Module cdsModule = module.getChildren().get(1);
-        int indx = getCDSindex(promModule);
-        Component c = promModule.getComponents().get(indx);
-        boolean selfLoop = false;
-        boolean rep = false;
-        if (c.getRole().equals(ComponentRole.CDS_ACTIVATOR)) {
-            Component prom = module.getComponents().get(0);
-            if (prom.getRole().equals(ComponentRole.PROMOTER_INDUCIBLE)) {
-                for (Interaction inter : c.getInteractions()) {
-                    if (inter.getTo().equals(prom)) {
-                        selfLoop = true;
-                        rep = false;
-                        break;
-                    }
-                }
-            }
-        }
-        if (c.getRole().equals(ComponentRole.CDS_REPRESSOR)) {
-            Component prom = module.getComponents().get(0);
-            if (prom.getRole().equals(ComponentRole.PROMOTER_REPRESSIBLE)) {
-                for (Interaction inter : c.getInteractions()) {
-                    if (inter.getTo().equals(prom)) {
-                        selfLoop = true;
-                        rep = true;
-                        break;
-                    }
-                }
-            }
-        }
-        List<List<CandidateComponent>> assignments = new ArrayList<>();
-        List<CandidateComponent> cdscc = new ArrayList<>();
-        for (List<CandidateComponent> lassignment : cdsModule.getAssignments()) {
-            cdscc.add(lassignment.get(0));
-        }
-        for (List<CandidateComponent> lassignment : promModule.getAssignments()) {
-            for (CandidateComponent cc : cdscc) {
-                if (selfLoop) {
-                    LibraryComponent cdslc = cc.getCandidate();
-                    LibraryComponent promlc = lassignment.get(indx).getCandidate();
-                    if (rep) {
-                        if (represses(cdslc, promlc, doc)) {
-                            List<CandidateComponent> assignment = new ArrayList<>();
-                            assignment.addAll(lassignment);
-                            assignment.set(indx, cc);
-                            assignments.add(assignment);
-                        }
-                    } else {
-                        if (activates(cdslc, promlc, doc)) {
-                            List<CandidateComponent> assignment = new ArrayList<>();
-                            assignment.addAll(lassignment);
-                            assignment.set(indx, cc);
-                            assignments.add(assignment);
-                        }
-                    }
-                } else {
-                    List<CandidateComponent> assignment = new ArrayList<>();
-                    assignment.addAll(lassignment);
-                    assignment.set(indx, cc);
-                    assignments.add(assignment);
-                }
-            }
-        }
-        module.setAssignments(assignments);
-    }
-
-    public static void assignLeafCandidates(Module module, Library lib) {
-        if (module.getRole().equals(ModuleRole.PROMOTER)) {
-            for (Component component : module.getComponents()) {
-                //if(!assigned.containsKey(component.getName())){
-                if (component.getRole().equals(ComponentRole.PROMOTER_CONSTITUTIVE)) {
-                    component.setCandidates(new ArrayList<>(lib.getConstitutivePromoters().values()));
-                } else if (component.getRole().equals(ComponentRole.PROMOTER_REPRESSIBLE)) {
-                    if(component.getInteractions().isEmpty()){
-                        component.setCandidates(new ArrayList<>(lib.getInputRepPromoters().values()));
-                    } else {
-                        component.setCandidates(new ArrayList<>(lib.getRepressiblePromoters().values()));
-                    }
-                } else if (component.getRole().equals(ComponentRole.PROMOTER_INDUCIBLE)) {
-                    if(component.getInteractions().isEmpty()){
-                        component.setCandidates(new ArrayList<>(lib.getInputActPromoters().values()));
-                    } else {
-                        component.setCandidates(new ArrayList<>(lib.getActivatiblePromoters().values()));
-                    }
-                } else if (component.getRole().equals(ComponentRole.RBS)) {
-                    component.setCandidates(new ArrayList<>(lib.getRbs().values()));
-                } else if (component.getRole().equals(ComponentRole.TESTING)) {
-                    component.setCandidates(new ArrayList<>(lib.getTesters().values()));
-                } else if (component.getRole().equals(ComponentRole.TERMINATOR)) {
-                    component.setCandidates(new ArrayList<>(lib.getTerminators().values()));
-                }
-                //assigned.put(component.getName(), component);
-                //}
-            }
-        } else if (module.getRole().equals(ModuleRole.CDS)) {
-            for (Component component : module.getComponents()) {
-                //if(!assigned.containsKey(component.getName())){
-                if (component.getRole().equals(ComponentRole.CDS_ACTIVATOR)) {
-                    component.setCandidates(new ArrayList<>(lib.getActivatorCDS().values()));
-                } else if (component.getRole().equals(ComponentRole.CDS_REPRESSOR)) {
-                    component.setCandidates(new ArrayList<>(lib.getRepressorCDS().values()));
-                } else if (component.getRole().equals(ComponentRole.CDS_FLUORESCENT) || component.getRole().equals(ComponentRole.CDS)) {
-                    component.setCandidates(new ArrayList<>(lib.getOutputCDS().values()));
-                } else {
-                    System.out.println("Not supported yet.");
-                }
-                //assigned.put(component.getName(), component);
-                //}
-            }
-        } else {
-            for (Module child : module.getChildren()) {
-                assignLeafCandidates(child, lib);
-            }
-        }
-    }
-
+    
     private static boolean shareProtein(ModuleDefinition cds, ModuleDefinition prom) {
         URI cdsuri = null;
         URI promuri = null;
@@ -515,44 +315,8 @@ public class Controller {
         return false;
     }
     
-    public static void assignTUCandidates(Module module, Library lib, SBOLDocument doc){
-        assignLeafCandidates(module,lib);
-        List<Module> tus = module.getChildren();
-        for(Module tu:tus){
-            for(Module leaf:tu.getChildren()){
-                if(leaf.getRole().equals(ModuleRole.PROMOTER)){
-                    assignPromCandidates(leaf,lib,doc,leaf.getOrientation());
-                } else if(leaf.getRole().equals(ModuleRole.CDS)){
-                    assignCDSCandidates(leaf);
-                }
-            }
-        }
-        for(Module tu:tus){
-            assignTUCandidates(tu,lib,doc,tu.getOrientation());
-        }
-        
-    }
-    
-    public static List<Map<String,CandidateComponent>> assign(Module module, Library lib, SBOLDocument doc){
-        assignLeafCandidates(module,lib);
-        List<Module> tus = module.getChildren();
-        for(Module tu:tus){
-            for(Module leaf:tu.getChildren()){
-                if(leaf.getRole().equals(ModuleRole.PROMOTER)){
-                    assignPromCandidates(leaf,lib,doc,leaf.getOrientation());
-                } else if(leaf.getRole().equals(ModuleRole.CDS)){
-                    assignCDSCandidates(leaf);
-                }
-            }
-        }
-        for(Module tu:tus){
-            assignTUCandidates(tu,lib,doc,tu.getOrientation());
-        }
-        return assignCircuitCandidates(module,lib,doc);
-    }
-    
     //<editor-fold desc="Decompose a Phoenix Module based on the mode">
-    public static Module decompose(Module root) {
+    public static Module decompose(Module root, Args.Decomposition decomposition) {
         boolean started = false;
         List<Component> components = null;
 
@@ -584,7 +348,7 @@ public class Controller {
                         child.setRole(ModuleRole.TRANSCRIPTIONAL_UNIT);
                         child.setRoot(false);
                         child.setOrientation(Orientation.FORWARD);
-                        decomposeTU(child);
+                        decomposeTU(child, decomposition);
                         root.addChild(child);
                         started = false;
                     }
@@ -623,7 +387,7 @@ public class Controller {
                         child.setRole(ModuleRole.TRANSCRIPTIONAL_UNIT);
                         child.setRoot(false);
                         child.setOrientation(Orientation.REVERSE);
-                        decomposeTU(child);
+                        decomposeTU(child, decomposition);
                         root.addChild(child);
                         started = false;
                     }
@@ -632,101 +396,114 @@ public class Controller {
                 }
             }
         }
-        root.setIOCNames();
+        //root.setIOCNames();
         
-        System.out.println("IOC Names for current Module :: ");
-        root.printIOCNames();
+        //System.out.println("IOC Names for current Module :: ");
+        //root.printIOCNames();
         
         return root;
 
     }
 
-    private static void decomposeTU(Module module) {
-        List<Component> components = new ArrayList<>();
-        Module cds = null;
-        for (Component c : module.getComponents()) {
-            if (isCDS(c) && (c.getOrientation().equals(module.getOrientation()))) {
-                cds = new Module("CDS");
-                cds.addComponent(c);
-                cds.setRole(ModuleRole.CDS);
-                cds.setOrientation(module.getOrientation());
-
-                Component test = new Component();
-                test.setOrientation(c.getOrientation());
-                test.setRole(ComponentRole.TESTING);
-                test.setName(c.getName() + "_test");
-                components.add(test);
+    private static void decomposeTU(Module module, Args.Decomposition decomposition) {
+        
+        switch(decomposition){
+            case PR_C_T:
+                decomposePR_C_T(module);
+                break;
+            case P_RC_T:
+                
+                break;
+        }
+    }
+    
+    private static void decomposePR_C_T(Module module){
+        
+        Module pr = new Module("PR");
+        Module cds = new Module("C");
+        Module ter = new Module("T");
+        
+        boolean prCreated = false;
+        boolean cdsCreated = false;
+        List<Component> prComponents = new ArrayList<>();
+        List<Component> cdsComponents = new ArrayList<>();
+        List<Component> terComponents = new ArrayList<>();
+        
+        for(Component c:module.getComponents()){
+            if(!prCreated){
+                if(c.getOrientation().equals(module.getOrientation())){
+                    prComponents.add(c);
+                } else {
+                    Component wc = new Component();
+                    wc.setRole(ComponentRole.WILDCARD);
+                    wc.setName(c.getName() + "_Test");
+                    wc.setOrientation(c.getOrientation());
+                    prComponents.add(wc);
+                }
+                if (isRBS(c)) {
+                    prCreated = true;
+                }
             } else {
-                components.add(c);
+                if(isTerminator(c)){
+                    terComponents.add(c);
+                    cdsCreated = true;
+                }
+                if (!cdsCreated) {
+                    if (c.getOrientation().equals(module.getOrientation())) {
+                        cdsComponents.add(c);
+                    } else {
+                        Component wc = new Component();
+                        wc.setRole(ComponentRole.WILDCARD);
+                        wc.setName(c.getName() + "_Test");
+                        wc.setOrientation(c.getOrientation());
+                        cdsComponents.add(wc);
+                    }
+                    
+                }
             }
         }
-        Module prom = new Module("Prom");
-        prom.setRole(ModuleRole.PROMOTER);
-        prom.setComponents(components);
-        prom.setOrientation(module.getOrientation());
-
-        module.addChild(prom);
+        pr.setOrientation(module.getOrientation());
+        pr.setRole(ModuleRole.PROMOTER_RBS);
+        pr.setComponents(prComponents);
+        
+        cds.setOrientation(module.getOrientation());
+        cds.setRole(ModuleRole.CDS);
+        cds.setComponents(cdsComponents);
+        
+        ter.setOrientation(module.getOrientation());
+        ter.setRole(ModuleRole.TERMINATOR);
+        ter.setComponents(terComponents);
+        
+        module.addChild(pr);
         module.addChild(cds);
+        module.addChild(ter);
+        
+        
     }
+    
+    private static void decomposeP_RC_T(Module module){
+        
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="Identify the Component Type">
-    private static boolean isBioCPSModule(Component c) {
-        switch (c.getRole()) {
-            case CDS_REPRESSOR:
-            case CDS_ACTIVATOR:
-            case CDS_REPRESSIBLE_REPRESSOR:
-            case CDS_ACTIVATIBLE_ACTIVATOR:
-                return true;
-            case CDS_LINKER:
-            case CDS_TAG:
-            case CDS_RESISTANCE:
-            case CDS_FLUORESCENT:
-            case CDS_FLUORESCENT_FUSION:
-            case CDS:
-            case TERMINATOR:
-            case PROMOTER:
-            case PROMOTER_REPRESSIBLE:
-            case PROMOTER_INDUCIBLE:
-            case PROMOTER_CONSTITUTIVE:
-            case RBS:
-            case ORIGIN:
-            case VECTOR:
-            case TESTING:
-            case MARKER:
-            case WILDCARD:
-                return false;
-            default:
-                return false;
-
-        }
-    }
-
+    
     public static boolean isCDS(Component c) {
         switch (c.getRole()) {
             case CDS:
             case CDS_REPRESSOR:
             case CDS_ACTIVATOR:
-            case CDS_REPRESSIBLE_REPRESSOR:
-            case CDS_ACTIVATIBLE_ACTIVATOR:
+            //case CDS_REPRESSIBLE_REPRESSOR:
+            //case CDS_ACTIVATIBLE_ACTIVATOR:
             case CDS_LINKER:
             case CDS_TAG:
             case CDS_RESISTANCE:
             case CDS_FLUORESCENT:
             case CDS_FLUORESCENT_FUSION:
             case TESTING:
+            case GENERIC_CDS:
                 return true;
-            case TERMINATOR:
-            case PROMOTER:
-            case PROMOTER_REPRESSIBLE:
-            case PROMOTER_INDUCIBLE:
-            case PROMOTER_CONSTITUTIVE:
-            case RBS:
-            case ORIGIN:
-            case VECTOR:
-            case MARKER:
-            case WILDCARD:
-                return false;
             default:
                 return false;
 
@@ -736,28 +513,8 @@ public class Controller {
     private static boolean isRBS(Component c) {
         switch (c.getRole()) {
             case RBS:
+            case GENERIC_RBS:
                 return true;
-            case TERMINATOR:
-            case PROMOTER:
-            case PROMOTER_REPRESSIBLE:
-            case PROMOTER_INDUCIBLE:
-            case PROMOTER_CONSTITUTIVE:
-            case CDS:
-            case CDS_REPRESSOR:
-            case CDS_ACTIVATOR:
-            case CDS_REPRESSIBLE_REPRESSOR:
-            case CDS_ACTIVATIBLE_ACTIVATOR:
-            case CDS_LINKER:
-            case CDS_TAG:
-            case CDS_RESISTANCE:
-            case CDS_FLUORESCENT:
-            case CDS_FLUORESCENT_FUSION:
-            case ORIGIN:
-            case VECTOR:
-            case TESTING:
-            case MARKER:
-            case WILDCARD:
-                return false;
             default:
                 return false;
 
@@ -767,28 +524,8 @@ public class Controller {
     private static boolean isTerminator(Component c) {
         switch (c.getRole()) {
             case TERMINATOR:
+            case GENERIC_TERMINATOR:
                 return true;
-            case PROMOTER:
-            case PROMOTER_REPRESSIBLE:
-            case PROMOTER_INDUCIBLE:
-            case PROMOTER_CONSTITUTIVE:
-            case RBS:
-            case CDS:
-            case CDS_REPRESSOR:
-            case CDS_ACTIVATOR:
-            case CDS_REPRESSIBLE_REPRESSOR:
-            case CDS_ACTIVATIBLE_ACTIVATOR:
-            case CDS_LINKER:
-            case CDS_TAG:
-            case CDS_RESISTANCE:
-            case CDS_FLUORESCENT:
-            case CDS_FLUORESCENT_FUSION:
-            case ORIGIN:
-            case VECTOR:
-            case TESTING:
-            case MARKER:
-            case WILDCARD:
-                return false;
             default:
                 return false;
 
@@ -797,29 +534,12 @@ public class Controller {
 
     public static boolean isPromoter(Component c) {
         switch (c.getRole()) {
-            case PROMOTER:
-            case PROMOTER_REPRESSIBLE:
             case PROMOTER_INDUCIBLE:
+            case PROMOTER_REPRESSIBLE:
+            case PROMOTER_ACTIVATABLE:
             case PROMOTER_CONSTITUTIVE:
+            case GENERIC_PROMOTER:
                 return true;
-            case RBS:
-            case CDS:
-            case CDS_REPRESSOR:
-            case CDS_ACTIVATOR:
-            case CDS_REPRESSIBLE_REPRESSOR:
-            case CDS_ACTIVATIBLE_ACTIVATOR:
-            case CDS_LINKER:
-            case CDS_TAG:
-            case CDS_RESISTANCE:
-            case CDS_FLUORESCENT:
-            case CDS_FLUORESCENT_FUSION:
-            case TERMINATOR:
-            case ORIGIN:
-            case VECTOR:
-            case TESTING:
-            case MARKER:
-            case WILDCARD:
-                return false;
             default:
                 return false;
 

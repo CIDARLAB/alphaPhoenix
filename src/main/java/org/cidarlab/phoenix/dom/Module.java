@@ -33,7 +33,11 @@ public class Module {
     
     @Getter
     @Setter
-    private List<List<CandidateComponent>> assignments = new ArrayList<>();
+    private List<CandidateComponent> candidates = new ArrayList<>();
+    
+    @Getter
+    @Setter
+    private List<Map<String, CandidateComponent>> assignments = new ArrayList<>();
     
     @Getter
     @Setter
@@ -211,10 +215,10 @@ public class Module {
         HIGHER_FUNCTION,
         TRANSCRIPTIONAL_UNIT,
         PROMOTER,
+        PROMOTER_RBS,
+        RBS_CDS,
         CDS, 
-        BIOCPS_INPUT,
-        BIOCPS_MODULE,
-        BIOCPS_OUTPUT
+        TERMINATOR,
     }
     
     

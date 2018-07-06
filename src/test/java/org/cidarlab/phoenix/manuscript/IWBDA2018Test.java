@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.cidarlab.phoenix.forManuscript;
+package org.cidarlab.phoenix.manuscript;
 
 import java.util.ArrayList;
 import java.util.List;
