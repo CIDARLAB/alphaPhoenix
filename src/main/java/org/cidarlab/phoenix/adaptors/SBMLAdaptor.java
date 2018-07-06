@@ -624,9 +624,10 @@ public class SBMLAdaptor {
         hillCoefSM.setValue(2.0);
         inducibleActivatableExpressionLaw.setMath(parseFormula(basalExpressionRate.getId() + "+((" + maxBasalExpressionRate.getId() + "*(" + activator.getId() + "^"
                 + hillCoefBasal.getId() + "))/((" + kdBasal.getId() + "^" + hillCoefBasal.getId() + ")+(" + activator.getId() + "^" + hillCoefBasal.getId() + ")))"
-                + "+((" + maxTFExpressionRate.getId() + "*(" + activator.getId() + "^" + hillCoefTF.getId() + "))/((" + kdTF.getId() + "^" + hillCoefTF.getId()
-                + ")+(" + activator.getId() + "^" + hillCoefTF.getId() + ")))*((" + maxSMExpressionRate.getId() + "*(" + inducer.getId() + "^" + hillCoefSM.getId()
-                + "))/((" + kdSM.getId() + "^" + hillCoefSM.getId() + ")+(" + inducer.getId() + "^" + hillCoefSM.getId() + ")))"));
+                + "+((" + maxTFExpressionRate.getId() + "*((" + activator.getId() + "*((" + maxSMExpressionRate.getId() + "*(" + inducer.getId() + "^" + hillCoefSM.getId()
+                + "))/((" + kdSM.getId() + "^" + hillCoefSM.getId() + ")+(" + inducer.getId() + "^" + hillCoefSM.getId() + "))))^" + hillCoefTF.getId() + "))/((" + kdTF.getId()
+                + "^" + hillCoefTF.getId() + ")+((" + activator.getId() + "*((" + maxSMExpressionRate.getId() + "*(" + inducer.getId() + "^" + hillCoefSM.getId()
+                + "))/((" + kdSM.getId() + "^" + hillCoefSM.getId() + ")+(" + inducer.getId() + "^" + hillCoefSM.getId() + "))))^" + hillCoefTF.getId() + ")))*"));
         return inducibleActivatableExpression;
     }
     
