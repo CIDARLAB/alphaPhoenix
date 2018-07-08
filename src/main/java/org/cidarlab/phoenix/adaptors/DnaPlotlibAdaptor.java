@@ -263,7 +263,6 @@ public class DnaPlotlibAdaptor {
          return createPartString(name,label,role,"(0.00, 0.00, 0.00)",o);
     }
     
-    
     private static String createPartString(String name, boolean label, ComponentRole role, String color, Orientation o){
         String scr = "";
         scr +=  "{";
@@ -324,7 +323,6 @@ public class DnaPlotlibAdaptor {
         
         return scr;
     }
-    
     
     public static String getUniqueString(List<Component> components){
         
@@ -400,7 +398,7 @@ public class DnaPlotlibAdaptor {
         switch(role){
             case PROTEIN:
                 return 'w';
-            case PROMOTER:
+            case PROMOTER_INDUCIBLE:
             case PROMOTER_REPRESSIBLE:
             case PROMOTER_ACTIVATABLE:
             case PROMOTER_CONSTITUTIVE:
@@ -431,6 +429,8 @@ public class DnaPlotlibAdaptor {
         }
     }
     
+    
+    
     public static void runScript(String filepath) throws InterruptedException, IOException{
         System.out.println("Running python script for : " + filepath);
         StringBuilder commandBuilder = null;
@@ -445,5 +445,7 @@ public class DnaPlotlibAdaptor {
         proc.waitFor();
         System.out.println("Script completed.");
     }
+    
+    
     
 }

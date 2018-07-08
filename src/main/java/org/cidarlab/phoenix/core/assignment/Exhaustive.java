@@ -53,6 +53,8 @@ public class Exhaustive extends AbstractAssignment {
         for(int i=0;i<modules.size();i++){
             String simfp = args.getProjectFolder() + i + Utilities.getSeparater();
             Utilities.makeDirectory(simfp);
+            Module m = modules.get(i);
+            
             try {
                 Simulation.run(modules.get(i),library,stl,args,simfp);
             } catch (URISyntaxException | MalformedURLException | XMLStreamException | FileNotFoundException ex) {
@@ -282,10 +284,28 @@ public class Exhaustive extends AbstractAssignment {
             if(outputCDS.size() != outcount){
                 continue;
             }
-            promProteins.removeAll(outputCDS);
-            if(!promProteins.isEmpty()){
+            
+            boolean shouldContinue = false;
+            for(URI pp:promProteins){
+                if(!cdsProteins.contains(pp)){
+                    shouldContinue = true;
+                    break;
+                }
+            }
+            if(shouldContinue){
                 continue;
             }
+            shouldContinue = false;
+            for(URI cp:cdsProteins){
+                if(!promProteins.contains(cp)){
+                    shouldContinue = true;
+                    break;
+                }
+            }
+            if(shouldContinue){
+                continue;
+            }
+            
             finalAssignments.add(assignment);
             
         }

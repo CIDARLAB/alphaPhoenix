@@ -22,7 +22,7 @@ public class CDSComponent extends LibraryComponent {
         this.name = _name;
         this.displayId = _displayId;
         this.componentDefintion = _cd;
-        this.protein = protein;
+        this.protein = _protein;
     }
     
     

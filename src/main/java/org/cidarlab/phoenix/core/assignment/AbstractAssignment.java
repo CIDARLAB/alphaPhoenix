@@ -7,6 +7,9 @@ package org.cidarlab.phoenix.core.assignment;
 
 import hyness.stl.TreeNode;
 import java.util.List;
+import java.util.Map;
+import org.cidarlab.phoenix.dom.CandidateComponent;
+import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.library.Library;
 import org.cidarlab.phoenix.utils.Args;
@@ -18,4 +21,6 @@ import org.cidarlab.phoenix.utils.Args;
 public abstract class AbstractAssignment {
     
     abstract public void solve(List<Module> modules, Library library, TreeNode stl, Args args);
+
+    
 }

@@ -38,13 +38,16 @@ import org.cidarlab.phoenix.dom.Module.ModuleRole;
 import org.cidarlab.phoenix.dom.library.CDSComponent;
 import org.cidarlab.phoenix.dom.library.ComplexComponent;
 import org.cidarlab.phoenix.dom.library.CompositeComponent;
+import org.cidarlab.phoenix.dom.library.CompositeComponent.CompositeType;
 import org.cidarlab.phoenix.dom.library.Library;
 import org.cidarlab.phoenix.dom.library.LibraryComponent;
 import org.cidarlab.phoenix.dom.library.PrimitiveComponent;
 import org.cidarlab.phoenix.dom.library.PromoterComponent;
+import org.cidarlab.phoenix.dom.library.SmallMoleculeComponent;
 import org.cidarlab.phoenix.utils.Args;
 import org.cidarlab.phoenix.utils.Args.Decomposition;
 import org.cidarlab.phoenix.utils.Utilities;
+import org.json.JSONObject;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbolstandard.core2.ModuleDefinition;
@@ -56,6 +59,14 @@ import org.sbolstandard.core2.SBOLDocument;
  */
 public class Simulation {
 
+    public static void printAssignment(Module module, Map<String, CandidateComponent> assignment) {
+
+        for (Component c : module.getComponents()) {
+            System.out.print(assignment.get(c.getName()).getCandidate().getName() + ";");
+        }
+        System.out.println("");
+    }
+    
     public static void run(Module module, Library library, TreeNode stl, Args args, String fp) throws URISyntaxException, MalformedURLException, XMLStreamException, FileNotFoundException, IOException, TLIException, InterruptedException {
         String tempfp = fp + "temp" + Utilities.getSeparater();
         Utilities.makeDirectory(tempfp);
@@ -63,46 +74,200 @@ public class Simulation {
         SBMLWriter writer = new SBMLWriter();
 
         for (Map<String, CandidateComponent> assignment : module.getAssignments()) {
+            
+            System.out.println("Current Assignment : ");
+            printAssignment(module,assignment);
+            
             Map<String, String> ioc = getIOCmap(module, assignment, library);
             assignLeafModels(module, assignment, library.getSbol(), args.getDecomposition(), tempfp);
             renameSpecies(module, ioc, library, args.getDecomposition());
             composeModels(module, args.getDecomposition());
+            
+            Map<String,String> indSMmap =  getIndSMmap(module, assignment, ioc, library);
+            
+            if(indSMmap.isEmpty()){
+                String ifp = fp + count + Utilities.getSeparater();
+                Utilities.makeDirectory(ifp);
+                String modelFile = ifp + "model.xml";
+                
+                writer.write(module.getModel().getSbml(), modelFile);
+                double maxtime = STLAdaptor.getMaxTime(stl);
+                IBioSimAdaptor.simulateStocastic(modelFile, ifp, STLAdaptor.getMaxTime(stl), 1, 1, args.getRunCount());
+                Map<String, TreeNode> stlmap = STLAdaptor.getSignalSTLMap(stl);
+                Map<String, List<Signal>> allsignals = new HashMap<>();
+                for (int i = 1; i <= args.getRunCount(); i++) {
+                    String tsdfp = ifp + "run-" + i + ".csv";
+                    Map<String, Signal> signalMap = IBioSimAdaptor.getSignals(tsdfp);
+                    for (String key : stlmap.keySet()) {
+                        if (signalMap.containsKey(key)) {
+                            Signal s = signalMap.get(key);
+                            if (allsignals.containsKey(key)) {
+                                allsignals.get(key).add(s);
+                            } else {
+                                allsignals.put(key, new ArrayList<Signal>());
+                                allsignals.get(key).add(s);
+                            }
+                        }
+                    }
+                }
+                for (String key : allsignals.keySet()) {
+                    String plotfp = ifp + key + ".png";
+                    List<String> pylines = PyPlotAdaptor.generateSignalPlotScript(allsignals.get(key), ifp + key + ".png", 0, maxtime, 0, 2000);
+                    Utilities.writeToFile(ifp + key + "_singals.py", pylines);
+                    PyPlotAdaptor.runScript(ifp + key + "_singals.py");
+                }
+                count++;
+            } else {
+                List<Map<String, Double>> concList = getSmallMoleculeConcentration(assignment, ioc, library);
+                for (Map<String, Double> conc : concList) {
+                    
+                    SBMLDocument sbml = new SBMLDocument(module.getModel().getSbml());
+                    
+                    JSONObject smevents = new JSONObject();
+                    
+                    for(String ind:conc.keySet()){
+                        smevents.put(ind, conc.get(ind));
+                        SBMLAdaptor.addEvent(sbml, ind, 600.00, conc.get(ind));
+                    }
+                    String ifp = fp + count + Utilities.getSeparater();
+                    Utilities.makeDirectory(ifp);
+                    
+                    String modelFile = ifp + "model.xml";
+                    String smfp = ifp + "assignedSM.json";
+                    
+                    writer.write(sbml, modelFile);
+                    double maxtime = STLAdaptor.getMaxTime(stl);
+                    IBioSimAdaptor.simulateStocastic(modelFile, ifp, STLAdaptor.getMaxTime(stl), 1, 1, args.getRunCount());
+                    Map<String, TreeNode> stlmap = STLAdaptor.getSignalSTLMap(stl);
+                    Map<String, List<Signal>> allsignals = new HashMap<>();
+                    for (int i = 1; i <= args.getRunCount(); i++) {
+                        String tsdfp = ifp + "run-" + i + ".csv";
+                        Map<String, Signal> signalMap = IBioSimAdaptor.getSignals(tsdfp);
+                        for (String key : stlmap.keySet()) {
+                            if (signalMap.containsKey(key)) {
+                                Signal s = signalMap.get(key);
+                                if (allsignals.containsKey(key)) {
+                                    allsignals.get(key).add(s);
+                                } else {
+                                    allsignals.put(key, new ArrayList<Signal>());
+                                    allsignals.get(key).add(s);
+                                }
+                            }
+                        }
+                    }
+                    for (String key : allsignals.keySet()) {
+                        String plotfp = ifp + key + ".png";
+                        List<String> pylines = PyPlotAdaptor.generateSignalPlotScript(allsignals.get(key), ifp + key + ".png", 0, maxtime, 0, 2000);
+                        Utilities.writeToFile(ifp + key + "_singals.py", pylines);
+                        PyPlotAdaptor.runScript(ifp + key + "_singals.py");
+                    }
+                    
+                    Utilities.writeToFile(smfp, smevents.toString(2));
+                    
+                    count++;
+                }
+            }
+            
+            
 
-            String ifp = fp + count + Utilities.getSeparater();
-            Utilities.makeDirectory(ifp);
-            String modelFile = ifp + "model.xml";
-            writer.write(module.getModel().getSbml(), modelFile);
-            double maxtime = STLAdaptor.getMaxTime(stl);
-            IBioSimAdaptor.simulateStocastic(modelFile, ifp, STLAdaptor.getMaxTime(stl), 1, 1, args.getRunCount());
-            Map<String, TreeNode> stlmap = STLAdaptor.getSignalSTLMap(stl);
-            Map<String, List<Signal>> allsignals = new HashMap<String, List<Signal>>();
-            for (int i = 1; i <= args.getRunCount(); i++) {
-                String tsdfp = ifp + "run-" + i + ".csv";
-                Map<String, Signal> signalMap = IBioSimAdaptor.getSignals(tsdfp);
-                for (String key : stlmap.keySet()) {
-                    if (signalMap.containsKey(key)) {
-                        Signal s = signalMap.get(key);
-                        if (allsignals.containsKey(key)) {
-                            allsignals.get(key).add(s);
-                        } else {
-                            allsignals.put(key, new ArrayList<Signal>());
-                            allsignals.get(key).add(s);
+        }
+    }
+    
+    private static Map<String,String> getIndSMmap(Module m, Map<String, CandidateComponent> assignment, Map<String,String> ioc, Library library){
+        Map<String,String> map = new HashMap<>();
+        for(Component c:m.getComponents()){
+            if(c.isPromoter()){
+                String cname = c.getName();
+                LibraryComponent cc = assignment.get(cname).getCandidate();
+                PromoterComponent promcomp = null;
+                if(cc instanceof PromoterComponent){
+                    promcomp = (PromoterComponent) cc;
+                } else if(cc instanceof CompositeComponent){
+                    CompositeComponent composite = (CompositeComponent)cc;
+                    promcomp = library.getAllPromoters().get(composite.getChildren().get(0));
+                }
+                for(LibraryComponent tf:promcomp.getTranscriptionFactors()){
+                    if(tf instanceof ComplexComponent){
+                        ComplexComponent complex = (ComplexComponent)tf;
+                        SmallMoleculeComponent smc = library.getSmallMolecules().get(complex.getSmallMolecule());
+                        if(!map.containsKey(smc.getName())){
+                            map.put("ind_" + ioc.get(cname),smc.getName());
                         }
                     }
                 }
             }
-            for(String key:allsignals.keySet()){
-                String plotfp = ifp + key + ".png";
-                List<String> pylines = PyPlotAdaptor.generateSignalPlotScript(allsignals.get(key), ifp + key + ".png", 0, maxtime, 0, 2000);
-                Utilities.writeToFile(ifp + key + "_singals.py", pylines);
-                PyPlotAdaptor.runScript(ifp + key + "_singals.py");
-            }
-
-            count++;
-
         }
+        return map;
     }
-
+    
+    private static List<Map<String,Double>> getSmallMoleculeConcentration(Map<String, CandidateComponent> assignment, Map<String,String> ioc, Library library){
+        List<Map<String,Double>> smMap = new ArrayList<>();
+        Map<String,List<Double>> smConcentrations = new HashMap<>();
+        for(String cname:assignment.keySet()){
+            LibraryComponent lc = assignment.get(cname).getCandidate();
+            PromoterComponent promcomp = null;
+            boolean isPromoter = false;
+            if(lc instanceof PromoterComponent){
+                promcomp = (PromoterComponent)lc;
+                isPromoter = true;
+            } else if(lc instanceof CompositeComponent){
+                CompositeComponent compcomp = (CompositeComponent)lc;
+                if(compcomp.getType().equals(CompositeType.PR)){
+                    promcomp = library.getAllPromoters().get(compcomp.getChildren().get(0));
+                    isPromoter = true;
+                }
+            }
+            if(isPromoter){
+                for(LibraryComponent tf:promcomp.getTranscriptionFactors()){
+                    if(tf instanceof ComplexComponent){
+                        ComplexComponent complex = (ComplexComponent) tf;
+                        SmallMoleculeComponent smc = library.getSmallMolecules().get(complex.getSmallMolecule());
+                        String indName = "ind_" + ioc.get(cname);
+                        if(!smConcentrations.containsKey(indName)){
+                            if (smc.getValues().isEmpty()) {
+                                smConcentrations.put(indName, smc.getValues());
+                            } else {
+                                double min = smc.getMin();
+                                double max = smc.getMax();
+                                double inc = (max - min) * 0.05;
+                                List<Double> concs = new ArrayList<>();
+                                for(double i=min;i<=max;i+=inc){
+                                    concs.add(i);
+                                }
+                                smConcentrations.put(indName, concs);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        List<Map<String,Double>> temp = new ArrayList<>();
+        for(String ind:smConcentrations.keySet()){
+            List<Double> indConc = smConcentrations.get(ind);
+            if(smMap.isEmpty()){
+                for(Double conc:indConc){
+                    Map<String,Double> map = new HashMap<>();
+                    map.put(ind, conc);
+                    smMap.add(map);
+                }
+            } else {
+                for(Map<String,Double> hconcs: smMap){
+                    for(Double conc:indConc){
+                        Map<String,Double> map = new HashMap<>();
+                        map.putAll(hconcs);
+                        map.put(ind, conc);
+                        temp.add(map);
+                    }
+                }
+                smMap = new ArrayList<>();
+                smMap.addAll(temp);
+                temp = new ArrayList<>();
+            }
+        }
+        
+        return smMap;
+    }
+    
     private static void composeModels(Module module, Decomposition decomposition) {
         switch (decomposition) {
             case PR_C_T:
@@ -165,7 +330,7 @@ public class Simulation {
             Module cdsModule = tu.getChildren().get(1);
             Component prom = prModule.getComponents().get(0);
             Component cds = cdsModule.getComponents().get(0);
-
+            
             if (ioc.get(prom.getName()).startsWith("in")) {
                 SBMLAdaptor.renameSpecies(prModule.getModel().getSbml(), "out", ioc.get(cds.getName()));
             } else if (ioc.get(prom.getName()).startsWith("conn")) {
@@ -214,7 +379,6 @@ public class Simulation {
         int outCount = 0;
         int connCount = 0;
         Map<URI, String> protmap = new HashMap<>();
-
         Map<String, String> ioc = new HashMap<>();
         for (Component c : module.getComponents()) {
             if (c.isRBS() || c.isTerminator()) {
@@ -227,6 +391,31 @@ public class Simulation {
                     if (library.getConstitutivePromoters().containsKey(compcomp.getChildren().get(0))) {
                         ioc.put(c.getName(), "in" + inCount);
                         inCount++;
+                    } else {
+                        if(c.isPromoter()){
+                            LibraryComponent lc = assignment.get(c.getName()).getCandidate();
+                            PromoterComponent pc = library.getAllInduciblePromoters().get(compcomp.getChildren().get(0));
+                            for (LibraryComponent tf : pc.getTranscriptionFactors()) {
+                                URI promprot = null;
+                                if (tf instanceof ComplexComponent) {
+                                    ComplexComponent complex = (ComplexComponent) tf;
+                                    promprot = complex.getProtein();
+                                } else if (tf instanceof PrimitiveComponent) {
+                                    promprot = tf.getComponentDefintion();
+                                }
+                                //Need to deal with multiple instances??
+                                if (protmap.containsKey(promprot)) {
+                                    ioc.put(c.getName(), protmap.get(promprot));
+                                } else {
+                                    String conn = "conn" + connCount;
+                                    ioc.put(c.getName(), conn);
+                                    protmap.put(promprot, conn);
+                                    connCount++;
+                                }
+                                break;//
+                                //Should other proteins be renamed? 
+                            }
+                        }
                     }
                 } else if (library.getConstitutivePromoters().containsKey(cc.getCandidate().getComponentDefintion())) {
                     ioc.put(c.getName(), "in" + inCount);
@@ -280,7 +469,7 @@ public class Simulation {
                 }
             }
         }
-
+        System.out.println("IOC :: " + ioc);
         return ioc;
     }
 
@@ -303,7 +492,6 @@ public class Simulation {
             try {
                 Component cds = root.getComponents().get(0);
                 CandidateComponent cc = assignment.get(cds.getName());
-                System.out.println("DEBUGGING CDS :: " + cds.getName());
                 ModuleDefinition md = doc.getModuleDefinition(cc.getCandidate().getModuleDefinitions().get(0));
                 List<org.sbolstandard.core2.Model> sbolmodels = new ArrayList<>(md.getModels());
                 URI uri = new URI(sbolmodels.get(0).getSource().toString() + "/download");

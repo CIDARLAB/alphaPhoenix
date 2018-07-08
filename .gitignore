@@ -1,3 +1,5 @@
+lib/examples/tested_circuits/sample_circuits/2tu/results/
+lib/examples/tested_circuits/sample_circuits/1tu/results/
 target/
 results/
 jsbml.log
