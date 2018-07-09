@@ -184,7 +184,10 @@ public class SBMLAdaptor {
 	}
         
         public static void renameSpecies(SBMLDocument doc, String oldID, String newID) {
-            try {            
+            try {
+                if (doc.getModel().getSpecies(newID) != null) {
+                    doc.getModel().removeSpecies(newID);
+                }
                 updateVarId(doc, true, oldID, newID);
                 Species spec = doc.getModel().getSpecies(oldID);
                 if (spec != null) {
