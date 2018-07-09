@@ -23,6 +23,7 @@ import org.cidarlab.gridtli.adaptors.PyPlotAdaptor;
 import org.cidarlab.gridtli.dom.Grid;
 import org.cidarlab.gridtli.dom.Signal;
 import org.cidarlab.gridtli.dom.TLIException;
+import org.cidarlab.phoenix.adaptors.DnaPlotlibAdaptor;
 import org.cidarlab.phoenix.adaptors.IBioSimAdaptor;
 import org.cidarlab.phoenix.adaptors.SBMLAdaptor;
 import org.cidarlab.phoenix.adaptors.STLAdaptor;
@@ -77,9 +78,13 @@ public class Simulation {
             
             System.out.println("Current Assignment : ");
             printAssignment(module,assignment);
-            
             Map<String, String> ioc = getIOCmap(module, assignment, library);
+            
             assignLeafModels(module, assignment, library.getSbol(), args.getDecomposition(), tempfp);
+            DnaPlotlibAdaptor.generateScript(module, assignment, ioc, new HashMap<String,String>(), library);
+            
+            ///*
+            
             renameSpecies(module, ioc, library, args.getDecomposition());
             composeModels(module, args.getDecomposition());
             
@@ -168,7 +173,7 @@ public class Simulation {
                 }
             }
             
-            
+            //*/
 
         }
     }

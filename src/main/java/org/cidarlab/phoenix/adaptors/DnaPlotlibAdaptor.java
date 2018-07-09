@@ -9,17 +9,22 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.cidarlab.minieugene.predicates.interaction.Interaction.InteractionType;
 import org.cidarlab.phoenix.core.Controller;
+import org.cidarlab.phoenix.dom.CandidateComponent;
 import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Component.ComponentRole;
 import org.cidarlab.phoenix.dom.Interaction;
+import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.Orientation;
+import org.cidarlab.phoenix.dom.library.Library;
 import org.cidarlab.phoenix.utils.Utilities;
 
 /**
@@ -47,6 +52,115 @@ public class DnaPlotlibAdaptor {
         
         return str;
     }
+    
+    public static String generateScript(Module m, Map<String,CandidateComponent> assignment, Map<String,String> ioc, Map<String,String> colorMap, Library library){
+        
+        colors.add("(0.95, 0.30, 0.25)"); //red
+        colors.add("(0.38, 0.82, 0.32)"); //green
+        colors.add("(0.38, 0.65, 0.87)"); //blue
+        colors.add("(1.00, 0.75, 0.17)"); //orange
+        colors.add("(1.00, 1.00, 1.00)"); //white
+        colors.add("(0.90, 0.90, 0.10)"); //yellow
+        colors.add("(0.60, 0.10, 0.90)"); //bright purple
+        
+        String scr = "#!/usr/bin/env python\n";
+        
+        scr += "import dnaplotlib as dpl\n" +
+               "from pylab import *\n" +
+               "import matplotlib.pyplot as plt\n" +
+               "from matplotlib import gridspec\n\n";
+        
+        scr += "gs = gridspec.GridSpec(1, 1)\n\n";
+        
+        scr += "# Function to generate a ligher colour\n" +
+               "def lighten_color (col, fac):\n" +
+               "	r = col[0] + (fac*(1.0-col[0]))\n" +
+               "	g = col[1] + (fac*(1.0-col[1]))\n" +
+               "	b = col[2] + (fac*(1.0-col[2]))\n" +
+               "	return (r,g,b)\n\n";
+        
+        scr += "# Global line width\n" +
+               "lw = 0.8\n\n" + 
+               "# How much to lighten OFF components\n" +
+               "off_fac = 0.7\n\n";
+        
+        double length = (0.2 * m.getComponents().size());
+        Set<String> arcConn = new HashSet<>();
+        Map<String,String> iocColors = new HashMap<>();
+        
+        for(String cname:ioc.keySet()){
+            if(ioc.get(cname).startsWith("conn")){
+                arcConn.add(ioc.get("cname"));
+            }
+        }
+        int maxArcs = arcConn.size();
+        double height = 0.2 + (0.2*maxArcs);
+        double ylim = 15.0 + (5 * maxArcs);
+        
+        for(String cname:colorMap.keySet()){
+            if(!colors.contains(colorMap.get(cname))){
+                colors.add(colorMap.get(cname));
+            }
+        }
+        
+        
+        
+        int colorCount = 0;
+        
+        for(Component c:m.getComponents()){
+            if(!colorMap.containsKey(c.getName())){
+                if(c.isRBS() || c.isTerminator()){
+                    colorMap.put(c.getName(), "(0.00, 0.00, 0.00)");
+                } else {
+                    if(iocColors.containsKey(ioc.get(c.getName()))){
+                        colorMap.put(c.getName(), iocColors.get(ioc.get(c.getName())));
+                    } else {
+                        if(colorCount >= colors.size()){
+                            String newColor = generateNewColor();
+                            while (colors.contains(newColor)) {
+                                newColor = generateNewColor();
+                            }
+                            colors.add(newColor);
+                        }
+                        colorMap.put(c.getName(), colors.get(colorCount));
+                        iocColors.put(ioc.get(c.getName()), colors.get(colorCount));
+                        colorCount++;
+                    }
+                }
+            }
+        }
+        
+        System.out.println("Color Map");
+        for(Component c:m.getComponents()){
+            System.out.print( c.getName() + ":" + colorMap.get(c.getName()) + ";");
+        }
+        
+        System.out.println("===========================");
+        
+        Map<String,String> partNameMap = new HashMap<String,String>();
+        int partCount = 0;
+        int arcCount = 0;
+        
+        scr += "# Component definitions\n";
+        String designString = "design = [";
+        String partName = "";
+        for(Component c:m.getComponents()){
+            partName = "part" + partCount++;
+            
+            scr += partName + " = " + createPartString(c.getName(), true, c.getRole(), colorMap.get(c.getName()), c.getOrientation()) + "\n";
+            partNameMap.put(c.getName(), partName);
+            designString += partName;
+            if(partCount < m.getComponents().size()){
+                designString += ",";
+            }
+        }
+        designString += "]\n";
+        
+        scr += designString;
+        
+        return scr;
+    }
+    
     
     public static String generateScript(List<Component> components, boolean labels, Map<String,String> colorMap, String filename){
         
@@ -293,7 +407,7 @@ public class DnaPlotlibAdaptor {
                 break;
             case 'w':
                 scr += "CDS', 'fwd':" + oString + ", 'opts':{'linewidth':lw," + labelString + " 'color':" + color + ", 'edge_color':(0.00, 0.00, 0.00),'x_extent':20}}";
-                System.out.println("Tester form?");
+                //System.out.println("Tester form?");
                 break;
                 
             default:
@@ -398,24 +512,26 @@ public class DnaPlotlibAdaptor {
         switch(role){
             case PROTEIN:
                 return 'w';
+            case GENERIC_PROMOTER:
             case PROMOTER_INDUCIBLE:
             case PROMOTER_REPRESSIBLE:
             case PROMOTER_ACTIVATABLE:
             case PROMOTER_CONSTITUTIVE:
                 return 'p';
+            case GENERIC_RBS:
             case RBS:
                 return 'r';
+            case GENERIC_CDS:
             case CDS:
             case CDS_REPRESSOR:
             case CDS_ACTIVATOR:
-            //case CDS_REPRESSIBLE_REPRESSOR:
-            //case CDS_ACTIVATIBLE_ACTIVATOR:
             case CDS_LINKER:
             case CDS_TAG:
             case CDS_RESISTANCE:
             case CDS_FLUORESCENT:
             case CDS_FLUORESCENT_FUSION:
                 return 'c';
+            case GENERIC_TERMINATOR:
             case TERMINATOR:
                 return 't';
             case ORIGIN:
