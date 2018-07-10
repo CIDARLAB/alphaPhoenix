@@ -18,9 +18,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.stream.XMLStreamException;
-import org.cidarlab.gridtli.adaptors.JavaPlotAdaptor;
 import org.cidarlab.gridtli.adaptors.PyPlotAdaptor;
-import org.cidarlab.gridtli.dom.Grid;
 import org.cidarlab.gridtli.dom.Signal;
 import org.cidarlab.gridtli.dom.TLIException;
 import org.cidarlab.phoenix.adaptors.DnaPlotlibAdaptor;
@@ -31,7 +29,6 @@ import org.cidarlab.phoenix.adaptors.SynbiohubAdaptor;
 import org.cidarlab.phoenix.core.Controller;
 import org.cidarlab.phoenix.dom.CandidateComponent;
 import org.cidarlab.phoenix.dom.Component;
-import org.cidarlab.phoenix.dom.Component.ComponentRole;
 import org.cidarlab.phoenix.dom.Model;
 import org.cidarlab.phoenix.dom.ModelPart;
 import org.cidarlab.phoenix.dom.Module;
@@ -81,7 +78,7 @@ public class Simulation {
             Map<String, String> ioc = getIOCmap(module, assignment, library);
             
             assignLeafModels(module, assignment, library.getSbol(), args.getDecomposition(), tempfp);
-            DnaPlotlibAdaptor.generateScript(module, assignment, ioc, new HashMap<String,String>(), library);
+            
             
             ///*
             
@@ -93,6 +90,12 @@ public class Simulation {
             if(indSMmap.isEmpty()){
                 String ifp = fp + count + Utilities.getSeparater();
                 Utilities.makeDirectory(ifp);
+                
+                String dnaplotlibfp = ifp + "visualsbol.py";
+                String dnaplotlibscript = DnaPlotlibAdaptor.generateScript(module, assignment, ioc, new HashMap<String,String>(), library,ifp + "circuit");
+                Utilities.writeToFile(dnaplotlibfp , dnaplotlibscript);
+                DnaPlotlibAdaptor.runScript(dnaplotlibfp);
+                
                 String modelFile = ifp + "model.xml";
                 
                 writer.write(module.getModel().getSbml(), modelFile);

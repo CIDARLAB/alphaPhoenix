@@ -128,7 +128,7 @@ public class Module {
         Set<String> completed = new HashSet<>();
         for(Component c:this.components){
             if(!completed.contains(c.getName())){
-                if(Controller.isPromoter(c)){
+                if(c.isPromoter()){
                     if(c.getInteractions().isEmpty()){
                         if(c.getRole().equals(ComponentRole.PROMOTER_CONSTITUTIVE)){
                             //Shouldn't this be in_x++? 
@@ -145,7 +145,7 @@ public class Module {
                         conn++;
                     }
                     
-                } else if(Controller.isCDS(c)){
+                } else if(c.isCDS()){
                     if(c.getInteractions().isEmpty()){
                         c.setIOCname("out" + out);
                         out++;
@@ -188,7 +188,7 @@ public class Module {
             String plotFp = Utilities.getDnaFiguresPlotsFilepath() + fn;
             String script = DnaPlotlibAdaptor.generateScript(this.components, false, colorMap, plotFp);
             Utilities.writeToFile(scriptFp, script);
-            DnaPlotlibAdaptor.runScript(scriptFp);
+            DnaPlotlibAdaptor.runWebAppScript(scriptFp);
             
             JSONObject figlist = new JSONObject(Utilities.getFileContentAsString(Utilities.getDnaFiguresFilepath() + "figlist.json"));
             figlist.put(fn, fn);

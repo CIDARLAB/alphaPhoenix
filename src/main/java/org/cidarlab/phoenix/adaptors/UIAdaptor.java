@@ -39,7 +39,7 @@ public class UIAdaptor {
     private static Map<String,String> getPromoterColorMap(Module m){
         Map<String,String> colorMap = new HashMap<String,String>();
         for(Component c:m.getComponents()){
-            if(Controller.isCDS(c)){
+            if(c.isCDS()){
                 colorMap.put(c.getName(), "(1.00,1.00,1.00)");
             }
         }

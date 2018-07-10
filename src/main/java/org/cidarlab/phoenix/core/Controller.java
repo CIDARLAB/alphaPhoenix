@@ -77,7 +77,7 @@ public class Controller {
 
                 for (Map<String, CandidateComponent> lassignment : loopAssignments) {
                     //Do checks to see if you can assign this specific Component....
-                    if (isCDS(c)) {
+                    if (c.isCDS()) {
                         if (c.getInteractions().isEmpty()) {
                             for (LibraryComponent lc : c.getCandidates()) {
                                 Map<String, CandidateComponent> assignment = new HashMap<>();
@@ -122,7 +122,7 @@ public class Controller {
                                 }
                             }
                         }
-                    } else if (isPromoter(c)) {
+                    } else if (c.isPromoter()) {
                         if (c.getInteractions().isEmpty()) {
                             for (LibraryComponent lc : c.getCandidates()) {
                                 Map<String, CandidateComponent> assignment = new HashMap<>();
@@ -196,7 +196,7 @@ public class Controller {
     private static int getCDSindex(Module module) {
         for (int i = 0; i < module.getComponents().size(); i++) {
             Component c = module.getComponents().get(i);
-            if (isCDS(c) && (c.getOrientation().equals(module.getOrientation()))) {
+            if (c.isCDS() && (c.getOrientation().equals(module.getOrientation()))) {
                 return i;
             }
         }
@@ -326,7 +326,7 @@ public class Controller {
         for (Component c : root.getComponents()) {
             if (!started) {
                 if (c.getOrientation().equals(Orientation.FORWARD)) {
-                    if (isPromoter(c)) {
+                    if (c.isPromoter()) {
                         started = true;
                         components = new ArrayList<>();
                         components.add(c);
@@ -342,7 +342,7 @@ public class Controller {
             else {
                 if (c.getOrientation().equals(Orientation.FORWARD)) {
                     components.add(c);
-                    if (isTerminator(c)) {
+                    if (c.isTerminator()) {
                         Module child = new Module("TU_F" + (forwardCount++));
                         child.setComponents(components);
                         child.setRole(ModuleRole.TRANSCRIPTIONAL_UNIT);
@@ -365,7 +365,7 @@ public class Controller {
             Component c = root.getComponents().get(i);
             if (!started) {
                 if (c.getOrientation().equals(Orientation.REVERSE)) {
-                    if (isPromoter(c)) {
+                    if (c.isPromoter()) {
                         started = true;
                         components = new ArrayList<Component>();
                         components.add(c);
@@ -381,7 +381,7 @@ public class Controller {
             else {
                 if (c.getOrientation().equals(Orientation.REVERSE)) {
                     components.add(c);
-                    if (isTerminator(c)) {
+                    if (c.isTerminator()) {
                         Module child = new Module("TU_R" + (reverseCount++));
                         child.setComponents(components);
                         child.setRole(ModuleRole.TRANSCRIPTIONAL_UNIT);
@@ -440,11 +440,11 @@ public class Controller {
                     wc.setOrientation(c.getOrientation());
                     prComponents.add(wc);
                 }
-                if (isRBS(c)) {
+                if (c.isRBS()) {
                     prCreated = true;
                 }
             } else {
-                if(isTerminator(c)){
+                if(c.isTerminator()){
                     terComponents.add(c);
                     cdsCreated = true;
                 }
@@ -485,66 +485,6 @@ public class Controller {
         
     }
 
-    //</editor-fold>
-
-    //<editor-fold desc="Identify the Component Type">
-    
-    public static boolean isCDS(Component c) {
-        switch (c.getRole()) {
-            case CDS:
-            case CDS_REPRESSOR:
-            case CDS_ACTIVATOR:
-            //case CDS_REPRESSIBLE_REPRESSOR:
-            //case CDS_ACTIVATIBLE_ACTIVATOR:
-            case CDS_LINKER:
-            case CDS_TAG:
-            case CDS_RESISTANCE:
-            case CDS_FLUORESCENT:
-            case CDS_FLUORESCENT_FUSION:
-            case TESTING:
-            case GENERIC_CDS:
-                return true;
-            default:
-                return false;
-
-        }
-    }
-
-    private static boolean isRBS(Component c) {
-        switch (c.getRole()) {
-            case RBS:
-            case GENERIC_RBS:
-                return true;
-            default:
-                return false;
-
-        }
-    }
-
-    private static boolean isTerminator(Component c) {
-        switch (c.getRole()) {
-            case TERMINATOR:
-            case GENERIC_TERMINATOR:
-                return true;
-            default:
-                return false;
-
-        }
-    }
-
-    public static boolean isPromoter(Component c) {
-        switch (c.getRole()) {
-            case PROMOTER_INDUCIBLE:
-            case PROMOTER_REPRESSIBLE:
-            case PROMOTER_ACTIVATABLE:
-            case PROMOTER_CONSTITUTIVE:
-            case GENERIC_PROMOTER:
-                return true;
-            default:
-                return false;
-
-        }
-    }
     //</editor-fold>
     
     public static void assignLeafModels(Module root, String jobfp, SBOLDocument doc, Map<String, CandidateComponent> assignment) {

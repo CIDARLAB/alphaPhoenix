@@ -178,7 +178,7 @@ public class DnaPlotlibAdaptorTest {
         String script = DnaPlotlibAdaptor.generateScript(components1, true, dnaFigFilepath + "plots" + Utilities.getSeparater() + "testFigure");
         String fp = dnaFigFilepath + "scripts" + Utilities.getSeparater() + "test0.py";
         Utilities.writeToFile(dnaFigFilepath + "scripts" + Utilities.getSeparater() + "test0.py", script);
-        DnaPlotlibAdaptor.runScript(fp);
+        DnaPlotlibAdaptor.runWebAppScript(fp);
         
     }
     

@@ -462,7 +462,7 @@ public class Library {
     }
     
     public Map<URI, LibraryComponent> getAllLibraryComponents() {
-        Map<URI, LibraryComponent> all = new HashMap<URI, LibraryComponent>();
+        Map<URI, LibraryComponent> all = new HashMap<>();
         all.putAll(constitutivePromoters);
         all.putAll(repressiblePromoters);
         all.putAll(activatiblePromoters);

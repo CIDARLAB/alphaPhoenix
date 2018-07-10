@@ -6,6 +6,7 @@
 package org.cidarlab.phoenix.adaptors;
 
 import java.io.IOException;
+import java.net.URI;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +25,11 @@ import org.cidarlab.phoenix.dom.Component.ComponentRole;
 import org.cidarlab.phoenix.dom.Interaction;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.Orientation;
+import org.cidarlab.phoenix.dom.library.CompositeComponent;
+import org.cidarlab.phoenix.dom.library.CompositeComponent.CompositeType;
 import org.cidarlab.phoenix.dom.library.Library;
+import org.cidarlab.phoenix.dom.library.LibraryComponent;
+import org.cidarlab.phoenix.dom.library.PromoterComponent;
 import org.cidarlab.phoenix.utils.Utilities;
 
 /**
@@ -53,7 +58,7 @@ public class DnaPlotlibAdaptor {
         return str;
     }
     
-    public static String generateScript(Module m, Map<String,CandidateComponent> assignment, Map<String,String> ioc, Map<String,String> colorMap, Library library){
+    public static String generateScript(Module m, Map<String,CandidateComponent> assignment, Map<String,String> ioc, Map<String,String> colorMap, Library library, String filename){
         
         colors.add("(0.95, 0.30, 0.25)"); //red
         colors.add("(0.38, 0.82, 0.32)"); //green
@@ -130,14 +135,9 @@ public class DnaPlotlibAdaptor {
             }
         }
         
-        System.out.println("Color Map");
-        for(Component c:m.getComponents()){
-            System.out.print( c.getName() + ":" + colorMap.get(c.getName()) + ";");
-        }
         
-        System.out.println("===========================");
         
-        Map<String,String> partNameMap = new HashMap<String,String>();
+        Map<String,String> partNameMap = new HashMap<>();
         int partCount = 0;
         int arcCount = 0;
         
@@ -146,8 +146,8 @@ public class DnaPlotlibAdaptor {
         String partName = "";
         for(Component c:m.getComponents()){
             partName = "part" + partCount++;
-            
-            scr += partName + " = " + createPartString(c.getName(), true, c.getRole(), colorMap.get(c.getName()), c.getOrientation()) + "\n";
+            String id = getId(c, assignment.get(c.getName()), library);
+            scr += partName + " = " + createPartString(id, true, c.getRole(), colorMap.get(c.getName()), c.getOrientation()) + "\n";
             partNameMap.put(c.getName(), partName);
             designString += partName;
             if(partCount < m.getComponents().size()){
@@ -158,9 +158,112 @@ public class DnaPlotlibAdaptor {
         
         scr += designString;
         
+        scr += "# Arc definitions\n";
+        
+        String regString = "regDesign = [";
+        String arcName = "";
+        List<String> arcList = new ArrayList<String>();
+        
+        for(Component c:m.getComponents()){
+            if (c.isCDS()) {
+                int iCount = 0;
+                for(Component p:m.getComponents()){
+                    if(p.isPromoter()){
+                        if (ioc.containsKey(c.getName()) && ioc.containsKey(p.getName())) {
+                            if (ioc.get(c.getName()).equals(ioc.get(p.getName()))) {
+                                double arcHeight = 20.0 + (5 * iCount);
+                                arcName = "reg" + arcCount++;
+                                iCount++;
+                                scr += arcName + " = " + createArcString(partNameMap.get(c.getName()), partNameMap.get(p.getName()), getInteractionType(assignment.get(p.getName()).getCandidate(),library), arcHeight) + "\n";
+                                arcList.add(arcName);
+                            }
+                        }
+                        
+                    }
+                }
+            }
+        }
+        if(!arcList.isEmpty()){
+            regString += arcList.get(0);
+            for(int i=1;i<arcCount;i++){
+                regString += "," + arcList.get(i);
+            }
+            regString += "]\n\n";
+            scr += regString;
+        }
+        
+        
+        scr += "fig = plt.figure(figsize=(" + length + "," + height + "));\n";
+        
+        scr += "ax_dna = plt.subplot(gs[0])\n" +
+               "\n" +
+               "# Create the DNAplotlib renderer\n" +
+               "dr = dpl.DNARenderer()\n\n";
+        if(maxArcs == 0){
+            scr += "start, end = dr.renderDNA(ax_dna, design, dr.SBOL_part_renderers())\n";
+        } else {
+            scr += "start, end = dr.renderDNA(ax_dna, design, dr.SBOL_part_renderers(), \n" +
+               "	                      regs=regDesign, reg_renderers=dr.std_reg_renderers())\n";
+        }
+        
+        
+        scr += "ax_dna.set_xlim([start, end])\n" +
+               "ax_dna.set_ylim([-" + ylim + "," + ylim +"])\n" +
+               "ax_dna.set_aspect('equal')\n" +
+               "ax_dna.axis('off')\n\n";
+        
+        scr += "fig.savefig('" + filename + ".png', dpi=300)\n" +
+               "plt.close('all')";
+        
+        
+        
+        
+        
         return scr;
     }
     
+    private static InteractionType getInteractionType(LibraryComponent lc, Library library){
+        URI promid = null;
+        if(lc instanceof CompositeComponent){
+            CompositeComponent compcomp = (CompositeComponent)lc;
+            promid = compcomp.getChildren().get(0);
+        } else if(lc instanceof PromoterComponent) {
+            promid = lc.getComponentDefintion();
+        } else {
+            return null;
+        }
+        if(library.getActivatiblePromoters().containsKey(promid) || library.getIndActPromoters().containsKey(promid)){
+            return InteractionType.INDUCES;
+        } else if(library.getRepressiblePromoters().containsKey(promid) || library.getIndRepPromoters().containsKey(promid)){
+            return InteractionType.REPRESSES;
+        }
+        
+        return null;
+    }
+    
+    private static String getId(Component c,CandidateComponent cc, Library library){
+        String id = null;
+        LibraryComponent lc = cc.getCandidate();
+        if(lc instanceof CompositeComponent){
+            CompositeComponent compcomp = (CompositeComponent)lc;
+            if(c.isRBS()){
+                if(compcomp.getType().equals(CompositeType.PR)){
+                    id = library.getRbs().get(compcomp.getChildren().get(1)).getName();
+                } else if(compcomp.getType().equals(CompositeType.RC)){
+                    id = library.getRbs().get(compcomp.getChildren().get(0)).getName();
+                }
+            } else if(c.isPromoter()){
+                id = library.getAllPromoters().get(compcomp.getChildren().get(0)).getName();
+            } else if(c.isCDS()){
+                id = library.getAllLibraryComponents().get(compcomp.getChildren().get(1)).getName();
+            }
+            
+        } else {
+            id = library.getAllLibraryComponents().get(lc.getComponentDefintion()).getName();
+        }
+        
+        return id;
+    }
     
     public static String generateScript(List<Component> components, boolean labels, Map<String,String> colorMap, String filename){
         
@@ -182,7 +285,7 @@ public class DnaPlotlibAdaptor {
             colors.add("(1.00, 0.75, 0.17)"); //orange
             colors.add("(1.00, 1.00, 1.00)"); //white
             for (Component c : components) {
-                if (Controller.isCDS(c) || Controller.isPromoter(c)) {
+                if (c.isCDS() || c.isPromoter()) {
                     boolean colorfound = false;
                     if (colorMap.containsKey(c.getName())) {
                         for (Interaction i : c.getInteractions()) {
@@ -224,7 +327,7 @@ public class DnaPlotlibAdaptor {
         } 
         else {
             for (Component c : components) {
-                if (Controller.isCDS(c) || Controller.isPromoter(c)) {
+                if (c.isCDS() || c.isPromoter()) {
                     if (colorMap.containsKey(c.getName())) {
                         for(Interaction i:c.getInteractions()){
                             if(!colorMap.containsKey(i.getFrom().getName())){
@@ -318,7 +421,7 @@ public class DnaPlotlibAdaptor {
         List<String> arcList = new ArrayList<String>();
         int maxArcs = 0;
         for(Component c:components){
-            if (Controller.isCDS(c)) {
+            if (c.isCDS()) {
                 int iCount = 0;
                 for (Interaction i : c.getInteractions()) {
                     if (c.getInteractions().size() > maxArcs) {
@@ -386,7 +489,7 @@ public class DnaPlotlibAdaptor {
         String labelString = "";
         
         if(label){
-            labelString += " 'label':'" + name + "', 'label_y_offset':-14, 'label_size':4, ";
+            labelString += " 'label':'" + name + "', 'label_y_offset':-14, 'label_size':2, ";
         }
         
         if(o.equals(Orientation.REVERSE)){
@@ -446,7 +549,7 @@ public class DnaPlotlibAdaptor {
             str += getOrientationCharacter(c.getOrientation());
             str += getRoleCharacter(c.getRole());
             str += k;
-            if (Controller.isCDS(c)) {
+            if (c.isCDS()) {
                 List<Integer> indices = new ArrayList<Integer>();
                 List<String> intStrings = new ArrayList<String>();
                 for (Interaction i : c.getInteractions()) {
@@ -545,9 +648,30 @@ public class DnaPlotlibAdaptor {
         }
     }
     
-    
-    
     public static void runScript(String filepath) throws InterruptedException, IOException{
+        //System.out.println("Running python script for : " + filepath);
+        StringBuilder commandBuilder = null;
+        if(org.cidarlab.gridtli.tli.Utilities.isLinux()){
+            commandBuilder = new StringBuilder("/usr/bin/python " + filepath);
+        }
+        else {
+            System.out.println("Not supported yet. Program exiting");
+            System.exit(-1);
+        }
+        String[] clist = new String[2];
+        String command = commandBuilder.toString();
+        //clist[0] = ("cd " + Utilities.getFilepath() + "lib" + Utilities.getSeparater() + "dnaFigures" + Utilities.getSeparater() + "plots" + Utilities.getSeparater());
+        //clist[1] = (command);
+        clist[0] = command;
+        Runtime runtime = Runtime.getRuntime();
+        Process proc = null;
+        proc = runtime.exec(command);
+        proc.waitFor();
+        //System.out.println("Script completed.");
+    }
+    
+    
+    public static void runWebAppScript(String filepath) throws InterruptedException, IOException{
         System.out.println("Running python script for : " + filepath);
         StringBuilder commandBuilder = null;
         commandBuilder = new StringBuilder("python " + filepath);
