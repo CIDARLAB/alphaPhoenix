@@ -474,6 +474,8 @@ public class Library {
         all.putAll(terminators);
         all.putAll(proteins);
         all.putAll(smallMolecules);
+        all.putAll(pr);
+        all.putAll(rc);
         return all;
     }
 

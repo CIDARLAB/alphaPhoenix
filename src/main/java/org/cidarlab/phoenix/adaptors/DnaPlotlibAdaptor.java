@@ -98,9 +98,6 @@ public class DnaPlotlibAdaptor {
                 arcConn.add(ioc.get("cname"));
             }
         }
-        int maxArcs = arcConn.size();
-        double height = 0.2 + (0.2*maxArcs);
-        double ylim = 15.0 + (5 * maxArcs);
         
         for(String cname:colorMap.keySet()){
             if(!colors.contains(colorMap.get(cname))){
@@ -164,6 +161,8 @@ public class DnaPlotlibAdaptor {
         String arcName = "";
         List<String> arcList = new ArrayList<String>();
         
+        int maxArcs = 0;
+        
         for(Component c:m.getComponents()){
             if (c.isCDS()) {
                 int iCount = 0;
@@ -181,6 +180,9 @@ public class DnaPlotlibAdaptor {
                         
                     }
                 }
+                if(iCount > maxArcs){
+                    maxArcs = iCount;
+                }
             }
         }
         if(!arcList.isEmpty()){
@@ -192,6 +194,10 @@ public class DnaPlotlibAdaptor {
             scr += regString;
         }
         
+        double height = 0.2 + (0.2*maxArcs);
+        double ylim = 15.0 + (5 * maxArcs);
+        
+        
         
         scr += "fig = plt.figure(figsize=(" + length + "," + height + "));\n";
         
@@ -199,7 +205,7 @@ public class DnaPlotlibAdaptor {
                "\n" +
                "# Create the DNAplotlib renderer\n" +
                "dr = dpl.DNARenderer()\n\n";
-        if(maxArcs == 0){
+        if(arcList.isEmpty()){
             scr += "start, end = dr.renderDNA(ax_dna, design, dr.SBOL_part_renderers())\n";
         } else {
             scr += "start, end = dr.renderDNA(ax_dna, design, dr.SBOL_part_renderers(), \n" +

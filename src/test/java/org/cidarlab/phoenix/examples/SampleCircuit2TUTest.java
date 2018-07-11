@@ -43,14 +43,17 @@ public class SampleCircuit2TUTest {
     private static String two_tu_eug = two_tuFP + "doubleTU.eug";
     private static String two_tu_stl = two_tuFP + "stl.txt";
     
+    private static int runCount = 20;
+    
     @Test
     public void testExhaustiveAssignment() throws URISyntaxException, SBOLValidationException, SynBioHubException {
         
         int size = 8;
+        
         List<Module> modules = MiniEugeneAdaptor.getStructures(two_tu_eug, size, "inverter");
         System.out.println("Number of modules : " + modules.size());
         TreeNode stl = STLAdaptor.getSTL(two_tu_stl);
-        Args args = new Args(Args.Decomposition.PR_C_T, Args.Simulation.STOCHASTIC, 100, 0.99, 0.5, Args.Assignment.EXHAUSTIVE);
+        Args args = new Args(Args.Decomposition.PR_C_T, Args.Simulation.STOCHASTIC, runCount, 0.99, 0.5, Args.Assignment.EXHAUSTIVE);
         args.setProjectFolder(two_tu_results);
         Exhaustive exhaustive = new Exhaustive();
         

@@ -13,23 +13,17 @@ import org.sbml.jsbml.SBMLDocument;
  *
  * @author prash
  */
-public abstract class Model {
+public class Model {
     
     @Getter
-    @Setter
     private SBMLDocument sbml;
-    
-    @Getter
-    @Setter
-    private ModelType type;
     
     @Getter
     @Setter
     private boolean overriden;
     
-    public enum ModelType {
-        MichaelisMenten, //Make this the default model.
-        BioCPS
+    public Model(SBMLDocument _sbml){
+        this.sbml = _sbml;
+        this.overriden = false;
     }
-    
 }

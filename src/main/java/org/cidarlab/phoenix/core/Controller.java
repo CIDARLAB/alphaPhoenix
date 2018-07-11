@@ -26,7 +26,6 @@ import org.cidarlab.phoenix.dom.Component.ComponentRole;
 import org.cidarlab.phoenix.dom.Interaction;
 import org.cidarlab.phoenix.dom.library.LibraryComponent;
 import org.cidarlab.phoenix.dom.Model;
-import org.cidarlab.phoenix.dom.ModelPart;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.Module.ModuleRole;
 import org.cidarlab.phoenix.dom.Orientation;
@@ -530,7 +529,7 @@ public class Controller {
                 List<org.sbolstandard.core2.Model> sbolmodels = new ArrayList<>(md.getModels());
                 URI uri = new URI(sbolmodels.get(0).getSource().toString() + "/download");
                 SBMLDocument sbml = SynbiohubAdaptor.getModel(uri.toURL(), jobfp);
-                Model model = new ModelPart(sbml);
+                Model model = new Model(sbml);
                 root.setModel(model);
             } catch (MalformedURLException | URISyntaxException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -545,7 +544,7 @@ public class Controller {
                 URI uri = new URI(sbolmodels.get(0).getSource().toString() + "/download");
                
                 SBMLDocument sbml = SynbiohubAdaptor.getModel(uri.toURL(), jobfp);
-                Model model = new ModelPart(sbml);
+                Model model = new Model(sbml);
                 root.setModel(model);
             } catch (MalformedURLException | URISyntaxException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -572,7 +571,7 @@ public class Controller {
                     composePartModels(child, jobfp, assignment);
                     modelList.add(child.getModel().getSbml().getModel());
                 }
-                Model composedModel = new ModelPart(SBMLAdaptor.composeModels(modelList));
+                Model composedModel = new Model(SBMLAdaptor.composeModels(modelList));
                 root.setModel(composedModel);
             }
         } else {
@@ -582,7 +581,7 @@ public class Controller {
                 JSONObject json = new JSONObject(filecontent);
                 String sbmlfp = jobfp + json.getString(getAssignmentComponentString(root, assignment));
                 SBMLDocument doc = SBMLReader.read(new File(sbmlfp));
-                Model overridenModel = new ModelPart(doc);
+                Model overridenModel = new Model(doc);
                 root.setModel(overridenModel);
             } catch (XMLStreamException | IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);

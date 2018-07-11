@@ -30,7 +30,6 @@ import org.cidarlab.phoenix.core.Controller;
 import org.cidarlab.phoenix.dom.CandidateComponent;
 import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Model;
-import org.cidarlab.phoenix.dom.ModelPart;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.Module.ModuleRole;
 import org.cidarlab.phoenix.dom.library.CDSComponent;
@@ -70,17 +69,21 @@ public class Simulation {
         Utilities.makeDirectory(tempfp);
         int count = 0;
         SBMLWriter writer = new SBMLWriter();
-
+        
+        int hasSM = 0;
+        int noSM = 0;
+        
+        Map<URI,SBMLDocument> modelmap = downloadAllModels(library, tempfp);
+        
+        System.out.println("Model map size :" + modelmap.size());
+        
+        Map<Integer,Integer> smCounts = new HashMap<>();
+        
         for (Map<String, CandidateComponent> assignment : module.getAssignments()) {
             
-            System.out.println("Current Assignment : ");
-            printAssignment(module,assignment);
             Map<String, String> ioc = getIOCmap(module, assignment, library);
             
-            assignLeafModels(module, assignment, library.getSbol(), args.getDecomposition(), tempfp);
-            
-            
-            ///*
+            assignLeafModels(module, assignment, library.getSbol(), modelmap, args.getDecomposition());
             
             renameSpecies(module, ioc, library, args.getDecomposition());
             composeModels(module, args.getDecomposition());
@@ -88,6 +91,11 @@ public class Simulation {
             Map<String,String> indSMmap =  getIndSMmap(module, assignment, ioc, library);
             
             if(indSMmap.isEmpty()){
+                
+                noSM++;
+                System.out.println("Current Assignment : " + count);
+                printAssignment(module,assignment);
+                
                 String ifp = fp + count + Utilities.getSeparater();
                 Utilities.makeDirectory(ifp);
                 
@@ -97,8 +105,8 @@ public class Simulation {
                 DnaPlotlibAdaptor.runScript(dnaplotlibfp);
                 
                 String modelFile = ifp + "model.xml";
-                
                 writer.write(module.getModel().getSbml(), modelFile);
+                
                 double maxtime = STLAdaptor.getMaxTime(stl);
                 IBioSimAdaptor.simulateStocastic(modelFile, ifp, STLAdaptor.getMaxTime(stl), 1, 1, args.getRunCount());
                 Map<String, TreeNode> stlmap = STLAdaptor.getSignalSTLMap(stl);
@@ -125,25 +133,53 @@ public class Simulation {
                     PyPlotAdaptor.runScript(ifp + key + "_singals.py");
                 }
                 count++;
-            } else {
-                List<Map<String, Double>> concList = getSmallMoleculeConcentration(assignment, ioc, library);
+                
+            } 
+            
+            else {
+                hasSM++;
+                
+                if(!smCounts.containsKey(indSMmap.size())){
+                    smCounts.put(indSMmap.size(), 0);
+                } else {
+                    int smcount = smCounts.get(indSMmap.size());
+                    smcount++;
+                    smCounts.put(indSMmap.size(),smcount);
+                }
+                
+                
+                List<Map<String, Double>> concList = getSmallMoleculeConcentration(module, assignment, ioc, library);
                 for (Map<String, Double> conc : concList) {
                     
-                    SBMLDocument sbml = new SBMLDocument(module.getModel().getSbml());
+                    System.out.println("Current Assignment : " + count);
+                    printAssignment(module, assignment);
                     
+                    String ifp = fp + count + Utilities.getSeparater();
+                    Utilities.makeDirectory(ifp);
+                    
+                    
+                    String dnaplotlibfp = ifp + "visualsbol.py";
+                    String dnaplotlibscript = DnaPlotlibAdaptor.generateScript(module, assignment, ioc, new HashMap<String, String>(), library, ifp + "circuit");
+                    Utilities.writeToFile(dnaplotlibfp, dnaplotlibscript);
+                    DnaPlotlibAdaptor.runScript(dnaplotlibfp);
+                    
+                    SBMLDocument sbml = new SBMLDocument(module.getModel().getSbml());
+                    String modelFile = ifp + "model.xml";
+
                     JSONObject smevents = new JSONObject();
+                    writer.write(sbml, modelFile);
+                    
+                    String smfp = ifp + "assignedSM.json";
                     
                     for(String ind:conc.keySet()){
                         smevents.put(ind, conc.get(ind));
                         SBMLAdaptor.addEvent(sbml, ind, 600.00, conc.get(ind));
                     }
-                    String ifp = fp + count + Utilities.getSeparater();
-                    Utilities.makeDirectory(ifp);
                     
-                    String modelFile = ifp + "model.xml";
-                    String smfp = ifp + "assignedSM.json";
+                    Utilities.writeToFile(smfp, smevents.toString(2));
                     
-                    writer.write(sbml, modelFile);
+                    
+                    
                     double maxtime = STLAdaptor.getMaxTime(stl);
                     IBioSimAdaptor.simulateStocastic(modelFile, ifp, STLAdaptor.getMaxTime(stl), 1, 1, args.getRunCount());
                     Map<String, TreeNode> stlmap = STLAdaptor.getSignalSTLMap(stl);
@@ -170,7 +206,6 @@ public class Simulation {
                         PyPlotAdaptor.runScript(ifp + key + "_singals.py");
                     }
                     
-                    Utilities.writeToFile(smfp, smevents.toString(2));
                     
                     count++;
                 }
@@ -179,6 +214,39 @@ public class Simulation {
             //*/
 
         }
+        
+        System.out.println("Total number of assignments      : " + count);
+        System.out.println("Number of assignments with SM    : " + hasSM);
+        System.out.println("Number of assignments with no SM : " + noSM);
+        System.out.println("SM Counts");
+        for(Integer i:smCounts.keySet()){
+            System.out.println("Number of assignments with " + i + " SM(s) : " + smCounts.get(i));
+        }
+        
+    }
+    
+    private static Map<URI,SBMLDocument> downloadAllModels(Library library, String fp) throws URISyntaxException, MalformedURLException{
+        Map<URI,SBMLDocument> modelmap = new HashMap<>();
+        SBOLDocument sbol = library.getSbol();
+        for(URI u:library.getAllLibraryComponents().keySet()){
+            LibraryComponent lc = library.getAllLibraryComponents().get(u);
+            for(URI mduri:lc.getModuleDefinitions()){
+                ModuleDefinition md = sbol.getModuleDefinition(mduri);
+                List<org.sbolstandard.core2.Model> sbolmodels = new ArrayList<>(md.getModels());
+                for(org.sbolstandard.core2.Model sbolmodel:sbolmodels){
+                    URI key = sbolmodel.getSource();
+                    URI modeldownload = new URI(key.toString() + "/download");
+                    if(!modelmap.containsKey(key)) {
+                        System.out.println("Downloaded : " + modeldownload.toString());
+                        SBMLDocument sbml = SynbiohubAdaptor.getModel(modeldownload.toURL(), fp);
+                        modelmap.put(key, sbml);
+                    } else {
+                        System.out.println("This is not supposed to happen.");
+                    }
+                }
+            }
+        }
+        return modelmap;
     }
     
     private static Map<String,String> getIndSMmap(Module m, Map<String, CandidateComponent> assignment, Map<String,String> ioc, Library library){
@@ -199,7 +267,7 @@ public class Simulation {
                         ComplexComponent complex = (ComplexComponent)tf;
                         SmallMoleculeComponent smc = library.getSmallMolecules().get(complex.getSmallMolecule());
                         if(!map.containsKey(smc.getName())){
-                            map.put("ind_" + ioc.get(cname),smc.getName());
+                            map.put(smc.getName(), "ind_" + ioc.get(cname));
                         }
                     }
                 }
@@ -208,46 +276,52 @@ public class Simulation {
         return map;
     }
     
-    private static List<Map<String,Double>> getSmallMoleculeConcentration(Map<String, CandidateComponent> assignment, Map<String,String> ioc, Library library){
+    private static List<Map<String,Double>> getSmallMoleculeConcentration(Module m, Map<String, CandidateComponent> assignment, Map<String,String> ioc, Library library){
         List<Map<String,Double>> smMap = new ArrayList<>();
         Map<String,List<Double>> smConcentrations = new HashMap<>();
-        for(String cname:assignment.keySet()){
-            LibraryComponent lc = assignment.get(cname).getCandidate();
-            PromoterComponent promcomp = null;
-            boolean isPromoter = false;
-            if(lc instanceof PromoterComponent){
-                promcomp = (PromoterComponent)lc;
-                isPromoter = true;
-            } else if(lc instanceof CompositeComponent){
-                CompositeComponent compcomp = (CompositeComponent)lc;
-                if(compcomp.getType().equals(CompositeType.PR)){
-                    promcomp = library.getAllPromoters().get(compcomp.getChildren().get(0));
+        for(Component c:m.getComponents()){
+            String cname = c.getName();
+            if (c.isPromoter()) {
+                LibraryComponent lc = assignment.get(cname).getCandidate();
+                PromoterComponent promcomp = null;
+                boolean isPromoter = false;
+                if (lc instanceof PromoterComponent) {
+                    promcomp = (PromoterComponent) lc;
                     isPromoter = true;
+                } else if (lc instanceof CompositeComponent) {
+                    CompositeComponent compcomp = (CompositeComponent) lc;
+                    if (compcomp.getType().equals(CompositeType.PR)) {
+                        promcomp = library.getAllPromoters().get(compcomp.getChildren().get(0));
+                        isPromoter = true;
+                    }
                 }
-            }
-            if(isPromoter){
-                for(LibraryComponent tf:promcomp.getTranscriptionFactors()){
-                    if(tf instanceof ComplexComponent){
-                        ComplexComponent complex = (ComplexComponent) tf;
-                        SmallMoleculeComponent smc = library.getSmallMolecules().get(complex.getSmallMolecule());
-                        String indName = "ind_" + ioc.get(cname);
-                        if(!smConcentrations.containsKey(indName)){
-                            if (smc.getValues().isEmpty()) {
-                                smConcentrations.put(indName, smc.getValues());
-                            } else {
-                                double min = smc.getMin();
-                                double max = smc.getMax();
-                                double inc = (max - min) * 0.05;
-                                List<Double> concs = new ArrayList<>();
-                                for(double i=min;i<=max;i+=inc){
-                                    concs.add(i);
+                if (isPromoter) {
+                    for (LibraryComponent tf : promcomp.getTranscriptionFactors()) {
+                        if (tf instanceof ComplexComponent) {
+                            ComplexComponent complex = (ComplexComponent) tf;
+                            SmallMoleculeComponent smc = library.getSmallMolecules().get(complex.getSmallMolecule());
+
+                            String indName = "ind_" + ioc.get(cname);
+                            if (!smConcentrations.containsKey(indName)) {
+                                if (!smc.getValues().isEmpty()) {
+                                    smConcentrations.put(indName, smc.getValues());
+                                } else {
+                                    double min = smc.getMin();
+                                    double max = smc.getMax();
+                                    //double inc = (max - min) * 0.05;
+                                    double inc = (max - min) * 0.1;
+                                    List<Double> concs = new ArrayList<>();
+                                    for (double i = min; i <= max; i += inc) {
+                                        concs.add(i);
+                                    }
+                                    smConcentrations.put(indName, concs);
                                 }
-                                smConcentrations.put(indName, concs);
                             }
                         }
                     }
                 }
             }
+            
         }
         List<Map<String,Double>> temp = new ArrayList<>();
         for(String ind:smConcentrations.keySet()){
@@ -297,19 +371,19 @@ public class Simulation {
                     childModelList.add(child.getModel().getSbml().getModel());
                 }
             }
-            Model tuModel = new ModelPart(SBMLAdaptor.composeModels(childModelList));
+            Model tuModel = new Model(SBMLAdaptor.composeModels(childModelList));
             tu.setModel(tuModel);
             modelList.add(tuModel.getSbml().getModel());
         }
-        Model modulemodel = new ModelPart(SBMLAdaptor.composeModels(modelList));
+        Model modulemodel = new Model(SBMLAdaptor.composeModels(modelList));
         module.setModel(modulemodel);
     }
 
-    private static void assignLeafModels(Module module, Map<String, CandidateComponent> assignment, SBOLDocument doc, Decomposition decomposition, String fp) throws URISyntaxException, MalformedURLException {
+    private static void assignLeafModels(Module module, Map<String, CandidateComponent> assignment, SBOLDocument doc, Map<URI,SBMLDocument> modelmap, Decomposition decomposition) throws URISyntaxException, MalformedURLException {
         switch (decomposition) {
             case PR_C_T:
                 for (Module tu : module.getChildren()) {
-                    assignLeafModelsPR_C_T(tu, assignment, doc, fp);
+                    assignLeafModelsPR_C_T(tu, assignment, doc, modelmap);
                 }
                 break;
             case P_RC_T:
@@ -356,27 +430,22 @@ public class Simulation {
         }
     }
 
-    private static void assignLeafModelsPR_C_T(Module module, Map<String, CandidateComponent> assignment, SBOLDocument doc, String fp) throws URISyntaxException, MalformedURLException {
+    private static void assignLeafModelsPR_C_T(Module module, Map<String, CandidateComponent> assignment, SBOLDocument doc, Map<URI,SBMLDocument> modelmap) throws URISyntaxException, MalformedURLException {
         for (Module child : module.getChildren()) {
             if (child.getRole().equals(ModuleRole.PROMOTER_RBS)) {
                 Component prom = child.getComponents().get(0);
                 CandidateComponent cc = assignment.get(prom.getName());
                 ModuleDefinition md = doc.getModuleDefinition(cc.getCandidate().getModuleDefinitions().get(0));
                 List<org.sbolstandard.core2.Model> sbolmodels = new ArrayList<>(md.getModels());
-                URI uri = new URI(sbolmodels.get(0).getSource().toString() + "/download");
-                SBMLDocument sbml = SynbiohubAdaptor.getModel(uri.toURL(), fp);
-                Model model = new ModelPart(sbml);
-                child.setModel(model);
+                URI uri = sbolmodels.get(0).getSource();
+                child.setModel(new Model(new SBMLDocument(modelmap.get(uri))));
             } else if (child.getRole().equals(ModuleRole.CDS)) {
                 Component cds = child.getComponents().get(0);
                 CandidateComponent cc = assignment.get(cds.getName());
                 ModuleDefinition md = doc.getModuleDefinition(cc.getCandidate().getModuleDefinitions().get(0));
                 List<org.sbolstandard.core2.Model> sbolmodels = new ArrayList<>(md.getModels());
-                URI uri = new URI(sbolmodels.get(0).getSource().toString() + "/download");
-
-                SBMLDocument sbml = SynbiohubAdaptor.getModel(uri.toURL(), fp);
-                Model model = new ModelPart(sbml);
-                child.setModel(model);
+                URI uri = sbolmodels.get(0).getSource();
+                child.setModel(new Model(new SBMLDocument(modelmap.get(uri))));
             }
         }
 
@@ -477,7 +546,7 @@ public class Simulation {
                 }
             }
         }
-        System.out.println("IOC :: " + ioc);
+        //System.out.println("IOC :: " + ioc);
         return ioc;
     }
 
@@ -491,7 +560,7 @@ public class Simulation {
                 List<org.sbolstandard.core2.Model> sbolmodels = new ArrayList<>(md.getModels());
                 URI uri = new URI(sbolmodels.get(0).getSource().toString() + "/download");
                 SBMLDocument sbml = SynbiohubAdaptor.getModel(uri.toURL(), jobfp);
-                Model model = new ModelPart(sbml);
+                Model model = new Model(sbml);
                 root.setModel(model);
             } catch (MalformedURLException | URISyntaxException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -505,7 +574,7 @@ public class Simulation {
                 URI uri = new URI(sbolmodels.get(0).getSource().toString() + "/download");
 
                 SBMLDocument sbml = SynbiohubAdaptor.getModel(uri.toURL(), jobfp);
-                Model model = new ModelPart(sbml);
+                Model model = new Model(sbml);
                 root.setModel(model);
             } catch (MalformedURLException | URISyntaxException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
