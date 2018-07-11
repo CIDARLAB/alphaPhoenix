@@ -93,9 +93,10 @@ public class Simulation {
             if(indSMmap.isEmpty()){
                 
                 noSM++;
-                System.out.println("Current Assignment : " + count);
+                System.out.println("Current Assignment : " + count + " has no small molecules.");
                 printAssignment(module,assignment);
                 
+                /*
                 String ifp = fp + count + Utilities.getSeparater();
                 Utilities.makeDirectory(ifp);
                 
@@ -133,7 +134,7 @@ public class Simulation {
                     PyPlotAdaptor.runScript(ifp + key + "_singals.py");
                 }
                 count++;
-                
+                */
             } 
             
             else {
