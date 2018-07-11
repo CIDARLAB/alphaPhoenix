@@ -394,7 +394,7 @@ public class SBOLAdaptor {
                 SBMLAdaptor.setReactionParameterValue(model, "out_expression", "K_d_TF", part.getDouble("K_d_TF"));
                 SBMLAdaptor.setReactionParameterValue(model, "out_expression", "n_TF", part.getDouble("n_TF"));
                 
-                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "max_SM", part.getDouble("max_SM"));
+                //SBMLAdaptor.setReactionParameterValue(model, "out_expression", "max_SM", part.getDouble("max_SM"));
                 SBMLAdaptor.setReactionParameterValue(model, "out_expression", "K_d_SM", part.getDouble("K_d_SM"));
                 SBMLAdaptor.setReactionParameterValue(model, "out_expression", "n_SM", part.getDouble("n_SM"));
                 break;
@@ -409,7 +409,7 @@ public class SBOLAdaptor {
                 SBMLAdaptor.setReactionParameterValue(model, "out_expression", "K_d_TF", part.getDouble("K_d_TF"));
                 SBMLAdaptor.setReactionParameterValue(model, "out_expression", "n_TF", part.getDouble("n_TF"));
                 
-                SBMLAdaptor.setReactionParameterValue(model, "out_expression", "max_SM", part.getDouble("max_SM"));
+                //SBMLAdaptor.setReactionParameterValue(model, "out_expression", "max_SM", part.getDouble("max_SM"));
                 SBMLAdaptor.setReactionParameterValue(model, "out_expression", "K_d_SM", part.getDouble("K_d_SM"));
                 SBMLAdaptor.setReactionParameterValue(model, "out_expression", "n_SM", part.getDouble("n_SM"));
                 break;

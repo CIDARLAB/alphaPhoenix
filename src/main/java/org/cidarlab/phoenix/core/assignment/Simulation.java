@@ -96,7 +96,7 @@ public class Simulation {
                 System.out.println("Current Assignment : " + count + " has no small molecules.");
                 printAssignment(module,assignment);
                 
-                /*
+                
                 String ifp = fp + count + Utilities.getSeparater();
                 Utilities.makeDirectory(ifp);
                 
@@ -134,7 +134,7 @@ public class Simulation {
                     PyPlotAdaptor.runScript(ifp + key + "_singals.py");
                 }
                 count++;
-                */
+                
             } 
             
             else {
@@ -322,8 +322,9 @@ public class Simulation {
                     }
                 }
             }
-            
         }
+        System.out.println("Small Molecule Concentrations:");
+        System.out.println(smConcentrations);
         List<Map<String,Double>> temp = new ArrayList<>();
         for(String ind:smConcentrations.keySet()){
             List<Double> indConc = smConcentrations.get(ind);

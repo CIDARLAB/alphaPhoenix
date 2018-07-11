@@ -250,6 +250,9 @@ public class Exhaustive extends AbstractAssignment {
         Set<URI> promProteins = new HashSet<>();
         Set<URI> outputCDS = new HashSet<>();
         int outcount = getOutputCount(stl);
+        
+        boolean shouldContinue = false;
+        
         for(Map<String,CandidateComponent> assignment:assignments){
             cdsProteins = new HashSet<>();
             promProteins = new HashSet<>();
@@ -285,7 +288,7 @@ public class Exhaustive extends AbstractAssignment {
                 continue;
             }
             
-            boolean shouldContinue = false;
+            
             for(URI pp:promProteins){
                 if(!cdsProteins.contains(pp)){
                     shouldContinue = true;

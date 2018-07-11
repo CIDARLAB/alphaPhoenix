@@ -183,15 +183,15 @@
             </apply>
           </math>
                   <listOfLocalParameters>
-            <localParameter id="basal" name="basal" value="0.388427809"/>
-            <localParameter id="max" name="max" value="1.2142962"/>
-            <localParameter id="K_d" name="K_d" value="2.59164967E4"/>
-            <localParameter id="n" name="n" value="0.778290957"/>
-            <localParameter id="max_TF" name="max_TF" value="17.5756798"/>
-            <localParameter id="K_d_TF" name="K_d_TF" value="1731.33072"/>
-            <localParameter id="n_TF" name="n_TF" value="0.680636018"/>
-            <localParameter id="K_d_SM" name="K_d_SM" value="48.9512867"/>
-            <localParameter id="n_SM" name="n_SM" value="0.939678198"/>
+            <localParameter id="basal" name="basal" value="0.300047742"/>
+            <localParameter id="max" name="max" value="1.40385257"/>
+            <localParameter id="K_d" name="K_d" value="2368.67123"/>
+            <localParameter id="n" name="n" value="2.07094514"/>
+            <localParameter id="max_TF" name="max_TF" value="52.3290751"/>
+            <localParameter id="K_d_TF" name="K_d_TF" value="2.08359364E4"/>
+            <localParameter id="n_TF" name="n_TF" value="0.649992382"/>
+            <localParameter id="K_d_SM" name="K_d_SM" value="123.153382"/>
+            <localParameter id="n_SM" name="n_SM" value="0.843961952"/>
           </listOfLocalParameters>
         </kineticLaw>
       </reaction>
