@@ -616,21 +616,22 @@ public class SBMLAdaptor {
         LocalParameter hillCoefTF = inducibleActivatableExpressionLaw.createLocalParameter("n_TF");
         hillCoefTF.setName("n_TF");
         hillCoefTF.setValue(2.0);
-        LocalParameter maxSMExpressionRate = inducibleActivatableExpressionLaw.createLocalParameter("max_SM");
-        maxSMExpressionRate.setName("max_SM");
-        maxSMExpressionRate.setValue(1.0);
         LocalParameter kdSM = inducibleActivatableExpressionLaw.createLocalParameter("K_d_SM");
         kdSM.setName("K_d_SM");
         kdSM.setValue(1.0);
         LocalParameter hillCoefSM = inducibleActivatableExpressionLaw.createLocalParameter("n_SM");
         hillCoefSM.setName("n_SM");
         hillCoefSM.setValue(2.0);
-        inducibleActivatableExpressionLaw.setMath(parseFormula(basalExpressionRate.getId() + "+((" + maxBasalExpressionRate.getId() + "*(" + activator.getId() + "^"
-                + hillCoefBasal.getId() + "))/((" + kdBasal.getId() + "^" + hillCoefBasal.getId() + ")+(" + activator.getId() + "^" + hillCoefBasal.getId() + ")))"
-                + "+((" + maxTFExpressionRate.getId() + "*(" + activator.getId() + "^" + hillCoefTF.getId() + "))/((" + kdTF.getId() + "^" + hillCoefTF.getId()
-                + ")+(" + activator.getId() + "^" + hillCoefTF.getId() + ")))*((" + maxSMExpressionRate.getId() + "*(" + inducer.getId() + "^" + hillCoefSM.getId()
-                + "))/((" + kdSM.getId() + "^" + hillCoefSM.getId() + ")+(" + inducer.getId() + "^" + hillCoefSM.getId() + ")))"));
+        String boundTF = createActivationHillWithoutBasal(inducer.getId(), activator.getId(), kdSM.getId(), hillCoefSM.getId());
+        String unboundTF = "(" + activator.getId() + "-" + boundTF + ")";
+        String basal = basalExpressionRate.getId() + "+" + createActivationHillWithoutBasal(unboundTF, maxBasalExpressionRate.getId(), kdBasal.getId(), hillCoefBasal.getId());
+        String induced = createActivationHillWithoutBasal(boundTF, maxTFExpressionRate.getId(), kdTF.getId(), hillCoefTF.getId());
+        inducibleActivatableExpressionLaw.setMath(parseFormula(basal + "+" + induced));
         return inducibleActivatableExpression;
+    }
+    
+    private static String createActivationHillWithoutBasal(String x, String max, String Kd, String n) {
+        return "(" + max + "*((" + x + "^" + n + ")/((" + Kd + "^" + n + ")+(" + x + "^" + n + "))))";
     }
     
     private static Reaction createRatelessInducibleActivatableExpressionReaction(Species activator, Species inducer, Species expressed, Model mod) {
