@@ -240,7 +240,7 @@ public class Exhaustive extends AbstractAssignment {
         }
         System.out.println("Assignments before Validation of design : " + circuitAssignments.size());
         module.setAssignments(validateAssignments(circuitAssignments, cmap, library, stl));
-        
+        System.out.println("Assignments after Validation of design : " + module.getAssignments().size());
     }
     
     private List<Map<String,CandidateComponent>> validateAssignments(List<Map<String,CandidateComponent>> assignments, Map<String,Component> cmap,  Library library, TreeNode stl){
@@ -251,7 +251,7 @@ public class Exhaustive extends AbstractAssignment {
         Set<URI> outputCDS = new HashSet<>();
         int outcount = getOutputCount(stl);
         
-        boolean shouldContinue = false;
+        
         
         for(Map<String,CandidateComponent> assignment:assignments){
             cdsProteins = new HashSet<>();
@@ -288,7 +288,7 @@ public class Exhaustive extends AbstractAssignment {
                 continue;
             }
             
-            
+            boolean shouldContinue = false;
             for(URI pp:promProteins){
                 if(!cdsProteins.contains(pp)){
                     shouldContinue = true;
