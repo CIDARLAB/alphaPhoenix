@@ -28,7 +28,7 @@ import org.synbiohub.frontend.SynBioHubFrontend;
  *
  * @author prash
  */
-public class CircuitTUTest3 {
+public class Circuit3TUTest {
     private static String tested_circuitsFP = Utilities.getTestedCircuitsFilepath();
     private static String sampleCircuitsFP = tested_circuitsFP + "circuits" + Utilities.getSeparater();
     

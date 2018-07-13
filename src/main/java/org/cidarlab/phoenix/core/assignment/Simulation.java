@@ -129,7 +129,7 @@ public class Simulation {
                 }
                 for (String key : allsignals.keySet()) {
                     String plotfp = ifp + key + ".png";
-                    List<String> pylines = PyPlotAdaptor.generateSignalPlotScript(allsignals.get(key), ifp + key + ".png", 0, maxtime, 0, 2000);
+                    List<String> pylines = PyPlotAdaptor.generateSignalPlotScript(allsignals.get(key), ifp + key + ".png", 0, maxtime, 0.00001, 100000, false, true);
                     Utilities.writeToFile(ifp + key + "_singals.py", pylines);
                     PyPlotAdaptor.runScript(ifp + key + "_singals.py");
                 }
@@ -202,7 +202,7 @@ public class Simulation {
                     }
                     for (String key : allsignals.keySet()) {
                         String plotfp = ifp + key + ".png";
-                        List<String> pylines = PyPlotAdaptor.generateSignalPlotScript(allsignals.get(key), ifp + key + ".png", 0, maxtime, 0, 2000);
+                        List<String> pylines = PyPlotAdaptor.generateSignalPlotScript(allsignals.get(key), ifp + key + ".png", 0, maxtime, 0.00001, 100000, false, true);
                         Utilities.writeToFile(ifp + key + "_singals.py", pylines);
                         PyPlotAdaptor.runScript(ifp + key + "_singals.py");
                     }
