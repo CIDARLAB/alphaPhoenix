@@ -37,15 +37,15 @@ public class SampleCircuit3TUTest {
     
     private static String three_tu_results = three_tuFP + "results" + Utilities.getSeparater();
     
-    private static String three_tu_eug = three_tu_results + "tripleTU.eug";
-    private static String three_tu_stl = three_tu_results + "stl.txt";
+    private static String three_tu_eug = three_tuFP + "tripleTU.eug";
+    private static String three_tu_stl = three_tuFP + "stl.txt";
     
     private static int runCount = 20;
     
     @Test
     public void testExhaustiveAssignment() throws URISyntaxException, SBOLValidationException, SynBioHubException {
         
-        int size = 8;
+        int size = 12;
         
         List<Module> modules = MiniEugeneAdaptor.getStructures(three_tu_eug, size, "inverter");
         System.out.println("Number of modules : " + modules.size());
