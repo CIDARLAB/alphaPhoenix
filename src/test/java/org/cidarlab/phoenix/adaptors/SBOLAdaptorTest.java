@@ -59,13 +59,26 @@ public class SBOLAdaptorTest {
      * @throws java.net.URISyntaxException
      */
     @Test
-    public void testConvertUCFtoSBOL() throws SBOLValidationException, URISyntaxException, IOException, SBOLConversionException, FileNotFoundException, XMLStreamException {
+    public void testConvertSampleUCFtoSBOL() throws SBOLValidationException, URISyntaxException, IOException, SBOLConversionException, FileNotFoundException, XMLStreamException {
         String ucfFP = Utilities.getTestedCircuitsFilepath() + "ucf" + Utilities.getSeparater() +  "sampleUCF.json";
         String outputfp = Utilities.getTestedCircuitsFilepath() + "ucf" + Utilities.getSeparater() + "sampleUCF" + Utilities.getSeparater();
         JSONObject ucf = new JSONObject(Utilities.getFileContentAsString(ucfFP)); 
         SBOLDocument doc = SBOLAdaptor.convertUCFtoSBOL(ucf,outputfp);
     }
     
+    
+    /**
+     * Test of convertUCFtoSBOL method, of class SBOLAdaptor.
+     * @throws org.sbolstandard.core2.SBOLValidationException
+     * @throws java.net.URISyntaxException
+     */
+    @Test
+    public void testConvertUCFtoSBOL() throws SBOLValidationException, URISyntaxException, IOException, SBOLConversionException, FileNotFoundException, XMLStreamException {
+        String ucfFP = Utilities.getTestedCircuitsFilepath() + "ucf" + Utilities.getSeparater() +  "ucf.json";
+        String outputfp = Utilities.getTestedCircuitsFilepath() + "ucf" + Utilities.getSeparater() + "ucf" + Utilities.getSeparater();
+        JSONObject ucf = new JSONObject(Utilities.getFileContentAsString(ucfFP)); 
+        SBOLDocument doc = SBOLAdaptor.convertUCFtoSBOL(ucf,outputfp);
+    }
     
     static final String AB = "ATGC";
     static SecureRandom rnd = new SecureRandom();
@@ -81,9 +94,9 @@ public class SBOLAdaptorTest {
     //@Test
     public void testCreateRandomSequences(){
         int maxlen = 12;
-        for(int i=0;i<22;i++){
+        for(int i=0;i<20;i++){
             String seq = randomString(rnd.nextInt(maxlen));
-            while(seq.length() < 5){
+            while(seq.length() < 10){
                 seq = randomString(rnd.nextInt(maxlen));
             }
             System.out.println(seq);

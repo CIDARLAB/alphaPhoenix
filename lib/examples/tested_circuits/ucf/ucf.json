@@ -5,447 +5,384 @@
             "Nicholas A DeLateur",
             "Curtis Madsen"
         ],
-        "description":"Parts and Modules used in Phoenix."
+        "description":"bioCPS UCF for Phoenix."
     },
     "parts":[
 		{
-			"id":"cp0",
-			"sequence":"TAACT",
+			"id":"pLacIq018",
+			"sequence":"AGCCCCTCTCG",
 			"part":"promoter",
 			"type":"constitutive",
 		},
 		{
-			"id":"cp1",
-			"sequence":"GATACA",
+			"id":"pLacI017",
+			"sequence":"TTCACGGCTT",
 			"part":"promoter",
 			"type":"constitutive",
 		},
 		{
-			"id":"iap0",
-			"sequence":"ATCAG",
+			"id":"pLas007",
+			"sequence":"GCAAACCATT",
 			"part":"promoter",
 			"type":"activated-induced",
 		},
 		{
-			"id":"iap1",
-			"sequence":"CTTCTCA",
+			"id":"pLas030",
+			"sequence":"ATTTAAGATGG",
 			"part":"promoter",
 			"type":"activated-induced",
 		},
 		{
-			"id":"iap2",
-			"sequence":"TAGCGAA",
+			"id":"pLux050",
+			"sequence":"CGACGGCTCT",
 			"part":"promoter",
 			"type":"activated-induced",
 		},
 		{
-			"id":"ap0",
-			"sequence":"TGGTAGGTCCT",
+			"id":"pLux078",
+			"sequence":"CCAGCAGGGTG",
 			"part":"promoter",
-			"type":"activated",
+			"type":"activated-induced",
 		},
 		{
-			"id":"ap1",
-			"sequence":"TGGGCGTGATC",
+			"id":"pRhl046",
+			"sequence":"TGGGTCCGTG",
 			"part":"promoter",
-			"type":"activated",
+			"type":"activated-induced",
 		},
 		{
-			"id":"rp0",
-			"sequence":"ACCTCTAC",
+			"id":"pPhl081",
+			"sequence":"ACGTGATGAC",
 			"part":"promoter",
 			"type":"repressed",
 		},
 		{
-			"id":"rp1",
-			"sequence":"CGGGC",
+			"id":"pOR1093",
+			"sequence":"GGTAACTTAGC",
 			"part":"promoter",
 			"type":"repressed",
 		},
 		{
-			"id":"rbs0",
+			"id":"RBS30",
 			"part":"rbs",
-			"sequence":"GTATATCTCGA"
+			"sequence":"AACAAAGTACA"
 		}, 
 		{
-			"id":"rbs1",
+			"id":"RBS31",
 			"part":"rbs",
-			"sequence":"CCTGGTAG"
+			"sequence":"AAGGTTTTTG"
 		},
 		{
-			"id":"rbs2",
+			"id":"RBS32",
 			"part":"rbs",
-			"sequence":"AAACAGTAAGG"
+			"sequence":"TTCTAAGCTT"
 		},
 		{
-			"id":"rbs3",
+			"id":"RBS33",
 			"part":"rbs",
-			"sequence":"TACCCATT"
+			"sequence":"TCGATCGGCA"
 		},
 		{
             		"id":"GFP",
-            		"k_loss":0.008,
+            		"k_loss":0.00443383612441,
             		"part":"cds",
             		"type":"reporter",
-	    		"sequence":"CTCAAGCG"
+	    		"sequence":"AGGGCTGGAAA"
         	},
 		{
-            		"id":"cds0",
-            		"k_loss":0.008,
+            		"id":"LasR",
+            		"k_loss":0.00443383612441,
             		"part":"cds",
             		"type":"connector",
-	 	   	"sequence":"AGATT"
-        	},
-        	{
- 	           	"id":"cds1",
-        	    	"k_loss":0.0003,
-            		"part":"cds",
-            		"type":"connector",
-	    		"sequence":"GTGCTCTG"
-        	},
-        	{
-            		"id":"cds2",
-            		"k_loss":0.001,
-            		"part":"cds",
-            		"type":"connector",
-	    		"sequence":"GTACTATGTC"
-        	},
-        	{
-            		"id":"cds3",
-            		"k_loss":0.006,
-            		"part":"cds",
-            		"type":"connector",
-	    		"sequence":"GGCGACTC"
+	    		"sequence":"AGATCGACAG"
         	},
 		{
-            		"id":"cds4",
-            		"k_loss":0.009,
+            		"id":"LuxR",
+            		"k_loss":0.00443383612441,
             		"part":"cds",
             		"type":"connector",
-	    		"sequence":"GCGTCAGA"
+	 	   	"sequence":"GAAGGGGTGTA"
         	},
-		{
-            		"id":"cds5",
-            		"k_loss":0.009,
+ 	    {
+            		"id":"RhlR",
+            		"k_loss":0.00443383612441,
             		"part":"cds",
             		"type":"connector",
-	    		"sequence":"GATCAC"
+	 	   	"sequence":"CGTTAATACC"
+        	},
+        {
+            		"id":"PhlF",
+            		"k_loss":0.00443383612441,
+            		"part":"cds",
+            		"type":"connector",
+	 	   	"sequence":"GTAGCCCGGTT"
+        	},
+        {
+            		"id":"cI",
+            		"k_loss":0.00443383612441,
+            		"part":"cds",
+            		"type":"connector",
+	 	   	"sequence":"GCAACGCCTGT"
         	},
 		{
             		"id":"Ter1",
             		"part":"terminator",
-	    		"sequence":"AACATCA"
+	    		"sequence":"TATAGGCTATC"
         	},
 		{
-            		"id":"sm0",
+            		"id":"lasAHL",
             		"part":"smallMolecule",
             		"min":0,
-            		"max":100
+            		"max":1000
         	},
         	{
-            		"id":"sm1",
+            		"id":"luxAHL",
             		"part":"smallMolecule",
             		"min":0,
-            		"max":1
+            		"max":1000
         	},
         	{
-            		"id":"sm2",
+            		"id":"rhlAHL",
             		"part":"smallMolecule",
             		"min":0,
-            		"max":1
-        	}
+            		"max":10000
+        	},
 	],
 	"composite-parts" : [
 		{
-			"id":"cp0_rbs0",
+			"id":"pLacIq018_RBS30",
 			"type":"promoter-rbs",
 			"parts":[
-				"cp0",
-				"rbs0"
+				"pLacIq018",
+				"RBS30"
 			], 
-			"k_express":1.5
+			"k_express":12.880496
 		},
 		{
-			"id":"cp0_rbs1",
+			"id":"pLacIq018_RBS31",
 			"type":"promoter-rbs",
 			"parts":[
-				"cp0",
-				"rbs1"
+				"pLacIq018",
+				"RBS31"
 			], 
-			"k_express":2.55183
+			"k_express":2.287800
 		},
 		{
-			"id":"cp0_rbs2",
+			"id":"pLacIq018_RBS32",
 			"type":"promoter-rbs",
 			"parts":[
-				"cp0",
-				"rbs2"
-			], 
-			"k_express":0.14817
+				"pLacIq018",
+				"RBS32"
+			],  
+			"k_express":0.114374
 		},
 		{
-			"id":"cp0_rbs3",
+			"id":"pLacIq018_RBS33",
 			"type":"promoter-rbs",
 			"parts":[
-				"cp0",
-				"rbs3"
-			], 
-			"k_express":0.40515
+				"pLacIq018",
+				"RBS33"
+			],  
+			"k_express":0.080882
 		},
 		{
-			"id":"cp1_rbs0",
+			"id":"pLacI017_RBS30",
 			"type":"promoter-rbs",
 			"parts":[
-				"cp1",
-				"rbs0"
-			], 
-			"k_express":0.10530
+				"pLacI017",
+				"RBS30"
+			],  
+			"k_express":244.383905
 		},
 		{
-			"id":"cp1_rbs1",
+			"id":"pLacI017_RBS31",
 			"type":"promoter-rbs",
 			"parts":[
-				"cp1",
-				"rbs1"
-			], 
-			"k_express":0.70530
+				"pLacI017",
+				"RBS31"
+			],  
+			"k_express":69.969313
 		},
 		{
-			"id":"ap0_rbs1",
+			"id":"pLacI017_RBS32",
 			"type":"promoter-rbs",
 			"parts":[
-				"ap0",
-				"rbs1"
-			], 
-			"basal": 0.827268349,
-        		"max": 20.2925674,
-        		"K_d": 11909.8289,
-        		"n": 1.75972460
+				"pLacI017",
+				"RBS32"
+			],  
+			"k_express":0.396657
 		},
 		{
-			"id":"ap0_rbs2",
+			"id":"pLacI017_RBS33",
 			"type":"promoter-rbs",
 			"parts":[
-				"ap0",
-				"rbs2"
-			], 
-			"basal": 0.227268349,
-        		"max": 4.2925674,
-        		"K_d": 909.8289,
-        		"n": 6.75972460
+				"pLacI017",
+				"RBS33"
+			],  
+			"k_express":0.120943
 		},
 		{
-			"id":"ap1_rbs1",
+			"id":"pPhl081_RBS30",
 			"type":"promoter-rbs",
 			"parts":[
-				"ap1",
-				"rbs1"
+				"pPhl081",
+				"RBS30"
 			], 
-			"basal": 1.827268349,
-        		"max": 23.2925674,
-        		"K_d": 59.8289,
-        		"n": 0.75972460
+			"basal": 0.898,
+        		"max": 8.513,
+        		"K_d": 8.624,
+        		"n": 1.149
 		},
 		{
-			"id":"ap1_rbs3",
+			"id":"pOR1093_RBS30",
 			"type":"promoter-rbs",
 			"parts":[
-				"ap1",
-				"rbs3"
+				"pOR1093",
+				"RBS30"
 			], 
-			"basal": 1.827268349,
-        		"max": 27.2925674,
-        		"K_d": 1199.8289,
-        		"n": 0.75972460
+			"basal": 0.218,
+        		"max": 1.087,
+        		"K_d": 1.11,
+        		"n": 0.536
 		},
 		{
-			"id":"ap1_rbs2",
+			"id":"pLas007_RBS30",
 			"type":"promoter-rbs",
 			"parts":[
-				"ap1",
-				"rbs2"
+				"pLas007",
+				"RBS30"
 			], 
-			"basal": 3.221268349,
-        		"max": 15.2925674,
-        		"K_d": 60.8289,
-        		"n": 1.75972460
+			"basal": 0.880809684,
+        		"max": 15.6531967,
+        		"K_d": 10199.3374,
+        		"n": 1.71885728,
+        		"max_TF": 75.9762782,
+        		"K_d_TF": 1.83137522,
+        		"n_TF": 895.850096,
+        		"K_d_SM": 92.8182299,
+        		"n_SM": 0.776443122
 		},
 		{
-			"id":"rp0_rbs3",
+			"id":"pLas030_RBS30",
 			"type":"promoter-rbs",
 			"parts":[
-				"rp0",
-				"rbs3"
+				"pLas030",
+				"RBS30"
 			], 
-			"basal": 0.827268349,
-        		"max": 20.2925674,
-        		"K_d": 190.8289,
-        		"n": 0.75972460
+			"basal": 0.424896427,
+        		"max": 0.791365713,
+        		"K_d": 9687.28118,
+        		"n": 0.790786849,
+        		"max_TF": 127.060929,
+        		"K_d_TF": 1.70896690,
+        		"n_TF": 120.367964,
+        		"K_d_SM": 104.428299,
+        		"n_SM": 0.733802666
 		},
 		{
-			"id":"rp1_rbs0",
+			"id":"pLux050_RBS30",
 			"type":"promoter-rbs",
 			"parts":[
-				"rp1",
-				"rbs0"
+				"pLux050",
+				"RBS30"
 			], 
-			"basal": 0.221268349,
-        		"max": 30.2925674,
-        		"K_d": 11.8289,
-        		"n": 8.75972460
+			"basal": 1.80951336,
+        		"max": 4.62189340,
+        		"K_d": 4023.22017,
+        		"n": 1.89042783,
+        		"max_TF": 76.6575351,
+        		"K_d_TF": 1.42754651,
+        		"n_TF": 622.358665,
+        		"K_d_SM": 257.012950,
+        		"n_SM": 0.879642834
 		},
 		{
-			"id":"iap0_rbs0",
+			"id":"pLux078_RBS32",
 			"type":"promoter-rbs",
 			"parts":[
-				"iap0",
-				"rbs0"
+				"pLux078",
+				"RBS32"
 			], 
-			"basal": 0.827268349,
-        		"max": 20.2925674,
-        		"K_d": 11909.8289,
-        		"n": 1.75972460,
-        		"max_TF": 46.6702354,
-        		"K_d_TF": 1864.11960,
-        		"n_TF": 0.657793043,
-        		"max_SM": 46.6259581,
-        		"K_d_SM": 25.1186905,
-        		"n_SM": 1.24158724
+			"basal": 0.424896427,
+        		"max": 0.791365713,
+        		"K_d": 9687.28118,
+        		"n": 0.790786849,
+        		"max_TF": 127.060929,
+        		"K_d_TF": 1.70896690,
+        		"n_TF": 120.367964,
+        		"K_d_SM": 104.428299,
+        		"n_SM": 0.733802666
 		},
 		{
-			"id":"iap0_rbs1",
+			"id":"pRhl046_RBS31",
 			"type":"promoter-rbs",
 			"parts":[
-				"iap0",
-				"rbs1"
+				"pRhl046",
+				"RBS31"
 			], 
-			"basal": 0.388427809,
-        		"max": 1.21429620,
-        		"K_d": 25916.4967,
-        		"n": 0.778290957,
-        		"max_TF": 17.5756798,
-        		"K_d_TF": 1731.33072,
-        		"n_TF": 0.680636018,
-        		"max_SM": 17.5840070,
-        		"K_d_SM": 48.9512867,
-        		"n_SM": 0.939678198
-		},
-		{
-			"id":"iap1_rbs0",
-			"type":"promoter-rbs",
-			"parts":[
-				"iap1",
-				"rbs0"
-			], 
-			"basal": 1.65416053,
-        		"max": 5.19757143,
-        		"K_d": 4559.44415,
-        		"n": 9.87312760,
-        		"max_TF": 53.8087369,
-        		"K_d_TF": 37812.7585,
-        		"n_TF": 0.554394336,
-        		"max_SM": 53.2539156,
-        		"K_d_SM": 28.0026157,
-        		"n_SM": 0.899674268
-		},
-		{
-			"id":"iap2_rbs0",
-			"type":"promoter-rbs",
-			"parts":[
-				"iap2",
-				"rbs0"
-			], 
-			"basal": 0.300047742,
-        		"max": 1.40385257,
-        		"K_d": 2368.67123,
-        		"n": 2.07094514,
-        		"max_TF": 52.3290751,
-        		"K_d_TF": 20835.9364,
-        		"n_TF": 0.649992382,
-        		"max_SM": 53.6334740,
-        		"K_d_SM": 123.153382,
-        		"n_SM": 0.843961952
-		}
+			"basal": 2.52734707,
+        		"max": 1.55789934,
+        		"K_d": 862.809479,
+        		"n": 0.940226509,
+        		"max_TF": 370260.028,
+        		"K_d_TF": 2.66658835,
+        		"n_TF": 209.984146,
+        		"K_d_SM": 0.0000792387903,
+        		"n_SM": 0.420848569
+		}		
 	],
     "modules" : [
         {
             "parts" : [
-                "ap0_rbs1",
-                "cds0"
-	    ], 
-            "interaction" : "activation"
-        },
-		{
-            "parts" : [
-                "ap0_rbs2",
-                "cds0"
-	    ], 
-            "interaction" : "activation"
-        },
-		{
-            "parts" : [
-                "ap1_rbs1",
-                "cds1"
-	    ], 
-            "interaction" : "activation"
-        },
-		{
-            "parts" : [
-                "ap1_rbs3",
-                "cds1"
-	    ], 
-            "interaction" : "activation"
-        },
-		{
-            "parts" : [
-                "ap1_rbs2",
-                "cds1"
-	    ], 
-            "interaction" : "activation"
-        },
-        {
-            "parts" : [
-                "rp0_rbs3",
-                "cds2"
+                "pPhl081_RBS30",
+                "PhlF"
             ], 
             "interaction" : "repression"
         },
         {
             "parts" : [
-                "rp1_rbs0",
-                "cds3"
+                "pOR1093_RBS30",
+                "cI"
             ], 
             "interaction" : "repression"
         },
         {
             "parts" : [
-                "iap0_rbs0",
-                "cds4",
-		"sm0"
+                "pLas007_RBS30",
+                "LasR",
+		"lasAHL"
             ], 
             "interaction" : "activation"
         },
         {
             "parts" : [
-                "iap0_rbs1",
-                "cds4",
-		"sm0"
+                "pLas030_RBS30",
+                "LasR",
+		"lasAHL"
             ], 
             "interaction" : "activation"
         },
         {
             "parts" : [
-                "iap1_rbs0",
-                "cds5",
-		"sm1"
+                "pLux050_RBS30",
+                "LuxR",
+		"luxAHL"
             ], 
             "interaction" : "activation"
         },
         {
             "parts" : [
-                "iap2_rbs0",
-                "cds5",
-		"sm2"
+                "pLux078_RBS32",
+                "LuxR",
+		"luxAHL"
+            ], 
+            "interaction" : "activation"
+        },
+        {
+            "parts" : [
+                "pRhl046_RBS31",
+                "RhlR",
+		"rhlAHL"
             ], 
             "interaction" : "activation"
         }

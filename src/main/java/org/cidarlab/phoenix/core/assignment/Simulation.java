@@ -238,7 +238,7 @@ public class Simulation {
                     URI key = sbolmodel.getSource();
                     URI modeldownload = new URI(key.toString() + "/download");
                     if(!modelmap.containsKey(key)) {
-                        System.out.println("Downloaded : " + modeldownload.toString());
+                        //System.out.println("Downloaded : " + modeldownload.toString());
                         SBMLDocument sbml = SynbiohubAdaptor.getModel(modeldownload.toURL(), fp);
                         modelmap.put(key, sbml);
                     } else {
