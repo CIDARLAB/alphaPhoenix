@@ -104,10 +104,12 @@ public class Circuit1TUTest {
     @Test
     public void testExhaustiveAssignment() throws URISyntaxException, SBOLValidationException, SynBioHubException {
         
+        int runCount = 20;
+        
         int size = 4;
         List<Module> modules = MiniEugeneAdaptor.getStructures(one_tu_eug, size, "inverter");
         TreeNode stl = STLAdaptor.getSTL(one_tu_stl);
-        Args args = new Args(Args.Decomposition.PR_C_T, Args.Simulation.STOCHASTIC, 100, 0.99, 0.5, Args.Assignment.EXHAUSTIVE);
+        Args args = new Args(Args.Decomposition.PR_C_T, Args.Simulation.STOCHASTIC, runCount, 0.99, 0.5, Args.Assignment.EXHAUSTIVE);
         args.setProjectFolder(one_tu_results);
         Exhaustive exhaustive = new Exhaustive();
         

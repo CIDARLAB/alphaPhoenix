@@ -6,6 +6,7 @@
 package org.cidarlab.phoenix.core.assignment;
 
 import hyness.stl.TreeNode;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -68,23 +69,18 @@ public class Simulation {
         String tempfp = fp + "temp" + Utilities.getSeparater();
         Utilities.makeDirectory(tempfp);
         int count = 0;
-        SBMLWriter writer = new SBMLWriter();
+        
         
         int hasSM = 0;
         int noSM = 0;
         
         Map<URI,SBMLDocument> modelmap = downloadAllModels(library, tempfp);
-        
-        System.out.println("Model map size :" + modelmap.size());
-        
         Map<Integer,Integer> smCounts = new HashMap<>();
-        
         for (Map<String, CandidateComponent> assignment : module.getAssignments()) {
             
             Map<String, String> ioc = getIOCmap(module, assignment, library);
             
             assignLeafModels(module, assignment, library.getSbol(), modelmap, args.getDecomposition());
-            
             renameSpecies(module, ioc, library, args.getDecomposition());
             composeModels(module, args.getDecomposition());
             
@@ -96,43 +92,14 @@ public class Simulation {
                 System.out.println("Current Assignment : " + count + " has no small molecules.");
                 printAssignment(module,assignment);
                 
-                
                 String ifp = fp + count + Utilities.getSeparater();
                 Utilities.makeDirectory(ifp);
                 
-                String dnaplotlibfp = ifp + "visualsbol.py";
-                String dnaplotlibscript = DnaPlotlibAdaptor.generateScript(module, assignment, ioc, new HashMap<String,String>(), library,ifp + "circuit");
-                Utilities.writeToFile(dnaplotlibfp , dnaplotlibscript);
-                DnaPlotlibAdaptor.runScript(dnaplotlibfp);
-                
+                SBMLWriter writer = new SBMLWriter();
                 String modelFile = ifp + "model.xml";
                 writer.write(module.getModel().getSbml(), modelFile);
                 
-                double maxtime = STLAdaptor.getMaxTime(stl);
-                IBioSimAdaptor.simulateStocastic(modelFile, ifp, STLAdaptor.getMaxTime(stl), 1, 1, args.getRunCount());
-                Map<String, TreeNode> stlmap = STLAdaptor.getSignalSTLMap(stl);
-                Map<String, List<Signal>> allsignals = new HashMap<>();
-                for (int i = 1; i <= args.getRunCount(); i++) {
-                    String tsdfp = ifp + "run-" + i + ".csv";
-                    Map<String, Signal> signalMap = IBioSimAdaptor.getSignals(tsdfp);
-                    for (String key : stlmap.keySet()) {
-                        if (signalMap.containsKey(key)) {
-                            Signal s = signalMap.get(key);
-                            if (allsignals.containsKey(key)) {
-                                allsignals.get(key).add(s);
-                            } else {
-                                allsignals.put(key, new ArrayList<Signal>());
-                                allsignals.get(key).add(s);
-                            }
-                        }
-                    }
-                }
-                for (String key : allsignals.keySet()) {
-                    String plotfp = ifp + key + ".png";
-                    List<String> pylines = PyPlotAdaptor.generateSignalPlotScript(allsignals.get(key), ifp + key + ".png", 0, maxtime, 0.00001, 100000, false, true);
-                    Utilities.writeToFile(ifp + key + "_singals.py", pylines);
-                    PyPlotAdaptor.runScript(ifp + key + "_singals.py");
-                }
+                runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
                 count++;
                 
             } 
@@ -155,58 +122,23 @@ public class Simulation {
                     System.out.println("Current Assignment : " + count);
                     printAssignment(module, assignment);
                     
+                    JSONObject smevents = new JSONObject();
+                    
                     String ifp = fp + count + Utilities.getSeparater();
                     Utilities.makeDirectory(ifp);
                     
-                    
-                    String dnaplotlibfp = ifp + "visualsbol.py";
-                    String dnaplotlibscript = DnaPlotlibAdaptor.generateScript(module, assignment, ioc, new HashMap<String, String>(), library, ifp + "circuit");
-                    Utilities.writeToFile(dnaplotlibfp, dnaplotlibscript);
-                    DnaPlotlibAdaptor.runScript(dnaplotlibfp);
-                    
                     SBMLDocument sbml = new SBMLDocument(module.getModel().getSbml());
+                    SBMLWriter writer = new SBMLWriter();
                     String modelFile = ifp + "model.xml";
-
-                    JSONObject smevents = new JSONObject();
-                    writer.write(sbml, modelFile);
-                    
                     String smfp = ifp + "assignedSM.json";
-                    
                     for(String ind:conc.keySet()){
                         smevents.put(ind, conc.get(ind));
                         SBMLAdaptor.addEvent(sbml, ind, 600.00, conc.get(ind));
                     }
-                    
+                    writer.write(sbml, modelFile);
                     Utilities.writeToFile(smfp, smevents.toString(2));
                     
-                    
-                    
-                    double maxtime = STLAdaptor.getMaxTime(stl);
-                    IBioSimAdaptor.simulateStocastic(modelFile, ifp, STLAdaptor.getMaxTime(stl), 1, 1, args.getRunCount());
-                    Map<String, TreeNode> stlmap = STLAdaptor.getSignalSTLMap(stl);
-                    Map<String, List<Signal>> allsignals = new HashMap<>();
-                    for (int i = 1; i <= args.getRunCount(); i++) {
-                        String tsdfp = ifp + "run-" + i + ".csv";
-                        Map<String, Signal> signalMap = IBioSimAdaptor.getSignals(tsdfp);
-                        for (String key : stlmap.keySet()) {
-                            if (signalMap.containsKey(key)) {
-                                Signal s = signalMap.get(key);
-                                if (allsignals.containsKey(key)) {
-                                    allsignals.get(key).add(s);
-                                } else {
-                                    allsignals.put(key, new ArrayList<Signal>());
-                                    allsignals.get(key).add(s);
-                                }
-                            }
-                        }
-                    }
-                    for (String key : allsignals.keySet()) {
-                        String plotfp = ifp + key + ".png";
-                        List<String> pylines = PyPlotAdaptor.generateSignalPlotScript(allsignals.get(key), ifp + key + ".png", 0, maxtime, 0.00001, 100000, false, true);
-                        Utilities.writeToFile(ifp + key + "_singals.py", pylines);
-                        PyPlotAdaptor.runScript(ifp + key + "_singals.py");
-                    }
-                    
+                    runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
                     
                     count++;
                 }
@@ -224,6 +156,45 @@ public class Simulation {
             System.out.println("Number of assignments with " + i + " SM(s) : " + smCounts.get(i));
         }
         
+    }
+    
+    private static void runSimulation(Module module, Map<String, CandidateComponent> assignment, Map<String, String> ioc, Library library, TreeNode stl, String modelFile, Args args, String ifp) throws InterruptedException, IOException, TLIException {
+        
+        String dnaplotlibfp = ifp + "visualsbol.py";
+        String dnaplotlibscript = DnaPlotlibAdaptor.generateScript(module, assignment, ioc, new HashMap<String, String>(), library, ifp + "circuit");
+        Utilities.writeToFile(dnaplotlibfp, dnaplotlibscript);
+        DnaPlotlibAdaptor.runScript(dnaplotlibfp);
+        
+        double maxtime = STLAdaptor.getMaxTime(stl);
+        IBioSimAdaptor.simulateStocastic(modelFile, ifp, STLAdaptor.getMaxTime(stl), 10, 10, args.getRunCount());
+        Map<String, TreeNode> stlmap = STLAdaptor.getSignalSTLMap(stl);
+        Map<String, List<Signal>> allsignals = new HashMap<>();
+        for (int i = 1; i <= args.getRunCount(); i++) {
+            String tsdfp = ifp + "run-" + i + ".csv";
+            Map<String, Signal> signalMap = IBioSimAdaptor.getSignals(tsdfp);
+            for (String key : stlmap.keySet()) {
+                if (signalMap.containsKey(key)) {
+                    Signal s = signalMap.get(key);
+                    if (allsignals.containsKey(key)) {
+                        allsignals.get(key).add(s);
+                    } else {
+                        allsignals.put(key, new ArrayList<Signal>());
+                        allsignals.get(key).add(s);
+                    }
+                }
+            }
+            File f = new File(tsdfp);
+            f.delete();
+        }
+        
+        for (String key : allsignals.keySet()) {
+            Utilities.writeSignalsToCSV(allsignals.get(key), ifp + key + ".csv");
+            List<String> pylines = PyPlotAdaptor.generateSignalPlotScript(allsignals.get(key), ifp + key + ".png", 0, maxtime, 0, 100000, false, false);
+            Utilities.writeToFile(ifp + key + "_singals.py", pylines);
+            PyPlotAdaptor.runScript(ifp + key + "_singals.py");
+        }
+        
+                
     }
     
     private static Map<URI,SBMLDocument> downloadAllModels(Library library, String fp) throws URISyntaxException, MalformedURLException{

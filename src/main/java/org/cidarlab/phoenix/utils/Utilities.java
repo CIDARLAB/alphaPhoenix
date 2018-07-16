@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.cidarlab.gridtli.dom.Point;
+import org.cidarlab.gridtli.dom.Signal;
 import org.json.JSONObject;
 
 /**
@@ -195,6 +197,25 @@ public class Utilities {
     
     //</editor-fold>
     
+    public static void writeSignalsToCSV(List<Signal> signals, String filepath){
+        List<String> lines = new ArrayList<String>();
+        String line0 = "";
+        String line1 = "";
+        for(Point p:signals.get(0).getPoints()){
+            line0 += (p.getX() + ",");
+            line1 += (p.getY() + ",");
+        }
+        lines.add(line0);
+        lines.add(line1);
+        for(int i=1;i<signals.size();i++){
+            String line = "";
+            for(Point p:signals.get(i).getPoints()){
+                line += (p.getY() + ",");
+            }
+            lines.add(line);
+        }
+        writeToFile(filepath, lines);
+    }
     
     static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     static SecureRandom rnd = new SecureRandom();
