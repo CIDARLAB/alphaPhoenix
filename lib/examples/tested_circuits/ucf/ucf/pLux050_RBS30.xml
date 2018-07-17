@@ -187,11 +187,11 @@
             <localParameter id="max" name="max" value="4.6218934"/>
             <localParameter id="K_d" name="K_d" value="4023.22017"/>
             <localParameter id="n" name="n" value="1.89042783"/>
-            <localParameter id="max_TF" name="max_TF" value="76.6575351"/>
-            <localParameter id="K_d_TF" name="K_d_TF" value="1.42754651"/>
-            <localParameter id="n_TF" name="n_TF" value="622.358665"/>
-            <localParameter id="K_d_SM" name="K_d_SM" value="257.01295"/>
-            <localParameter id="n_SM" name="n_SM" value="0.879642834"/>
+            <localParameter id="max_TF" name="max_TF" value="622.358665"/>
+            <localParameter id="K_d_TF" name="K_d_TF" value="257.01295"/>
+            <localParameter id="n_TF" name="n_TF" value="0.879642834"/>
+            <localParameter id="K_d_SM" name="K_d_SM" value="76.6575351"/>
+            <localParameter id="n_SM" name="n_SM" value="1.42754651"/>
           </listOfLocalParameters>
         </kineticLaw>
       </reaction>

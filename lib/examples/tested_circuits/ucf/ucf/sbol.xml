@@ -1188,25 +1188,25 @@
     <sbol:language rdf:resource="http://identifiers.org/edam/format_2585"/>
     <sbol:framework rdf:resource="http://www.ebi.ac.uk/sbo/main/SBO:0000062"/>
   </sbol:Model>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLacIq018_RBS32/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS32"/>
-    <sbol:displayId>pLacIq018_RBS32</sbol:displayId>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLux078_RBS32/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux078_RBS32"/>
+    <sbol:displayId>pLux078_RBS32</sbol:displayId>
     <sbol:version>0.3</sbol:version>
-    <dcterms:title>pLacIq018_RBS32</dcterms:title>
+    <dcterms:title>pLux078_RBS32</dcterms:title>
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
     <sbol:type rdf:resource="http://identifiers.org/so/SO:0000804"/>
     <sbol:component>
-      <sbol:Component rdf:about="http://www.phoenix.org/library/pLacIq018_RBS32/pLacIq018_0/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS32/pLacIq018_0"/>
-        <sbol:displayId>pLacIq018_0</sbol:displayId>
+      <sbol:Component rdf:about="http://www.phoenix.org/library/pLux078_RBS32/pLux078_0/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux078_RBS32/pLux078_0"/>
+        <sbol:displayId>pLux078_0</sbol:displayId>
         <sbol:version>0.3</sbol:version>
         <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/pLacIq018/0.3"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/pLux078/0.3"/>
       </sbol:Component>
     </sbol:component>
     <sbol:component>
-      <sbol:Component rdf:about="http://www.phoenix.org/library/pLacIq018_RBS32/RBS32_1/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS32/RBS32_1"/>
+      <sbol:Component rdf:about="http://www.phoenix.org/library/pLux078_RBS32/RBS32_1/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux078_RBS32/RBS32_1"/>
         <sbol:displayId>RBS32_1</sbol:displayId>
         <sbol:version>0.3</sbol:version>
         <sbol:access rdf:resource="http://sbols.org/v2#private"/>
@@ -1214,51 +1214,125 @@
       </sbol:Component>
     </sbol:component>
     <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLacIq018_RBS32/SequenceAnnotation0/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS32/SequenceAnnotation0"/>
+      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLux078_RBS32/SequenceAnnotation0/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux078_RBS32/SequenceAnnotation0"/>
         <sbol:displayId>SequenceAnnotation0</sbol:displayId>
         <sbol:version>0.3</sbol:version>
         <sbol:location>
-          <sbol:Range rdf:about="http://www.phoenix.org/library/pLacIq018_RBS32/SequenceAnnotation0/Range0/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS32/SequenceAnnotation0/Range0"/>
+          <sbol:Range rdf:about="http://www.phoenix.org/library/pLux078_RBS32/SequenceAnnotation0/Range0/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux078_RBS32/SequenceAnnotation0/Range0"/>
             <sbol:displayId>Range0</sbol:displayId>
             <sbol:version>0.3</sbol:version>
             <sbol:start>1</sbol:start>
-            <sbol:end>11</sbol:end>
+            <sbol:end>7</sbol:end>
           </sbol:Range>
         </sbol:location>
         <sbol:location>
-          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLacIq018_RBS32/SequenceAnnotation0/Location0/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS32/SequenceAnnotation0/Location0"/>
+          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLux078_RBS32/SequenceAnnotation0/Location0/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux078_RBS32/SequenceAnnotation0/Location0"/>
             <sbol:displayId>Location0</sbol:displayId>
             <sbol:version>0.3</sbol:version>
           </sbol:GenericLocation>
         </sbol:location>
-        <sbol:component rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS32/pLacIq018_0/0.3"/>
+        <sbol:component rdf:resource="http://www.phoenix.org/library/pLux078_RBS32/pLux078_0/0.3"/>
       </sbol:SequenceAnnotation>
     </sbol:sequenceAnnotation>
     <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLacIq018_RBS32/SequenceAnnotation1/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS32/SequenceAnnotation1"/>
+      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLux078_RBS32/SequenceAnnotation1/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux078_RBS32/SequenceAnnotation1"/>
         <sbol:displayId>SequenceAnnotation1</sbol:displayId>
         <sbol:version>0.3</sbol:version>
         <sbol:location>
-          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLacIq018_RBS32/SequenceAnnotation1/Location1/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS32/SequenceAnnotation1/Location1"/>
+          <sbol:Range rdf:about="http://www.phoenix.org/library/pLux078_RBS32/SequenceAnnotation1/Range1/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux078_RBS32/SequenceAnnotation1/Range1"/>
+            <sbol:displayId>Range1</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:start>8</sbol:start>
+            <sbol:end>18</sbol:end>
+          </sbol:Range>
+        </sbol:location>
+        <sbol:location>
+          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLux078_RBS32/SequenceAnnotation1/Location1/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux078_RBS32/SequenceAnnotation1/Location1"/>
+            <sbol:displayId>Location1</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+          </sbol:GenericLocation>
+        </sbol:location>
+        <sbol:component rdf:resource="http://www.phoenix.org/library/pLux078_RBS32/RBS32_1/0.3"/>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLas007_RBS30/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas007_RBS30"/>
+    <sbol:displayId>pLas007_RBS30</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>pLas007_RBS30</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:type rdf:resource="http://identifiers.org/so/SO:0000804"/>
+    <sbol:component>
+      <sbol:Component rdf:about="http://www.phoenix.org/library/pLas007_RBS30/RBS30_1/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas007_RBS30/RBS30_1"/>
+        <sbol:displayId>RBS30_1</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/RBS30/0.3"/>
+      </sbol:Component>
+    </sbol:component>
+    <sbol:component>
+      <sbol:Component rdf:about="http://www.phoenix.org/library/pLas007_RBS30/pLas007_0/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas007_RBS30/pLas007_0"/>
+        <sbol:displayId>pLas007_0</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/pLas007/0.3"/>
+      </sbol:Component>
+    </sbol:component>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLas007_RBS30/SequenceAnnotation1/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas007_RBS30/SequenceAnnotation1"/>
+        <sbol:displayId>SequenceAnnotation1</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:location>
+          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLas007_RBS30/SequenceAnnotation1/Location1/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas007_RBS30/SequenceAnnotation1/Location1"/>
             <sbol:displayId>Location1</sbol:displayId>
             <sbol:version>0.3</sbol:version>
           </sbol:GenericLocation>
         </sbol:location>
         <sbol:location>
-          <sbol:Range rdf:about="http://www.phoenix.org/library/pLacIq018_RBS32/SequenceAnnotation1/Range1/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS32/SequenceAnnotation1/Range1"/>
+          <sbol:Range rdf:about="http://www.phoenix.org/library/pLas007_RBS30/SequenceAnnotation1/Range1/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas007_RBS30/SequenceAnnotation1/Range1"/>
             <sbol:displayId>Range1</sbol:displayId>
             <sbol:version>0.3</sbol:version>
-            <sbol:start>12</sbol:start>
-            <sbol:end>21</sbol:end>
+            <sbol:start>8</sbol:start>
+            <sbol:end>18</sbol:end>
           </sbol:Range>
         </sbol:location>
-        <sbol:component rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS32/RBS32_1/0.3"/>
+        <sbol:component rdf:resource="http://www.phoenix.org/library/pLas007_RBS30/RBS30_1/0.3"/>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLas007_RBS30/SequenceAnnotation0/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas007_RBS30/SequenceAnnotation0"/>
+        <sbol:displayId>SequenceAnnotation0</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:location>
+          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLas007_RBS30/SequenceAnnotation0/Location0/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas007_RBS30/SequenceAnnotation0/Location0"/>
+            <sbol:displayId>Location0</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+          </sbol:GenericLocation>
+        </sbol:location>
+        <sbol:location>
+          <sbol:Range rdf:about="http://www.phoenix.org/library/pLas007_RBS30/SequenceAnnotation0/Range0/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas007_RBS30/SequenceAnnotation0/Range0"/>
+            <sbol:displayId>Range0</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:start>1</sbol:start>
+            <sbol:end>7</sbol:end>
+          </sbol:Range>
+        </sbol:location>
+        <sbol:component rdf:resource="http://www.phoenix.org/library/pLas007_RBS30/pLas007_0/0.3"/>
       </sbol:SequenceAnnotation>
     </sbol:sequenceAnnotation>
   </sbol:ComponentDefinition>
@@ -1268,6 +1342,80 @@
     <sbol:version>0.3</sbol:version>
     <dcterms:title>RhlR Protein</dcterms:title>
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pOR1093_RBS30/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pOR1093_RBS30"/>
+    <sbol:displayId>pOR1093_RBS30</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>pOR1093_RBS30</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:type rdf:resource="http://identifiers.org/so/SO:0000804"/>
+    <sbol:component>
+      <sbol:Component rdf:about="http://www.phoenix.org/library/pOR1093_RBS30/RBS30_1/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pOR1093_RBS30/RBS30_1"/>
+        <sbol:displayId>RBS30_1</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/RBS30/0.3"/>
+      </sbol:Component>
+    </sbol:component>
+    <sbol:component>
+      <sbol:Component rdf:about="http://www.phoenix.org/library/pOR1093_RBS30/pOR1093_0/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pOR1093_RBS30/pOR1093_0"/>
+        <sbol:displayId>pOR1093_0</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/pOR1093/0.3"/>
+      </sbol:Component>
+    </sbol:component>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pOR1093_RBS30/SequenceAnnotation0/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pOR1093_RBS30/SequenceAnnotation0"/>
+        <sbol:displayId>SequenceAnnotation0</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:location>
+          <sbol:Range rdf:about="http://www.phoenix.org/library/pOR1093_RBS30/SequenceAnnotation0/Range0/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pOR1093_RBS30/SequenceAnnotation0/Range0"/>
+            <sbol:displayId>Range0</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:start>1</sbol:start>
+            <sbol:end>5</sbol:end>
+          </sbol:Range>
+        </sbol:location>
+        <sbol:location>
+          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pOR1093_RBS30/SequenceAnnotation0/Location0/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pOR1093_RBS30/SequenceAnnotation0/Location0"/>
+            <sbol:displayId>Location0</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+          </sbol:GenericLocation>
+        </sbol:location>
+        <sbol:component rdf:resource="http://www.phoenix.org/library/pOR1093_RBS30/pOR1093_0/0.3"/>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pOR1093_RBS30/SequenceAnnotation1/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pOR1093_RBS30/SequenceAnnotation1"/>
+        <sbol:displayId>SequenceAnnotation1</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:location>
+          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pOR1093_RBS30/SequenceAnnotation1/Location1/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pOR1093_RBS30/SequenceAnnotation1/Location1"/>
+            <sbol:displayId>Location1</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+          </sbol:GenericLocation>
+        </sbol:location>
+        <sbol:location>
+          <sbol:Range rdf:about="http://www.phoenix.org/library/pOR1093_RBS30/SequenceAnnotation1/Range1/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pOR1093_RBS30/SequenceAnnotation1/Range1"/>
+            <sbol:displayId>Range1</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:start>6</sbol:start>
+            <sbol:end>16</sbol:end>
+          </sbol:Range>
+        </sbol:location>
+        <sbol:component rdf:resource="http://www.phoenix.org/library/pOR1093_RBS30/RBS30_1/0.3"/>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
   </sbol:ComponentDefinition>
   <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/Ter1/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/Ter1"/>
@@ -1321,7 +1469,7 @@
             <sbol:displayId>Range0</sbol:displayId>
             <sbol:version>0.3</sbol:version>
             <sbol:start>1</sbol:start>
-            <sbol:end>10</sbol:end>
+            <sbol:end>6</sbol:end>
           </sbol:Range>
         </sbol:location>
         <sbol:component rdf:resource="http://www.phoenix.org/library/pLacI017_RBS33/pLacI017_0/0.3"/>
@@ -1337,8 +1485,8 @@
             <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS33/SequenceAnnotation1/Range1"/>
             <sbol:displayId>Range1</sbol:displayId>
             <sbol:version>0.3</sbol:version>
-            <sbol:start>11</sbol:start>
-            <sbol:end>20</sbol:end>
+            <sbol:start>7</sbol:start>
+            <sbol:end>14</sbol:end>
           </sbol:Range>
         </sbol:location>
         <sbol:location>
@@ -1361,80 +1509,6 @@
     <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
     <sbol:sequence rdf:resource="http://www.phoenix.org/library/LuxR_Sequence/0.3"/>
   </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pPhl081_RBS30/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pPhl081_RBS30"/>
-    <sbol:displayId>pPhl081_RBS30</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>pPhl081_RBS30</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
-    <sbol:type rdf:resource="http://identifiers.org/so/SO:0000804"/>
-    <sbol:component>
-      <sbol:Component rdf:about="http://www.phoenix.org/library/pPhl081_RBS30/RBS30_1/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pPhl081_RBS30/RBS30_1"/>
-        <sbol:displayId>RBS30_1</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/RBS30/0.3"/>
-      </sbol:Component>
-    </sbol:component>
-    <sbol:component>
-      <sbol:Component rdf:about="http://www.phoenix.org/library/pPhl081_RBS30/pPhl081_0/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pPhl081_RBS30/pPhl081_0"/>
-        <sbol:displayId>pPhl081_0</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/pPhl081/0.3"/>
-      </sbol:Component>
-    </sbol:component>
-    <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pPhl081_RBS30/SequenceAnnotation0/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pPhl081_RBS30/SequenceAnnotation0"/>
-        <sbol:displayId>SequenceAnnotation0</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:location>
-          <sbol:Range rdf:about="http://www.phoenix.org/library/pPhl081_RBS30/SequenceAnnotation0/Range0/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pPhl081_RBS30/SequenceAnnotation0/Range0"/>
-            <sbol:displayId>Range0</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:start>1</sbol:start>
-            <sbol:end>10</sbol:end>
-          </sbol:Range>
-        </sbol:location>
-        <sbol:location>
-          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pPhl081_RBS30/SequenceAnnotation0/Location0/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pPhl081_RBS30/SequenceAnnotation0/Location0"/>
-            <sbol:displayId>Location0</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-          </sbol:GenericLocation>
-        </sbol:location>
-        <sbol:component rdf:resource="http://www.phoenix.org/library/pPhl081_RBS30/pPhl081_0/0.3"/>
-      </sbol:SequenceAnnotation>
-    </sbol:sequenceAnnotation>
-    <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pPhl081_RBS30/SequenceAnnotation1/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pPhl081_RBS30/SequenceAnnotation1"/>
-        <sbol:displayId>SequenceAnnotation1</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:location>
-          <sbol:Range rdf:about="http://www.phoenix.org/library/pPhl081_RBS30/SequenceAnnotation1/Range1/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pPhl081_RBS30/SequenceAnnotation1/Range1"/>
-            <sbol:displayId>Range1</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:start>11</sbol:start>
-            <sbol:end>21</sbol:end>
-          </sbol:Range>
-        </sbol:location>
-        <sbol:location>
-          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pPhl081_RBS30/SequenceAnnotation1/Location1/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pPhl081_RBS30/SequenceAnnotation1/Location1"/>
-            <sbol:displayId>Location1</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-          </sbol:GenericLocation>
-        </sbol:location>
-        <sbol:component rdf:resource="http://www.phoenix.org/library/pPhl081_RBS30/RBS30_1/0.3"/>
-      </sbol:SequenceAnnotation>
-    </sbol:sequenceAnnotation>
-  </sbol:ComponentDefinition>
   <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/LasR_Protein/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/LasR_Protein"/>
     <sbol:displayId>LasR_Protein</sbol:displayId>
@@ -1448,563 +1522,6 @@
     <sbol:version>0.3</sbol:version>
     <dcterms:title>PhlF Protein</dcterms:title>
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pOR1093_RBS30/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pOR1093_RBS30"/>
-    <sbol:displayId>pOR1093_RBS30</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>pOR1093_RBS30</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
-    <sbol:type rdf:resource="http://identifiers.org/so/SO:0000804"/>
-    <sbol:component>
-      <sbol:Component rdf:about="http://www.phoenix.org/library/pOR1093_RBS30/RBS30_1/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pOR1093_RBS30/RBS30_1"/>
-        <sbol:displayId>RBS30_1</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/RBS30/0.3"/>
-      </sbol:Component>
-    </sbol:component>
-    <sbol:component>
-      <sbol:Component rdf:about="http://www.phoenix.org/library/pOR1093_RBS30/pOR1093_0/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pOR1093_RBS30/pOR1093_0"/>
-        <sbol:displayId>pOR1093_0</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/pOR1093/0.3"/>
-      </sbol:Component>
-    </sbol:component>
-    <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pOR1093_RBS30/SequenceAnnotation0/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pOR1093_RBS30/SequenceAnnotation0"/>
-        <sbol:displayId>SequenceAnnotation0</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:location>
-          <sbol:Range rdf:about="http://www.phoenix.org/library/pOR1093_RBS30/SequenceAnnotation0/Range0/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pOR1093_RBS30/SequenceAnnotation0/Range0"/>
-            <sbol:displayId>Range0</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:start>1</sbol:start>
-            <sbol:end>11</sbol:end>
-          </sbol:Range>
-        </sbol:location>
-        <sbol:location>
-          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pOR1093_RBS30/SequenceAnnotation0/Location0/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pOR1093_RBS30/SequenceAnnotation0/Location0"/>
-            <sbol:displayId>Location0</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-          </sbol:GenericLocation>
-        </sbol:location>
-        <sbol:component rdf:resource="http://www.phoenix.org/library/pOR1093_RBS30/pOR1093_0/0.3"/>
-      </sbol:SequenceAnnotation>
-    </sbol:sequenceAnnotation>
-    <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pOR1093_RBS30/SequenceAnnotation1/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pOR1093_RBS30/SequenceAnnotation1"/>
-        <sbol:displayId>SequenceAnnotation1</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:location>
-          <sbol:Range rdf:about="http://www.phoenix.org/library/pOR1093_RBS30/SequenceAnnotation1/Range1/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pOR1093_RBS30/SequenceAnnotation1/Range1"/>
-            <sbol:displayId>Range1</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:start>12</sbol:start>
-            <sbol:end>22</sbol:end>
-          </sbol:Range>
-        </sbol:location>
-        <sbol:location>
-          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pOR1093_RBS30/SequenceAnnotation1/Location1/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pOR1093_RBS30/SequenceAnnotation1/Location1"/>
-            <sbol:displayId>Location1</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-          </sbol:GenericLocation>
-        </sbol:location>
-        <sbol:component rdf:resource="http://www.phoenix.org/library/pOR1093_RBS30/RBS30_1/0.3"/>
-      </sbol:SequenceAnnotation>
-    </sbol:sequenceAnnotation>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLux078/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux078"/>
-    <sbol:displayId>pLux078</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>pLux078</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
-    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
-    <sbol:sequence rdf:resource="http://www.phoenix.org/library/pLux078_Sequence/0.3"/>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLas030_RBS30/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas030_RBS30"/>
-    <sbol:displayId>pLas030_RBS30</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>pLas030_RBS30</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
-    <sbol:type rdf:resource="http://identifiers.org/so/SO:0000804"/>
-    <sbol:component>
-      <sbol:Component rdf:about="http://www.phoenix.org/library/pLas030_RBS30/RBS30_1/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas030_RBS30/RBS30_1"/>
-        <sbol:displayId>RBS30_1</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/RBS30/0.3"/>
-      </sbol:Component>
-    </sbol:component>
-    <sbol:component>
-      <sbol:Component rdf:about="http://www.phoenix.org/library/pLas030_RBS30/pLas030_0/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas030_RBS30/pLas030_0"/>
-        <sbol:displayId>pLas030_0</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/pLas030/0.3"/>
-      </sbol:Component>
-    </sbol:component>
-    <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLas030_RBS30/SequenceAnnotation0/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas030_RBS30/SequenceAnnotation0"/>
-        <sbol:displayId>SequenceAnnotation0</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:location>
-          <sbol:Range rdf:about="http://www.phoenix.org/library/pLas030_RBS30/SequenceAnnotation0/Range0/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas030_RBS30/SequenceAnnotation0/Range0"/>
-            <sbol:displayId>Range0</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:start>1</sbol:start>
-            <sbol:end>11</sbol:end>
-          </sbol:Range>
-        </sbol:location>
-        <sbol:location>
-          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLas030_RBS30/SequenceAnnotation0/Location0/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas030_RBS30/SequenceAnnotation0/Location0"/>
-            <sbol:displayId>Location0</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-          </sbol:GenericLocation>
-        </sbol:location>
-        <sbol:component rdf:resource="http://www.phoenix.org/library/pLas030_RBS30/pLas030_0/0.3"/>
-      </sbol:SequenceAnnotation>
-    </sbol:sequenceAnnotation>
-    <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLas030_RBS30/SequenceAnnotation1/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas030_RBS30/SequenceAnnotation1"/>
-        <sbol:displayId>SequenceAnnotation1</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:location>
-          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLas030_RBS30/SequenceAnnotation1/Location1/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas030_RBS30/SequenceAnnotation1/Location1"/>
-            <sbol:displayId>Location1</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-          </sbol:GenericLocation>
-        </sbol:location>
-        <sbol:location>
-          <sbol:Range rdf:about="http://www.phoenix.org/library/pLas030_RBS30/SequenceAnnotation1/Range1/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas030_RBS30/SequenceAnnotation1/Range1"/>
-            <sbol:displayId>Range1</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:start>12</sbol:start>
-            <sbol:end>22</sbol:end>
-          </sbol:Range>
-        </sbol:location>
-        <sbol:component rdf:resource="http://www.phoenix.org/library/pLas030_RBS30/RBS30_1/0.3"/>
-      </sbol:SequenceAnnotation>
-    </sbol:sequenceAnnotation>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLas007_RBS30/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas007_RBS30"/>
-    <sbol:displayId>pLas007_RBS30</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>pLas007_RBS30</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
-    <sbol:type rdf:resource="http://identifiers.org/so/SO:0000804"/>
-    <sbol:component>
-      <sbol:Component rdf:about="http://www.phoenix.org/library/pLas007_RBS30/RBS30_1/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas007_RBS30/RBS30_1"/>
-        <sbol:displayId>RBS30_1</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/RBS30/0.3"/>
-      </sbol:Component>
-    </sbol:component>
-    <sbol:component>
-      <sbol:Component rdf:about="http://www.phoenix.org/library/pLas007_RBS30/pLas007_0/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas007_RBS30/pLas007_0"/>
-        <sbol:displayId>pLas007_0</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/pLas007/0.3"/>
-      </sbol:Component>
-    </sbol:component>
-    <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLas007_RBS30/SequenceAnnotation1/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas007_RBS30/SequenceAnnotation1"/>
-        <sbol:displayId>SequenceAnnotation1</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:location>
-          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLas007_RBS30/SequenceAnnotation1/Location1/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas007_RBS30/SequenceAnnotation1/Location1"/>
-            <sbol:displayId>Location1</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-          </sbol:GenericLocation>
-        </sbol:location>
-        <sbol:location>
-          <sbol:Range rdf:about="http://www.phoenix.org/library/pLas007_RBS30/SequenceAnnotation1/Range1/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas007_RBS30/SequenceAnnotation1/Range1"/>
-            <sbol:displayId>Range1</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:start>11</sbol:start>
-            <sbol:end>21</sbol:end>
-          </sbol:Range>
-        </sbol:location>
-        <sbol:component rdf:resource="http://www.phoenix.org/library/pLas007_RBS30/RBS30_1/0.3"/>
-      </sbol:SequenceAnnotation>
-    </sbol:sequenceAnnotation>
-    <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLas007_RBS30/SequenceAnnotation0/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas007_RBS30/SequenceAnnotation0"/>
-        <sbol:displayId>SequenceAnnotation0</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:location>
-          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLas007_RBS30/SequenceAnnotation0/Location0/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas007_RBS30/SequenceAnnotation0/Location0"/>
-            <sbol:displayId>Location0</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-          </sbol:GenericLocation>
-        </sbol:location>
-        <sbol:location>
-          <sbol:Range rdf:about="http://www.phoenix.org/library/pLas007_RBS30/SequenceAnnotation0/Range0/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas007_RBS30/SequenceAnnotation0/Range0"/>
-            <sbol:displayId>Range0</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:start>1</sbol:start>
-            <sbol:end>10</sbol:end>
-          </sbol:Range>
-        </sbol:location>
-        <sbol:component rdf:resource="http://www.phoenix.org/library/pLas007_RBS30/pLas007_0/0.3"/>
-      </sbol:SequenceAnnotation>
-    </sbol:sequenceAnnotation>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/PhlF/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/PhlF"/>
-    <sbol:displayId>PhlF</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>PhlF</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
-    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
-    <sbol:sequence rdf:resource="http://www.phoenix.org/library/PhlF_Sequence/0.3"/>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLux078_RBS32/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux078_RBS32"/>
-    <sbol:displayId>pLux078_RBS32</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>pLux078_RBS32</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
-    <sbol:type rdf:resource="http://identifiers.org/so/SO:0000804"/>
-    <sbol:component>
-      <sbol:Component rdf:about="http://www.phoenix.org/library/pLux078_RBS32/pLux078_0/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux078_RBS32/pLux078_0"/>
-        <sbol:displayId>pLux078_0</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/pLux078/0.3"/>
-      </sbol:Component>
-    </sbol:component>
-    <sbol:component>
-      <sbol:Component rdf:about="http://www.phoenix.org/library/pLux078_RBS32/RBS32_1/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux078_RBS32/RBS32_1"/>
-        <sbol:displayId>RBS32_1</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/RBS32/0.3"/>
-      </sbol:Component>
-    </sbol:component>
-    <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLux078_RBS32/SequenceAnnotation1/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux078_RBS32/SequenceAnnotation1"/>
-        <sbol:displayId>SequenceAnnotation1</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:location>
-          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLux078_RBS32/SequenceAnnotation1/Location1/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux078_RBS32/SequenceAnnotation1/Location1"/>
-            <sbol:displayId>Location1</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-          </sbol:GenericLocation>
-        </sbol:location>
-        <sbol:location>
-          <sbol:Range rdf:about="http://www.phoenix.org/library/pLux078_RBS32/SequenceAnnotation1/Range1/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux078_RBS32/SequenceAnnotation1/Range1"/>
-            <sbol:displayId>Range1</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:start>12</sbol:start>
-            <sbol:end>21</sbol:end>
-          </sbol:Range>
-        </sbol:location>
-        <sbol:component rdf:resource="http://www.phoenix.org/library/pLux078_RBS32/RBS32_1/0.3"/>
-      </sbol:SequenceAnnotation>
-    </sbol:sequenceAnnotation>
-    <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLux078_RBS32/SequenceAnnotation0/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux078_RBS32/SequenceAnnotation0"/>
-        <sbol:displayId>SequenceAnnotation0</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:location>
-          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLux078_RBS32/SequenceAnnotation0/Location0/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux078_RBS32/SequenceAnnotation0/Location0"/>
-            <sbol:displayId>Location0</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-          </sbol:GenericLocation>
-        </sbol:location>
-        <sbol:location>
-          <sbol:Range rdf:about="http://www.phoenix.org/library/pLux078_RBS32/SequenceAnnotation0/Range0/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux078_RBS32/SequenceAnnotation0/Range0"/>
-            <sbol:displayId>Range0</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:start>1</sbol:start>
-            <sbol:end>11</sbol:end>
-          </sbol:Range>
-        </sbol:location>
-        <sbol:component rdf:resource="http://www.phoenix.org/library/pLux078_RBS32/pLux078_0/0.3"/>
-      </sbol:SequenceAnnotation>
-    </sbol:sequenceAnnotation>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/cI_Protein/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/cI_Protein"/>
-    <sbol:displayId>cI_Protein</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>cI Protein</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/RBS32/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/RBS32"/>
-    <sbol:displayId>RBS32</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>RBS32</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
-    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000139"/>
-    <sbol:sequence rdf:resource="http://www.phoenix.org/library/RBS32_Sequence/0.3"/>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLacIq018_RBS30/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS30"/>
-    <sbol:displayId>pLacIq018_RBS30</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>pLacIq018_RBS30</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
-    <sbol:type rdf:resource="http://identifiers.org/so/SO:0000804"/>
-    <sbol:component>
-      <sbol:Component rdf:about="http://www.phoenix.org/library/pLacIq018_RBS30/RBS30_1/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS30/RBS30_1"/>
-        <sbol:displayId>RBS30_1</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/RBS30/0.3"/>
-      </sbol:Component>
-    </sbol:component>
-    <sbol:component>
-      <sbol:Component rdf:about="http://www.phoenix.org/library/pLacIq018_RBS30/pLacIq018_0/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS30/pLacIq018_0"/>
-        <sbol:displayId>pLacIq018_0</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/pLacIq018/0.3"/>
-      </sbol:Component>
-    </sbol:component>
-    <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLacIq018_RBS30/SequenceAnnotation0/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS30/SequenceAnnotation0"/>
-        <sbol:displayId>SequenceAnnotation0</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:location>
-          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLacIq018_RBS30/SequenceAnnotation0/Location0/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS30/SequenceAnnotation0/Location0"/>
-            <sbol:displayId>Location0</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-          </sbol:GenericLocation>
-        </sbol:location>
-        <sbol:location>
-          <sbol:Range rdf:about="http://www.phoenix.org/library/pLacIq018_RBS30/SequenceAnnotation0/Range0/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS30/SequenceAnnotation0/Range0"/>
-            <sbol:displayId>Range0</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:start>1</sbol:start>
-            <sbol:end>11</sbol:end>
-          </sbol:Range>
-        </sbol:location>
-        <sbol:component rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS30/pLacIq018_0/0.3"/>
-      </sbol:SequenceAnnotation>
-    </sbol:sequenceAnnotation>
-    <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLacIq018_RBS30/SequenceAnnotation1/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS30/SequenceAnnotation1"/>
-        <sbol:displayId>SequenceAnnotation1</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:location>
-          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLacIq018_RBS30/SequenceAnnotation1/Location1/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS30/SequenceAnnotation1/Location1"/>
-            <sbol:displayId>Location1</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-          </sbol:GenericLocation>
-        </sbol:location>
-        <sbol:location>
-          <sbol:Range rdf:about="http://www.phoenix.org/library/pLacIq018_RBS30/SequenceAnnotation1/Range1/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS30/SequenceAnnotation1/Range1"/>
-            <sbol:displayId>Range1</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:start>12</sbol:start>
-            <sbol:end>22</sbol:end>
-          </sbol:Range>
-        </sbol:location>
-        <sbol:component rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS30/RBS30_1/0.3"/>
-      </sbol:SequenceAnnotation>
-    </sbol:sequenceAnnotation>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/lasAHL_LasR_Protein_Complex/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/lasAHL_LasR_Protein_Complex"/>
-    <sbol:displayId>lasAHL_LasR_Protein_Complex</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>lasAHL_LasR_Protein Complex</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Complex"/>
-    <sbol:component>
-      <sbol:Component rdf:about="http://www.phoenix.org/library/lasAHL_LasR_Protein_Complex/lasAHL/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/lasAHL_LasR_Protein_Complex/lasAHL"/>
-        <sbol:displayId>lasAHL</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <complexType>SmallMolecule</complexType>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/lasAHL/0.3"/>
-      </sbol:Component>
-    </sbol:component>
-    <sbol:component>
-      <sbol:Component rdf:about="http://www.phoenix.org/library/lasAHL_LasR_Protein_Complex/LasR_Protein/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/lasAHL_LasR_Protein_Complex/LasR_Protein"/>
-        <sbol:displayId>LasR_Protein</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <complexType>Protein</complexType>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/LasR_Protein/0.3"/>
-      </sbol:Component>
-    </sbol:component>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/RhlR/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/RhlR"/>
-    <sbol:displayId>RhlR</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>RhlR</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
-    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
-    <sbol:sequence rdf:resource="http://www.phoenix.org/library/RhlR_Sequence/0.3"/>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLacIq018_RBS33/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS33"/>
-    <sbol:displayId>pLacIq018_RBS33</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>pLacIq018_RBS33</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
-    <sbol:type rdf:resource="http://identifiers.org/so/SO:0000804"/>
-    <sbol:component>
-      <sbol:Component rdf:about="http://www.phoenix.org/library/pLacIq018_RBS33/RBS33_1/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS33/RBS33_1"/>
-        <sbol:displayId>RBS33_1</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/RBS33/0.3"/>
-      </sbol:Component>
-    </sbol:component>
-    <sbol:component>
-      <sbol:Component rdf:about="http://www.phoenix.org/library/pLacIq018_RBS33/pLacIq018_0/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS33/pLacIq018_0"/>
-        <sbol:displayId>pLacIq018_0</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/pLacIq018/0.3"/>
-      </sbol:Component>
-    </sbol:component>
-    <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLacIq018_RBS33/SequenceAnnotation0/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS33/SequenceAnnotation0"/>
-        <sbol:displayId>SequenceAnnotation0</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:location>
-          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLacIq018_RBS33/SequenceAnnotation0/Location0/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS33/SequenceAnnotation0/Location0"/>
-            <sbol:displayId>Location0</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-          </sbol:GenericLocation>
-        </sbol:location>
-        <sbol:location>
-          <sbol:Range rdf:about="http://www.phoenix.org/library/pLacIq018_RBS33/SequenceAnnotation0/Range0/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS33/SequenceAnnotation0/Range0"/>
-            <sbol:displayId>Range0</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:start>1</sbol:start>
-            <sbol:end>11</sbol:end>
-          </sbol:Range>
-        </sbol:location>
-        <sbol:component rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS33/pLacIq018_0/0.3"/>
-      </sbol:SequenceAnnotation>
-    </sbol:sequenceAnnotation>
-    <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLacIq018_RBS33/SequenceAnnotation1/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS33/SequenceAnnotation1"/>
-        <sbol:displayId>SequenceAnnotation1</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:location>
-          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLacIq018_RBS33/SequenceAnnotation1/Location1/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS33/SequenceAnnotation1/Location1"/>
-            <sbol:displayId>Location1</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-          </sbol:GenericLocation>
-        </sbol:location>
-        <sbol:location>
-          <sbol:Range rdf:about="http://www.phoenix.org/library/pLacIq018_RBS33/SequenceAnnotation1/Range1/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS33/SequenceAnnotation1/Range1"/>
-            <sbol:displayId>Range1</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:start>12</sbol:start>
-            <sbol:end>21</sbol:end>
-          </sbol:Range>
-        </sbol:location>
-        <sbol:component rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS33/RBS33_1/0.3"/>
-      </sbol:SequenceAnnotation>
-    </sbol:sequenceAnnotation>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLacI017/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017"/>
-    <sbol:displayId>pLacI017</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>pLacI017</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
-    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002050"/>
-    <sbol:sequence rdf:resource="http://www.phoenix.org/library/pLacI017_Sequence/0.3"/>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/GFP_Protein/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/GFP_Protein"/>
-    <sbol:displayId>GFP_Protein</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>GFP Protein</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/RBS30/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/RBS30"/>
-    <sbol:displayId>RBS30</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>RBS30</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
-    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000139"/>
-    <sbol:sequence rdf:resource="http://www.phoenix.org/library/RBS30_Sequence/0.3"/>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLas007/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas007"/>
-    <sbol:displayId>pLas007</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>pLas007</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
-    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
-    <sbol:sequence rdf:resource="http://www.phoenix.org/library/pLas007_Sequence/0.3"/>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pOR1093/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pOR1093"/>
-    <sbol:displayId>pOR1093</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>pOR1093</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
-    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
-    <sbol:sequence rdf:resource="http://www.phoenix.org/library/pOR1093_Sequence/0.3"/>
   </sbol:ComponentDefinition>
   <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLacI017_RBS30/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS30"/>
@@ -2037,20 +1554,20 @@
         <sbol:displayId>SequenceAnnotation1</sbol:displayId>
         <sbol:version>0.3</sbol:version>
         <sbol:location>
-          <sbol:Range rdf:about="http://www.phoenix.org/library/pLacI017_RBS30/SequenceAnnotation1/Range1/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS30/SequenceAnnotation1/Range1"/>
-            <sbol:displayId>Range1</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:start>11</sbol:start>
-            <sbol:end>21</sbol:end>
-          </sbol:Range>
-        </sbol:location>
-        <sbol:location>
           <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLacI017_RBS30/SequenceAnnotation1/Location1/0.3">
             <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS30/SequenceAnnotation1/Location1"/>
             <sbol:displayId>Location1</sbol:displayId>
             <sbol:version>0.3</sbol:version>
           </sbol:GenericLocation>
+        </sbol:location>
+        <sbol:location>
+          <sbol:Range rdf:about="http://www.phoenix.org/library/pLacI017_RBS30/SequenceAnnotation1/Range1/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS30/SequenceAnnotation1/Range1"/>
+            <sbol:displayId>Range1</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:start>7</sbol:start>
+            <sbol:end>17</sbol:end>
+          </sbol:Range>
         </sbol:location>
         <sbol:component rdf:resource="http://www.phoenix.org/library/pLacI017_RBS30/RBS30_1/0.3"/>
       </sbol:SequenceAnnotation>
@@ -2061,33 +1578,116 @@
         <sbol:displayId>SequenceAnnotation0</sbol:displayId>
         <sbol:version>0.3</sbol:version>
         <sbol:location>
+          <sbol:Range rdf:about="http://www.phoenix.org/library/pLacI017_RBS30/SequenceAnnotation0/Range0/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS30/SequenceAnnotation0/Range0"/>
+            <sbol:displayId>Range0</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:start>1</sbol:start>
+            <sbol:end>6</sbol:end>
+          </sbol:Range>
+        </sbol:location>
+        <sbol:location>
           <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLacI017_RBS30/SequenceAnnotation0/Location0/0.3">
             <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS30/SequenceAnnotation0/Location0"/>
             <sbol:displayId>Location0</sbol:displayId>
             <sbol:version>0.3</sbol:version>
           </sbol:GenericLocation>
         </sbol:location>
-        <sbol:location>
-          <sbol:Range rdf:about="http://www.phoenix.org/library/pLacI017_RBS30/SequenceAnnotation0/Range0/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS30/SequenceAnnotation0/Range0"/>
-            <sbol:displayId>Range0</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:start>1</sbol:start>
-            <sbol:end>10</sbol:end>
-          </sbol:Range>
-        </sbol:location>
         <sbol:component rdf:resource="http://www.phoenix.org/library/pLacI017_RBS30/pLacI017_0/0.3"/>
       </sbol:SequenceAnnotation>
     </sbol:sequenceAnnotation>
   </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/RBS33/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/RBS33"/>
-    <sbol:displayId>RBS33</sbol:displayId>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLux078/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux078"/>
+    <sbol:displayId>pLux078</sbol:displayId>
     <sbol:version>0.3</sbol:version>
-    <dcterms:title>RBS33</dcterms:title>
+    <dcterms:title>pLux078</dcterms:title>
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
-    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000139"/>
-    <sbol:sequence rdf:resource="http://www.phoenix.org/library/RBS33_Sequence/0.3"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
+    <sbol:sequence rdf:resource="http://www.phoenix.org/library/pLux078_Sequence/0.3"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLacIq018_RBS32/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS32"/>
+    <sbol:displayId>pLacIq018_RBS32</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>pLacIq018_RBS32</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:type rdf:resource="http://identifiers.org/so/SO:0000804"/>
+    <sbol:component>
+      <sbol:Component rdf:about="http://www.phoenix.org/library/pLacIq018_RBS32/pLacIq018_0/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS32/pLacIq018_0"/>
+        <sbol:displayId>pLacIq018_0</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/pLacIq018/0.3"/>
+      </sbol:Component>
+    </sbol:component>
+    <sbol:component>
+      <sbol:Component rdf:about="http://www.phoenix.org/library/pLacIq018_RBS32/RBS32_1/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS32/RBS32_1"/>
+        <sbol:displayId>RBS32_1</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/RBS32/0.3"/>
+      </sbol:Component>
+    </sbol:component>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLacIq018_RBS32/SequenceAnnotation0/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS32/SequenceAnnotation0"/>
+        <sbol:displayId>SequenceAnnotation0</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:location>
+          <sbol:Range rdf:about="http://www.phoenix.org/library/pLacIq018_RBS32/SequenceAnnotation0/Range0/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS32/SequenceAnnotation0/Range0"/>
+            <sbol:displayId>Range0</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:start>1</sbol:start>
+            <sbol:end>5</sbol:end>
+          </sbol:Range>
+        </sbol:location>
+        <sbol:location>
+          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLacIq018_RBS32/SequenceAnnotation0/Location0/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS32/SequenceAnnotation0/Location0"/>
+            <sbol:displayId>Location0</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+          </sbol:GenericLocation>
+        </sbol:location>
+        <sbol:component rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS32/pLacIq018_0/0.3"/>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLacIq018_RBS32/SequenceAnnotation1/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS32/SequenceAnnotation1"/>
+        <sbol:displayId>SequenceAnnotation1</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:location>
+          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLacIq018_RBS32/SequenceAnnotation1/Location1/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS32/SequenceAnnotation1/Location1"/>
+            <sbol:displayId>Location1</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+          </sbol:GenericLocation>
+        </sbol:location>
+        <sbol:location>
+          <sbol:Range rdf:about="http://www.phoenix.org/library/pLacIq018_RBS32/SequenceAnnotation1/Range1/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS32/SequenceAnnotation1/Range1"/>
+            <sbol:displayId>Range1</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:start>6</sbol:start>
+            <sbol:end>16</sbol:end>
+          </sbol:Range>
+        </sbol:location>
+        <sbol:component rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS32/RBS32_1/0.3"/>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/PhlF/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/PhlF"/>
+    <sbol:displayId>PhlF</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>PhlF</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
+    <sbol:sequence rdf:resource="http://www.phoenix.org/library/PhlF_Sequence/0.3"/>
   </sbol:ComponentDefinition>
   <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLacI017_RBS32/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS32"/>
@@ -2132,7 +1732,7 @@
             <sbol:displayId>Range0</sbol:displayId>
             <sbol:version>0.3</sbol:version>
             <sbol:start>1</sbol:start>
-            <sbol:end>10</sbol:end>
+            <sbol:end>6</sbol:end>
           </sbol:Range>
         </sbol:location>
         <sbol:component rdf:resource="http://www.phoenix.org/library/pLacI017_RBS32/pLacI017_0/0.3"/>
@@ -2148,8 +1748,8 @@
             <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS32/SequenceAnnotation1/Range1"/>
             <sbol:displayId>Range1</sbol:displayId>
             <sbol:version>0.3</sbol:version>
-            <sbol:start>11</sbol:start>
-            <sbol:end>20</sbol:end>
+            <sbol:start>7</sbol:start>
+            <sbol:end>17</sbol:end>
           </sbol:Range>
         </sbol:location>
         <sbol:location>
@@ -2163,14 +1763,313 @@
       </sbol:SequenceAnnotation>
     </sbol:sequenceAnnotation>
   </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLux050/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux050"/>
-    <sbol:displayId>pLux050</sbol:displayId>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/cI_Protein/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/cI_Protein"/>
+    <sbol:displayId>cI_Protein</sbol:displayId>
     <sbol:version>0.3</sbol:version>
-    <dcterms:title>pLux050</dcterms:title>
+    <dcterms:title>cI Protein</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/RBS32/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/RBS32"/>
+    <sbol:displayId>RBS32</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>RBS32</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000139"/>
+    <sbol:sequence rdf:resource="http://www.phoenix.org/library/RBS32_Sequence/0.3"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/lasAHL_LasR_Protein_Complex/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/lasAHL_LasR_Protein_Complex"/>
+    <sbol:displayId>lasAHL_LasR_Protein_Complex</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>lasAHL_LasR_Protein Complex</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Complex"/>
+    <sbol:component>
+      <sbol:Component rdf:about="http://www.phoenix.org/library/lasAHL_LasR_Protein_Complex/lasAHL/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/lasAHL_LasR_Protein_Complex/lasAHL"/>
+        <sbol:displayId>lasAHL</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <complexType>SmallMolecule</complexType>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/lasAHL/0.3"/>
+      </sbol:Component>
+    </sbol:component>
+    <sbol:component>
+      <sbol:Component rdf:about="http://www.phoenix.org/library/lasAHL_LasR_Protein_Complex/LasR_Protein/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/lasAHL_LasR_Protein_Complex/LasR_Protein"/>
+        <sbol:displayId>LasR_Protein</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <complexType>Protein</complexType>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/LasR_Protein/0.3"/>
+      </sbol:Component>
+    </sbol:component>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/RhlR/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/RhlR"/>
+    <sbol:displayId>RhlR</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>RhlR</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
+    <sbol:sequence rdf:resource="http://www.phoenix.org/library/RhlR_Sequence/0.3"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLacI017/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017"/>
+    <sbol:displayId>pLacI017</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>pLacI017</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002050"/>
+    <sbol:sequence rdf:resource="http://www.phoenix.org/library/pLacI017_Sequence/0.3"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/GFP_Protein/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/GFP_Protein"/>
+    <sbol:displayId>GFP_Protein</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>GFP Protein</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLacIq018_RBS30/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS30"/>
+    <sbol:displayId>pLacIq018_RBS30</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>pLacIq018_RBS30</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:type rdf:resource="http://identifiers.org/so/SO:0000804"/>
+    <sbol:component>
+      <sbol:Component rdf:about="http://www.phoenix.org/library/pLacIq018_RBS30/RBS30_1/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS30/RBS30_1"/>
+        <sbol:displayId>RBS30_1</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/RBS30/0.3"/>
+      </sbol:Component>
+    </sbol:component>
+    <sbol:component>
+      <sbol:Component rdf:about="http://www.phoenix.org/library/pLacIq018_RBS30/pLacIq018_0/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS30/pLacIq018_0"/>
+        <sbol:displayId>pLacIq018_0</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/pLacIq018/0.3"/>
+      </sbol:Component>
+    </sbol:component>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLacIq018_RBS30/SequenceAnnotation0/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS30/SequenceAnnotation0"/>
+        <sbol:displayId>SequenceAnnotation0</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:location>
+          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLacIq018_RBS30/SequenceAnnotation0/Location0/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS30/SequenceAnnotation0/Location0"/>
+            <sbol:displayId>Location0</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+          </sbol:GenericLocation>
+        </sbol:location>
+        <sbol:location>
+          <sbol:Range rdf:about="http://www.phoenix.org/library/pLacIq018_RBS30/SequenceAnnotation0/Range0/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS30/SequenceAnnotation0/Range0"/>
+            <sbol:displayId>Range0</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:start>1</sbol:start>
+            <sbol:end>5</sbol:end>
+          </sbol:Range>
+        </sbol:location>
+        <sbol:component rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS30/pLacIq018_0/0.3"/>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLacIq018_RBS30/SequenceAnnotation1/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS30/SequenceAnnotation1"/>
+        <sbol:displayId>SequenceAnnotation1</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:location>
+          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLacIq018_RBS30/SequenceAnnotation1/Location1/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS30/SequenceAnnotation1/Location1"/>
+            <sbol:displayId>Location1</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+          </sbol:GenericLocation>
+        </sbol:location>
+        <sbol:location>
+          <sbol:Range rdf:about="http://www.phoenix.org/library/pLacIq018_RBS30/SequenceAnnotation1/Range1/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS30/SequenceAnnotation1/Range1"/>
+            <sbol:displayId>Range1</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:start>6</sbol:start>
+            <sbol:end>16</sbol:end>
+          </sbol:Range>
+        </sbol:location>
+        <sbol:component rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS30/RBS30_1/0.3"/>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/RBS30/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/RBS30"/>
+    <sbol:displayId>RBS30</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>RBS30</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000139"/>
+    <sbol:sequence rdf:resource="http://www.phoenix.org/library/RBS30_Sequence/0.3"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLacIq018_RBS33/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS33"/>
+    <sbol:displayId>pLacIq018_RBS33</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>pLacIq018_RBS33</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:type rdf:resource="http://identifiers.org/so/SO:0000804"/>
+    <sbol:component>
+      <sbol:Component rdf:about="http://www.phoenix.org/library/pLacIq018_RBS33/RBS33_1/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS33/RBS33_1"/>
+        <sbol:displayId>RBS33_1</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/RBS33/0.3"/>
+      </sbol:Component>
+    </sbol:component>
+    <sbol:component>
+      <sbol:Component rdf:about="http://www.phoenix.org/library/pLacIq018_RBS33/pLacIq018_0/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS33/pLacIq018_0"/>
+        <sbol:displayId>pLacIq018_0</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/pLacIq018/0.3"/>
+      </sbol:Component>
+    </sbol:component>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLacIq018_RBS33/SequenceAnnotation0/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS33/SequenceAnnotation0"/>
+        <sbol:displayId>SequenceAnnotation0</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:location>
+          <sbol:Range rdf:about="http://www.phoenix.org/library/pLacIq018_RBS33/SequenceAnnotation0/Range0/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS33/SequenceAnnotation0/Range0"/>
+            <sbol:displayId>Range0</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:start>1</sbol:start>
+            <sbol:end>5</sbol:end>
+          </sbol:Range>
+        </sbol:location>
+        <sbol:location>
+          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLacIq018_RBS33/SequenceAnnotation0/Location0/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS33/SequenceAnnotation0/Location0"/>
+            <sbol:displayId>Location0</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+          </sbol:GenericLocation>
+        </sbol:location>
+        <sbol:component rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS33/pLacIq018_0/0.3"/>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLacIq018_RBS33/SequenceAnnotation1/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS33/SequenceAnnotation1"/>
+        <sbol:displayId>SequenceAnnotation1</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:location>
+          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLacIq018_RBS33/SequenceAnnotation1/Location1/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS33/SequenceAnnotation1/Location1"/>
+            <sbol:displayId>Location1</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+          </sbol:GenericLocation>
+        </sbol:location>
+        <sbol:location>
+          <sbol:Range rdf:about="http://www.phoenix.org/library/pLacIq018_RBS33/SequenceAnnotation1/Range1/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS33/SequenceAnnotation1/Range1"/>
+            <sbol:displayId>Range1</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:start>6</sbol:start>
+            <sbol:end>13</sbol:end>
+          </sbol:Range>
+        </sbol:location>
+        <sbol:component rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS33/RBS33_1/0.3"/>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLas007/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas007"/>
+    <sbol:displayId>pLas007</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>pLas007</dcterms:title>
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
     <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
-    <sbol:sequence rdf:resource="http://www.phoenix.org/library/pLux050_Sequence/0.3"/>
+    <sbol:sequence rdf:resource="http://www.phoenix.org/library/pLas007_Sequence/0.3"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pPhl081_RBS30/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pPhl081_RBS30"/>
+    <sbol:displayId>pPhl081_RBS30</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>pPhl081_RBS30</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:type rdf:resource="http://identifiers.org/so/SO:0000804"/>
+    <sbol:component>
+      <sbol:Component rdf:about="http://www.phoenix.org/library/pPhl081_RBS30/RBS30_1/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pPhl081_RBS30/RBS30_1"/>
+        <sbol:displayId>RBS30_1</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/RBS30/0.3"/>
+      </sbol:Component>
+    </sbol:component>
+    <sbol:component>
+      <sbol:Component rdf:about="http://www.phoenix.org/library/pPhl081_RBS30/pPhl081_0/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pPhl081_RBS30/pPhl081_0"/>
+        <sbol:displayId>pPhl081_0</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/pPhl081/0.3"/>
+      </sbol:Component>
+    </sbol:component>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pPhl081_RBS30/SequenceAnnotation0/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pPhl081_RBS30/SequenceAnnotation0"/>
+        <sbol:displayId>SequenceAnnotation0</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:location>
+          <sbol:Range rdf:about="http://www.phoenix.org/library/pPhl081_RBS30/SequenceAnnotation0/Range0/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pPhl081_RBS30/SequenceAnnotation0/Range0"/>
+            <sbol:displayId>Range0</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:start>1</sbol:start>
+            <sbol:end>8</sbol:end>
+          </sbol:Range>
+        </sbol:location>
+        <sbol:location>
+          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pPhl081_RBS30/SequenceAnnotation0/Location0/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pPhl081_RBS30/SequenceAnnotation0/Location0"/>
+            <sbol:displayId>Location0</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+          </sbol:GenericLocation>
+        </sbol:location>
+        <sbol:component rdf:resource="http://www.phoenix.org/library/pPhl081_RBS30/pPhl081_0/0.3"/>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pPhl081_RBS30/SequenceAnnotation1/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pPhl081_RBS30/SequenceAnnotation1"/>
+        <sbol:displayId>SequenceAnnotation1</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:location>
+          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pPhl081_RBS30/SequenceAnnotation1/Location1/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pPhl081_RBS30/SequenceAnnotation1/Location1"/>
+            <sbol:displayId>Location1</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+          </sbol:GenericLocation>
+        </sbol:location>
+        <sbol:location>
+          <sbol:Range rdf:about="http://www.phoenix.org/library/pPhl081_RBS30/SequenceAnnotation1/Range1/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pPhl081_RBS30/SequenceAnnotation1/Range1"/>
+            <sbol:displayId>Range1</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:start>9</sbol:start>
+            <sbol:end>19</sbol:end>
+          </sbol:Range>
+        </sbol:location>
+        <sbol:component rdf:resource="http://www.phoenix.org/library/pPhl081_RBS30/RBS30_1/0.3"/>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
   </sbol:ComponentDefinition>
   <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLacIq018_RBS31/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS31"/>
@@ -2214,8 +2113,8 @@
             <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS31/SequenceAnnotation1/Range1"/>
             <sbol:displayId>Range1</sbol:displayId>
             <sbol:version>0.3</sbol:version>
-            <sbol:start>12</sbol:start>
-            <sbol:end>21</sbol:end>
+            <sbol:start>6</sbol:start>
+            <sbol:end>13</sbol:end>
           </sbol:Range>
         </sbol:location>
         <sbol:component rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS31/RBS31_1/0.3"/>
@@ -2239,12 +2138,113 @@
             <sbol:displayId>Range0</sbol:displayId>
             <sbol:version>0.3</sbol:version>
             <sbol:start>1</sbol:start>
-            <sbol:end>11</sbol:end>
+            <sbol:end>5</sbol:end>
           </sbol:Range>
         </sbol:location>
         <sbol:component rdf:resource="http://www.phoenix.org/library/pLacIq018_RBS31/pLacIq018_0/0.3"/>
       </sbol:SequenceAnnotation>
     </sbol:sequenceAnnotation>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pOR1093/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pOR1093"/>
+    <sbol:displayId>pOR1093</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>pOR1093</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
+    <sbol:sequence rdf:resource="http://www.phoenix.org/library/pOR1093_Sequence/0.3"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/RBS33/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/RBS33"/>
+    <sbol:displayId>RBS33</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>RBS33</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000139"/>
+    <sbol:sequence rdf:resource="http://www.phoenix.org/library/RBS33_Sequence/0.3"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLacI017_RBS31/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS31"/>
+    <sbol:displayId>pLacI017_RBS31</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>pLacI017_RBS31</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:type rdf:resource="http://identifiers.org/so/SO:0000804"/>
+    <sbol:component>
+      <sbol:Component rdf:about="http://www.phoenix.org/library/pLacI017_RBS31/RBS31_1/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS31/RBS31_1"/>
+        <sbol:displayId>RBS31_1</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/RBS31/0.3"/>
+      </sbol:Component>
+    </sbol:component>
+    <sbol:component>
+      <sbol:Component rdf:about="http://www.phoenix.org/library/pLacI017_RBS31/pLacI017_0/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS31/pLacI017_0"/>
+        <sbol:displayId>pLacI017_0</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/pLacI017/0.3"/>
+      </sbol:Component>
+    </sbol:component>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLacI017_RBS31/SequenceAnnotation1/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS31/SequenceAnnotation1"/>
+        <sbol:displayId>SequenceAnnotation1</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:location>
+          <sbol:Range rdf:about="http://www.phoenix.org/library/pLacI017_RBS31/SequenceAnnotation1/Range1/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS31/SequenceAnnotation1/Range1"/>
+            <sbol:displayId>Range1</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:start>7</sbol:start>
+            <sbol:end>14</sbol:end>
+          </sbol:Range>
+        </sbol:location>
+        <sbol:location>
+          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLacI017_RBS31/SequenceAnnotation1/Location1/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS31/SequenceAnnotation1/Location1"/>
+            <sbol:displayId>Location1</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+          </sbol:GenericLocation>
+        </sbol:location>
+        <sbol:component rdf:resource="http://www.phoenix.org/library/pLacI017_RBS31/RBS31_1/0.3"/>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLacI017_RBS31/SequenceAnnotation0/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS31/SequenceAnnotation0"/>
+        <sbol:displayId>SequenceAnnotation0</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:location>
+          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLacI017_RBS31/SequenceAnnotation0/Location0/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS31/SequenceAnnotation0/Location0"/>
+            <sbol:displayId>Location0</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+          </sbol:GenericLocation>
+        </sbol:location>
+        <sbol:location>
+          <sbol:Range rdf:about="http://www.phoenix.org/library/pLacI017_RBS31/SequenceAnnotation0/Range0/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS31/SequenceAnnotation0/Range0"/>
+            <sbol:displayId>Range0</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:start>1</sbol:start>
+            <sbol:end>6</sbol:end>
+          </sbol:Range>
+        </sbol:location>
+        <sbol:component rdf:resource="http://www.phoenix.org/library/pLacI017_RBS31/pLacI017_0/0.3"/>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLux050/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux050"/>
+    <sbol:displayId>pLux050</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>pLux050</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
+    <sbol:sequence rdf:resource="http://www.phoenix.org/library/pLux050_Sequence/0.3"/>
   </sbol:ComponentDefinition>
   <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/GFP/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/GFP"/>
@@ -2254,6 +2254,80 @@
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
     <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
     <sbol:sequence rdf:resource="http://www.phoenix.org/library/GFP_Sequence/0.3"/>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLux050_RBS30/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux050_RBS30"/>
+    <sbol:displayId>pLux050_RBS30</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>pLux050_RBS30</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:type rdf:resource="http://identifiers.org/so/SO:0000804"/>
+    <sbol:component>
+      <sbol:Component rdf:about="http://www.phoenix.org/library/pLux050_RBS30/pLux050_0/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux050_RBS30/pLux050_0"/>
+        <sbol:displayId>pLux050_0</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/pLux050/0.3"/>
+      </sbol:Component>
+    </sbol:component>
+    <sbol:component>
+      <sbol:Component rdf:about="http://www.phoenix.org/library/pLux050_RBS30/RBS30_1/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux050_RBS30/RBS30_1"/>
+        <sbol:displayId>RBS30_1</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/RBS30/0.3"/>
+      </sbol:Component>
+    </sbol:component>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLux050_RBS30/SequenceAnnotation1/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux050_RBS30/SequenceAnnotation1"/>
+        <sbol:displayId>SequenceAnnotation1</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:location>
+          <sbol:Range rdf:about="http://www.phoenix.org/library/pLux050_RBS30/SequenceAnnotation1/Range1/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux050_RBS30/SequenceAnnotation1/Range1"/>
+            <sbol:displayId>Range1</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:start>8</sbol:start>
+            <sbol:end>18</sbol:end>
+          </sbol:Range>
+        </sbol:location>
+        <sbol:location>
+          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLux050_RBS30/SequenceAnnotation1/Location1/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux050_RBS30/SequenceAnnotation1/Location1"/>
+            <sbol:displayId>Location1</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+          </sbol:GenericLocation>
+        </sbol:location>
+        <sbol:component rdf:resource="http://www.phoenix.org/library/pLux050_RBS30/RBS30_1/0.3"/>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLux050_RBS30/SequenceAnnotation0/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux050_RBS30/SequenceAnnotation0"/>
+        <sbol:displayId>SequenceAnnotation0</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:location>
+          <sbol:Range rdf:about="http://www.phoenix.org/library/pLux050_RBS30/SequenceAnnotation0/Range0/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux050_RBS30/SequenceAnnotation0/Range0"/>
+            <sbol:displayId>Range0</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:start>1</sbol:start>
+            <sbol:end>7</sbol:end>
+          </sbol:Range>
+        </sbol:location>
+        <sbol:location>
+          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLux050_RBS30/SequenceAnnotation0/Location0/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux050_RBS30/SequenceAnnotation0/Location0"/>
+            <sbol:displayId>Location0</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+          </sbol:GenericLocation>
+        </sbol:location>
+        <sbol:component rdf:resource="http://www.phoenix.org/library/pLux050_RBS30/pLux050_0/0.3"/>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
   </sbol:ComponentDefinition>
   <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLacIq018/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018"/>
@@ -2309,154 +2383,6 @@
     <sbol:role rdf:resource="http://identifiers.org/so/SO:0000139"/>
     <sbol:sequence rdf:resource="http://www.phoenix.org/library/RBS31_Sequence/0.3"/>
   </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pRhl046_RBS31/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pRhl046_RBS31"/>
-    <sbol:displayId>pRhl046_RBS31</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>pRhl046_RBS31</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
-    <sbol:type rdf:resource="http://identifiers.org/so/SO:0000804"/>
-    <sbol:component>
-      <sbol:Component rdf:about="http://www.phoenix.org/library/pRhl046_RBS31/RBS31_1/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pRhl046_RBS31/RBS31_1"/>
-        <sbol:displayId>RBS31_1</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/RBS31/0.3"/>
-      </sbol:Component>
-    </sbol:component>
-    <sbol:component>
-      <sbol:Component rdf:about="http://www.phoenix.org/library/pRhl046_RBS31/pRhl046_0/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pRhl046_RBS31/pRhl046_0"/>
-        <sbol:displayId>pRhl046_0</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/pRhl046/0.3"/>
-      </sbol:Component>
-    </sbol:component>
-    <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pRhl046_RBS31/SequenceAnnotation1/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pRhl046_RBS31/SequenceAnnotation1"/>
-        <sbol:displayId>SequenceAnnotation1</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:location>
-          <sbol:Range rdf:about="http://www.phoenix.org/library/pRhl046_RBS31/SequenceAnnotation1/Range1/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pRhl046_RBS31/SequenceAnnotation1/Range1"/>
-            <sbol:displayId>Range1</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:start>11</sbol:start>
-            <sbol:end>20</sbol:end>
-          </sbol:Range>
-        </sbol:location>
-        <sbol:location>
-          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pRhl046_RBS31/SequenceAnnotation1/Location1/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pRhl046_RBS31/SequenceAnnotation1/Location1"/>
-            <sbol:displayId>Location1</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-          </sbol:GenericLocation>
-        </sbol:location>
-        <sbol:component rdf:resource="http://www.phoenix.org/library/pRhl046_RBS31/RBS31_1/0.3"/>
-      </sbol:SequenceAnnotation>
-    </sbol:sequenceAnnotation>
-    <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pRhl046_RBS31/SequenceAnnotation0/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pRhl046_RBS31/SequenceAnnotation0"/>
-        <sbol:displayId>SequenceAnnotation0</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:location>
-          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pRhl046_RBS31/SequenceAnnotation0/Location0/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pRhl046_RBS31/SequenceAnnotation0/Location0"/>
-            <sbol:displayId>Location0</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-          </sbol:GenericLocation>
-        </sbol:location>
-        <sbol:location>
-          <sbol:Range rdf:about="http://www.phoenix.org/library/pRhl046_RBS31/SequenceAnnotation0/Range0/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pRhl046_RBS31/SequenceAnnotation0/Range0"/>
-            <sbol:displayId>Range0</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:start>1</sbol:start>
-            <sbol:end>10</sbol:end>
-          </sbol:Range>
-        </sbol:location>
-        <sbol:component rdf:resource="http://www.phoenix.org/library/pRhl046_RBS31/pRhl046_0/0.3"/>
-      </sbol:SequenceAnnotation>
-    </sbol:sequenceAnnotation>
-  </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLux050_RBS30/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux050_RBS30"/>
-    <sbol:displayId>pLux050_RBS30</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <dcterms:title>pLux050_RBS30</dcterms:title>
-    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
-    <sbol:type rdf:resource="http://identifiers.org/so/SO:0000804"/>
-    <sbol:component>
-      <sbol:Component rdf:about="http://www.phoenix.org/library/pLux050_RBS30/pLux050_0/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux050_RBS30/pLux050_0"/>
-        <sbol:displayId>pLux050_0</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/pLux050/0.3"/>
-      </sbol:Component>
-    </sbol:component>
-    <sbol:component>
-      <sbol:Component rdf:about="http://www.phoenix.org/library/pLux050_RBS30/RBS30_1/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux050_RBS30/RBS30_1"/>
-        <sbol:displayId>RBS30_1</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/RBS30/0.3"/>
-      </sbol:Component>
-    </sbol:component>
-    <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLux050_RBS30/SequenceAnnotation1/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux050_RBS30/SequenceAnnotation1"/>
-        <sbol:displayId>SequenceAnnotation1</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:location>
-          <sbol:Range rdf:about="http://www.phoenix.org/library/pLux050_RBS30/SequenceAnnotation1/Range1/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux050_RBS30/SequenceAnnotation1/Range1"/>
-            <sbol:displayId>Range1</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:start>11</sbol:start>
-            <sbol:end>21</sbol:end>
-          </sbol:Range>
-        </sbol:location>
-        <sbol:location>
-          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLux050_RBS30/SequenceAnnotation1/Location1/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux050_RBS30/SequenceAnnotation1/Location1"/>
-            <sbol:displayId>Location1</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-          </sbol:GenericLocation>
-        </sbol:location>
-        <sbol:component rdf:resource="http://www.phoenix.org/library/pLux050_RBS30/RBS30_1/0.3"/>
-      </sbol:SequenceAnnotation>
-    </sbol:sequenceAnnotation>
-    <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLux050_RBS30/SequenceAnnotation0/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux050_RBS30/SequenceAnnotation0"/>
-        <sbol:displayId>SequenceAnnotation0</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:location>
-          <sbol:Range rdf:about="http://www.phoenix.org/library/pLux050_RBS30/SequenceAnnotation0/Range0/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux050_RBS30/SequenceAnnotation0/Range0"/>
-            <sbol:displayId>Range0</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:start>1</sbol:start>
-            <sbol:end>10</sbol:end>
-          </sbol:Range>
-        </sbol:location>
-        <sbol:location>
-          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLux050_RBS30/SequenceAnnotation0/Location0/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux050_RBS30/SequenceAnnotation0/Location0"/>
-            <sbol:displayId>Location0</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-          </sbol:GenericLocation>
-        </sbol:location>
-        <sbol:component rdf:resource="http://www.phoenix.org/library/pLux050_RBS30/pLux050_0/0.3"/>
-      </sbol:SequenceAnnotation>
-    </sbol:sequenceAnnotation>
-  </sbol:ComponentDefinition>
   <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/LasR/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/LasR"/>
     <sbol:displayId>LasR</sbol:displayId>
@@ -2511,6 +2437,80 @@
     <sbol:role rdf:resource="http://identifiers.org/so/SO:0002051"/>
     <sbol:sequence rdf:resource="http://www.phoenix.org/library/pRhl046_Sequence/0.3"/>
   </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pRhl046_RBS31/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pRhl046_RBS31"/>
+    <sbol:displayId>pRhl046_RBS31</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <dcterms:title>pRhl046_RBS31</dcterms:title>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:type rdf:resource="http://identifiers.org/so/SO:0000804"/>
+    <sbol:component>
+      <sbol:Component rdf:about="http://www.phoenix.org/library/pRhl046_RBS31/RBS31_1/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pRhl046_RBS31/RBS31_1"/>
+        <sbol:displayId>RBS31_1</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/RBS31/0.3"/>
+      </sbol:Component>
+    </sbol:component>
+    <sbol:component>
+      <sbol:Component rdf:about="http://www.phoenix.org/library/pRhl046_RBS31/pRhl046_0/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pRhl046_RBS31/pRhl046_0"/>
+        <sbol:displayId>pRhl046_0</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:access rdf:resource="http://sbols.org/v2#private"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/pRhl046/0.3"/>
+      </sbol:Component>
+    </sbol:component>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pRhl046_RBS31/SequenceAnnotation1/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pRhl046_RBS31/SequenceAnnotation1"/>
+        <sbol:displayId>SequenceAnnotation1</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:location>
+          <sbol:Range rdf:about="http://www.phoenix.org/library/pRhl046_RBS31/SequenceAnnotation1/Range1/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pRhl046_RBS31/SequenceAnnotation1/Range1"/>
+            <sbol:displayId>Range1</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:start>12</sbol:start>
+            <sbol:end>19</sbol:end>
+          </sbol:Range>
+        </sbol:location>
+        <sbol:location>
+          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pRhl046_RBS31/SequenceAnnotation1/Location1/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pRhl046_RBS31/SequenceAnnotation1/Location1"/>
+            <sbol:displayId>Location1</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+          </sbol:GenericLocation>
+        </sbol:location>
+        <sbol:component rdf:resource="http://www.phoenix.org/library/pRhl046_RBS31/RBS31_1/0.3"/>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pRhl046_RBS31/SequenceAnnotation0/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pRhl046_RBS31/SequenceAnnotation0"/>
+        <sbol:displayId>SequenceAnnotation0</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
+        <sbol:location>
+          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pRhl046_RBS31/SequenceAnnotation0/Location0/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pRhl046_RBS31/SequenceAnnotation0/Location0"/>
+            <sbol:displayId>Location0</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+          </sbol:GenericLocation>
+        </sbol:location>
+        <sbol:location>
+          <sbol:Range rdf:about="http://www.phoenix.org/library/pRhl046_RBS31/SequenceAnnotation0/Range0/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pRhl046_RBS31/SequenceAnnotation0/Range0"/>
+            <sbol:displayId>Range0</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:start>1</sbol:start>
+            <sbol:end>11</sbol:end>
+          </sbol:Range>
+        </sbol:location>
+        <sbol:component rdf:resource="http://www.phoenix.org/library/pRhl046_RBS31/pRhl046_0/0.3"/>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
+  </sbol:ComponentDefinition>
   <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/luxAHL_LuxR_Protein_Complex/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/luxAHL_LuxR_Protein_Complex"/>
     <sbol:displayId>luxAHL_LuxR_Protein_Complex</sbol:displayId>
@@ -2554,218 +2554,218 @@
     <min>0.0</min>
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#SmallMolecule"/>
   </sbol:ComponentDefinition>
-  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLacI017_RBS31/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS31"/>
-    <sbol:displayId>pLacI017_RBS31</sbol:displayId>
+  <sbol:ComponentDefinition rdf:about="http://www.phoenix.org/library/pLas030_RBS30/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas030_RBS30"/>
+    <sbol:displayId>pLas030_RBS30</sbol:displayId>
     <sbol:version>0.3</sbol:version>
-    <dcterms:title>pLacI017_RBS31</dcterms:title>
+    <dcterms:title>pLas030_RBS30</dcterms:title>
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
     <sbol:type rdf:resource="http://identifiers.org/so/SO:0000804"/>
     <sbol:component>
-      <sbol:Component rdf:about="http://www.phoenix.org/library/pLacI017_RBS31/RBS31_1/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS31/RBS31_1"/>
-        <sbol:displayId>RBS31_1</sbol:displayId>
+      <sbol:Component rdf:about="http://www.phoenix.org/library/pLas030_RBS30/RBS30_1/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas030_RBS30/RBS30_1"/>
+        <sbol:displayId>RBS30_1</sbol:displayId>
         <sbol:version>0.3</sbol:version>
         <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/RBS31/0.3"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/RBS30/0.3"/>
       </sbol:Component>
     </sbol:component>
     <sbol:component>
-      <sbol:Component rdf:about="http://www.phoenix.org/library/pLacI017_RBS31/pLacI017_0/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS31/pLacI017_0"/>
-        <sbol:displayId>pLacI017_0</sbol:displayId>
+      <sbol:Component rdf:about="http://www.phoenix.org/library/pLas030_RBS30/pLas030_0/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas030_RBS30/pLas030_0"/>
+        <sbol:displayId>pLas030_0</sbol:displayId>
         <sbol:version>0.3</sbol:version>
         <sbol:access rdf:resource="http://sbols.org/v2#private"/>
-        <sbol:definition rdf:resource="http://www.phoenix.org/library/pLacI017/0.3"/>
+        <sbol:definition rdf:resource="http://www.phoenix.org/library/pLas030/0.3"/>
       </sbol:Component>
     </sbol:component>
     <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLacI017_RBS31/SequenceAnnotation1/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS31/SequenceAnnotation1"/>
-        <sbol:displayId>SequenceAnnotation1</sbol:displayId>
-        <sbol:version>0.3</sbol:version>
-        <sbol:location>
-          <sbol:Range rdf:about="http://www.phoenix.org/library/pLacI017_RBS31/SequenceAnnotation1/Range1/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS31/SequenceAnnotation1/Range1"/>
-            <sbol:displayId>Range1</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-            <sbol:start>11</sbol:start>
-            <sbol:end>20</sbol:end>
-          </sbol:Range>
-        </sbol:location>
-        <sbol:location>
-          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLacI017_RBS31/SequenceAnnotation1/Location1/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS31/SequenceAnnotation1/Location1"/>
-            <sbol:displayId>Location1</sbol:displayId>
-            <sbol:version>0.3</sbol:version>
-          </sbol:GenericLocation>
-        </sbol:location>
-        <sbol:component rdf:resource="http://www.phoenix.org/library/pLacI017_RBS31/RBS31_1/0.3"/>
-      </sbol:SequenceAnnotation>
-    </sbol:sequenceAnnotation>
-    <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLacI017_RBS31/SequenceAnnotation0/0.3">
-        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS31/SequenceAnnotation0"/>
+      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLas030_RBS30/SequenceAnnotation0/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas030_RBS30/SequenceAnnotation0"/>
         <sbol:displayId>SequenceAnnotation0</sbol:displayId>
         <sbol:version>0.3</sbol:version>
         <sbol:location>
-          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLacI017_RBS31/SequenceAnnotation0/Location0/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS31/SequenceAnnotation0/Location0"/>
+          <sbol:Range rdf:about="http://www.phoenix.org/library/pLas030_RBS30/SequenceAnnotation0/Range0/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas030_RBS30/SequenceAnnotation0/Range0"/>
+            <sbol:displayId>Range0</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:start>1</sbol:start>
+            <sbol:end>7</sbol:end>
+          </sbol:Range>
+        </sbol:location>
+        <sbol:location>
+          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLas030_RBS30/SequenceAnnotation0/Location0/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas030_RBS30/SequenceAnnotation0/Location0"/>
             <sbol:displayId>Location0</sbol:displayId>
             <sbol:version>0.3</sbol:version>
           </sbol:GenericLocation>
         </sbol:location>
+        <sbol:component rdf:resource="http://www.phoenix.org/library/pLas030_RBS30/pLas030_0/0.3"/>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="http://www.phoenix.org/library/pLas030_RBS30/SequenceAnnotation1/0.3">
+        <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas030_RBS30/SequenceAnnotation1"/>
+        <sbol:displayId>SequenceAnnotation1</sbol:displayId>
+        <sbol:version>0.3</sbol:version>
         <sbol:location>
-          <sbol:Range rdf:about="http://www.phoenix.org/library/pLacI017_RBS31/SequenceAnnotation0/Range0/0.3">
-            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_RBS31/SequenceAnnotation0/Range0"/>
-            <sbol:displayId>Range0</sbol:displayId>
+          <sbol:GenericLocation rdf:about="http://www.phoenix.org/library/pLas030_RBS30/SequenceAnnotation1/Location1/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas030_RBS30/SequenceAnnotation1/Location1"/>
+            <sbol:displayId>Location1</sbol:displayId>
             <sbol:version>0.3</sbol:version>
-            <sbol:start>1</sbol:start>
-            <sbol:end>10</sbol:end>
+          </sbol:GenericLocation>
+        </sbol:location>
+        <sbol:location>
+          <sbol:Range rdf:about="http://www.phoenix.org/library/pLas030_RBS30/SequenceAnnotation1/Range1/0.3">
+            <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas030_RBS30/SequenceAnnotation1/Range1"/>
+            <sbol:displayId>Range1</sbol:displayId>
+            <sbol:version>0.3</sbol:version>
+            <sbol:start>8</sbol:start>
+            <sbol:end>18</sbol:end>
           </sbol:Range>
         </sbol:location>
-        <sbol:component rdf:resource="http://www.phoenix.org/library/pLacI017_RBS31/pLacI017_0/0.3"/>
+        <sbol:component rdf:resource="http://www.phoenix.org/library/pLas030_RBS30/RBS30_1/0.3"/>
       </sbol:SequenceAnnotation>
     </sbol:sequenceAnnotation>
   </sbol:ComponentDefinition>
-  <sbol:Sequence rdf:about="http://www.phoenix.org/library/LuxR_Sequence/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/LuxR_Sequence"/>
-    <sbol:displayId>LuxR_Sequence</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <sbol:elements>GAAGGGGTGTA</sbol:elements>
-    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
-  </sbol:Sequence>
-  <sbol:Sequence rdf:about="http://www.phoenix.org/library/pLas030_Sequence/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas030_Sequence"/>
-    <sbol:displayId>pLas030_Sequence</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <sbol:elements>ATTTAAGATGG</sbol:elements>
-    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
-  </sbol:Sequence>
-  <sbol:Sequence rdf:about="http://www.phoenix.org/library/pLacIq018_Sequence/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_Sequence"/>
-    <sbol:displayId>pLacIq018_Sequence</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <sbol:elements>AGCCCCTCTCG</sbol:elements>
-    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
-  </sbol:Sequence>
-  <sbol:Sequence rdf:about="http://www.phoenix.org/library/cI_Sequence/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/cI_Sequence"/>
-    <sbol:displayId>cI_Sequence</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <sbol:elements>GCAACGCCTGT</sbol:elements>
-    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
-  </sbol:Sequence>
-  <sbol:Sequence rdf:about="http://www.phoenix.org/library/RBS33_Sequence/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/RBS33_Sequence"/>
-    <sbol:displayId>RBS33_Sequence</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <sbol:elements>TCGATCGGCA</sbol:elements>
-    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
-  </sbol:Sequence>
-  <sbol:Sequence rdf:about="http://www.phoenix.org/library/pLux050_Sequence/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux050_Sequence"/>
-    <sbol:displayId>pLux050_Sequence</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <sbol:elements>CGACGGCTCT</sbol:elements>
-    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
-  </sbol:Sequence>
-  <sbol:Sequence rdf:about="http://www.phoenix.org/library/RBS30_Sequence/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/RBS30_Sequence"/>
-    <sbol:displayId>RBS30_Sequence</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <sbol:elements>AACAAAGTACA</sbol:elements>
-    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
-  </sbol:Sequence>
-  <sbol:Sequence rdf:about="http://www.phoenix.org/library/PhlF_Sequence/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/PhlF_Sequence"/>
-    <sbol:displayId>PhlF_Sequence</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <sbol:elements>GTAGCCCGGTT</sbol:elements>
-    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
-  </sbol:Sequence>
-  <sbol:Sequence rdf:about="http://www.phoenix.org/library/pOR1093_Sequence/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pOR1093_Sequence"/>
-    <sbol:displayId>pOR1093_Sequence</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <sbol:elements>GGTAACTTAGC</sbol:elements>
-    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
-  </sbol:Sequence>
   <sbol:Sequence rdf:about="http://www.phoenix.org/library/pRhl046_Sequence/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pRhl046_Sequence"/>
     <sbol:displayId>pRhl046_Sequence</sbol:displayId>
     <sbol:version>0.3</sbol:version>
-    <sbol:elements>TGGGTCCGTG</sbol:elements>
-    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
-  </sbol:Sequence>
-  <sbol:Sequence rdf:about="http://www.phoenix.org/library/pLacI017_Sequence/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_Sequence"/>
-    <sbol:displayId>pLacI017_Sequence</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <sbol:elements>TTCACGGCTT</sbol:elements>
+    <sbol:elements>TGGTAGGTCCT</sbol:elements>
     <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
   </sbol:Sequence>
   <sbol:Sequence rdf:about="http://www.phoenix.org/library/RBS32_Sequence/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/RBS32_Sequence"/>
     <sbol:displayId>RBS32_Sequence</sbol:displayId>
     <sbol:version>0.3</sbol:version>
-    <sbol:elements>TTCTAAGCTT</sbol:elements>
-    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
-  </sbol:Sequence>
-  <sbol:Sequence rdf:about="http://www.phoenix.org/library/RBS31_Sequence/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/RBS31_Sequence"/>
-    <sbol:displayId>RBS31_Sequence</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <sbol:elements>AAGGTTTTTG</sbol:elements>
-    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
-  </sbol:Sequence>
-  <sbol:Sequence rdf:about="http://www.phoenix.org/library/pLux078_Sequence/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux078_Sequence"/>
-    <sbol:displayId>pLux078_Sequence</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <sbol:elements>CCAGCAGGGTG</sbol:elements>
-    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
-  </sbol:Sequence>
-  <sbol:Sequence rdf:about="http://www.phoenix.org/library/pPhl081_Sequence/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pPhl081_Sequence"/>
-    <sbol:displayId>pPhl081_Sequence</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <sbol:elements>ACGTGATGAC</sbol:elements>
-    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
-  </sbol:Sequence>
-  <sbol:Sequence rdf:about="http://www.phoenix.org/library/pLas007_Sequence/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas007_Sequence"/>
-    <sbol:displayId>pLas007_Sequence</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <sbol:elements>GCAAACCATT</sbol:elements>
-    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
-  </sbol:Sequence>
-  <sbol:Sequence rdf:about="http://www.phoenix.org/library/LasR_Sequence/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/LasR_Sequence"/>
-    <sbol:displayId>LasR_Sequence</sbol:displayId>
-    <sbol:version>0.3</sbol:version>
-    <sbol:elements>AGATCGACAG</sbol:elements>
+    <sbol:elements>AAACAGTAAGG</sbol:elements>
     <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
   </sbol:Sequence>
   <sbol:Sequence rdf:about="http://www.phoenix.org/library/RhlR_Sequence/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/RhlR_Sequence"/>
     <sbol:displayId>RhlR_Sequence</sbol:displayId>
     <sbol:version>0.3</sbol:version>
-    <sbol:elements>CGTTAATACC</sbol:elements>
+    <sbol:elements>AGATT</sbol:elements>
     <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
   </sbol:Sequence>
-  <sbol:Sequence rdf:about="http://www.phoenix.org/library/Ter1_Sequence/0.3">
-    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/Ter1_Sequence"/>
-    <sbol:displayId>Ter1_Sequence</sbol:displayId>
+  <sbol:Sequence rdf:about="http://www.phoenix.org/library/pLas030_Sequence/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas030_Sequence"/>
+    <sbol:displayId>pLas030_Sequence</sbol:displayId>
     <sbol:version>0.3</sbol:version>
-    <sbol:elements>TATAGGCTATC</sbol:elements>
+    <sbol:elements>CTTCTCA</sbol:elements>
     <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
   </sbol:Sequence>
   <sbol:Sequence rdf:about="http://www.phoenix.org/library/GFP_Sequence/0.3">
     <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/GFP_Sequence"/>
     <sbol:displayId>GFP_Sequence</sbol:displayId>
     <sbol:version>0.3</sbol:version>
-    <sbol:elements>AGGGCTGGAAA</sbol:elements>
+    <sbol:elements>CTCAAGCG</sbol:elements>
+    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+  </sbol:Sequence>
+  <sbol:Sequence rdf:about="http://www.phoenix.org/library/pLas007_Sequence/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLas007_Sequence"/>
+    <sbol:displayId>pLas007_Sequence</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <sbol:elements>CTTCTCA</sbol:elements>
+    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+  </sbol:Sequence>
+  <sbol:Sequence rdf:about="http://www.phoenix.org/library/pOR1093_Sequence/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pOR1093_Sequence"/>
+    <sbol:displayId>pOR1093_Sequence</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <sbol:elements>CGGGC</sbol:elements>
+    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+  </sbol:Sequence>
+  <sbol:Sequence rdf:about="http://www.phoenix.org/library/PhlF_Sequence/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/PhlF_Sequence"/>
+    <sbol:displayId>PhlF_Sequence</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <sbol:elements>AGATT</sbol:elements>
+    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+  </sbol:Sequence>
+  <sbol:Sequence rdf:about="http://www.phoenix.org/library/LasR_Sequence/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/LasR_Sequence"/>
+    <sbol:displayId>LasR_Sequence</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <sbol:elements>TCTCG</sbol:elements>
+    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+  </sbol:Sequence>
+  <sbol:Sequence rdf:about="http://www.phoenix.org/library/RBS30_Sequence/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/RBS30_Sequence"/>
+    <sbol:displayId>RBS30_Sequence</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <sbol:elements>GTATATCTCGA</sbol:elements>
+    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+  </sbol:Sequence>
+  <sbol:Sequence rdf:about="http://www.phoenix.org/library/Ter1_Sequence/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/Ter1_Sequence"/>
+    <sbol:displayId>Ter1_Sequence</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <sbol:elements>AACATCA</sbol:elements>
+    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+  </sbol:Sequence>
+  <sbol:Sequence rdf:about="http://www.phoenix.org/library/RBS33_Sequence/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/RBS33_Sequence"/>
+    <sbol:displayId>RBS33_Sequence</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <sbol:elements>TACCCATT</sbol:elements>
+    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+  </sbol:Sequence>
+  <sbol:Sequence rdf:about="http://www.phoenix.org/library/cI_Sequence/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/cI_Sequence"/>
+    <sbol:displayId>cI_Sequence</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <sbol:elements>AGATT</sbol:elements>
+    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+  </sbol:Sequence>
+  <sbol:Sequence rdf:about="http://www.phoenix.org/library/RBS31_Sequence/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/RBS31_Sequence"/>
+    <sbol:displayId>RBS31_Sequence</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <sbol:elements>CCTGGTAG</sbol:elements>
+    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+  </sbol:Sequence>
+  <sbol:Sequence rdf:about="http://www.phoenix.org/library/LuxR_Sequence/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/LuxR_Sequence"/>
+    <sbol:displayId>LuxR_Sequence</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <sbol:elements>AGATT</sbol:elements>
+    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+  </sbol:Sequence>
+  <sbol:Sequence rdf:about="http://www.phoenix.org/library/pLux078_Sequence/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux078_Sequence"/>
+    <sbol:displayId>pLux078_Sequence</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <sbol:elements>TAGCGAA</sbol:elements>
+    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+  </sbol:Sequence>
+  <sbol:Sequence rdf:about="http://www.phoenix.org/library/pLacIq018_Sequence/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacIq018_Sequence"/>
+    <sbol:displayId>pLacIq018_Sequence</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <sbol:elements>TAACT</sbol:elements>
+    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+  </sbol:Sequence>
+  <sbol:Sequence rdf:about="http://www.phoenix.org/library/pLux050_Sequence/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLux050_Sequence"/>
+    <sbol:displayId>pLux050_Sequence</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <sbol:elements>TAGCGAA</sbol:elements>
+    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+  </sbol:Sequence>
+  <sbol:Sequence rdf:about="http://www.phoenix.org/library/pLacI017_Sequence/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pLacI017_Sequence"/>
+    <sbol:displayId>pLacI017_Sequence</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <sbol:elements>GATACA</sbol:elements>
+    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+  </sbol:Sequence>
+  <sbol:Sequence rdf:about="http://www.phoenix.org/library/pPhl081_Sequence/0.3">
+    <sbol:persistentIdentity rdf:resource="http://www.phoenix.org/library/pPhl081_Sequence"/>
+    <sbol:displayId>pPhl081_Sequence</sbol:displayId>
+    <sbol:version>0.3</sbol:version>
+    <sbol:elements>ACCTCTAC</sbol:elements>
     <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
   </sbol:Sequence>
 </rdf:RDF>
