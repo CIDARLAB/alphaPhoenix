@@ -166,6 +166,7 @@ public class SBMLAdaptor {
             t.setInitialValue(false);
             t.setPersistent(true);
             event.createEventAssignment(id, new ASTNode(value));
+            event.setUseValuesFromTriggerTime(true);
         }
 	
 	private static boolean versionSBase(NamedSBase sb, Model mod) {
