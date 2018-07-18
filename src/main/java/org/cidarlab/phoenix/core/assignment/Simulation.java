@@ -47,6 +47,7 @@ import org.cidarlab.phoenix.utils.Args.Decomposition;
 import org.cidarlab.phoenix.utils.Utilities;
 import org.json.JSONObject;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbolstandard.core2.ModuleDefinition;
 import org.sbolstandard.core2.SBOLDocument;
@@ -56,7 +57,15 @@ import org.sbolstandard.core2.SBOLDocument;
  * @author prash
  */
 public class Simulation {
-
+    
+    public static String getAssignmentString(Module module, Map<String, CandidateComponent> assignment){
+        String s = "";
+        for (Component c : module.getComponents()) {
+            s += (assignment.get(c.getName()).getCandidate().getName() + ";");
+        }
+        return s;
+    }
+    
     public static void printAssignment(Module module, Map<String, CandidateComponent> assignment) {
 
         for (Component c : module.getComponents()) {
@@ -75,8 +84,14 @@ public class Simulation {
         int noSM = 0;
         
         Map<URI,SBMLDocument> modelmap = downloadAllModels(library, tempfp);
+        File tempdir = new File(tempfp);
+        tempdir.delete();
         Map<Integer,Integer> smCounts = new HashMap<>();
         for (Map<String, CandidateComponent> assignment : module.getAssignments()) {
+            
+            if (!getAssignmentString(module, assignment).equals("pLacIq018_RBS32;pLacIq018_RBS32;GFP;Ter1;pLas030_RBS30;pLas030_RBS30;LasR;Ter1;")) {
+                continue;
+            }
             
             Map<String, String> ioc = getIOCmap(module, assignment, library);
             
@@ -102,9 +117,7 @@ public class Simulation {
                 runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
                 count++;
                 
-            } 
-            
-            else {
+            } else {
                 hasSM++;
                 
                 if(!smCounts.containsKey(indSMmap.size())){
@@ -137,7 +150,6 @@ public class Simulation {
                     }
                     writer.write(sbml, modelFile);
                     Utilities.writeToFile(smfp, smevents.toString(2));
-                    
                     runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
                     
                     count++;
@@ -337,6 +349,7 @@ public class Simulation {
 
     private static void composeModelsPR_C_T(Module module) {
         List<org.sbml.jsbml.Model> modelList = new ArrayList<>();
+        int count = 0;
         for (Module tu : module.getChildren()) {
             List<org.sbml.jsbml.Model> childModelList = new ArrayList<>();
             for (Module child : tu.getChildren()) {
@@ -400,6 +413,25 @@ public class Simulation {
             } else if (ioc.get(cds.getName()).startsWith("out")) {
                 SBMLAdaptor.renameSpecies(cdsModule.getModel().getSbml(), "out", ioc.get(cds.getName()));
             }
+            System.out.println("###########################################");
+            System.out.println("Prom Model");
+            System.out.println("-------------------------------------------");
+            SBMLWriter pw = new SBMLWriter();
+            try {
+                System.out.println(pw.writeSBMLToString(prModule.getModel().getSbml()));
+            } catch (XMLStreamException | SBMLException ex) {
+                Logger.getLogger(Simulation.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("###########################################");
+            System.out.println("CDS Model");
+            System.out.println("-------------------------------------------");
+            SBMLWriter cw = new SBMLWriter();
+            try {
+                System.out.println(cw.writeSBMLToString(cdsModule.getModel().getSbml()));
+            } catch (XMLStreamException | SBMLException ex) {
+                Logger.getLogger(Simulation.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("###########################################");
         }
     }
 

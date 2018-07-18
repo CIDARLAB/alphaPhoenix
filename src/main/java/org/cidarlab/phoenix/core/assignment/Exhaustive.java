@@ -245,87 +245,15 @@ public class Exhaustive extends AbstractAssignment {
     
     private List<Map<String,CandidateComponent>> validateAssignments(List<Map<String,CandidateComponent>> assignments, Map<String,Component> cmap,  Library library, TreeNode stl){
         List<Map<String,CandidateComponent>> finalAssignments = new ArrayList<>();
-        
-        Set<URI> cdsProteins = new HashSet<>();
-        Set<URI> promProteins = new HashSet<>();
-        Set<URI> outputCDS = new HashSet<>();
-        int outcount = getOutputCount(stl);
-        
-        
-        
         for(Map<String,CandidateComponent> assignment:assignments){
-            cdsProteins = new HashSet<>();
-            promProteins = new HashSet<>();
-            outputCDS = new HashSet<>();
-            for(String key:assignment.keySet()){
-                if(cmap.get(key).isCDS()){
-                    if(library.getOutputCDS().containsKey(assignment.get(key).getCandidate().getComponentDefintion())){
-                        outputCDS.add(assignment.get(key).getCandidate().getComponentDefintion());
-                    } else if(library.getConnectorCDS().containsKey(assignment.get(key).getCandidate().getComponentDefintion())){
-                        CDSComponent cdscomp = (CDSComponent) assignment.get(key).getCandidate();
-                        cdsProteins.add(cdscomp.getProtein());
-                    }
-                } else if(cmap.get(key).isPromoter()){
-                    LibraryComponent lc = assignment.get(key).getCandidate();
-                    PromoterComponent promcomp = null;
-                    if(lc instanceof CompositeComponent){
-                        CompositeComponent compcomp = (CompositeComponent) lc;
-                        promcomp = library.getAllPromoters().get(compcomp.getChildren().get(0));
-                    } else {
-                        promcomp = (PromoterComponent)lc;
-                    }
-                    for(LibraryComponent tf:promcomp.getTranscriptionFactors()){
-                        if(tf instanceof PrimitiveComponent){
-                            promProteins.add(tf.getComponentDefintion());
-                        } else if(tf instanceof ComplexComponent){
-                            ComplexComponent complexComponent = (ComplexComponent)tf;
-                            promProteins.add(complexComponent.getProtein());
-                        }
-                    }
-                }
+            if(validAssignment(assignment,cmap,library,stl)){
+                finalAssignments.add(assignment);
             }
-            if(outputCDS.size() != outcount){
-                continue;
-            }
-            
-            boolean shouldContinue = false;
-            for(URI pp:promProteins){
-                if(!cdsProteins.contains(pp)){
-                    shouldContinue = true;
-                    break;
-                }
-            }
-            if(shouldContinue){
-                continue;
-            }
-            shouldContinue = false;
-            for(URI cp:cdsProteins){
-                if(!promProteins.contains(cp)){
-                    shouldContinue = true;
-                    break;
-                }
-            }
-            if(shouldContinue){
-                continue;
-            }
-            
-            finalAssignments.add(assignment);
-            
         }
-        
         return finalAssignments;
     }
     
-    private int getOutputCount(TreeNode stl){
-        Set<String> signals = STLAdaptor.getSignalSTLMap(stl).keySet();
-        int outcount = 0;
-        for(String s:signals){
-            if(s.startsWith("out")){
-                outcount++;
-            }
-        }
-        return outcount;
-    }
+    
     
     private void assignTUchildCandidates(Module module, Library library){
         

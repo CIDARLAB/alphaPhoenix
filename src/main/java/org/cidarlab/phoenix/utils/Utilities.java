@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.cidarlab.gridtli.dom.Point;
 import org.cidarlab.gridtli.dom.Signal;
+import org.cidarlab.gridtli.dom.TLIException;
 import org.json.JSONObject;
 
 /**
@@ -215,6 +216,22 @@ public class Utilities {
             lines.add(line);
         }
         writeToFile(filepath, lines);
+    }
+    
+    public static List<Signal> readSignalsFromCSV(String filepath) throws TLIException{
+        List<String[]> lines = getCSVFileContentAsList(filepath);
+        List<Signal> signals = new ArrayList<>();
+        File f = new File(filepath);
+        String sig = f.getName();
+        sig = sig.substring(0, sig.lastIndexOf(".csv"));
+        for(int i=1;i<lines.size();i++){
+            List<Point> points = new ArrayList<>();
+            for(int j=0;j<lines.get(0).length;j++){
+                points.add(new Point(Double.valueOf(lines.get(0)[j]),"t",Double.valueOf(lines.get(i)[j]),sig));   
+            }
+            signals.add(new Signal(points));
+        }
+        return signals;
     }
     
     static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";

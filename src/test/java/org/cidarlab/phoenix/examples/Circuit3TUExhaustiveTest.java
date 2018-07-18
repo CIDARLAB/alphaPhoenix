@@ -14,7 +14,6 @@ import org.cidarlab.phoenix.adaptors.MiniEugeneAdaptor;
 import org.cidarlab.phoenix.adaptors.STLAdaptor;
 import org.cidarlab.phoenix.core.Controller;
 import org.cidarlab.phoenix.core.assignment.Exhaustive;
-import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.library.Library;
 import org.cidarlab.phoenix.utils.Args;
@@ -29,36 +28,33 @@ import org.synbiohub.frontend.SynBioHubFrontend;
  *
  * @author prash
  */
-public class SampleCircuit2TUTest {
+public class Circuit3TUExhaustiveTest {
+    private static final String tested_circuitsFP = Utilities.getTestedCircuitsFilepath();
+    private static final String sampleCircuitsFP = tested_circuitsFP + "circuits" + Utilities.getSeparater();
     
-    private static String tested_circuitsFP = Utilities.getTestedCircuitsFilepath();
-    private static String sampleCircuitsFP = tested_circuitsFP + "sample_circuits" + Utilities.getSeparater();
+    private static final String three_tuFP = sampleCircuitsFP + "3tu" + Utilities.getSeparater();
     
-    private static String one_tuFP = sampleCircuitsFP + "1tu" + Utilities.getSeparater();
-    private static String two_tuFP = sampleCircuitsFP + "2tu" + Utilities.getSeparater();
-    private static String three_tuFP = sampleCircuitsFP + "3tu" + Utilities.getSeparater();
+    private static final String three_tu_results = three_tuFP + "results" + Utilities.getSeparater();
     
-    private static String two_tu_results = two_tuFP + "results" + Utilities.getSeparater();
+    private static final String three_tu_eug = three_tuFP + "tripleTU.eug";
+    private static final String three_tu_stl = three_tuFP + "stl.txt";
     
-    private static String two_tu_eug = two_tuFP + "doubleTU.eug";
-    private static String two_tu_stl = two_tuFP + "stl.txt";
-    
-    private static int runCount = 20;
+    private static final int runCount = 20;
     
     @Test
     public void testExhaustiveAssignment() throws URISyntaxException, SBOLValidationException, SynBioHubException {
         
-        int size = 8;
+        int size = 12;
         
-        List<Module> modules = MiniEugeneAdaptor.getStructures(two_tu_eug, size, "inverter");
+        List<Module> modules = MiniEugeneAdaptor.getStructures(three_tu_eug, size, "inverter");
         System.out.println("Number of modules : " + modules.size());
-        TreeNode stl = STLAdaptor.getSTL(two_tu_stl);
+        TreeNode stl = STLAdaptor.getSTL(three_tu_stl);
         Args args = new Args(Args.Decomposition.PR_C_T, Args.Simulation.STOCHASTIC, runCount, 0.99, 0.5, Args.Assignment.EXHAUSTIVE);
-        args.setProjectFolder(two_tu_results);
+        args.setProjectFolder(three_tu_results);
         Exhaustive exhaustive = new Exhaustive();
         
         String synbiohuburl = "https://synbiohub.programmingbiology.org";
-        String phoenixliburl = "https://synbiohub.programmingbiology.org/public/AlphaSample/AlphaSample_collection/1";
+        String phoenixliburl = "https://synbiohub.programmingbiology.org/public/PhoenixParts/PhoenixParts_collection/1";
         
         SynBioHubFrontend shub = new SynBioHubFrontend(synbiohuburl);
         URI u = new URI(phoenixliburl);
@@ -96,9 +92,6 @@ public class SampleCircuit2TUTest {
     
         System.out.println("###############################");
         System.out.println("Final Number of assignments  :: " + m1.getAssignments().size());
-        
+    
     }
-    
-    
-    
 }

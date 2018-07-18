@@ -28,9 +28,10 @@ import org.synbiohub.frontend.SynBioHubFrontend;
  *
  * @author prash
  */
-public class Circuit3TUTest {
+public class SampleCircuit3TUExhaustiveTest {
+    
     private static String tested_circuitsFP = Utilities.getTestedCircuitsFilepath();
-    private static String sampleCircuitsFP = tested_circuitsFP + "circuits" + Utilities.getSeparater();
+    private static String sampleCircuitsFP = tested_circuitsFP + "sample_circuits" + Utilities.getSeparater();
     
     private static String three_tuFP = sampleCircuitsFP + "3tu" + Utilities.getSeparater();
     
@@ -54,7 +55,7 @@ public class Circuit3TUTest {
         Exhaustive exhaustive = new Exhaustive();
         
         String synbiohuburl = "https://synbiohub.programmingbiology.org";
-        String phoenixliburl = "https://synbiohub.programmingbiology.org/public/PhoenixParts/PhoenixParts_collection/1";
+        String phoenixliburl = "https://synbiohub.programmingbiology.org/public/AlphaSample/AlphaSample_collection/1";
         
         SynBioHubFrontend shub = new SynBioHubFrontend(synbiohuburl);
         URI u = new URI(phoenixliburl);
@@ -94,4 +95,5 @@ public class Circuit3TUTest {
         System.out.println("Final Number of assignments  :: " + m1.getAssignments().size());
     
     }
+
 }

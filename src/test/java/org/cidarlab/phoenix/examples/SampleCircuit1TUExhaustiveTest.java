@@ -33,7 +33,7 @@ import org.synbiohub.frontend.SynBioHubFrontend;
  *
  * @author prash
  */
-public class SampleCircuit1TUTest {
+public class SampleCircuit1TUExhaustiveTest {
 
     private static String tested_circuitsFP = Utilities.getTestedCircuitsFilepath();
     private static String sampleCircuitsFP = tested_circuitsFP + "sample_circuits" + Utilities.getSeparater();

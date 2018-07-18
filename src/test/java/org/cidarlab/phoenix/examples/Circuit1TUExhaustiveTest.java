@@ -31,14 +31,14 @@ import org.synbiohub.frontend.SynBioHubFrontend;
  *
  * @author prash
  */
-public class Circuit1TUTest {
-    private static String tested_circuitsFP = Utilities.getTestedCircuitsFilepath();
+public class Circuit1TUExhaustiveTest {
+    private static final String tested_circuitsFP = Utilities.getTestedCircuitsFilepath();
     private static String sampleCircuitsFP = tested_circuitsFP + "circuits" + Utilities.getSeparater();
     
-    private static String one_tuFP = sampleCircuitsFP + "1tu" + Utilities.getSeparater();
-    private static String one_tu_results = one_tuFP + "results" + Utilities.getSeparater();
-    private static String one_tu_eug = one_tuFP + "singleTU.eug";
-    private static String one_tu_stl = one_tuFP + "stl.txt";
+    private static final String one_tuFP = sampleCircuitsFP + "1tu" + Utilities.getSeparater();
+    private static final String one_tu_results = one_tuFP + "results" + Utilities.getSeparater();
+    private static final String one_tu_eug = one_tuFP + "singleTU.eug";
+    private static final String one_tu_stl = one_tuFP + "stl.txt";
     
     @Test
     public void testEugeneScript() {

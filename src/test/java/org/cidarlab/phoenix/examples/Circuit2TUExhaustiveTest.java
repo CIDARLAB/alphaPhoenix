@@ -28,18 +28,18 @@ import org.synbiohub.frontend.SynBioHubFrontend;
  *
  * @author prash
  */
-public class Circuit2TUTest {
-    private static String tested_circuitsFP = Utilities.getTestedCircuitsFilepath();
-    private static String sampleCircuitsFP = tested_circuitsFP + "circuits" + Utilities.getSeparater();
+public class Circuit2TUExhaustiveTest {
+    private static final String tested_circuitsFP = Utilities.getTestedCircuitsFilepath();
+    private static final String sampleCircuitsFP = tested_circuitsFP + "circuits" + Utilities.getSeparater();
     
-    private static String two_tuFP = sampleCircuitsFP + "2tu" + Utilities.getSeparater();
+    private static final String two_tuFP = sampleCircuitsFP + "2tu" + Utilities.getSeparater();
     
-    private static String two_tu_results = two_tuFP + "results" + Utilities.getSeparater();
+    private static final String two_tu_results = two_tuFP + "results" + Utilities.getSeparater();
     
-    private static String two_tu_eug = two_tuFP + "doubleTU.eug";
-    private static String two_tu_stl = two_tuFP + "stl.txt";
+    private static final String two_tu_eug = two_tuFP + "doubleTU.eug";
+    private static final String two_tu_stl = two_tuFP + "stl.txt";
     
-    private static int runCount = 20;
+    private static final int runCount = 20;
     
     @Test
     public void testExhaustiveAssignment() throws URISyntaxException, SBOLValidationException, SynBioHubException {
