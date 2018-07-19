@@ -144,11 +144,11 @@ public class SBMLAdaptor {
 //				}
 			}
 		}
-		if (substitutions.isEmpty()) {
-			for (int i = 1; i < mods.size(); i++) {
-				substitutions.putAll(inferIOSubstitutions(mods.get(i - 1), mods.get(i)));
-			}
-		}
+//		if (substitutions.isEmpty()) {
+//			for (int i = 1; i < mods.size(); i++) {
+//				substitutions.putAll(inferIOSubstitutions(mods.get(i - 1), mods.get(i)));
+//			}
+//		}
 		if (!substitutions.isEmpty()) {
 			substituteSpecies(substitutions, composedMod);
 		}
