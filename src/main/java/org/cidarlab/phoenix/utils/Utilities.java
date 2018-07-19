@@ -202,17 +202,24 @@ public class Utilities {
         List<String> lines = new ArrayList<String>();
         String line0 = "";
         String line1 = "";
-        for(Point p:signals.get(0).getPoints()){
+        int lim = signals.get(0).getPoints().size() - 1;
+        for(int i=0;i<lim;i++){
+            Point p = signals.get(0).getPoints().get(i);
             line0 += (p.getX() + ",");
             line1 += (p.getY() + ",");
         }
+        line0 += signals.get(0).getPoints().get(lim).getX();
+        line1 += signals.get(0).getPoints().get(lim).getY();
+        
         lines.add(line0);
         lines.add(line1);
         for(int i=1;i<signals.size();i++){
             String line = "";
-            for(Point p:signals.get(i).getPoints()){
+            for(int j=0;j<lim;j++){
+                Point p = signals.get(i).getPoints().get(j);
                 line += (p.getY() + ",");
             }
+            line += signals.get(i).getPoints().get(lim).getY();
             lines.add(line);
         }
         writeToFile(filepath, lines);

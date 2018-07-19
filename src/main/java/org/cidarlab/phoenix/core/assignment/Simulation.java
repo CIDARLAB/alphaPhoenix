@@ -89,9 +89,9 @@ public class Simulation {
         Map<Integer,Integer> smCounts = new HashMap<>();
         for (Map<String, CandidateComponent> assignment : module.getAssignments()) {
             
-            if (!getAssignmentString(module, assignment).equals("pLacIq018_RBS32;pLacIq018_RBS32;GFP;Ter1;pLas030_RBS30;pLas030_RBS30;LasR;Ter1;")) {
+            /*if (!getAssignmentString(module, assignment).equals("pLacIq018_RBS32;pLacIq018_RBS32;GFP;Ter1;pLas030_RBS30;pLas030_RBS30;LasR;Ter1;")) {
                 continue;
-            }
+            }*/
             
             Map<String, String> ioc = getIOCmap(module, assignment, library);
             
@@ -202,8 +202,8 @@ public class Simulation {
         for (String key : allsignals.keySet()) {
             Utilities.writeSignalsToCSV(allsignals.get(key), ifp + key + ".csv");
             List<String> pylines = PyPlotAdaptor.generateSignalPlotScript(allsignals.get(key), ifp + key + ".png", 0, maxtime, 0, 100000, false, false);
-            Utilities.writeToFile(ifp + key + "_singals.py", pylines);
-            PyPlotAdaptor.runScript(ifp + key + "_singals.py");
+            Utilities.writeToFile(ifp + key + "_signals.py", pylines);
+            PyPlotAdaptor.runScript(ifp + key + "_signals.py");
         }
         
                 
@@ -413,7 +413,7 @@ public class Simulation {
             } else if (ioc.get(cds.getName()).startsWith("out")) {
                 SBMLAdaptor.renameSpecies(cdsModule.getModel().getSbml(), "out", ioc.get(cds.getName()));
             }
-            System.out.println("###########################################");
+            /*System.out.println("###########################################");
             System.out.println("Prom Model");
             System.out.println("-------------------------------------------");
             SBMLWriter pw = new SBMLWriter();
@@ -432,6 +432,7 @@ public class Simulation {
                 Logger.getLogger(Simulation.class.getName()).log(Level.SEVERE, null, ex);
             }
             System.out.println("###########################################");
+                    */
         }
     }
 
