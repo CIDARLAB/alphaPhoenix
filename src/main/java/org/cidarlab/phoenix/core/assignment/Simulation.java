@@ -89,10 +89,6 @@ public class Simulation {
         Map<Integer,Integer> smCounts = new HashMap<>();
         for (Map<String, CandidateComponent> assignment : module.getAssignments()) {
             
-            /*if (!getAssignmentString(module, assignment).equals("pLacIq018_RBS32;pLacIq018_RBS32;GFP;Ter1;pLas030_RBS30;pLas030_RBS30;LasR;Ter1;")) {
-                continue;
-            }*/
-            
             Map<String, String> ioc = getIOCmap(module, assignment, library);
             
             assignLeafModels(module, assignment, library.getSbol(), modelmap, args.getDecomposition());
