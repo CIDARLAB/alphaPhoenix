@@ -250,11 +250,8 @@ public class Exhaustive extends AbstractAssignment {
                 Set<String> str = generateAssignmentStringSet(module, assignment);
                 if(!strSet.contains(str)){
                     strSet.add(str);
-                    //finalAssignments.add(assignment);
+                    finalAssignments.add(assignment);
                 }
-                finalAssignments.add(assignment);
-
-                
             }
         }
         return finalAssignments;
