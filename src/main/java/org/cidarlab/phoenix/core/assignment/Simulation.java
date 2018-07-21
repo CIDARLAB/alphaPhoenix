@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.stream.XMLStreamException;
 import org.cidarlab.gridtli.adaptors.PyPlotAdaptor;
+import org.cidarlab.gridtli.adaptors.PyPlotAdaptor.Axis;
 import org.cidarlab.gridtli.dom.Signal;
 import org.cidarlab.gridtli.dom.TLIException;
 import org.cidarlab.phoenix.adaptors.DnaPlotlibAdaptor;
@@ -197,7 +198,7 @@ public class Simulation {
         
         for (String key : allsignals.keySet()) {
             Utilities.writeSignalsToCSV(allsignals.get(key), ifp + key + ".csv");
-            List<String> pylines = PyPlotAdaptor.generateSignalPlotScript(allsignals.get(key), ifp + key + ".png", 0, maxtime, 0, 100000, false, false);
+            List<String> pylines = PyPlotAdaptor.generateSignalPlotScript(allsignals.get(key), ifp + key + ".png", 0, maxtime, 0, 100000, Axis.LINEAR, Axis.SYMLOG);
             Utilities.writeToFile(ifp + key + "_signals.py", pylines);
             PyPlotAdaptor.runScript(ifp + key + "_signals.py");
         }
@@ -289,10 +290,16 @@ public class Simulation {
                                     double min = smc.getMin();
                                     double max = smc.getMax();
                                     //double inc = (max - min) * 0.05;
-                                    double inc = (max - min) * 0.1;
+                                    //double inc = (max - min) * 0.1;
                                     List<Double> concs = new ArrayList<>();
-                                    for (double i = min; i <= max; i += inc) {
-                                        concs.add(i);
+                                    concs.add(min);
+                                    
+                                    for(int i=-6;i<=0;i++){
+                                        double mult = Math.pow(10, i);
+                                        double val = max * mult;
+                                        if(val > min){
+                                            concs.add(val);
+                                        }
                                     }
                                     smConcentrations.put(indName, concs);
                                 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.cidarlab.phoenix.examples;
+package org.cidarlab.phoenix.examples.exhaustive;
 
 import hyness.stl.TreeNode;
 import java.net.URI;
@@ -31,7 +31,7 @@ import org.synbiohub.frontend.SynBioHubFrontend;
  *
  * @author prash
  */
-public class Circuit1TUExhaustiveTest {
+public class Circuit1tuTest {
     private static final String tested_circuitsFP = Utilities.getTestedCircuitsFilepath();
     private static String sampleCircuitsFP = tested_circuitsFP + "circuits" + Utilities.getSeparater();
     

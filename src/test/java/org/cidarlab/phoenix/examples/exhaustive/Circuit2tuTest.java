@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.cidarlab.phoenix.examples;
+package org.cidarlab.phoenix.examples.exhaustive;
 
 import hyness.stl.TreeNode;
 import java.net.URI;
@@ -14,7 +14,6 @@ import org.cidarlab.phoenix.adaptors.MiniEugeneAdaptor;
 import org.cidarlab.phoenix.adaptors.STLAdaptor;
 import org.cidarlab.phoenix.core.Controller;
 import org.cidarlab.phoenix.core.assignment.Exhaustive;
-import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.library.Library;
 import org.cidarlab.phoenix.utils.Args;
@@ -29,21 +28,18 @@ import org.synbiohub.frontend.SynBioHubFrontend;
  *
  * @author prash
  */
-public class SampleCircuit2TUExhaustiveTest {
+public class Circuit2tuTest {
+    private static final String tested_circuitsFP = Utilities.getTestedCircuitsFilepath();
+    private static final String sampleCircuitsFP = tested_circuitsFP + "circuits" + Utilities.getSeparater();
     
-    private static String tested_circuitsFP = Utilities.getTestedCircuitsFilepath();
-    private static String sampleCircuitsFP = tested_circuitsFP + "sample_circuits" + Utilities.getSeparater();
+    private static final String two_tuFP = sampleCircuitsFP + "2tu" + Utilities.getSeparater();
     
-    private static String one_tuFP = sampleCircuitsFP + "1tu" + Utilities.getSeparater();
-    private static String two_tuFP = sampleCircuitsFP + "2tu" + Utilities.getSeparater();
-    private static String three_tuFP = sampleCircuitsFP + "3tu" + Utilities.getSeparater();
+    private static final String two_tu_results = two_tuFP + "results" + Utilities.getSeparater();
     
-    private static String two_tu_results = two_tuFP + "results" + Utilities.getSeparater();
+    private static final String two_tu_eug = two_tuFP + "doubleTU.eug";
+    private static final String two_tu_stl = two_tuFP + "stl.txt";
     
-    private static String two_tu_eug = two_tuFP + "doubleTU.eug";
-    private static String two_tu_stl = two_tuFP + "stl.txt";
-    
-    private static int runCount = 20;
+    private static final int runCount = 20;
     
     @Test
     public void testExhaustiveAssignment() throws URISyntaxException, SBOLValidationException, SynBioHubException {
@@ -58,7 +54,7 @@ public class SampleCircuit2TUExhaustiveTest {
         Exhaustive exhaustive = new Exhaustive();
         
         String synbiohuburl = "https://synbiohub.programmingbiology.org";
-        String phoenixliburl = "https://synbiohub.programmingbiology.org/public/AlphaSample/AlphaSample_collection/1";
+        String phoenixliburl = "https://synbiohub.programmingbiology.org/public/PhoenixParts/PhoenixParts_collection/1";
         
         SynBioHubFrontend shub = new SynBioHubFrontend(synbiohuburl);
         URI u = new URI(phoenixliburl);
@@ -98,7 +94,5 @@ public class SampleCircuit2TUExhaustiveTest {
         System.out.println("Final Number of assignments  :: " + m1.getAssignments().size());
         
     }
-    
-    
     
 }

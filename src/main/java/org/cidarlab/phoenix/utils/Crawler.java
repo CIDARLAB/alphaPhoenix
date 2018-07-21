@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 import lombok.Setter;
 import org.cidarlab.gridtli.adaptors.PyPlotAdaptor;
+import org.cidarlab.gridtli.adaptors.PyPlotAdaptor.Axis;
 import org.cidarlab.gridtli.dom.Grid;
 import org.cidarlab.gridtli.dom.Point;
 import org.cidarlab.gridtli.dom.Signal;
@@ -66,7 +67,7 @@ public class Crawler {
                     
                     //Generate Log Plots
                     if(tasks.contains(CrawlerTask.LOG_PLOT)){
-                        List<String> pylines = PyPlotAdaptor.generateSignalPlotScript(signals, fp + varname + "_log.png", 0, maxtime, 0.00001, 100000, false, true);
+                        List<String> pylines = PyPlotAdaptor.generateSignalPlotScript(signals, fp + varname + "_log.png", 0, maxtime, 0.00001, 100000, Axis.LINEAR, Axis.SYMLOG);
                         Utilities.writeToFile(fp + varname + "_log_singals.py", pylines);
                         PyPlotAdaptor.runScript(fp + varname + "_log_singals.py");
 

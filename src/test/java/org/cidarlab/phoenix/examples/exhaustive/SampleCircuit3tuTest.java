@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.cidarlab.phoenix.examples;
+package org.cidarlab.phoenix.examples.exhaustive;
 
 import hyness.stl.TreeNode;
 import java.net.URI;
@@ -28,18 +28,19 @@ import org.synbiohub.frontend.SynBioHubFrontend;
  *
  * @author prash
  */
-public class Circuit3TUExhaustiveTest {
-    private static final String tested_circuitsFP = Utilities.getTestedCircuitsFilepath();
-    private static final String sampleCircuitsFP = tested_circuitsFP + "circuits" + Utilities.getSeparater();
+public class SampleCircuit3tuTest {
     
-    private static final String three_tuFP = sampleCircuitsFP + "3tu" + Utilities.getSeparater();
+    private static String tested_circuitsFP = Utilities.getTestedCircuitsFilepath();
+    private static String sampleCircuitsFP = tested_circuitsFP + "sample_circuits" + Utilities.getSeparater();
     
-    private static final String three_tu_results = three_tuFP + "results" + Utilities.getSeparater();
+    private static String three_tuFP = sampleCircuitsFP + "3tu" + Utilities.getSeparater();
     
-    private static final String three_tu_eug = three_tuFP + "tripleTU.eug";
-    private static final String three_tu_stl = three_tuFP + "stl.txt";
+    private static String three_tu_results = three_tuFP + "results" + Utilities.getSeparater();
     
-    private static final int runCount = 20;
+    private static String three_tu_eug = three_tuFP + "tripleTU.eug";
+    private static String three_tu_stl = three_tuFP + "stl.txt";
+    
+    private static int runCount = 20;
     
     @Test
     public void testExhaustiveAssignment() throws URISyntaxException, SBOLValidationException, SynBioHubException {
@@ -54,7 +55,7 @@ public class Circuit3TUExhaustiveTest {
         Exhaustive exhaustive = new Exhaustive();
         
         String synbiohuburl = "https://synbiohub.programmingbiology.org";
-        String phoenixliburl = "https://synbiohub.programmingbiology.org/public/PhoenixParts/PhoenixParts_collection/1";
+        String phoenixliburl = "https://synbiohub.programmingbiology.org/public/AlphaSample/AlphaSample_collection/1";
         
         SynBioHubFrontend shub = new SynBioHubFrontend(synbiohuburl);
         URI u = new URI(phoenixliburl);
@@ -94,4 +95,5 @@ public class Circuit3TUExhaustiveTest {
         System.out.println("Final Number of assignments  :: " + m1.getAssignments().size());
     
     }
+
 }

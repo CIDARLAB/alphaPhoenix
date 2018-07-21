@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.cidarlab.phoenix.examples;
+package org.cidarlab.phoenix.examples.simulatedannealing;
 
 import hyness.stl.TreeNode;
 import java.net.URI;
@@ -14,6 +14,7 @@ import org.cidarlab.phoenix.adaptors.MiniEugeneAdaptor;
 import org.cidarlab.phoenix.adaptors.STLAdaptor;
 import org.cidarlab.phoenix.core.Controller;
 import org.cidarlab.phoenix.core.assignment.Exhaustive;
+import org.cidarlab.phoenix.core.assignment.SimulatedAnnealing;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.library.Library;
 import org.cidarlab.phoenix.utils.Args;
@@ -28,7 +29,7 @@ import org.synbiohub.frontend.SynBioHubFrontend;
  *
  * @author prash
  */
-public class Circuit2TUExhaustiveTest {
+public class Circuit2tuTest {
     private static final String tested_circuitsFP = Utilities.getTestedCircuitsFilepath();
     private static final String sampleCircuitsFP = tested_circuitsFP + "circuits" + Utilities.getSeparater();
     
@@ -49,9 +50,9 @@ public class Circuit2TUExhaustiveTest {
         List<Module> modules = MiniEugeneAdaptor.getStructures(two_tu_eug, size, "inverter");
         System.out.println("Number of modules : " + modules.size());
         TreeNode stl = STLAdaptor.getSTL(two_tu_stl);
-        Args args = new Args(Args.Decomposition.PR_C_T, Args.Simulation.STOCHASTIC, runCount, 0.99, 0.5, Args.Assignment.EXHAUSTIVE);
+        Args args = new Args(Args.Decomposition.PR_C_T, Args.Simulation.STOCHASTIC, runCount, 0.99, 0.5, Args.Assignment.SIMULATED_ANNEALING);
         args.setProjectFolder(two_tu_results);
-        Exhaustive exhaustive = new Exhaustive();
+        SimulatedAnnealing sa = new SimulatedAnnealing();
         
         String synbiohuburl = "https://synbiohub.programmingbiology.org";
         String phoenixliburl = "https://synbiohub.programmingbiology.org/public/PhoenixParts/PhoenixParts_collection/1";
@@ -67,7 +68,7 @@ public class Circuit2TUExhaustiveTest {
             decomposed.add(Controller.decompose(m, Args.Decomposition.PR_C_T));
         }
         
-        exhaustive.solve(decomposed, lib, stl, args);
+        sa.solve(decomposed, lib, stl, args);
         
         Module m1 = decomposed.get(0);
         System.out.println("Number of Transcriptional Units : " + m1.getChildren().size());
@@ -94,5 +95,4 @@ public class Circuit2TUExhaustiveTest {
         System.out.println("Final Number of assignments  :: " + m1.getAssignments().size());
         
     }
-    
 }

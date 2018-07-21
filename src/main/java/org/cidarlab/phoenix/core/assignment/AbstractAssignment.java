@@ -8,6 +8,7 @@ package org.cidarlab.phoenix.core.assignment;
 import hyness.stl.TreeNode;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,7 @@ import org.cidarlab.phoenix.utils.Args;
 public abstract class AbstractAssignment {
     
     abstract public void solve(List<Module> modules, Library library, TreeNode stl, Args args);
+    
     
     
     protected boolean validAssignment(Map<String,CandidateComponent> assignment, Map<String,Component> cmap,  Library library, TreeNode stl){
@@ -101,5 +103,97 @@ public abstract class AbstractAssignment {
         return outcount;
     }
     
+    protected Set<String> generateAssignmentStringSet(Module module, Map<String,CandidateComponent> assignment){
+        Set<String> set = new HashSet<>();
+        for(Module tu:module.getChildren()){
+            String str = "";
+            for(Component c:tu.getComponents()){
+                str += (assignment.get(c.getName()).getCandidate().getName() + ";");
+            }
+            set.add(str);
+        }
+        return set;
+    }
+    
+    //<editor-fold desc="Assign TU Child Candidates">
+    protected void assignTUchildCandidates(Module module, Library library){
+        
+        for(Module child:module.getChildren()){
+            switch(child.getRole()){
+                case PROMOTER:
+                    assignPcandidates(child,library);
+                    break;
+                case PROMOTER_RBS:
+                    assignPRcandidates(child,library);
+                    break;
+                case RBS_CDS:
+                    assignRCcandidates(child,library);
+                    break;
+                case CDS:
+                    assignCcandidates(child,library);
+                    break;
+                case TERMINATOR:
+                    assignTcandidates(child,library);
+                    break;
+            }
+        }
+    }
+    
+    private void assignPRcandidates(Module module, Library library){
+        Component p = module.getComponents().get(0);
+        Map<URI,CompositeComponent> prCandidates = null;
+        if(p.getRole().equals(Component.ComponentRole.GENERIC_PROMOTER)){
+            prCandidates = library.getPr();
+        } else {
+            prCandidates = library.getPR(p.getRole());
+        }
+        
+        for (URI uri : prCandidates.keySet()) {
+            CandidateComponent candidate = new CandidateComponent(prCandidates.get(uri));
+            candidate.setOrientation(module.getOrientation());
+            module.getCandidates().add(candidate);
+        }
+    }
+    
+    private void assignPcandidates(Module module, Library library){
+        
+    }
+    
+    private void assignRCcandidates(Module module, Library library){
+        
+    }
+    
+    private void assignCcandidates(Module module, Library library){
+        Component c = module.getComponents().get(0);
+        Map<URI,CDSComponent> cCandidates  = new HashMap<>();
+        if(c.getRole().equals(Component.ComponentRole.GENERIC_CDS)){
+            cCandidates.putAll(library.getConnectorCDS());
+            cCandidates.putAll(library.getOutputCDS());
+        } else {
+            if(c.getRole().equals(Component.ComponentRole.CDS_FLUORESCENT)){
+                cCandidates.putAll(library.getOutputCDS());
+            } else if(c.getRole().equals(Component.ComponentRole.CDS_ACTIVATOR)){
+                cCandidates.putAll(library.getConnectorCDS());                
+            } else if(c.getRole().equals(Component.ComponentRole.CDS_REPRESSOR)){
+                cCandidates.putAll(library.getConnectorCDS());                
+            }
+        }
+        
+        for (URI uri : cCandidates.keySet()) {
+            CandidateComponent candidate = new CandidateComponent(cCandidates.get(uri));
+            candidate.setOrientation(module.getOrientation());
+            module.getCandidates().add(candidate);
+        }        
+    }
+    
+    private void assignTcandidates(Module module, Library library){
+        Component t = module.getComponents().get(0);
+        for (URI uri : library.getTerminators().keySet()) {
+            CandidateComponent candidate = new CandidateComponent(library.getTerminators().get(uri));
+            candidate.setOrientation(module.getOrientation());
+            module.getCandidates().add(candidate);
+        }
+    }
+    //</editor-fold>
     
 }
