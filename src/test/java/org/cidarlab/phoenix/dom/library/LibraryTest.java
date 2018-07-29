@@ -5,9 +5,11 @@
  */
 package org.cidarlab.phoenix.dom.library;
 
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.cidarlab.phoenix.utils.Args;
+import org.cidarlab.phoenix.utils.Utilities;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -45,14 +47,17 @@ public class LibraryTest {
     }
 
     @Test
-    public void testPR_C_T() throws URISyntaxException, SynBioHubException, SBOLValidationException{
+    public void testPR_C_T() throws URISyntaxException, SynBioHubException, SBOLValidationException, MalformedURLException{
         String synbiohuburl = "https://synbiohub.programmingbiology.org";
-        String phoenixliburl = "https://synbiohub.programmingbiology.org/public/AlphaSample/AlphaSample_collection/1";
+        String phoenixliburl = "https://synbiohub.programmingbiology.org/public/PhoenixParts/PhoenixParts_collection/1";
+        String phoenixSampleurl = "https://synbiohub.programmingbiology.org/public/AlphaSample/AlphaSample_collection/1";
+        
+        String rulesfp = Utilities.getTestedCircuitsFilepath() + "ucf" + Utilities.getSeparater() + "ucf" + Utilities.getSeparater();
         
         SynBioHubFrontend shub = new SynBioHubFrontend(synbiohuburl);
         URI u = new URI(phoenixliburl);
         SBOLDocument sbol = shub.getSBOL(u);
-        Library lib = new Library(sbol, Args.Decomposition.PR_C_T);
+        Library lib = new Library(sbol, Args.Decomposition.PR_C_T,rulesfp);
         
         System.out.println("\n");
         System.out.println("############################################");

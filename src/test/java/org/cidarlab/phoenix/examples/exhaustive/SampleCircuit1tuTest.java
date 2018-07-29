@@ -6,6 +6,7 @@
 package org.cidarlab.phoenix.examples.exhaustive;
 
 import hyness.stl.TreeNode;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -109,7 +110,7 @@ public class SampleCircuit1tuTest {
     }
     
     @Test
-    public void testExhaustiveAssignment() throws URISyntaxException, SBOLValidationException, SynBioHubException {
+    public void testExhaustiveAssignment() throws URISyntaxException, SBOLValidationException, SynBioHubException, MalformedURLException {
         
         int size = 4;
         List<Module> modules = MiniEugeneAdaptor.getStructures(one_tu_eug, size, "inverter");
@@ -124,7 +125,7 @@ public class SampleCircuit1tuTest {
         SynBioHubFrontend shub = new SynBioHubFrontend(synbiohuburl);
         URI u = new URI(phoenixliburl);
         SBOLDocument sbol = shub.getSBOL(u);
-        Library lib = new Library(sbol, Args.Decomposition.PR_C_T);
+        Library lib = new Library(sbol, Args.Decomposition.PR_C_T,one_tu_results);
         
         List<Module> decomposed = new ArrayList<Module>();
         

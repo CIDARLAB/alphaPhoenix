@@ -387,5 +387,8 @@
             "interaction" : "activation"
         }
         
-    ]
+    ],
+    "eugene-rules" : [
+		"LuxR NOTWITH LasR"
+	]
 }

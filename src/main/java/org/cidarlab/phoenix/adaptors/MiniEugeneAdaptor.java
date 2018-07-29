@@ -97,7 +97,7 @@ public class MiniEugeneAdaptor {
                 
                 org.cidarlab.phoenix.dom.Component phoenixComponent = new org.cidarlab.phoenix.dom.Component();
                 phoenixComponent.setName(c.getName());
-                phoenixComponent.setRole(findRole(ctype));
+                phoenixComponent.setRole(findRole(c.getName()));
                 
                 //Primitive orientation                
                 if (c.isForward()) {
@@ -112,14 +112,14 @@ public class MiniEugeneAdaptor {
             phoenixModule.setRole(ModuleRole.HIGHER_FUNCTION);
             phoenixModule.setRoot(true);
             addInteractions(phoenixModule, interactions);
-            renameAbstractComponents(phoenixModule);
+            renameGenericComponents(phoenixModule);
             phoenixModules.add(phoenixModule);             
         }
         
         return phoenixModules;
     }
     
-    private static void renameAbstractComponents(Module module){
+    private static void renameGenericComponents(Module module){
         
         Set<String> specific = new HashSet<String>();
         int ap = 0;
@@ -197,6 +197,41 @@ public class MiniEugeneAdaptor {
             to.addInteraction(phoenixInteraction);
         } 
     }
+    
+    
+    //Determine primitive role from Eugene component name
+    public static org.cidarlab.phoenix.dom.Component.ComponentRole findRole(String type) {
+        
+        org.cidarlab.phoenix.dom.Component.ComponentRole role = org.cidarlab.phoenix.dom.Component.ComponentRole.WILDCARD;
+        
+        if(type.equals("p")){
+          role = org.cidarlab.phoenix.dom.Component.ComponentRole.GENERIC_PROMOTER;
+        } else if(type.equals("r")){
+          role = org.cidarlab.phoenix.dom.Component.ComponentRole.GENERIC_RBS;  
+        } else if(type.equals("c")){
+          role = org.cidarlab.phoenix.dom.Component.ComponentRole.GENERIC_CDS;  
+        } else if(type.equals("t")){
+            role = org.cidarlab.phoenix.dom.Component.ComponentRole.GENERIC_TERMINATOR;
+        } else if (type.startsWith("cp")) {
+            role = org.cidarlab.phoenix.dom.Component.ComponentRole.PROMOTER_CONSTITUTIVE;
+        } else if (type.startsWith("ap")) {
+            role = org.cidarlab.phoenix.dom.Component.ComponentRole.PROMOTER_ACTIVATABLE;
+        } else if (type.startsWith("rp")) {
+            role = org.cidarlab.phoenix.dom.Component.ComponentRole.PROMOTER_REPRESSIBLE;
+        } else if (type.startsWith("ac")) {
+            role = org.cidarlab.phoenix.dom.Component.ComponentRole.CDS_ACTIVATOR;
+        } else if (type.startsWith("rc")) {
+            role = org.cidarlab.phoenix.dom.Component.ComponentRole.CDS_REPRESSOR;
+        } else if (type.startsWith("fc")) {
+            role = org.cidarlab.phoenix.dom.Component.ComponentRole.CDS_FLUORESCENT;
+        } else if (type.startsWith("t")) {
+            role = org.cidarlab.phoenix.dom.Component.ComponentRole.TERMINATOR;
+        } else if (type.startsWith("r")) {
+            role = org.cidarlab.phoenix.dom.Component.ComponentRole.RBS;
+        }  
+        return role;
+    }
+    
     
     //Determine primitive role from Eugene component types
     public static org.cidarlab.phoenix.dom.Component.ComponentRole findRole(ComponentType type) {

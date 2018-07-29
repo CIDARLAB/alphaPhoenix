@@ -210,7 +210,7 @@ public class PhoenixProject {
     public void executeBasicProject(int runCount, double confidence, double threshold) throws IOException, SBOLValidationException, SBOLConversionException, XMLStreamException, TLIException, InterruptedException, URISyntaxException {
         String jobfp = this.projectFolder + this.jobId + Utilities.getSeparater();
         SBOLDocument sbol = SBOLReader.read(jobfp + "sbol.xml");
-        Library lib = new Library(sbol, Args.Decomposition.PR_C_T);
+        Library lib = new Library(sbol, Args.Decomposition.PR_C_T, jobfp);
         String eugfilecontent = Utilities.getFileContentAsString(jobfp + "eug.json");
         JSONObject eug = new JSONObject(eugfilecontent);
         int eugCircSize;
@@ -380,7 +380,7 @@ public class PhoenixProject {
                 System.exit(-1);
             }
             SBOLDocument sbol = SBOLReader.read(jobfp + "sbol.xml");
-            Library lib = new Library(sbol, decomposition);
+            Library lib = new Library(sbol, decomposition,jobfp);
             String eugfilecontent = Utilities.getFileContentAsString(jobfp + "eug.json");
             JSONObject eug = new JSONObject(eugfilecontent);
             int eugCircSize;
@@ -441,7 +441,7 @@ public class PhoenixProject {
                 System.exit(-1);
             }
             SBOLDocument sbol = SBOLReader.read(jobfp + "sbol.xml");
-            Library lib = new Library(sbol, Args.Decomposition.PR_C_T);
+            Library lib = new Library(sbol, Args.Decomposition.PR_C_T,jobfp);
             String eugfilecontent = Utilities.getFileContentAsString(jobfp + "eug.json");
             JSONObject eug = new JSONObject(eugfilecontent);
             int eugCircSize;
@@ -762,7 +762,7 @@ public class PhoenixProject {
         Utilities.writeToFile(jobfp + "details.json", details.toString());
 
         SBOLDocument sbol = SBOLReader.read(jobfp + "sbol.xml");
-        Library lib = new Library(sbol, Args.Decomposition.PR_C_T);
+        Library lib = new Library(sbol, Args.Decomposition.PR_C_T,jobfp);
         String eugfilecontent = Utilities.getFileContentAsString(jobfp + "eug.json");
         JSONObject eug = new JSONObject(eugfilecontent);
         int eugCircSize;

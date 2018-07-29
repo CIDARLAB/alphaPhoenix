@@ -5,8 +5,11 @@
  */
 package org.cidarlab.phoenix.dom.library;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,10 +19,16 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lombok.Getter;
+import org.cidarlab.phoenix.adaptors.SynbiohubAdaptor;
 import org.cidarlab.phoenix.dom.Component.ComponentRole;
 import org.cidarlab.phoenix.dom.library.CompositeComponent.CompositeType;
+import org.cidarlab.phoenix.dom.library.rules.ERuleParser;
+import org.cidarlab.phoenix.dom.library.rules.EugeneRule;
 import org.cidarlab.phoenix.utils.Args.Decomposition;
+import org.cidarlab.phoenix.utils.Utilities;
+import org.json.JSONArray;
 import org.sbolstandard.core2.Annotation;
+import org.sbolstandard.core2.Attachment;
 import org.sbolstandard.core2.ComponentDefinition;
 import org.sbolstandard.core2.FunctionalComponent;
 import org.sbolstandard.core2.Interaction;
@@ -90,7 +99,7 @@ public class Library {
     @Getter
     private SBOLDocument sbol;
     
-    public Library(SBOLDocument doc, Decomposition decomposition) throws URISyntaxException, SBOLValidationException {
+    public Library(SBOLDocument doc, Decomposition decomposition, String tempfp) throws URISyntaxException, SBOLValidationException, MalformedURLException {
         
         this.sbol = doc;
         switch (decomposition) {
@@ -104,6 +113,58 @@ public class Library {
             case PRCT:
                 break;
         }
+        addRules(doc,tempfp);
+    }
+    
+    private void addRules(SBOLDocument doc, String tempfp) throws MalformedURLException{
+        
+        Map<String,URI> map = new HashMap<>();
+        Map<URI,LibraryComponent> allComponents = this.getAllLibraryComponents();
+        for(URI u:allComponents.keySet()){
+            String id = allComponents.get(u).displayId;
+            map.put(id, u);
+        }
+        
+        for(Attachment a:doc.getAttachments()){
+            System.out.println(a.getSource());
+            if (a.getDisplayId()!= null) {
+                if (a.getDisplayId().equals("EugeneRules")) {
+                    String ertempfp = tempfp + "eutemp" + Utilities.getSeparater();
+                    //System.out.println(a.getSource());
+                    Utilities.makeDirectory(ertempfp);
+                    JSONArray arr = SynbiohubAdaptor.getEugeneRules(new URL(a.getSource().toString()), ertempfp);
+
+                    for(Object obj:arr){
+                        String rule = (String)obj;
+                        EugeneRule er = ERuleParser.parse(rule);
+                        switch(er.getErule()){
+                            case NOTWITH:
+                                allComponents.get(map.get(er.getLeft())).addNothWith(map.get(er.getRight()));
+                                allComponents.get(map.get(er.getRight())).addNothWith(map.get(er.getLeft()));
+                                break;
+                            case AFTER:
+                                //left after right..
+                                allComponents.get(map.get(er.getLeft())).addBefore(map.get(er.getRight()));
+                                allComponents.get(map.get(er.getRight())).addAfter(map.get(er.getLeft()));
+                                break;
+                            case BEFORE:
+                                //left before right..
+                                allComponents.get(map.get(er.getLeft())).addAfter(map.get(er.getRight()));
+                                allComponents.get(map.get(er.getRight())).addBefore(map.get(er.getLeft()));
+                                break;
+                        }
+                        
+                    }
+                    
+                    
+                    File ertempdir = new File(ertempfp);
+                    ertempdir.delete();
+                    break;
+                }
+            }
+            
+        }
+        
     }
 
     private void pr_c_t(SBOLDocument doc) throws SBOLValidationException {
@@ -381,10 +442,14 @@ public class Library {
                 case PROMOTER_ACTIVATABLE:
                     if (this.activatiblePromoters.containsKey(prPromURI)) {
                         lcmap.put(uri, pr.get(uri));
+                    } else if(this.indActPromoters.containsKey(prPromURI)){ 
+                        lcmap.put(uri, pr.get(uri));
                     }
                     break;
                 case PROMOTER_REPRESSIBLE:
                     if (this.repressiblePromoters.containsKey(prPromURI)) {
+                        lcmap.put(uri, pr.get(uri));
+                    } else if(this.indRepPromoters.containsKey(prPromURI)){
                         lcmap.put(uri, pr.get(uri));
                     }
                     break;

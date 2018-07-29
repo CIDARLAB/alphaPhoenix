@@ -48,7 +48,6 @@ import org.cidarlab.phoenix.utils.Args.Decomposition;
 import org.cidarlab.phoenix.utils.Utilities;
 import org.json.JSONObject;
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbolstandard.core2.ModuleDefinition;
 import org.sbolstandard.core2.SBOLDocument;

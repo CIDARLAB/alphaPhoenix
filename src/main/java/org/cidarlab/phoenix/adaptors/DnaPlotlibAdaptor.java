@@ -15,10 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.cidarlab.minieugene.predicates.interaction.Interaction.InteractionType;
-import org.cidarlab.phoenix.core.Controller;
 import org.cidarlab.phoenix.dom.CandidateComponent;
 import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Component.ComponentRole;
@@ -194,8 +191,8 @@ public class DnaPlotlibAdaptor {
             scr += regString;
         }
         
-        double height = 0.2 + (0.2*maxArcs);
-        double ylim = 15.0 + (5 * maxArcs);
+        double height = 0.3 + (0.2*maxArcs);
+        double ylim = 20.0 + (5 * maxArcs);
         
         
         
@@ -451,8 +448,8 @@ public class DnaPlotlibAdaptor {
             scr += regString;
         }
         
-        double height = 0.2 + (0.2*maxArcs);
-        double ylim = 15.0 + (5 * maxArcs);
+        double height = 0.4 + (0.2*maxArcs);
+        double ylim = 20.0 + (5 * maxArcs);
         scr += "fig = plt.figure(figsize=(" + length + "," + height + "));\n";
         
         scr += "ax_dna = plt.subplot(gs[0])\n" +
@@ -495,7 +492,11 @@ public class DnaPlotlibAdaptor {
         String labelString = "";
         
         if(label){
-            labelString += " 'label':'" + name + "', 'label_y_offset':-14, 'label_size':2, ";
+            if((getRoleCharacter(role) == 'r') || (getRoleCharacter(role) == 't')){
+                labelString += " 'label':'" + name + "', 'label_y_offset':-20, 'label_size':2, ";
+            } else {
+                labelString += " 'label':'" + name + "', 'label_y_offset':-14, 'label_size':2, ";    
+            }
         }
         
         if(o.equals(Orientation.REVERSE)){

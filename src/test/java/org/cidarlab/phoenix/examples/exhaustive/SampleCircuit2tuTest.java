@@ -6,6 +6,7 @@
 package org.cidarlab.phoenix.examples.exhaustive;
 
 import hyness.stl.TreeNode;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class SampleCircuit2tuTest {
     private static int runCount = 20;
     
     @Test
-    public void testExhaustiveAssignment() throws URISyntaxException, SBOLValidationException, SynBioHubException {
+    public void testExhaustiveAssignment() throws URISyntaxException, SBOLValidationException, SynBioHubException, MalformedURLException {
         
         int size = 8;
         
@@ -63,7 +64,7 @@ public class SampleCircuit2tuTest {
         SynBioHubFrontend shub = new SynBioHubFrontend(synbiohuburl);
         URI u = new URI(phoenixliburl);
         SBOLDocument sbol = shub.getSBOL(u);
-        Library lib = new Library(sbol, Args.Decomposition.PR_C_T);
+        Library lib = new Library(sbol, Args.Decomposition.PR_C_T,two_tu_results);
         
         List<Module> decomposed = new ArrayList<Module>();
         

@@ -11,12 +11,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.namespace.QName;
@@ -25,11 +29,14 @@ import org.cidarlab.phoenix.dom.CandidateComponent;
 import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.Orientation;
+import org.cidarlab.phoenix.utils.Utilities;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbolstandard.core2.AccessType;
+import org.sbolstandard.core2.Activity;
+import org.sbolstandard.core2.Attachment;
 import org.sbolstandard.core2.ComponentDefinition;
 import org.sbolstandard.core2.DirectionType;
 import org.sbolstandard.core2.FunctionalComponent;
@@ -64,6 +71,14 @@ public class SBOLAdaptor {
     private static final String sbmlO = "http://identifiers.org/edam/format_2585";
     private static final String frameworkSBO = "http://www.ebi.ac.uk/sbo/main/SBO:0000062";
     
+    private static String provNS = "http://www.w3.org/ns/prov#";	
+    private static String dcNS = "http://purl.org/dc/elements/1.1/";
+    private static String dcTermsNS = "http://purl.org/dc/terms/";
+    private static String celloNS = "http://cellocad.org/Terms/cello#";
+
+    private static URI activityURI;
+    private static String createdDate;
+
     
     
     public static void convertSBOLToGenbank(SBOLDocument sbol, String filepath) throws FileNotFoundException, SBOLConversionException, IOException {
@@ -107,12 +122,26 @@ public class SBOLAdaptor {
     }
 
     public static SBOLDocument convertUCFtoSBOL(JSONObject ucf, String outputfp) throws SBOLValidationException, URISyntaxException, IOException, SBOLConversionException, FileNotFoundException, XMLStreamException{
+        
         SBOLDocument sbol = new SBOLDocument();
         Map<String,JSONObject> partMap = new HashMap<>();
         Map<String,URI> partURImap = new HashMap<>();
         
         Set<JSONObject> constitutiveProms = new HashSet<>();
         Set<JSONObject> reporterProteins = new HashSet<>();
+        
+        Activity genericTopLevel = sbol.createActivity(baseurl, "phoenix2sbol", version);
+        genericTopLevel.setName("Phoenix UCF to SBOL conversion");
+        genericTopLevel.setDescription("Conversion of the Phoenix UCF parts and metadata to SBOL2");
+        genericTopLevel.createAnnotation(new QName(dcNS, "creator", "dc"), "Prashant Vaidyanathan");
+        TimeZone tz = TimeZone.getTimeZone("UTC");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        df.setTimeZone(tz);
+        createdDate = df.format(new Date());
+        genericTopLevel.createAnnotation(new QName(provNS, "endedAtTime", "prov"), createdDate);
+        activityURI = genericTopLevel.getIdentity();
+
+        
         
         if(ucf.has("parts")){
             JSONArray partsArr = ucf.getJSONArray("parts");
@@ -157,6 +186,14 @@ public class SBOLAdaptor {
             }
         }
         
+        if(ucf.has("eugene-rules")){
+            JSONArray erules = ucf.getJSONArray("eugene-rules");
+            Utilities.writeToFile(outputfp + "eugeneRules.json",erules.toString(2));
+            Attachment erAttachment = sbol.createAttachment(baseurl, "EugeneRules", version, new URI("file:eugeneRules.json"));
+            erAttachment.addWasGeneratedBy(activityURI);
+            
+        }
+        
         
         if(ucf.has("modules")){
             JSONArray modulesArr = ucf.getJSONArray("modules");
@@ -195,6 +232,7 @@ public class SBOLAdaptor {
     
     private static URI createPromoterRBSPart(SBOLDocument sbol, JSONObject part, Map<String,URI> partURImap) throws SBOLValidationException, URISyntaxException{
         ComponentDefinition promrbs = sbol.createComponentDefinition(baseurl, part.getString("id"), version, ComponentDefinition.DNA);
+        promrbs.addWasGeneratedBy(activityURI);
         if(part.has("name")){
             promrbs.setName(part.getString("name"));
         } else {
@@ -206,11 +244,13 @@ public class SBOLAdaptor {
         for(Object p:part.getJSONArray("parts")){
             String pid = (String)p;
             org.sbolstandard.core2.Component sbolcomponent = promrbs.createComponent(pid + "_" + cindex, AccessType.PRIVATE, partURImap.get(pid));
+            sbolcomponent.addWasGeneratedBy(activityURI);
             String locationId = "Location" + cindex;
             String saId = "SequenceAnnotation" + cindex;
             String rangeId = "Range" + cindex;
             SequenceAnnotation sa = promrbs.createSequenceAnnotation(saId, locationId);
             sa.setComponent(sbolcomponent.getIdentity());
+            sa.addWasGeneratedBy(activityURI);
             int seqLen = 0;
             for(Sequence s:sbol.getComponentDefinition(partURImap.get(pid)).getSequences()){
                 seqLen = s.getElements().length();
@@ -229,9 +269,11 @@ public class SBOLAdaptor {
     private static void createConstitutivePromoterModels(SBOLDocument sbol, JSONObject part, ComponentDefinition prom, Map<String, JSONObject> partMap, String outputfp) throws SBOLValidationException, FileNotFoundException, XMLStreamException, URISyntaxException{
         String promId = part.getString("id");
         ModuleDefinition md = sbol.createModuleDefinition(baseurl, promId + "_ModuleDefinition", version);
+        md.addWasGeneratedBy(activityURI);
         md.createFunctionalComponent(promId, AccessType.PRIVATE, prom.getIdentity(), DirectionType.OUT);
         createPromModel(part,partMap,outputfp);
         Model model = sbol.createModel(baseurl, promId + "_Model",version, new URI("file:" + promId + ".xml") , new URI(sbmlO), new URI(frameworkSBO));
+        model.addWasGeneratedBy(activityURI);
         md.addModel(model);
     }
     
@@ -320,9 +362,13 @@ public class SBOLAdaptor {
     
     private static void createActivation(SBOLDocument sbol, JSONObject part, String inducerId, ComponentDefinition inducer, String promId, ComponentDefinition prom, Map<String,JSONObject> partMap, String outputfp) throws SBOLValidationException, FileNotFoundException, XMLStreamException, URISyntaxException{
         ModuleDefinition md = sbol.createModuleDefinition(baseurl, inducerId + "_" +  promId + "_ModuleDefinition", version);
+        md.addWasGeneratedBy(activityURI);
         FunctionalComponent inducerFC = md.createFunctionalComponent(inducerId, AccessType.PRIVATE, inducer.getIdentity(), DirectionType.OUT);
+        inducerFC.addWasGeneratedBy(activityURI);
         FunctionalComponent promoterFC = md.createFunctionalComponent(promId, AccessType.PRIVATE, prom.getIdentity(), DirectionType.IN);
+        promoterFC.addWasGeneratedBy(activityURI);
         Interaction interaction = md.createInteraction(inducerId + "_" + promId + "_Stimulation", SystemsBiologyOntology.STIMULATION);
+        interaction.addWasGeneratedBy(activityURI);
         interaction.createParticipation(inducerId + "_stimulator", inducerFC.getIdentity(), SystemsBiologyOntology.STIMULATOR);
         interaction.createParticipation(promId + "_stimulated", promoterFC.getIdentity(), SystemsBiologyOntology.STIMULATED);
         
@@ -330,6 +376,7 @@ public class SBOLAdaptor {
         if(sbol.getModel(new URI(modelURL)) == null){
             createPromModel(part, partMap, outputfp);
             Model model = sbol.createModel(baseurl, promId + "_Model",version, new URI("file:" + promId + ".xml") , new URI(sbmlO), new URI(frameworkSBO));
+            model.addWasGeneratedBy(activityURI);
             md.addModel(model);
         } else {
             md.addModel(sbol.getModel(new URI(modelURL)));
@@ -338,9 +385,13 @@ public class SBOLAdaptor {
     
     private static void createRepression(SBOLDocument sbol, JSONObject part, String inducerId, ComponentDefinition inducer, String promId, ComponentDefinition prom, Map<String,JSONObject> partMap, String outputfp) throws SBOLValidationException, URISyntaxException, FileNotFoundException, XMLStreamException{
         ModuleDefinition md = sbol.createModuleDefinition(baseurl, inducerId + "_" +  promId + "_ModuleDefinition", version);
+        md.addWasGeneratedBy(activityURI);
         FunctionalComponent inducerFC = md.createFunctionalComponent(inducerId, AccessType.PRIVATE, inducer.getIdentity(), DirectionType.OUT);
+        inducerFC.addWasGeneratedBy(activityURI);
         FunctionalComponent promoterFC = md.createFunctionalComponent(promId, AccessType.PRIVATE, prom.getIdentity(), DirectionType.IN);
+        promoterFC.addWasGeneratedBy(activityURI);
         Interaction interaction = md.createInteraction(inducerId + "_" + promId + "_Inhibition", SystemsBiologyOntology.INHIBITION);
+        interaction.addWasGeneratedBy(activityURI);
         interaction.createParticipation(inducerId + "_inhibitor", inducerFC.getIdentity(), SystemsBiologyOntology.INHIBITOR);
         interaction.createParticipation(promId + "_inhibited", promoterFC.getIdentity(), SystemsBiologyOntology.INHIBITED);
         
@@ -348,6 +399,7 @@ public class SBOLAdaptor {
         if(sbol.getModel(new URI(modelURL)) == null){
             createPromModel(part, partMap, outputfp);
             Model model = sbol.createModel(baseurl, promId + "_Model",version, new URI("file:" + promId + ".xml") , new URI(sbmlO), new URI(frameworkSBO));
+            model.addWasGeneratedBy(activityURI);
             md.addModel(model);
         } else {
             md.addModel(sbol.getModel(new URI(modelURL)));
@@ -426,26 +478,32 @@ public class SBOLAdaptor {
         complex += protId ;
         ComponentDefinition cmplx = sbol.createComponentDefinition(baseurl, complex + "_Complex", version, ComponentDefinition.COMPLEX);
         cmplx.setName(complex + " Complex");
-        
+        cmplx.addWasGeneratedBy(activityURI);
         QName qname = new QName(baseurl,"complexType");
             
         
         for(String s:smIds){
             org.sbolstandard.core2.Component smcomp = cmplx.createComponent(s, AccessType.PRIVATE, partURImap.get(s));
+            smcomp.addWasGeneratedBy(activityURI);
             smcomp.createAnnotation(qname, "SmallMolecule");
         }
         org.sbolstandard.core2.Component protComplex = cmplx.createComponent(protId, AccessType.PRIVATE, prot.getIdentity());
+        protComplex.addWasGeneratedBy(activityURI);
         protComplex.createAnnotation(qname, "Protein");
         
         ModuleDefinition md = sbol.createModuleDefinition(baseurl, complex + "_complex_ModuleDefinition", version);
+        md.addWasGeneratedBy(activityURI);
         List<FunctionalComponent> smFCList = new ArrayList<>();
         for(int i=0;i<smIds.size();i++){
             smFCList.add(md.createFunctionalComponent(smIds.get(i), AccessType.PRIVATE, smCDS.get(i).getIdentity(), DirectionType.NONE));
         }
         FunctionalComponent protFC = md.createFunctionalComponent(protId, AccessType.PRIVATE, prot.getIdentity(), DirectionType.NONE);
+        protFC.addWasGeneratedBy(activityURI);
         FunctionalComponent complexFC = md.createFunctionalComponent(complex + "_Complex", AccessType.PRIVATE, cmplx.getIdentity(), DirectionType.NONE);
+        complexFC.addWasGeneratedBy(activityURI);
         
         Interaction interaction = md.createInteraction(complex + "_complex_formation", SystemsBiologyOntology.NON_COVALENT_BINDING);
+        interaction.addWasGeneratedBy(activityURI);
         for(int i=0;i<smIds.size();i++){
             interaction.createParticipation(smIds.get(i), smFCList.get(i).getIdentity(), SystemsBiologyOntology.REACTANT);
         }
@@ -457,17 +515,22 @@ public class SBOLAdaptor {
         String cdsId = part.getString("id");
         
         ModuleDefinition md = sbol.createModuleDefinition(baseurl, cdsId + "_protein_production", version);
+        md.addWasGeneratedBy(activityURI);
         md.setName(cdsId + " Protein Production");
         FunctionalComponent cdsFC = md.createFunctionalComponent(cdsId, AccessType.PRIVATE, cds.getIdentity(), DirectionType.OUT);
+        cdsFC.addWasGeneratedBy(activityURI);
         FunctionalComponent protFC = md.createFunctionalComponent(cdsId + "_Protein", AccessType.PRIVATE, prot.getIdentity(), DirectionType.IN);
+        protFC.addWasGeneratedBy(activityURI);
         Interaction interaction = md.createInteraction(cdsId + "_production", SystemsBiologyOntology.PRODUCTION);
+        interaction.addWasGeneratedBy(activityURI);
         interaction.createParticipation(cdsId + "_template", cdsFC.getIdentity(), SystemsBiologyOntology.TEMPLATE);
         interaction.createParticipation(cdsId + "_product", protFC.getIdentity(), SystemsBiologyOntology.PRODUCT);
         createCDSModel(part,outputfp);
         
         Model cdsModel = sbol.createModel(baseurl, cdsId + "_Model", version, new URI("file:" + cdsId + ".xml"), new URI(sbmlO), new URI(frameworkSBO));
+        cdsModel.addWasGeneratedBy(activityURI);
         md.addModel(cdsModel);
-    
+        
     }
     
     private static void createCDSModel(JSONObject part, String outputfp) throws FileNotFoundException, XMLStreamException{
@@ -513,7 +576,7 @@ public class SBOLAdaptor {
     
     private static URI createPromoter(SBOLDocument sbol, JSONObject part) throws SBOLValidationException, URISyntaxException{
         ComponentDefinition prom = sbol.createComponentDefinition(baseurl, part.getString("id"), version, ComponentDefinition.DNA);
-        
+        prom.addWasGeneratedBy(activityURI);
         if(part.has("name")){
             prom.setName(part.getString("name"));
         } else {
@@ -522,6 +585,7 @@ public class SBOLAdaptor {
         
         if(part.has("sequence")){
             Sequence seq = sbol.createSequence(baseurl, part.getString("id") + "_Sequence", version, part.getString("sequence"), Sequence.IUPAC_DNA);
+            seq.addWasGeneratedBy(activityURI);
             prom.addSequence(seq);
         }
         
@@ -541,6 +605,7 @@ public class SBOLAdaptor {
     
     private static URI createRBS(SBOLDocument sbol, JSONObject part) throws SBOLValidationException, URISyntaxException{
         ComponentDefinition rbs = sbol.createComponentDefinition(baseurl, part.getString("id"), version, ComponentDefinition.DNA);
+        rbs.addWasGeneratedBy(activityURI);
         if(part.has("name")){
             rbs.setName(part.getString("name"));
         } else {
@@ -549,6 +614,7 @@ public class SBOLAdaptor {
         
         if(part.has("sequence")){
             Sequence seq = sbol.createSequence(baseurl, part.getString("id") + "_Sequence", version, part.getString("sequence"), Sequence.IUPAC_DNA);
+            seq.addWasGeneratedBy(activityURI);
             rbs.addSequence(seq);
         }
         
@@ -560,7 +626,9 @@ public class SBOLAdaptor {
         Map<String,URI> uriMaps = new HashMap<>();
         ComponentDefinition cds = sbol.createComponentDefinition(baseurl, part.getString("id"), version, ComponentDefinition.DNA);
         cds.addRole(SequenceOntology.CDS);
+        cds.addWasGeneratedBy(activityURI);
         ComponentDefinition prot = sbol.createComponentDefinition(baseurl, part.getString("id") + "_Protein", version, ComponentDefinition.PROTEIN);
+        prot.addWasGeneratedBy(activityURI);
         if(part.has("name")){
             cds.setName(part.getString("name"));
             prot.setName(part.getString("name") + " Protein");
@@ -571,6 +639,7 @@ public class SBOLAdaptor {
         
         if(part.has("sequence")){
             Sequence seq = sbol.createSequence(baseurl, part.getString("id") + "_Sequence", version, part.getString("sequence"), Sequence.IUPAC_DNA);
+            seq.addWasGeneratedBy(activityURI);
             cds.addSequence(seq);
         }
         
@@ -581,6 +650,7 @@ public class SBOLAdaptor {
     
     private static URI createSmallMolecule(SBOLDocument sbol, JSONObject part) throws SBOLValidationException{
         ComponentDefinition sm = sbol.createComponentDefinition(baseurl, part.getString("id"), version, ComponentDefinition.SMALL_MOLECULE);
+        sm.addWasGeneratedBy(activityURI);
         if(part.has("name")){
             sm.setName(part.getString("name"));
         } else {
@@ -599,6 +669,7 @@ public class SBOLAdaptor {
     
     private static URI createTerminator(SBOLDocument sbol, JSONObject part) throws SBOLValidationException {
         ComponentDefinition terminator = sbol.createComponentDefinition(baseurl, part.getString("id"), version, ComponentDefinition.DNA);
+        terminator.addWasGeneratedBy(activityURI);
         if(part.has("name")){
             terminator.setName(part.getString("name"));
         } else {
@@ -607,6 +678,7 @@ public class SBOLAdaptor {
         
         if(part.has("sequence")){
             Sequence seq = sbol.createSequence(baseurl, part.getString("id") + "_Sequence", version, part.getString("sequence"), Sequence.IUPAC_DNA);
+            seq.addWasGeneratedBy(activityURI);
             terminator.addSequence(seq);
         }
         

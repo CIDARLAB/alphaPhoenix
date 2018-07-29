@@ -92,7 +92,7 @@ public abstract class AbstractAssignment {
         
     }
     
-    private int getOutputCount(TreeNode stl){
+    protected int getOutputCount(TreeNode stl){
         Set<String> signals = STLAdaptor.getSignalSTLMap(stl).keySet();
         int outcount = 0;
         for(String s:signals){
