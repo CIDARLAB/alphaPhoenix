@@ -132,8 +132,15 @@ public class Library {
                     String ertempfp = tempfp + "eutemp" + Utilities.getSeparater();
                     //System.out.println(a.getSource());
                     Utilities.makeDirectory(ertempfp);
-                    JSONArray arr = SynbiohubAdaptor.getEugeneRules(new URL(a.getSource().toString()), ertempfp);
-
+                    JSONArray arr;
+                    if(a.getSource().toString().startsWith("file:")){
+                        String eugfp = tempfp + "eugeneRules.json";
+                        arr = new JSONArray(Utilities.getFileContentAsString(eugfp));
+                    } else {
+                        arr = SynbiohubAdaptor.getEugeneRules(new URL(a.getSource().toString()), ertempfp); 
+                    }
+                    //arr = SynbiohubAdaptor.getEugeneRules(new URL(a.getSource().toString()), ertempfp); 
+                    
                     for(Object obj:arr){
                         String rule = (String)obj;
                         EugeneRule er = ERuleParser.parse(rule);
@@ -450,6 +457,18 @@ public class Library {
                     if (this.repressiblePromoters.containsKey(prPromURI)) {
                         lcmap.put(uri, pr.get(uri));
                     } else if(this.indRepPromoters.containsKey(prPromURI)){
+                        lcmap.put(uri, pr.get(uri));
+                    }
+                    break;
+                case PROMOTER_INDUCIBLE:
+                    if (this.repressiblePromoters.containsKey(prPromURI)) {
+                        lcmap.put(uri, pr.get(uri));
+                    } else if(this.indRepPromoters.containsKey(prPromURI)){
+                        lcmap.put(uri, pr.get(uri));
+                    }
+                    if (this.activatiblePromoters.containsKey(prPromURI)) {
+                        lcmap.put(uri, pr.get(uri));
+                    } else if(this.indActPromoters.containsKey(prPromURI)){ 
                         lcmap.put(uri, pr.get(uri));
                     }
                     break;

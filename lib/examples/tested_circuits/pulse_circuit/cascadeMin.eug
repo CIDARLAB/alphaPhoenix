@@ -10,7 +10,7 @@ contains ac1
 contains ac2
 contains rc1
 
-contains r1
+contains r
 
 contains t1
 
@@ -25,7 +25,7 @@ ac2 exactly 1
 rc1 exactly 1
 
 t1 exactly 4
-r1 exactly 4
+r exactly 4
 
 // INTERACTIONS
 cp1 drives ac1
@@ -40,11 +40,11 @@ ac2 induces ap2
 //POSITIONING
 startswith cp1 
 
-r1 some_after cp1 
-r1 some_nextto cp1
+r some_after cp1 
+r some_nextto cp1
 
-r1 some_before ac1
-r1 some_nextto ac1
+r some_before ac1
+r some_nextto ac1
 
 t1 some_after ac1
 t1 some_nextto ac1
@@ -52,11 +52,11 @@ t1 some_nextto ac1
 t1 some_before ap1
 t1 some_nextto ap1
 
-r1 some_after ap1
-r1 some_nextto ap1
+r some_after ap1
+r some_nextto ap1
 
-r1 some_before rc1
-r1 some_nextto rc1
+r some_before rc1
+r some_nextto rc1
 
 t1 some_after rc1 
 t1 some_nextto rc1 
@@ -64,12 +64,12 @@ t1 some_nextto rc1
 t1 some_before rp1
 t1 some_nextto rp1
 
-r1 some_after rp1
-r1 some_nextto rp1
+r some_after rp1
+r some_nextto rp1
 
 
-r1 some_before ac2
-r1 some_nextto ac2
+r some_before ac2
+r some_nextto ac2
 
 t1 some_after ac2
 t1 some_nextto ac2
@@ -77,11 +77,11 @@ t1 some_nextto ac2
 t1 some_before ap2
 t1 some_nextto ap2
 
-r1 some_after ap2
-r1 some_nextto ap2
+r some_after ap2
+r some_nextto ap2
 
-r1 some_before fc1
-r1 some_nextto fc1
+r some_before fc1
+r some_nextto fc1
 
 t1 some_after fc1
 t1 some_nextto fc1

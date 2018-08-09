@@ -154,6 +154,20 @@ public class Component {
         }
     }
     
+    
+    public boolean isGeneric(){
+        switch(role){
+            case GENERIC_PROMOTER:
+            case GENERIC_RBS:
+            case GENERIC_CDS:
+            case GENERIC_TERMINATOR:
+                return true;
+            default: 
+                return false;
+        
+        }
+    }
+    
     public static enum ComponentRole{
         GENERIC_PROMOTER,
         GENERIC_RBS,

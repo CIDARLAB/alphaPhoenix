@@ -72,6 +72,22 @@ public class Module {
     @Setter
     private boolean root;
     
+    public static Component getPromInPR(Module pr){
+        return pr.getComponents().get(0);
+    }
+    
+    public static Component getRbsInPR(Module pr){
+        return pr.getComponents().get(1);
+    }
+    
+    public static Component getRbsInRC(Module rc){
+        return rc.getComponents().get(0);
+    }
+    
+    public static Component getCDSInRC(Module rc){
+        return rc.getComponents().get(1);
+    }
+    
     //Get all Interactions
     
     public String getComponentString(){

@@ -66,8 +66,9 @@ public class Exhaustive extends AbstractAssignment {
     
     
     private void solve(Module module, Library library, TreeNode stl, Args args){
+        this.assignLeafCandidates(module, library);
         for(Module tu:module.getChildren()){
-            assignTUchildCandidates(tu,library);
+            //assignTUchildCandidates(tu,library);
             assignTUcandidates(tu,args);
         }
         assignCircuitCandidates(module,library, stl);
@@ -246,7 +247,7 @@ public class Exhaustive extends AbstractAssignment {
         List<Map<String,CandidateComponent>> finalAssignments = new ArrayList<>();
         Set<Set<String>> strSet = new HashSet<>();
         for(Map<String,CandidateComponent> assignment:assignments){
-            if(validAssignment(assignment,cmap,library,stl)){
+            if(validAssignment(module, assignment, library, stl)){
                 Set<String> str = generateAssignmentStringSet(module, assignment);
                 if(!strSet.contains(str)){
                     strSet.add(str);

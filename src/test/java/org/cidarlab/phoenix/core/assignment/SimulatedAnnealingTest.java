@@ -10,6 +10,7 @@ import hyness.stl.ConjunctionNode;
 import hyness.stl.LinearPredicateLeaf;
 import hyness.stl.RelOperation;
 import hyness.stl.TreeNode;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -29,7 +30,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.sbolstandard.core2.SBOLConversionException;
 import org.sbolstandard.core2.SBOLDocument;
+import org.sbolstandard.core2.SBOLReader;
 import org.sbolstandard.core2.SBOLValidationException;
 import org.synbiohub.frontend.SynBioHubException;
 import org.synbiohub.frontend.SynBioHubFrontend;
@@ -42,13 +45,15 @@ public class SimulatedAnnealingTest {
     
     private Library sample;
     private Library lib;
+    private Library localSample;
+    private Library localLib;
+    
     
     private Module m0; //1 TU All Generic
     private Module m1; //2 TU All Generic
     private Module m2; //2 TU 1 Generic/ 1 OutCDS 
-    private Module m3; //2 TU 2 OutCDS 
-    private Module m4; //3 TU All Generic
-    private Module m5; //3 TU 1 Generic/ 1 OutCDS
+    private Module m3; //2 TU 1 Generic/ 1 OutCDS (same as m2)
+    private Module m4; //2 TU 2 OutCDS 
     
     private List<Module> pulse = new ArrayList<>();
     
@@ -71,14 +76,20 @@ public class SimulatedAnnealingTest {
     }
     
     @Before
-    public void setUp() throws SynBioHubException, URISyntaxException, SBOLValidationException, MalformedURLException {
+    public void setUp() throws SynBioHubException, URISyntaxException, SBOLValidationException, MalformedURLException, IOException, SBOLConversionException {
         String synbiohuburl = "https://synbiohub.programmingbiology.org";
         String phoenixliburl = "https://synbiohub.programmingbiology.org/public/PhoenixParts/PhoenixParts_collection/1";
         String sampleliburl = "https://synbiohub.programmingbiology.org/public/AlphaSample/AlphaSample_collection/1";
         
+        
         String libfp = Utilities.getTestedCircuitsFilepath() + "ucf" + Utilities.getSeparater() + "ucf" + Utilities.getSeparater();
         String samplefp = Utilities.getTestedCircuitsFilepath() + "ucf" + Utilities.getSeparater() + "sampleUCF" + Utilities.getSeparater();
         
+        String localLiburl = libfp + "sbol.xml";
+        String localSampleurl = samplefp + "sbol.xml";
+        
+        localLib = new Library(SBOLReader.read(localLiburl), Args.Decomposition.PR_C_T,libfp);
+        localSample = new Library(SBOLReader.read(localSampleurl),Args.Decomposition.PR_C_T,samplefp);
         
         SynBioHubFrontend shublib = new SynBioHubFrontend(synbiohuburl);
         URI ulib = new URI(phoenixliburl);
@@ -190,17 +201,32 @@ public class SimulatedAnnealingTest {
         
         m2 = Controller.decompose(_m2, args.getDecomposition());
         
-        Module _m3 = new Module("m3");
+        
+        Module _m3 = new Module("m2");
         _m3.addComponent(c0);
         _m3.addComponent(c1);
-        _m3.addComponent(c8);
+        _m3.addComponent(c2);
         _m3.addComponent(c3);
         _m3.addComponent(c4);
         _m3.addComponent(c5);
-        _m3.addComponent(c9);
+        _m3.addComponent(c8);
         _m3.addComponent(c7);
         
         m3 = Controller.decompose(_m3, args.getDecomposition());
+        
+        
+        
+        Module _m4 = new Module("m3");
+        _m4.addComponent(c0);
+        _m4.addComponent(c1);
+        _m4.addComponent(c8);
+        _m4.addComponent(c3);
+        _m4.addComponent(c4);
+        _m4.addComponent(c5);
+        _m4.addComponent(c9);
+        _m4.addComponent(c7);
+        
+        m4 = Controller.decompose(_m4, args.getDecomposition());
         
         
         String examplesRootFolder = Utilities.getFilepath() + Utilities.getSeparater() + "lib" + Utilities.getSeparater() + "examples" + Utilities.getSeparater() + "tested_circuits" + Utilities.getSeparater();
@@ -259,8 +285,83 @@ public class SimulatedAnnealingTest {
         System.out.println("########################################################");
         System.out.println("Module 2 - Sample---------------------------------------");
         System.out.println("########################################################");
+        List<Module> modules3 = new ArrayList<>();
         SimulatedAnnealing sa3 = new SimulatedAnnealing();
-        sa3.solve(modules2, sample, stl0, args);
+        modules3.add(m3);
+        sa3.solve(modules3, sample, stl0, args);
+        System.out.println("--------------------------------------------------------");
+        
+        System.out.println("");
+        
+        System.out.println("########################################################");
+        System.out.println("Module 3 - Sample---------------------------------------");
+        System.out.println("########################################################");
+        List<Module> modules4 = new ArrayList<>();
+        modules4.add(m4);
+        SimulatedAnnealing sa4 = new SimulatedAnnealing();
+        sa4.solve(modules4, sample, stl1, args);
+        System.out.println("--------------------------------------------------------");
+        
+        System.out.println("");
+        
+        /*for(Component c:pulse.get(0).getComponents()){
+            System.out.println(c.getName() +  ":" + c.getRole());
+        }*/
+        System.out.println("########################################################");
+        System.out.println("Pulse - Library-----------------------------------------");
+        System.out.println("########################################################");
+        SimulatedAnnealing sa5 = new SimulatedAnnealing();
+        sa5.solve(pulse, lib, stl0, args);
+        System.out.println("--------------------------------------------------------");
+        
+        
+        
+    }
+    
+    /**
+     * Test of local Solve method, of class SimulatedAnnealing.
+     */
+    //@Test
+    public void testLocalSolve() {
+        
+        System.out.println("########################################################");
+        System.out.println("Module 0 - Library--------------------------------------");
+        System.out.println("########################################################");
+        List<Module> modules0 = new ArrayList<>();
+        modules0.add(m0);
+        SimulatedAnnealing sa0 = new SimulatedAnnealing();
+        sa0.solve(modules0, localLib, stl0, args);
+        System.out.println("--------------------------------------------------------");
+        
+        System.out.println("");
+        
+        System.out.println("########################################################");
+        System.out.println("Module 1 - Library--------------------------------------");
+        System.out.println("########################################################");
+        List<Module> modules1 = new ArrayList<>();
+        modules1.add(m1);
+        SimulatedAnnealing sa1 = new SimulatedAnnealing();
+        sa1.solve(modules1, localLib, stl0, args);
+        System.out.println("--------------------------------------------------------");
+        
+        System.out.println("");
+        
+        System.out.println("########################################################");
+        System.out.println("Module 2 - Library--------------------------------------");
+        System.out.println("########################################################");
+        List<Module> modules2 = new ArrayList<>();
+        modules2.add(m2);
+        SimulatedAnnealing sa2 = new SimulatedAnnealing();
+        sa2.solve(modules2, localLib, stl0, args);
+        System.out.println("--------------------------------------------------------");
+        
+        System.out.println("");
+        
+        System.out.println("########################################################");
+        System.out.println("Module 2 - Sample---------------------------------------");
+        System.out.println("########################################################");
+        SimulatedAnnealing sa3 = new SimulatedAnnealing();
+        sa3.solve(modules2, localSample, stl0, args);
         System.out.println("--------------------------------------------------------");
         
         System.out.println("");
@@ -269,25 +370,26 @@ public class SimulatedAnnealingTest {
         System.out.println("Module 3 - Sample---------------------------------------");
         System.out.println("########################################################");
         List<Module> modules3 = new ArrayList<>();
-        modules3.add(m3);
+        modules3.add(m4);
         SimulatedAnnealing sa4 = new SimulatedAnnealing();
-        sa4.solve(modules3, sample, stl0, args);
+        sa4.solve(modules3, localSample, stl0, args);
         System.out.println("--------------------------------------------------------");
         
-        /*System.out.println("");
+        System.out.println("");
         
-        for(Component c:pulse.get(0).getComponents()){
+        /*for(Component c:pulse.get(0).getComponents()){
             System.out.println(c.getName() +  ":" + c.getRole());
-        }
+        }*/
         System.out.println("########################################################");
         System.out.println("Pulse - Library-----------------------------------------");
         System.out.println("########################################################");
         SimulatedAnnealing sa5 = new SimulatedAnnealing();
-        sa5.solve(pulse, lib, stl0, args);
-        System.out.println("--------------------------------------------------------");*/
+        sa5.solve(pulse, localLib, stl0, args);
+        System.out.println("--------------------------------------------------------");
         
         
         
     }
+    
     
 }
