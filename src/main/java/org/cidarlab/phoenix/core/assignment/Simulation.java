@@ -45,6 +45,8 @@ import org.cidarlab.phoenix.dom.library.PromoterComponent;
 import org.cidarlab.phoenix.dom.library.SmallMoleculeComponent;
 import org.cidarlab.phoenix.utils.Args;
 import org.cidarlab.phoenix.utils.Args.Decomposition;
+import static org.cidarlab.phoenix.utils.Args.Simulation.DETERMINISTIC;
+import static org.cidarlab.phoenix.utils.Args.Simulation.STOCHASTIC;
 import org.cidarlab.phoenix.utils.Utilities;
 import org.json.JSONObject;
 import org.sbml.jsbml.SBMLDocument;
@@ -79,7 +81,6 @@ public class Simulation {
         Utilities.makeDirectory(tempfp);
         int count = 0;
         
-        
         int hasSM = 0;
         int noSM = 0;
         
@@ -110,7 +111,7 @@ public class Simulation {
                 String modelFile = ifp + "model.xml";
                 writer.write(module.getModel().getSbml(), modelFile);
                 
-                //runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
+                runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
                 count++;
                 
             } else {
@@ -146,7 +147,7 @@ public class Simulation {
                     }
                     writer.write(sbml, modelFile);
                     Utilities.writeToFile(smfp, smevents.toString(2));
-                    //runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
+                    runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
                     
                     count++;
                 }
@@ -174,11 +175,35 @@ public class Simulation {
         DnaPlotlibAdaptor.runScript(dnaplotlibfp);
         
         double maxtime = STLAdaptor.getMaxTime(stl);
-        IBioSimAdaptor.simulateStocastic(modelFile, ifp, STLAdaptor.getMaxTime(stl), 10, 10, args.getRunCount());
+        
         Map<String, TreeNode> stlmap = STLAdaptor.getSignalSTLMap(stl);
         Map<String, List<Signal>> allsignals = new HashMap<>();
-        for (int i = 1; i <= args.getRunCount(); i++) {
-            String tsdfp = ifp + "run-" + i + ".csv";
+                
+        
+        if (args.getSimulation().equals(STOCHASTIC)) {
+            IBioSimAdaptor.simulateStocastic(modelFile, ifp, STLAdaptor.getMaxTime(stl), 10, 10, args.getRunCount());
+            for (int i = 1; i <= args.getRunCount(); i++) {
+                String tsdfp = ifp + "run-" + i + ".csv";
+                Map<String, Signal> signalMap = IBioSimAdaptor.getSignals(tsdfp);
+                for (String key : stlmap.keySet()) {
+                    if (signalMap.containsKey(key)) {
+                        Signal s = signalMap.get(key);
+                        if (allsignals.containsKey(key)) {
+                            allsignals.get(key).add(s);
+                        } else {
+                            allsignals.put(key, new ArrayList<Signal>());
+                            allsignals.get(key).add(s);
+                        }
+                    }
+                }
+                File f = new File(tsdfp);
+                f.delete();
+            }
+
+            
+        } else if (args.getSimulation().equals(DETERMINISTIC)) {
+            IBioSimAdaptor.simulateODE(modelFile, ifp, maxtime, 10, 10);
+            String tsdfp = ifp + "run-1.csv";
             Map<String, Signal> signalMap = IBioSimAdaptor.getSignals(tsdfp);
             for (String key : stlmap.keySet()) {
                 if (signalMap.containsKey(key)) {
@@ -190,14 +215,12 @@ public class Simulation {
                         allsignals.get(key).add(s);
                     }
                 }
-            }
-            File f = new File(tsdfp);
-            f.delete();
+            }    
         }
         
         for (String key : allsignals.keySet()) {
             Utilities.writeSignalsToCSV(allsignals.get(key), ifp + key + ".csv");
-            List<String> pylines = PyPlotAdaptor.generateSignalPlotScript(allsignals.get(key), ifp + key + ".png", 0, maxtime, 0, 100000, Axis.LINEAR, Axis.SYMLOG);
+            List<String> pylines = PyPlotAdaptor.generateSignalPlotScript(allsignals.get(key), ifp + key + ".png", 0, maxtime, 0, 1000000, Axis.LINEAR, Axis.SYMLOG);
             Utilities.writeToFile(ifp + key + "_signals.py", pylines);
             PyPlotAdaptor.runScript(ifp + key + "_signals.py");
         }

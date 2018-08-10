@@ -80,6 +80,15 @@ public class SBOLAdaptorTest {
         SBOLDocument doc = SBOLAdaptor.convertUCFtoSBOL(ucf,outputfp);
     }
     
+    
+    @Test
+    public void testConvertReduced0toSBOL() throws SBOLValidationException, URISyntaxException, IOException, SBOLConversionException, FileNotFoundException, XMLStreamException {
+        String ucfFP = Utilities.getTestedCircuitsFilepath() + "ucf" + Utilities.getSeparater() +  "reducedUCF0.json";
+        String outputfp = Utilities.getTestedCircuitsFilepath() + "ucf" + Utilities.getSeparater() + "reducedUCF0" + Utilities.getSeparater();
+        JSONObject ucf = new JSONObject(Utilities.getFileContentAsString(ucfFP)); 
+        SBOLDocument doc = SBOLAdaptor.convertUCFtoSBOL(ucf,outputfp);
+    }
+    
     static final String AB = "ATGC";
     static SecureRandom rnd = new SecureRandom();
 

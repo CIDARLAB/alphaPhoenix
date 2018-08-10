@@ -337,6 +337,7 @@ public class Utilities {
                 }
                 br.flush();
             }
+            fr.close();
         } catch (IOException ex) {
             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
         }
