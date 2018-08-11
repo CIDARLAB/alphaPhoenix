@@ -4,6 +4,12 @@ lib/examples/tested_circuits/sample_circuits/3tu/results/
 lib/examples/tested_circuits/circuits/1tu/results/
 lib/examples/tested_circuits/circuits/2tu/results/
 lib/examples/tested_circuits/circuits/3tu/results/
+lib/examples/tested_circuits/circuits/1tu/deterministicRed0/
+lib/examples/tested_circuits/circuits/2tu/deterministicRed0/
+lib/examples/tested_circuits/circuits/3tu/deterministicRed0/
+lib/examples/tested_circuits/circuits/1tu/results_full/
+lib/examples/tested_circuits/circuits/2tu/results_full/
+lib/examples/tested_circuits/circuits/3tu/results_full_partialrun/
 target/
 results/
 jsbml.log
