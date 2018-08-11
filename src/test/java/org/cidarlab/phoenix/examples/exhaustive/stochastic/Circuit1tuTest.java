@@ -115,7 +115,8 @@ public class Circuit1tuTest {
         Exhaustive exhaustive = new Exhaustive();
         
         String synbiohuburl = "https://synbiohub.programmingbiology.org";
-        String phoenixliburl = "https://synbiohub.programmingbiology.org/public/PhoenixParts/PhoenixParts_collection/1";
+        //String phoenixliburl = "https://synbiohub.programmingbiology.org/public/PhoenixParts/PhoenixParts_collection/1";
+        String phoenixliburl = "https://synbiohub.programmingbiology.org/public/PhoenixReduced/PhoenixReduced_collection/1";
         
         SynBioHubFrontend shub = new SynBioHubFrontend(synbiohuburl);
         URI u = new URI(phoenixliburl);
