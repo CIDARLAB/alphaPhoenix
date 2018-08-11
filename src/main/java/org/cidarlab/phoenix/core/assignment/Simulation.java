@@ -111,7 +111,7 @@ public class Simulation {
                 String modelFile = ifp + "model.xml";
                 writer.write(module.getModel().getSbml(), modelFile);
                 
-                //runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
+                runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
                 count++;
                 
             } else {
@@ -147,7 +147,7 @@ public class Simulation {
                     }
                     writer.write(sbml, modelFile);
                     Utilities.writeToFile(smfp, smevents.toString(2));
-                    //runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
+                    runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
                     
                     count++;
                 }
