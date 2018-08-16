@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.cidarlab.phoenix.core.assignment;
+package org.cidarlab.phoenix.core.simulation;
 
 import hyness.stl.TreeNode;
 import java.io.File;
@@ -37,12 +37,10 @@ import org.cidarlab.phoenix.dom.Module.ModuleRole;
 import org.cidarlab.phoenix.dom.library.CDSComponent;
 import org.cidarlab.phoenix.dom.library.ComplexComponent;
 import org.cidarlab.phoenix.dom.library.CompositeComponent;
-import org.cidarlab.phoenix.dom.library.CompositeComponent.CompositeType;
 import org.cidarlab.phoenix.dom.library.Library;
 import org.cidarlab.phoenix.dom.library.LibraryComponent;
 import org.cidarlab.phoenix.dom.library.PrimitiveComponent;
 import org.cidarlab.phoenix.dom.library.PromoterComponent;
-import org.cidarlab.phoenix.dom.library.SmallMoleculeComponent;
 import org.cidarlab.phoenix.utils.Args;
 import org.cidarlab.phoenix.utils.Args.Decomposition;
 import static org.cidarlab.phoenix.utils.Args.Simulation.DETERMINISTIC;
@@ -58,23 +56,7 @@ import org.sbolstandard.core2.SBOLDocument;
  *
  * @author prash
  */
-public class Simulation {
-    
-    public static String getAssignmentString(Module module, Map<String, CandidateComponent> assignment){
-        String s = "";
-        for (Component c : module.getComponents()) {
-            s += (assignment.get(c.getName()).getCandidate().getName() + ";");
-        }
-        return s;
-    }
-    
-    public static void printAssignment(Module module, Map<String, CandidateComponent> assignment) {
-
-        for (Component c : module.getComponents()) {
-            System.out.print(assignment.get(c.getName()).getCandidate().getName() + ";");
-        }
-        System.out.println("");
-    }
+public class ExhaustiveSimulation extends AbstractSimulation {
     
     public static void run(Module module, Library library, TreeNode stl, Args args, String fp) throws URISyntaxException, MalformedURLException, XMLStreamException, FileNotFoundException, IOException, TLIException, InterruptedException {
         String tempfp = fp + "temp" + Utilities.getSeparater();
@@ -152,9 +134,6 @@ public class Simulation {
                     count++;
                 }
             }
-            
-            //*/
-
         }
         
         System.out.println("Total number of assignments      : " + count);
@@ -226,138 +205,6 @@ public class Simulation {
         }
         
                 
-    }
-    
-    private static Map<URI,SBMLDocument> downloadAllModels(Library library, String fp) throws URISyntaxException, MalformedURLException{
-        Map<URI,SBMLDocument> modelmap = new HashMap<>();
-        SBOLDocument sbol = library.getSbol();
-        for(URI u:library.getAllLibraryComponents().keySet()){
-            LibraryComponent lc = library.getAllLibraryComponents().get(u);
-            for(URI mduri:lc.getModuleDefinitions()){
-                ModuleDefinition md = sbol.getModuleDefinition(mduri);
-                List<org.sbolstandard.core2.Model> sbolmodels = new ArrayList<>(md.getModels());
-                for(org.sbolstandard.core2.Model sbolmodel:sbolmodels){
-                    URI key = sbolmodel.getSource();
-                    URI modeldownload = new URI(key.toString() + "/download");
-                    if(!modelmap.containsKey(key)) {
-                        //System.out.println("Downloaded : " + modeldownload.toString());
-                        SBMLDocument sbml = SynbiohubAdaptor.getModel(modeldownload.toURL(), fp);
-                        modelmap.put(key, sbml);
-                    } else {
-                        System.out.println("This is not supposed to happen.");
-                    }
-                }
-            }
-        }
-        return modelmap;
-    }
-    
-    private static Map<String,String> getIndSMmap(Module m, Map<String, CandidateComponent> assignment, Map<String,String> ioc, Library library){
-        Map<String,String> map = new HashMap<>();
-        for(Component c:m.getComponents()){
-            if(c.isPromoter()){
-                String cname = c.getName();
-                LibraryComponent cc = assignment.get(cname).getCandidate();
-                PromoterComponent promcomp = null;
-                if(cc instanceof PromoterComponent){
-                    promcomp = (PromoterComponent) cc;
-                } else if(cc instanceof CompositeComponent){
-                    CompositeComponent composite = (CompositeComponent)cc;
-                    promcomp = library.getAllPromoters().get(composite.getChildren().get(0));
-                }
-                for(LibraryComponent tf:promcomp.getTranscriptionFactors()){
-                    if(tf instanceof ComplexComponent){
-                        ComplexComponent complex = (ComplexComponent)tf;
-                        SmallMoleculeComponent smc = library.getSmallMolecules().get(complex.getSmallMolecule());
-                        if(!map.containsKey(smc.getName())){
-                            map.put(smc.getName(), "ind_" + ioc.get(cname));
-                        }
-                    }
-                }
-            }
-        }
-        return map;
-    }
-    
-    private static List<Map<String,Double>> getSmallMoleculeConcentration(Module m, Map<String, CandidateComponent> assignment, Map<String,String> ioc, Library library){
-        List<Map<String,Double>> smMap = new ArrayList<>();
-        Map<String,List<Double>> smConcentrations = new HashMap<>();
-        for(Component c:m.getComponents()){
-            String cname = c.getName();
-            if (c.isPromoter()) {
-                LibraryComponent lc = assignment.get(cname).getCandidate();
-                PromoterComponent promcomp = null;
-                boolean isPromoter = false;
-                if (lc instanceof PromoterComponent) {
-                    promcomp = (PromoterComponent) lc;
-                    isPromoter = true;
-                } else if (lc instanceof CompositeComponent) {
-                    CompositeComponent compcomp = (CompositeComponent) lc;
-                    if (compcomp.getType().equals(CompositeType.PR)) {
-                        promcomp = library.getAllPromoters().get(compcomp.getChildren().get(0));
-                        isPromoter = true;
-                    }
-                }
-                if (isPromoter) {
-                    for (LibraryComponent tf : promcomp.getTranscriptionFactors()) {
-                        if (tf instanceof ComplexComponent) {
-                            ComplexComponent complex = (ComplexComponent) tf;
-                            SmallMoleculeComponent smc = library.getSmallMolecules().get(complex.getSmallMolecule());
-
-                            String indName = "ind_" + ioc.get(cname);
-                            if (!smConcentrations.containsKey(indName)) {
-                                if (!smc.getValues().isEmpty()) {
-                                    smConcentrations.put(indName, smc.getValues());
-                                } else {
-                                    double min = smc.getMin();
-                                    double max = smc.getMax();
-                                    //double inc = (max - min) * 0.05;
-                                    //double inc = (max - min) * 0.1;
-                                    List<Double> concs = new ArrayList<>();
-                                    concs.add(min);
-                                    
-                                    for(int i=-6;i<=0;i++){
-                                        double mult = Math.pow(10, i);
-                                        double val = max * mult;
-                                        if(val > min){
-                                            concs.add(val);
-                                        }
-                                    }
-                                    smConcentrations.put(indName, concs);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        System.out.println("Small Molecule Concentrations:");
-        System.out.println(smConcentrations);
-        List<Map<String,Double>> temp = new ArrayList<>();
-        for(String ind:smConcentrations.keySet()){
-            List<Double> indConc = smConcentrations.get(ind);
-            if(smMap.isEmpty()){
-                for(Double conc:indConc){
-                    Map<String,Double> map = new HashMap<>();
-                    map.put(ind, conc);
-                    smMap.add(map);
-                }
-            } else {
-                for(Map<String,Double> hconcs: smMap){
-                    for(Double conc:indConc){
-                        Map<String,Double> map = new HashMap<>();
-                        map.putAll(hconcs);
-                        map.put(ind, conc);
-                        temp.add(map);
-                    }
-                }
-                smMap = new ArrayList<>();
-                smMap.addAll(temp);
-                temp = new ArrayList<>();
-            }
-        }
-        
-        return smMap;
     }
     
     private static void composeModels(Module module, Decomposition decomposition) {
@@ -445,7 +292,7 @@ public class Simulation {
             try {
                 System.out.println(pw.writeSBMLToString(prModule.getModel().getSbml()));
             } catch (XMLStreamException | SBMLException ex) {
-                Logger.getLogger(Simulation.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ExhaustiveSimulation.class.getName()).log(Level.SEVERE, null, ex);
             }
             System.out.println("###########################################");
             System.out.println("CDS Model");
@@ -454,7 +301,7 @@ public class Simulation {
             try {
                 System.out.println(cw.writeSBMLToString(cdsModule.getModel().getSbml()));
             } catch (XMLStreamException | SBMLException ex) {
-                Logger.getLogger(Simulation.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ExhaustiveSimulation.class.getName()).log(Level.SEVERE, null, ex);
             }
             System.out.println("###########################################");
                     */
@@ -482,7 +329,7 @@ public class Simulation {
 
     }
 
-    private static Map<String, String> getIOCmap(Module module, Map<String, CandidateComponent> assignment, Library library) {
+    public static Map<String, String> getIOCmap(Module module, Map<String, CandidateComponent> assignment, Library library) {
         int inCount = 0;
         int outCount = 0;
         int connCount = 0;

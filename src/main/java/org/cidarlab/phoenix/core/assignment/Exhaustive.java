@@ -5,6 +5,7 @@
  */
 package org.cidarlab.phoenix.core.assignment;
 
+import org.cidarlab.phoenix.core.simulation.ExhaustiveSimulation;
 import hyness.stl.TreeNode;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -55,7 +56,7 @@ public class Exhaustive extends AbstractAssignment {
             Module m = modules.get(i);
             
             try {
-                Simulation.run(modules.get(i),library,stl,args,simfp);
+                ExhaustiveSimulation.run(modules.get(i),library,stl,args,simfp);
             } catch (URISyntaxException | MalformedURLException | XMLStreamException | FileNotFoundException ex) {
                 Logger.getLogger(Exhaustive.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException | TLIException | InterruptedException ex) {

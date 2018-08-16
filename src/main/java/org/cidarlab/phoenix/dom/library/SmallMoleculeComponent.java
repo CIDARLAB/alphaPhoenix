@@ -17,13 +17,13 @@ import lombok.Setter;
  */
 public class SmallMoleculeComponent extends LibraryComponent {
     
-    @Setter
+    /*@Setter
     @Getter
     private double min;
     
     @Setter
     @Getter
-    private double max;
+    private double max;*/
     
     @Getter
     private List<Double> values;
@@ -34,6 +34,22 @@ public class SmallMoleculeComponent extends LibraryComponent {
         this.componentDefintion = _cd;
         
         this.values = new ArrayList<>();
+    }
+    
+    public void setValues(List<Double> _values){
+        this.values = _values;
+    }
+    
+    
+    public void setValues(double min, double max){
+        this.values.add(min);
+        for (int i = -6; i <= 0; i++) {
+            double mult = Math.pow(10, i);
+            double val = max * mult;
+            if (val > min) {
+                this.values.add(val);
+            }
+        }
     }
     
     

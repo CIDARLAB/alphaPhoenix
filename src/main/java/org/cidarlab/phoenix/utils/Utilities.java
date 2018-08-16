@@ -13,6 +13,7 @@ import java.net.URLDecoder;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.cidarlab.gridtli.dom.Point;
@@ -348,5 +349,13 @@ public class Utilities {
             return '\\';
         }
         return '/';
+    }
+
+    public static int getRandom(int min, int max) {
+        if (min == max) {
+            return min;
+        }
+        int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
+        return randomNum;
     }
 }

@@ -9,14 +9,11 @@ import hyness.stl.TreeNode;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
+import org.cidarlab.phoenix.dom.AssignmentNode;
 import org.cidarlab.phoenix.dom.CandidateComponent;
 import org.cidarlab.phoenix.dom.Component;
-import org.cidarlab.phoenix.dom.Component.ComponentRole;
 import org.cidarlab.phoenix.dom.Interaction;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.Module.ModuleRole;
@@ -69,7 +66,7 @@ public class SimulatedAnnealing extends AbstractAssignment {
             children.addAll(tu.getChildren());
         }
 
-        System.out.println("Candidate Assignments for each Leaf Module:");
+        /*System.out.println("Candidate Assignments for each Leaf Module:");
         for (Module child : children) {
             //System.out.println("Module : " + child.getId());
             System.out.print("Module : ");
@@ -80,13 +77,30 @@ public class SimulatedAnnealing extends AbstractAssignment {
             for (CandidateComponent cc : child.getCandidates()) {
                 System.out.println("-- " + cc.getCandidate().getComponentDefintion());
             }
-        }
-        Map<String, CandidateComponent> first = generateFirstAssignment(module, library, stl);
+        }*/
+        
+        
+        Map<String, CandidateComponent> currentAssignment = generateFirstAssignment(module, library, stl);
 
-        System.out.println("First Assignment : " + assignmentToString(module, first));
-
+        AssignmentNode currentNode = new AssignmentNode(module,currentAssignment,library);
+        currentNode.assignRandomConcentrations(library);
+        
+        System.out.println("First Assignment : " + currentNode.toString());
+        //System.out.println("First Assignment : " + assignmentToString(module, first));
+        
+        double currentScore = 0.0;
+        double newScore = 0.0;
+        
+        
         while (temperature > 1) {
             //System.out.println("Temperature :: " + temperature);
+            
+            double ap = acceptanceProbability(currentScore,newScore,temperature,1);
+            double random = Math.random();
+            if(ap > random){
+                //System.out.println("Accepted");
+            }
+            
             temperature *= (1 - coolingRate);
             count++;
         }
@@ -94,6 +108,29 @@ public class SimulatedAnnealing extends AbstractAssignment {
         System.out.println("Total :: " + count);
     }
 
+    
+    public static double acceptanceProbability(double currentScore, double newScore, double temperature, int hammingDistance){
+        
+        //System.out.println("Acceptance Probability Function");
+        double deltaE = newScore - currentScore;
+        //System.out.println("Current Score : " + currentScore);
+        //System.out.println("New Score     : " + newScore);
+        //System.out.println("Detla E       : " + deltaE);
+        //System.out.println("Temperature   : " + temperature);
+        //System.out.println("Difference    : " + hammingDistance);
+        double exp = (-deltaE)/(temperature * hammingDistance);
+        //System.out.println("Exp           : " + (Math.pow(Math.E, exp)));
+        
+        double prob = 1.0 / (1.0 + (Math.pow(Math.E, exp)));
+        
+        //System.out.println("Probability   : " + prob);
+        //System.out.println("---------------------------------");
+        return prob;
+        
+    }
+    
+    
+    
     private String assignmentToString(Module module, Map<String, CandidateComponent> assignment) {
         String str = "";
         for (Component c : module.getComponents()) {
@@ -105,13 +142,6 @@ public class SimulatedAnnealing extends AbstractAssignment {
         return str;
     }
 
-    private int getRandom(int min, int max) {
-        if (min == max) {
-            return min;
-        }
-        int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
-        return randomNum;
-    }
 
     private Map<String, CandidateComponent> generateFirstAssignment(Module module, Library library, TreeNode stl) {
 
@@ -157,7 +187,7 @@ public class SimulatedAnnealing extends AbstractAssignment {
                                 subset.add(cand);
                             }
                         }
-                        cc = subset.get(getRandom(0, subset.size() - 1));
+                        cc = subset.get(Utilities.getRandom(0, subset.size() - 1));
                     }
                 } else {
                     if (assignment.containsKey(rbs.getName())) {
@@ -171,11 +201,11 @@ public class SimulatedAnnealing extends AbstractAssignment {
                                 subset.add(cand);
                             }
                         }
-                        cc = subset.get(getRandom(0, subset.size() - 1));
+                        cc = subset.get(Utilities.getRandom(0, subset.size() - 1));
 
                     } else {
                         //Does not contain Prom & Does not contain RBS
-                        cc = leaf.getCandidates().get(getRandom(0, leaf.getCandidates().size() - 1));
+                        cc = leaf.getCandidates().get(Utilities.getRandom(0, leaf.getCandidates().size() - 1));
 
                     }
                 }
@@ -187,7 +217,7 @@ public class SimulatedAnnealing extends AbstractAssignment {
             
             //<editor-fold desc="Assign CandidateComponent for Promoter - Do this later">
             else if (leaf.getRole().equals(ModuleRole.PROMOTER)) {
-                cc = leaf.getCandidates().get(getRandom(0, leaf.getCandidates().size() - 1));
+                cc = leaf.getCandidates().get(Utilities.getRandom(0, leaf.getCandidates().size() - 1));
                 Component prom = leaf.getComponents().get(0);
 
                 //Do this later..
@@ -198,7 +228,7 @@ public class SimulatedAnnealing extends AbstractAssignment {
             //<editor-fold desc="Assign CandidateComponent for Terminator">
             else if (leaf.getRole().equals(ModuleRole.TERMINATOR)) {
                 Component ter = leaf.getComponents().get(0);
-                cc = leaf.getCandidates().get(getRandom(0, leaf.getCandidates().size() - 1));
+                cc = leaf.getCandidates().get(Utilities.getRandom(0, leaf.getCandidates().size() - 1));
                 assignment.put(ter.getName(), cc);
             }
             //</editor-fold>
@@ -257,24 +287,24 @@ public class SimulatedAnnealing extends AbstractAssignment {
                     }
                     if(toAssigned){
                         if(subset.isEmpty()){
-                            cc = leaf.getCandidates().get(getRandom(0, leaf.getCandidates().size() - 1));
+                            cc = leaf.getCandidates().get(Utilities.getRandom(0, leaf.getCandidates().size() - 1));
                             System.out.println("Probably going to fail anyway. Will this happen though?");
                         } else {
-                            cc = subset.get(getRandom(0, subset.size() - 1));
+                            cc = subset.get(Utilities.getRandom(0, subset.size() - 1));
                         }
                     } else {
-                        cc = leaf.getCandidates().get(getRandom(0, leaf.getCandidates().size() - 1));
+                        cc = leaf.getCandidates().get(Utilities.getRandom(0, leaf.getCandidates().size() - 1));
                     }
                     
                 } else {
-                    cc = leaf.getCandidates().get(getRandom(0, leaf.getCandidates().size() - 1));
+                    cc = leaf.getCandidates().get(Utilities.getRandom(0, leaf.getCandidates().size() - 1));
                 }
                 assignment.put(cds.getName(), cc);
             } //</editor-fold>
             
             //<editor-fold desc="Assign CandidateComponent for RBS_CDS - Do this later">
             else if (leaf.getRole().equals(ModuleRole.RBS_CDS)) {
-                cc = leaf.getCandidates().get(getRandom(0, leaf.getCandidates().size() - 1));
+                cc = leaf.getCandidates().get(Utilities.getRandom(0, leaf.getCandidates().size() - 1));
 
                 Component rbs = Module.getRbsInRC(leaf);
                 Component cds = Module.getCDSInRC(leaf);

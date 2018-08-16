@@ -202,14 +202,17 @@ public class Library {
                 case SMALL_MOLECULE:
                     SmallMoleculeComponent smcomponent = new SmallMoleculeComponent(cd.getName(), cd.getDisplayId(), cd.getIdentity());
                     if (cd.hasAnnotations()) {
+                        double min = 0.0;
+                        double max = 0.0;
                         for (Annotation a : cd.getAnnotations()) {
                             String localPart = a.getQName().getLocalPart();
                             if (localPart.equals("min")) {
-                                smcomponent.setMin(Double.valueOf(a.getStringValue()));
+                                min = Double.valueOf(a.getStringValue());
                             } else if (localPart.equals("max")) {
-                                smcomponent.setMax(Double.valueOf(a.getStringValue()));
+                                max = Double.valueOf(a.getStringValue());
                             }
                         }
+                        smcomponent.setValues(min, max);
                     }
                     smallMolecules.put(cd.getIdentity(), smcomponent);
                     break;

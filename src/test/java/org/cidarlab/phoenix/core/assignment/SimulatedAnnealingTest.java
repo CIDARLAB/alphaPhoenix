@@ -246,6 +246,7 @@ public class SimulatedAnnealingTest {
     /**
      * Test of solve method, of class SimulatedAnnealing.
      */
+    
     @Test
     public void testSolve() {
         
@@ -391,5 +392,99 @@ public class SimulatedAnnealingTest {
         
     }
     
+    
+    //@Test
+    public void testAcceptanceProbability(){
+        double t0 = 1;
+        double t1 = 10;
+        double t2 = 100;
+        double t3 = 1000;
+        
+        
+        double c0 = 5;
+        
+        double n0 = -50000;
+        double n1 = -500;
+        double n2 = -5;
+        double n3 = 0;
+        double n4 = 1;
+        double n5 = 5;
+        double n6 = 6;
+        double n7 = 10;
+        double n8 = 100;
+        double n9 = 100000;
+        
+        int h0 = 1;
+        int h1 = 4;
+        
+        SimulatedAnnealing.acceptanceProbability(c0, n0, t0, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n1, t0, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n2, t0, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n3, t0, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n4, t0, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n5, t0, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n6, t0, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n7, t0, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n8, t0, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n9, t0, h0);
+        
+        System.out.println("###############################");
+        
+        SimulatedAnnealing.acceptanceProbability(c0, n0, t1, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n1, t1, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n2, t1, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n3, t1, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n4, t1, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n5, t1, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n6, t1, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n7, t1, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n8, t1, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n9, t1, h0);
+        
+        System.out.println("###############################");
+        
+        SimulatedAnnealing.acceptanceProbability(c0, n0, t2, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n1, t2, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n2, t2, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n3, t2, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n4, t2, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n5, t2, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n6, t2, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n7, t2, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n8, t2, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n9, t2, h0);
+        
+        System.out.println("###############################");
+        
+        
+        
+        SimulatedAnnealing.acceptanceProbability(c0, n0, t3, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n1, t3, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n2, t3, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n3, t3, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n4, t3, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n5, t3, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n6, t3, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n7, t3, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n8, t3, h0);
+        SimulatedAnnealing.acceptanceProbability(c0, n9, t3, h0);
+       
+        System.out.println("###############################");
+        
+        SimulatedAnnealing.acceptanceProbability(c0, n0, t3, h1);
+        SimulatedAnnealing.acceptanceProbability(c0, n1, t3, h1);
+        SimulatedAnnealing.acceptanceProbability(c0, n2, t3, h1);
+        SimulatedAnnealing.acceptanceProbability(c0, n3, t3, h1);
+        SimulatedAnnealing.acceptanceProbability(c0, n4, t3, h1);
+        SimulatedAnnealing.acceptanceProbability(c0, n5, t3, h1);
+        SimulatedAnnealing.acceptanceProbability(c0, n6, t3, h1);
+        SimulatedAnnealing.acceptanceProbability(c0, n7, t3, h1);
+        SimulatedAnnealing.acceptanceProbability(c0, n8, t3, h1);
+        SimulatedAnnealing.acceptanceProbability(c0, n9, t3, h1);
+       
+        System.out.println("###############################");
+        
+        
+    }
     
 }
