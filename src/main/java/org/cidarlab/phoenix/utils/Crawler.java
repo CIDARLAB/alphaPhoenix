@@ -9,7 +9,9 @@ import hyness.stl.TreeNode;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import lombok.Setter;
 import org.cidarlab.gridtli.adaptors.PyPlotAdaptor;
@@ -19,6 +21,7 @@ import org.cidarlab.gridtli.dom.Point;
 import org.cidarlab.gridtli.dom.Signal;
 import org.cidarlab.gridtli.dom.TLIException;
 import org.cidarlab.gridtli.tli.TemporalLogicInference;
+import org.cidarlab.phoenix.adaptors.STLAdaptor;
 
 /**
  *
@@ -112,6 +115,66 @@ public class Crawler {
             }
         }
         
+    }
+    
+    
+    public static Map<Integer,Double> getRobustness(TreeNode stl, String rootfp) throws TLIException, InterruptedException, IOException{
+        
+        Map<Integer,Double> indRobmap = new HashMap<>();
+        File root = new File(rootfp);
+        File[] filelist = root.listFiles();
+        
+        for(File f:filelist){
+            List<TreeNode> stlList = new ArrayList<TreeNode>();
+            List<TreeNode> steadystlList = new ArrayList<TreeNode>();
+            
+            String fp = f.getAbsolutePath();
+            if(!fp.endsWith("" + Utilities.getSeparater())){
+                fp += Utilities.getSeparater();
+            }
+            File[] files = f.listFiles();
+            for(File file:files){
+                if(file.getName().endsWith(".csv") && file.getName().startsWith("out")){
+                    List<Signal> signals = Utilities.readSignalsFromCSV(file.getAbsolutePath());
+                    //String varname = file.getName();
+                    //varname = varname.substring(0,varname.lastIndexOf(".csv"));
+                    double rob = STLAdaptor.getRobustness(stl, signals.get(0));
+                    indRobmap.put(Integer.valueOf(f.getName()), rob);
+                }
+            }
+        }
+        
+        return indRobmap;
+    }
+    
+    
+    public static Map<Integer,Double> getComputeSatisfyingPercent(TreeNode stl, String rootfp) throws TLIException, InterruptedException, IOException{
+        
+        Map<Integer,Double> indRobmap = new HashMap<>();
+        File root = new File(rootfp);
+        File[] filelist = root.listFiles();
+        
+        for(File f:filelist){
+            List<TreeNode> stlList = new ArrayList<TreeNode>();
+            List<TreeNode> steadystlList = new ArrayList<TreeNode>();
+            
+            String fp = f.getAbsolutePath();
+            if(!fp.endsWith("" + Utilities.getSeparater())){
+                fp += Utilities.getSeparater();
+            }
+            File[] files = f.listFiles();
+            for(File file:files){
+                if(file.getName().endsWith(".csv") && file.getName().startsWith("out")){
+                    List<Signal> signals = Utilities.readSignalsFromCSV(file.getAbsolutePath());
+                    //String varname = file.getName();
+                    //varname = varname.substring(0,varname.lastIndexOf(".csv"));
+                    double rob = STLAdaptor.computeSatisfyingPercent(signals,stl);
+                    indRobmap.put(Integer.valueOf(f.getName()), rob);
+                }
+            }
+        }
+        
+        return indRobmap;
     }
     
     

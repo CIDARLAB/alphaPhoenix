@@ -147,9 +147,7 @@ public class PhoenixProject {
 
             PhoenixProject.execute(jobId, simulation, decomposition, runCount, confidence, threshold, plot, inputMap);
 
-        } catch (IOException | SBOLConversionException ex) {
-            Logger.getLogger(PhoenixProject.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (TLIException ex) {
+        } catch (IOException | SBOLConversionException | TLIException ex) {
             Logger.getLogger(PhoenixProject.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

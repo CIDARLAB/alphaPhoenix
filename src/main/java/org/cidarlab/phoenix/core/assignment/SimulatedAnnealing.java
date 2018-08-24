@@ -6,11 +6,22 @@
 package org.cidarlab.phoenix.core.assignment;
 
 import hyness.stl.TreeNode;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.stream.XMLStreamException;
+import org.cidarlab.gridtli.dom.TLIException;
+import org.cidarlab.phoenix.core.simulation.AbstractSimulation;
 import org.cidarlab.phoenix.dom.AssignmentNode;
 import org.cidarlab.phoenix.dom.CandidateComponent;
 import org.cidarlab.phoenix.dom.Component;
@@ -20,12 +31,15 @@ import org.cidarlab.phoenix.dom.Module.ModuleRole;
 import org.cidarlab.phoenix.dom.library.CDSComponent;
 import org.cidarlab.phoenix.dom.library.ComplexComponent;
 import org.cidarlab.phoenix.dom.library.CompositeComponent;
+import org.cidarlab.phoenix.dom.library.CompositeComponent.CompositeType;
 import org.cidarlab.phoenix.dom.library.Library;
 import org.cidarlab.phoenix.dom.library.LibraryComponent;
 import org.cidarlab.phoenix.dom.library.PrimitiveComponent;
 import org.cidarlab.phoenix.dom.library.PromoterComponent;
+import org.cidarlab.phoenix.dom.library.SmallMoleculeComponent;
 import org.cidarlab.phoenix.utils.Args;
 import org.cidarlab.phoenix.utils.Utilities;
+import org.sbml.jsbml.SBMLDocument;
 
 /**
  *
@@ -33,13 +47,19 @@ import org.cidarlab.phoenix.utils.Utilities;
  */
 public class SimulatedAnnealing extends AbstractAssignment {
 
-    private double coolingRate = 0.003;
+    private final double coolingRate = 0.003;
     private double temperature = 1000;
 
     @Override
     public void solve(List<Module> modules, Library library, TreeNode stl, Args args) {
         for (Module m : modules) {
-            solve(m, library, stl, args);
+            try {
+                solve(m, library, stl, args);
+            } catch (URISyntaxException | MalformedURLException | XMLStreamException | FileNotFoundException ex) {
+                Logger.getLogger(SimulatedAnnealing.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException | TLIException ex) {
+                Logger.getLogger(SimulatedAnnealing.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         for (int i = 0; i < modules.size(); i++) {
             String simfp = args.getProjectFolder() + i + Utilities.getSeparater();
@@ -56,7 +76,7 @@ public class SimulatedAnnealing extends AbstractAssignment {
         }
     }
 
-    private void solve(Module module, Library library, TreeNode stl, Args args) {
+    private void solve(Module module, Library library, TreeNode stl, Args args) throws URISyntaxException, MalformedURLException, XMLStreamException, FileNotFoundException, IOException, TLIException {
         this.assignLeafCandidates(module, library);
 
         int count = 0;
@@ -79,26 +99,35 @@ public class SimulatedAnnealing extends AbstractAssignment {
             }
         }*/
         
-        
+        String testfp = args.getProjectFolder() + "test" + Utilities.getSeparater();
+        Utilities.makeDirectory(testfp);
+        Map<URI,SBMLDocument> modelmap = AbstractSimulation.downloadAllModels(library, testfp);
         Map<String, CandidateComponent> currentAssignment = generateFirstAssignment(module, library, stl);
-
+        
         AssignmentNode currentNode = new AssignmentNode(module,currentAssignment,library);
         currentNode.assignRandomConcentrations(library);
         
         System.out.println("First Assignment : " + currentNode.toString());
         //System.out.println("First Assignment : " + assignmentToString(module, first));
         
-        double currentScore = 0.0;
+        double currentScore = currentNode.robustness(module, stl, library, modelmap, args.getDecomposition(), testfp);
         double newScore = 0.0;
         
+        System.out.println("Current Score : " + currentScore);
         
         while (temperature > 1) {
             //System.out.println("Temperature :: " + temperature);
+            AssignmentNode newNode = findNeighbor(module,currentNode,library);
+            while(newNode == null){
+                newNode = findNeighbor(module,currentNode,library);
+            }
+            newScore = newNode.robustness(module, stl, library, modelmap, args.getDecomposition(), testfp);
             
             double ap = acceptanceProbability(currentScore,newScore,temperature,1);
             double random = Math.random();
             if(ap > random){
-                //System.out.println("Accepted");
+                currentScore = newScore;
+                currentNode = newNode; // or make this new AssignmentNode(newNode);
             }
             
             temperature *= (1 - coolingRate);
@@ -107,7 +136,367 @@ public class SimulatedAnnealing extends AbstractAssignment {
 
         System.out.println("Total :: " + count);
     }
-
+    
+    
+    private boolean repeatRandom(int pos, Module module, AssignmentNode current, Library lib){
+        
+        if(pos < current.getComponents().size()){
+            //Change the component
+            Component curr = current.getComponents().get(pos);
+            //curr's assignment needs to change. 
+            List<Module> subsets = new ArrayList<>();
+            for(Module tu:module.getChildren()){
+                for(Module leaf:tu.getChildren()){
+                    for(Component c:leaf.getComponents()){
+                        if(c.getName().equals(curr.getName())){
+                            subsets.add(leaf);
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            for(Module subset:subsets){
+                if(subset.getCandidates().size() == 1){
+                    return true;
+                }
+                
+                switch(subset.getRole()){
+                    case PROMOTER_RBS:
+                        
+                        if(curr.isPromoter()){
+                            Set<URI> promURIs = new HashSet<>();
+                            for(CandidateComponent cc:subset.getCandidates()){
+                                promURIs.add(getPRprom(cc));
+                            }
+                            if(promURIs.size() == 1){
+                                return true;
+                            }
+                        } else if(curr.isRBS()){
+                            Set<URI> rbsURIs = new HashSet<>();
+                            for(CandidateComponent cc:subset.getCandidates()){
+                                rbsURIs.add(getPRrbs(cc));
+                            }
+                            if(rbsURIs.size() == 1){
+                                return true;
+                            }
+                        }
+                        
+                        
+                        break;
+                    case CDS:
+                        //doesn't matter.. Already taken care of?
+                        break;
+                    case TERMINATOR:
+                        //doesn't matter.. Already taken care of?
+                        break;
+                    case PROMOTER:
+                        //doesn't matter.. Already taken care of?
+                        break;
+                    case RBS_CDS:
+                        //Handle this later?
+                        break;
+                }
+                
+            }
+           
+            
+        } else {
+            //Change the Small Molecule Concentration.
+            int smIndex = pos - current.getComponents().size();
+            String sm = current.getSmallMolecules().get(smIndex);
+            SmallMoleculeComponent smc = lib.getSmallMolecules().get(current.getSmURImap().get(sm));
+            if(smc.getValues().size() == 1){
+                return true;
+            }
+        }
+        
+        
+        
+        return false;
+        
+    }
+    
+            
+    public AssignmentNode findNeighbor(Module module, AssignmentNode current, Library lib){
+        
+        AssignmentNode nextNode = new AssignmentNode(current);
+        int pos = current.getRandomPosition();
+        
+        while(repeatRandom(pos, module, current,lib)){
+            pos = current.getRandomPosition();
+        }
+        
+        List<Module> prList = new ArrayList<>();
+        List<Module> rcList = new ArrayList<>();
+        List<Module> promList = new ArrayList<>();
+        List<Module> rbsList = new ArrayList<>();
+        List<Module> cdsList = new ArrayList<>();
+        List<Module> terList = new ArrayList<>();
+        
+        
+        for (Module tu : module.getChildren()) {
+            for (Module leaf : module.getChildren()) {
+                switch(leaf.getRole()){
+                    case PROMOTER_RBS:
+                        prList.add(leaf);
+                        break;
+                    case PROMOTER:
+                        promList.add(leaf);
+                        break;
+                    case RBS_CDS:
+                        rcList.add(leaf);
+                        break;
+                    case CDS:
+                        cdsList.add(leaf);
+                        break;
+                    case TERMINATOR:
+                        terList.add(leaf);
+                        break;
+                }
+            }
+        }
+        
+        
+        
+        if(pos < current.getComponents().size()){
+            //Change the component
+            Component curr = current.getComponents().get(pos);
+            List<Module> subsets = new ArrayList<>();
+            for(Module tu:module.getChildren()){
+                for(Module leaf:tu.getChildren()){
+                    for(Component c:leaf.getComponents()){
+                        if(c.getName().equals(curr.getName())){
+                            subsets.add(leaf);
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            for(Module subset:subsets){
+                switch(subset.getRole()){
+                    case PROMOTER_RBS:
+                        
+                        
+                        break;
+                    case CDS:
+                        
+                        
+                        break;
+                    case TERMINATOR:
+                        List<CandidateComponent> tercc = subset.getCandidates();
+                        URI currentTer = nextNode.getAssignment().get(curr.getName()).getCandidate().getComponentDefintion();
+                        CandidateComponent newTercc = tercc.get(Utilities.getRandom(0, (tercc.size()-1) ));
+                        while(newTercc.getCandidate().getComponentDefintion().equals(currentTer)){
+                            newTercc = tercc.get(Utilities.getRandom(0, (tercc.size()-1) ));
+                        }
+                        Map<String,CandidateComponent> newAssignmentTer = new HashMap<>();
+                        newAssignmentTer.put(curr.getName(), newTercc);
+                        if(curr.isGeneric()){
+                            //Do nothing?
+                        } else {
+                            //This terminator is not generic. So find if the nextTer clashes with another instance of terList which is not generic, and has the same assignment as nextTer. 
+                            while(clashes(module, newAssignmentTer,nextNode.getAssignment())){
+                                Set<URI> assignmentURIs = getAssignmentURIs(module, newAssignmentTer);
+                                List<Module> specTer = new ArrayList<>();
+                                for(Module ter:terList){
+                                    for(Component c:ter.getComponents()){
+                                        if(!newAssignmentTer.containsKey(c.getName())){
+                                            if(!c.isGeneric()){
+                                                if(c.isTerminator()){
+                                                    URI cAss = nextNode.getAssignment().get(c.getName()).getCandidate().getComponentDefintion();
+                                                    if(assignmentURIs.contains(cAss)){
+                                                        specTer.add(ter);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                                for(Module ter:specTer){
+                                    
+                                    Component terComp = ter.getComponents().get(0);
+                                    List<CandidateComponent> candidateSubset = new ArrayList<>();
+                                    for(CandidateComponent cc:ter.getCandidates()){
+                                        URI cAss = cc.getCandidate().getComponentDefintion();
+                                        if(!assignmentURIs.contains(cAss)){
+                                            candidateSubset.add(cc);
+                                        }
+                                    }
+                                    
+                                    if(candidateSubset.isEmpty()){
+                                        return null;
+                                    } else {
+                                        newAssignmentTer.put(terComp.getName(), candidateSubset.get(Utilities.getRandom(0,(candidateSubset.size()-1))) );
+                                    }
+                                }
+                            }
+                            
+                        }
+                        
+                        break;
+                    case PROMOTER:
+                        break;
+                    case RBS_CDS:
+                        break;
+                }
+            }
+            
+            
+            
+        } else {
+            //Change the Small Molecule Concentration.
+            int smIndex = pos - current.getComponents().size();
+            String sm = current.getSmallMolecules().get(smIndex);
+            double currentConc = current.getConcs().get(sm);
+            
+            SmallMoleculeComponent smc = lib.getSmallMolecules().get(current.getSmURImap().get(sm));
+            double newConc = smc.getValues().get(Utilities.getRandom(0, (smc.getValues().size()-1) ));
+            while(newConc == currentConc){
+                newConc = smc.getValues().get(Utilities.getRandom(0, (smc.getValues().size()-1) ));
+            }
+            
+            nextNode.changeConc(sm, newConc);
+            
+        }
+        
+        
+        
+        
+        return nextNode;
+    }
+    
+    private static Set<URI> getAssignmentURIs(Module m, Map<String,CandidateComponent> assignment){
+        Set<URI> uris = new HashSet<>();
+        for(Component c:m.getComponents()){
+            CandidateComponent cc = assignment.get(c.getName());
+            
+            if(cc.getCandidate() instanceof CompositeComponent){
+                CompositeComponent composite = (CompositeComponent) cc.getCandidate();
+                if(c.isPromoter()){
+                    uris.add(getPRprom(cc));
+                } else if(c.isRBS()){
+                    if(composite.getType().equals(CompositeType.PR)){
+                        uris.add(getPRrbs(cc));
+                    } else if(composite.getType().equals(CompositeType.RC)){
+                        uris.add(getRCrbs(cc));
+                    }
+                } else if(c.isCDS()){
+                    uris.add(getRCcds(cc));
+                }
+            } else {
+                uris.add(cc.getCandidate().getComponentDefintion());
+            }
+            
+        }
+        
+        return uris;
+    }
+    
+    private static boolean clashes(Module module, Map<String,CandidateComponent> newAssignment, Map<String,CandidateComponent> currAssignment){
+        
+        Set<String> newSpec = new HashSet<>();
+        Set<String> currSpec = new HashSet<>();
+        Set<String> prom = new HashSet<>();
+        Set<String> rbs = new HashSet<>();
+        Set<String> cds = new HashSet<>();
+        Set<String> ter = new HashSet<>();
+        
+        for(Component c:module.getComponents()){
+            if(!c.isGeneric()){
+                if(newAssignment.containsKey(c.getName())){
+                    newSpec.add(c.getName());
+                }
+                if(currAssignment.containsKey(c.getName())){
+                    currSpec.add(c.getName());
+                }
+                if(c.isPromoter()){
+                    prom.add(c.getName());
+                } else if(c.isRBS()){
+                    rbs.add(c.getName());
+                } else if(c.isCDS()){
+                    cds.add(c.getName());
+                } else if(c.isTerminator()){
+                    ter.add(c.getName());
+                }
+            }
+        }
+        
+        for(String newComp:newSpec){
+            for(String currComp:currSpec){
+                if (!newComp.equals(currComp)) {
+                    if (prom.contains(newComp) && prom.contains(currComp)) {
+                        CandidateComponent newcc = newAssignment.get(newComp);
+                        CandidateComponent currcc = currAssignment.get(currComp);
+                        if(newcc.getCandidate() instanceof CompositeComponent){
+                            if(getPRprom(newcc).equals(getPRprom(currcc))){
+                                return true; 
+                            }
+                        } else {
+                            if(newcc.getCandidate().getComponentDefintion().equals(currcc.getCandidate().getComponentDefintion())){
+                                return true;
+                            }
+                        }
+                        
+                    } else if (rbs.contains(newComp) && rbs.contains(currComp)) {
+                        CandidateComponent newcc = newAssignment.get(newComp);
+                        CandidateComponent currcc = currAssignment.get(currComp);
+                        if(newcc.getCandidate() instanceof CompositeComponent){
+                            
+                            CompositeComponent newComposite = (CompositeComponent) newcc.getCandidate();
+                            CompositeComponent currComposite = (CompositeComponent) newcc.getCandidate();
+                            
+                            URI newRBS = null;
+                            URI currRBS = null;
+                            
+                            if(newComposite.getType().equals(CompositeType.PR)){
+                                newRBS = getPRrbs(newcc);
+                            } else if(newComposite.getType().equals(CompositeType.RC)){
+                                newRBS = getRCrbs(newcc);
+                            }
+                            
+                            if(currComposite.getType().equals(CompositeType.PR)){
+                                currRBS = getPRrbs(currcc);
+                            } else if(currComposite.getType().equals(CompositeType.RC)){
+                                currRBS = getRCrbs(currcc);
+                            }
+                            
+                            if(newRBS.equals(currRBS)){
+                                return true; 
+                            }
+                            
+                            
+                        } else {
+                            if(newcc.getCandidate().getComponentDefintion().equals(currcc.getCandidate().getComponentDefintion())){
+                                return true;
+                            }
+                        }
+                    } else if (cds.contains(newComp) && cds.contains(currComp)) {
+                        CandidateComponent newcc = newAssignment.get(newComp);
+                        CandidateComponent currcc = currAssignment.get(currComp);
+                        if(newcc.getCandidate() instanceof CompositeComponent){
+                            if(getRCcds(newcc).equals(getRCcds(currcc))){
+                                return true; 
+                            }
+                        } else {
+                            if(newcc.getCandidate().getComponentDefintion().equals(currcc.getCandidate().getComponentDefintion())){
+                                return true;
+                            }
+                        }
+                    } else if (ter.contains(newComp) && ter.contains(currComp)) {
+                        CandidateComponent newcc = newAssignment.get(newComp);
+                        CandidateComponent currcc = currAssignment.get(currComp);
+                        if (newcc.getCandidate().getComponentDefintion().equals(currcc.getCandidate().getComponentDefintion())) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
     
     public static double acceptanceProbability(double currentScore, double newScore, double temperature, int hammingDistance){
         
@@ -319,20 +708,26 @@ public class SimulatedAnnealing extends AbstractAssignment {
     }
 
     
-    private URI getPRrbs(CandidateComponent cc) {
+    private static URI getPRprom(CandidateComponent cc) {
+        CompositeComponent compcomp = (CompositeComponent) cc.getCandidate();
+        return compcomp.getChildren().get(0);
+    }
+    
+    private static URI getPRrbs(CandidateComponent cc) {
         CompositeComponent compcomp = (CompositeComponent) cc.getCandidate();
         return compcomp.getChildren().get(1);
     }
 
-    private URI getPRprom(CandidateComponent cc) {
+    
+    
+    private static URI getRCrbs(CandidateComponent cc) {
         CompositeComponent compcomp = (CompositeComponent) cc.getCandidate();
         return compcomp.getChildren().get(0);
     }
 
-    private Map<String, CandidateComponent> findNeighbour() {
-        Map<String, CandidateComponent> neighbour = new HashMap<>();
-
-        return neighbour;
+    private static URI getRCcds(CandidateComponent cc) {
+        CompositeComponent compcomp = (CompositeComponent) cc.getCandidate();
+        return compcomp.getChildren().get(1);
     }
 
 }

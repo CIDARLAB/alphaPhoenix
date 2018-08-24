@@ -29,7 +29,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.sbolstandard.core2.SBOLConversionException;
 import org.sbolstandard.core2.SBOLDocument;
 import org.sbolstandard.core2.SBOLReader;
@@ -62,7 +61,7 @@ public class SimulatedAnnealingTest {
     
     private Args args;
     
-    
+    private String resfp;
     
     public SimulatedAnnealingTest() {
     }
@@ -85,6 +84,9 @@ public class SimulatedAnnealingTest {
         String libfp = Utilities.getTestedCircuitsFilepath() + "ucf" + Utilities.getSeparater() + "ucf" + Utilities.getSeparater();
         String samplefp = Utilities.getTestedCircuitsFilepath() + "ucf" + Utilities.getSeparater() + "sampleUCF" + Utilities.getSeparater();
         
+        resfp = Utilities.getTestedCircuitsFilepath() + "simAnnTest" + Utilities.getSeparater();
+        
+        
         String localLiburl = libfp + "sbol.xml";
         String localSampleurl = samplefp + "sbol.xml";
         
@@ -101,8 +103,8 @@ public class SimulatedAnnealingTest {
         SBOLDocument sbolsample = shublib.getSBOL(usample);
         sample = new Library(sbolsample, Args.Decomposition.PR_C_T,samplefp);
         
-        LinearPredicateLeaf out0g0 = new LinearPredicateLeaf(RelOperation.GE, "out0", 0);
-        LinearPredicateLeaf out1g0 = new LinearPredicateLeaf(RelOperation.GE, "out1", 0);
+        LinearPredicateLeaf out0g0 = new LinearPredicateLeaf(RelOperation.GE, "out0", 100);
+        LinearPredicateLeaf out1g0 = new LinearPredicateLeaf(RelOperation.GE, "out1", 100);
         
         LinearPredicateLeaf out0l500 = new LinearPredicateLeaf(RelOperation.LT, "out0", 500);
         LinearPredicateLeaf out1l500 = new LinearPredicateLeaf(RelOperation.LT, "out1", 500);
@@ -110,12 +112,14 @@ public class SimulatedAnnealingTest {
         ConjunctionNode out0cn = new ConjunctionNode(out0g0,out0l500);
         ConjunctionNode out1cn = new ConjunctionNode(out1g0,out1l500);
         
-        AlwaysNode out0an = new AlwaysNode(out0cn,0,500);
-        AlwaysNode out1an = new AlwaysNode(out1cn,0,500);
+        AlwaysNode out0an = new AlwaysNode(out0cn,1000,1500);
+        AlwaysNode out1an = new AlwaysNode(out1cn,1000,1500);
         
         ConjunctionNode cn = new ConjunctionNode(out0an,out1an);
         
         args = new Args(Args.Decomposition.PR_C_T, Args.Simulation.STOCHASTIC, 100, 0.5, 0.5, Args.Assignment.SIMULATED_ANNEALING);
+        
+        
         
         stl0 = out0an;
         stl1 = cn;
@@ -256,6 +260,7 @@ public class SimulatedAnnealingTest {
         List<Module> modules0 = new ArrayList<>();
         modules0.add(m0);
         SimulatedAnnealing sa0 = new SimulatedAnnealing();
+        args.setProjectFolder(resfp + "sa0" + Utilities.getSeparater());
         sa0.solve(modules0, lib, stl0, args);
         System.out.println("--------------------------------------------------------");
         
@@ -267,6 +272,7 @@ public class SimulatedAnnealingTest {
         List<Module> modules1 = new ArrayList<>();
         modules1.add(m1);
         SimulatedAnnealing sa1 = new SimulatedAnnealing();
+        args.setProjectFolder(resfp + "sa1" + Utilities.getSeparater());
         sa1.solve(modules1, lib, stl0, args);
         System.out.println("--------------------------------------------------------");
         
@@ -278,6 +284,7 @@ public class SimulatedAnnealingTest {
         List<Module> modules2 = new ArrayList<>();
         modules2.add(m2);
         SimulatedAnnealing sa2 = new SimulatedAnnealing();
+        args.setProjectFolder(resfp + "sa2" + Utilities.getSeparater());
         sa2.solve(modules2, lib, stl0, args);
         System.out.println("--------------------------------------------------------");
         
@@ -289,6 +296,7 @@ public class SimulatedAnnealingTest {
         List<Module> modules3 = new ArrayList<>();
         SimulatedAnnealing sa3 = new SimulatedAnnealing();
         modules3.add(m3);
+        args.setProjectFolder(resfp + "sa3" + Utilities.getSeparater());
         sa3.solve(modules3, sample, stl0, args);
         System.out.println("--------------------------------------------------------");
         
@@ -300,6 +308,7 @@ public class SimulatedAnnealingTest {
         List<Module> modules4 = new ArrayList<>();
         modules4.add(m4);
         SimulatedAnnealing sa4 = new SimulatedAnnealing();
+        args.setProjectFolder(resfp + "sa4" + Utilities.getSeparater());
         sa4.solve(modules4, sample, stl1, args);
         System.out.println("--------------------------------------------------------");
         
@@ -312,6 +321,7 @@ public class SimulatedAnnealingTest {
         System.out.println("Pulse - Library-----------------------------------------");
         System.out.println("########################################################");
         SimulatedAnnealing sa5 = new SimulatedAnnealing();
+        args.setProjectFolder(resfp + "sa5" + Utilities.getSeparater());
         sa5.solve(pulse, lib, stl0, args);
         System.out.println("--------------------------------------------------------");
         
