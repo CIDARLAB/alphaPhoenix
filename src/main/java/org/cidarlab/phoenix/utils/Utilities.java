@@ -269,6 +269,7 @@ public class Utilities {
             while((line=reader.readLine()) != null){
                 filecontent += (line+"\n");
             }
+            reader.close();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, "File at " + filepath + " not found.");
@@ -288,6 +289,7 @@ public class Utilities {
             while((line=reader.readLine()) != null){
                 filecontent.add(line);
             }
+            reader.close();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, "File at " + filepath + " not found.");
@@ -306,6 +308,7 @@ public class Utilities {
             while( (nextline = reader.readNext()) != null ){
                 listPieces.add(nextline);
             }
+            reader.close();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -321,7 +324,10 @@ public class Utilities {
             try (BufferedWriter br = new BufferedWriter(fr)) {
                 br.write(content);
                 br.flush();
+                br.close();
             }
+            fr.flush();
+            fr.close();
         } catch (IOException ex) {
             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -337,7 +343,9 @@ public class Utilities {
                     br.newLine();
                 }
                 br.flush();
+                br.close();
             }
+            fr.flush();
             fr.close();
         } catch (IOException ex) {
             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
