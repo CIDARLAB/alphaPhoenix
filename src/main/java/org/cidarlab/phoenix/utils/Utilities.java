@@ -320,14 +320,11 @@ public class Utilities {
     public static void writeToFile(String filepath, String content){
         File file = new File(filepath);
         try {
-            FileWriter fr = new FileWriter(file);
-            try (BufferedWriter br = new BufferedWriter(fr)) {
+            try (BufferedWriter br = new BufferedWriter(new FileWriter(file))) {
                 br.write(content);
                 br.flush();
                 br.close();
             }
-            fr.flush();
-            fr.close();
         } catch (IOException ex) {
             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -336,8 +333,7 @@ public class Utilities {
     public static void writeToFile(String filepath, List<String> lines){
         File file = new File(filepath);
         try {
-            FileWriter fr = new FileWriter(file);
-            try (BufferedWriter br = new BufferedWriter(fr)) {
+            try (BufferedWriter br = new BufferedWriter(new FileWriter(file))) {
                 for(String line:lines){
                     br.write(line);
                     br.newLine();
@@ -345,8 +341,6 @@ public class Utilities {
                 br.flush();
                 br.close();
             }
-            fr.flush();
-            fr.close();
         } catch (IOException ex) {
             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
         }
