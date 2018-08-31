@@ -66,7 +66,7 @@ public class ExhaustiveSimulation extends AbstractSimulation {
             
             if(indSMmap.isEmpty()){
                 
-                if (count < 3000) {
+                if (count > 3000) {
                     noSM++;
                     System.out.println("Current Assignment : " + count + " has no small molecules.");
                     printAssignment(module, assignment);
@@ -96,7 +96,7 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                 
                 List<Map<String, Double>> concList = getSmallMoleculeConcentration(module, assignment, ioc, library);
                 for (Map<String, Double> conc : concList) {
-                    if (count < 3000) {
+                    if (count > 3000) {
                         System.out.println("Current Assignment : " + count);
                         printAssignment(module, assignment);
 
