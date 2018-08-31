@@ -66,8 +66,8 @@ public class MainController {
         return false;
     }
     
-    private static PhoenixProject createProject(String userId, String projectName, String stl, String eugeneCode, String registry, String collection) throws IOException, SBOLConversionException, SBOLValidationException, InterruptedException, URISyntaxException{
-        PhoenixProject proj = new PhoenixProject(userId, projectName, stl, eugeneCode, registry, collection);
+    private static PhoenixProject createProject(String userId, String projectName, String stl, String eugeneCode, String registry, String collection, int runCount, double confidence, double threshold) throws IOException, SBOLConversionException, SBOLValidationException, InterruptedException, URISyntaxException{
+        PhoenixProject proj = new PhoenixProject(userId, projectName, stl, eugeneCode, registry, collection, runCount, confidence, threshold);
         proj.design();
         return proj;
     }
@@ -323,7 +323,7 @@ public class MainController {
         double top = jsonreq.getDouble("top")/100.00;
         double confidence = jsonreq.getDouble("confidence");
         double threshold = jsonreq.getDouble("threshold");
-        int runcount = jsonreq.getInt("runCount");
+        int runCount = jsonreq.getInt("runCount");
         
         try {
         
@@ -340,8 +340,8 @@ public class MainController {
                     writer.flush();
                 } else {
                     try {
-                        PhoenixProject proj = createProject(user.getId().toString(), projectName, stl, eugeneCode, registry, collection);
-                        proj.executeBasicProject(runcount, confidence, threshold);
+                        PhoenixProject proj = createProject(user.getId().toString(), projectName, stl, eugeneCode, registry, collection, runCount, confidence, threshold);
+                        proj.executeBasicProject(runCount, confidence, threshold);
                         
                         response.setStatus(HttpServletResponse.SC_OK);
                         JSONObject res = new JSONObject();

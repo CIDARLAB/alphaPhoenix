@@ -37,6 +37,7 @@ import org.cidarlab.phoenix.dom.SMC;
 import org.cidarlab.phoenix.failuremode.FailureModeGrammar;
 import org.cidarlab.phoenix.dom.library.Library;
 import org.cidarlab.phoenix.utils.Args;
+import org.cidarlab.phoenix.utils.Args.Assignment;
 import org.cidarlab.phoenix.utils.Args.Decomposition;
 import org.cidarlab.phoenix.utils.Args.Simulation;
 import org.cidarlab.phoenix.utils.Utilities;
@@ -682,7 +683,7 @@ public class PhoenixProject {
     }
 
     //<editor-fold desc="Constructors and functions for webapp">
-    public PhoenixProject(String userid, String projectName, String stl, String eugeneCode, String registry, String collection) throws IOException, SBOLConversionException {
+    public PhoenixProject(String userid, String projectName, String stl, String eugeneCode, String registry, String collection, int runCount, double confidence, double threshold) throws IOException, SBOLConversionException {
 
         this.jobId = createJobUUID(userid);
         String userRootFP = Utilities.getResultsFilepath() + userid + Utilities.getSeparater();
@@ -746,7 +747,9 @@ public class PhoenixProject {
 
         SBOLDocument sbol = SynbiohubAdaptor.getSBOL(registry, collection);
         SBOLWriter.write(sbol, (jobfp + "sbol.xml"));
-
+        
+        this.args = new Args(Decomposition.PR_C_T,Simulation.STOCHASTIC, runCount, confidence, threshold, Assignment.EXHAUSTIVE);
+        
         details.put("state", State.COMPLETED);
         Utilities.writeToFile(jobfp + "details.json", details.toString());
     }
@@ -760,7 +763,7 @@ public class PhoenixProject {
         Utilities.writeToFile(jobfp + "details.json", details.toString());
 
         SBOLDocument sbol = SBOLReader.read(jobfp + "sbol.xml");
-        Library lib = new Library(sbol, Args.Decomposition.PR_C_T,jobfp);
+        Library lib = new Library(sbol, this.args.getDecomposition(),jobfp);
         String eugfilecontent = Utilities.getFileContentAsString(jobfp + "eug.json");
         JSONObject eug = new JSONObject(eugfilecontent);
         int eugCircSize;

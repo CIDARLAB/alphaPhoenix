@@ -32,7 +32,6 @@ import org.cidarlab.gridtli.dom.Grid;
 import org.cidarlab.gridtli.dom.Point;
 import org.cidarlab.gridtli.dom.Signal;
 import org.cidarlab.gridtli.dom.TLIException;
-import org.cidarlab.gridtli.tli.Validation;
 import org.cidarlab.phoenix.core.CLI;
 import org.cidarlab.phoenix.dom.SMC;
 import org.cidarlab.phoenix.utils.Utilities;

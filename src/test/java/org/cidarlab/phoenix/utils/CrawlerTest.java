@@ -5,9 +5,13 @@
  */
 package org.cidarlab.phoenix.utils;
 
+import com.google.common.io.Files;
 import hyness.stl.TreeNode;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -20,13 +24,11 @@ import org.cidarlab.gridtli.tli.TemporalLogicInference;
 import org.cidarlab.phoenix.adaptors.STLAdaptor;
 import org.cidarlab.phoenix.utils.Crawler.CrawlerTask;
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -64,7 +66,135 @@ public class CrawlerTest {
      */
     
     
-    
+    @Test
+    public void testCircuitsToTest() throws IOException{
+        
+        int[] indices = {30,31,32,33,34,35,36,37,127,128,129,130,131,132,133,134,118};
+        //String thresh = "50.0_10000.0";
+        String thresh = "10.0_10000.0";
+        //String thresh = "50.0_1000.0";
+        
+        String basefp = Utilities.getLibFilepath() + "computationalTests" + Utilities.getSeparater();
+        String threshfp = basefp + thresh + Utilities.getSeparater();
+        String totestfp = basefp + "circuitsToTest" + Utilities.getSeparater() + thresh + Utilities.getSeparater();
+        Utilities.makeDirectory(totestfp);
+        
+        String csvfp = basefp + "csv" + Utilities.getSeparater();
+        
+        List<String[]> tu1circuitsLines = Utilities.getCSVFileContentAsList(csvfp + "Circuit1TUStochasticReduced0.csv");
+        List<String[]> tu2circuitsLines = Utilities.getCSVFileContentAsList(csvfp + "Circuit2TUStochasticReduced0.csv");
+        
+        Map<Integer,String> oneTUs = getCircuitMap(tu1circuitsLines);
+        Map<Integer,String> twoTUs = getCircuitMap(tu2circuitsLines);
+        
+        String basesimfp = basefp + "twoTUstoch" + Utilities.getSeparater();
+        
+        for(int z=0;z<indices.length;z++){
+            int index = indices[z];
+            
+            
+            String simindexfp = basesimfp + index + Utilities.getSeparater();
+            String totestresultfp = totestfp + index + Utilities.getSeparater();
+            Utilities.makeDirectory(totestresultfp);
+        
+            String scoresfp = threshfp + index + Utilities.getSeparater();
+        
+            List<String[]> onetuscores = Utilities.getCSVFileContentAsList(scoresfp + "oneTU_" + index + "Rob.csv");
+            List<String[]> twotuscores = Utilities.getCSVFileContentAsList(scoresfp + "twoTU_" + index + "Rob.csv");
+            
+            Files.copy(new File(simindexfp + "circuit.png" ), new File(totestresultfp + "circuit.png"));
+            Files.copy(new File(simindexfp + "out0.png" ), new File(totestresultfp + "simulation.png"));
+            
+            if(Utilities.validFilepath(simindexfp + "assignedSM.json")){
+                Files.copy(new File(simindexfp + "assignedSM.json" ), new File(totestresultfp + "smConcentration.json"));
+            }
+            
+            Set<Double> scores = new HashSet<>();
+            for (String[] pieces : onetuscores) {
+                scores.add(Double.valueOf(pieces[1]));
+            }
+
+            for (String[] pieces : twotuscores) {
+                scores.add(Double.valueOf(pieces[1]));
+            }
+
+            List<Double> sorted = new ArrayList<>(scores);
+            Collections.sort(sorted, Collections.reverseOrder());
+            
+            List<String> topcsv = new ArrayList<>();
+            topcsv.add("Score,Circuit Configuration");
+            List<String> bottomcsv = new ArrayList<>();
+            bottomcsv.add("Score,Circuit Configuration");
+            
+            for (int i = 0; i < 5; i++) {
+                for(int j=0;j<onetuscores.size();j++){
+                    String[] pieces = onetuscores.get(j);
+                    if(Double.valueOf(pieces[1]).equals(sorted.get(i))){
+                        topcsv.add(sorted.get(i) + "," + oneTUs.get(j));
+                    }
+                }
+                for(int j=0;j<twotuscores.size();j++){
+                    String[] pieces = twotuscores.get(j);
+                    if(Double.valueOf(pieces[1]).equals(sorted.get(i))){
+                        topcsv.add(sorted.get(i) + "," + twoTUs.get(j));
+                    }
+                }
+            }
+            
+            
+            for(int i=sorted.size()-1; i>= sorted.size()-5;i--){
+                for(int j=0;j<onetuscores.size();j++){
+                    String[] pieces = onetuscores.get(j);
+                    if(Double.valueOf(pieces[1]).equals(sorted.get(i))){
+                        bottomcsv.add(sorted.get(i) + "," + oneTUs.get(j));
+                    }
+                }
+                for(int j=0;j<twotuscores.size();j++){
+                    String[] pieces = twotuscores.get(j);
+                    if(Double.valueOf(pieces[1]).equals(sorted.get(i))){
+                        bottomcsv.add(sorted.get(i) + "," + twoTUs.get(j));
+                    }
+                }
+            }
+            
+            Utilities.writeToFile(totestresultfp + "topFiveScores.csv", topcsv);
+            Utilities.writeToFile(totestresultfp + "bottomFiveScores.csv", bottomcsv);
+            
+        }
+        
+        
+    }
+   
+    public static Map<Integer,String> getCircuitMap(List<String[]> lines){
+        Map<Integer,String> map = new HashMap<>();
+        
+        for(String[] pieces:lines){
+            int index = Integer.valueOf(pieces[0]);
+            String circuitString = pieces[1];
+            if(circuitString.endsWith(";")){
+                circuitString = circuitString.substring(0, circuitString.lastIndexOf(";"));
+            }
+            
+            String[] components = circuitString.split(";");
+            String newStr = "";
+            for(int i=0;i<((4 * (components.length/4)));i+=4){
+                
+                newStr += (components[i].split("_"))[0] + ";";
+                newStr += (components[i+1].split("_"))[1] + ";";
+                newStr += (components[i+2]) + ";";
+                newStr += (components[i+3]) + ";";
+            }
+            int lastIndx = (4 * (components.length/4));
+            for(int i=lastIndx;i<components.length;i++){
+                newStr += (components[i]) + ";";
+            }
+            
+            map.put(index, newStr);
+            
+        }
+        
+        return map;
+    }
     
     //@Test
     public void testCrawl() throws TLIException, InterruptedException, IOException {
@@ -80,12 +210,10 @@ public class CrawlerTest {
             
     }
 
-    @Test
+    //@Test
     public void fullScoreTest() throws TLIException, InterruptedException, IOException{
         
-        
-        
-        double xthresh = 50;
+        double xthresh = 10;
         double ythresh = 10000;
         
         String basefp = Utilities.getLibFilepath() + "computationalTests" + Utilities.getSeparater();
@@ -94,6 +222,9 @@ public class CrawlerTest {
         
         String tu2stochfp = basefp + "twoTUstoch" + Utilities.getSeparater();
         String tu2deterfp = basefp + "twoTUdeter" + Utilities.getSeparater();
+        String tu1deterfp = basefp + "oneTUdeter" + Utilities.getSeparater();
+        String tu1stochfp = basefp + "oneTUstoch" + Utilities.getSeparater();
+        
         List<Map<Integer,Double>> allRob = new ArrayList<>();
         List<Map<Integer,Double>> allSmc = new ArrayList<>();
             
@@ -118,25 +249,46 @@ public class CrawlerTest {
             TreeNode stl = TemporalLogicInference.getSTL(grid, 100);
             Utilities.writeToFile(indexfp + "twoTUstoch" + simIndex + "_" + xthresh + "_" + ythresh + "_STL.txt", stl.toString());
     
-            Map<Integer, Double> rob = Crawler.getRobustness(stl, tu2deterfp);
-            Map<Integer, Double> smc = Crawler.getComputeSatisfyingPercent(stl, tu2stochfp);
-            List<String> combined = new ArrayList<>();
+            Map<Integer, Double> tu2rob = Crawler.getRobustness(stl, tu2deterfp);
+            Map<Integer, Double> tu2smc = Crawler.getComputeSatisfyingPercent(stl, tu2stochfp);
+            Map<Integer, Double> tu1rob = Crawler.getRobustness(stl, tu1deterfp);
+            Map<Integer, Double> tu1smc = Crawler.getComputeSatisfyingPercent(stl, tu1stochfp);
+            
+            
+            List<String> tu2combined = new ArrayList<>();
 
-            List<String> robcsv = new ArrayList<>();
-            for (int key : rob.keySet()) {
-                robcsv.add(key + "," + rob.get(key));
+            List<String> tu2robcsv = new ArrayList<>();
+            for (int key : tu2rob.keySet()) {
+                tu2robcsv.add(key + "," + tu2rob.get(key));
             }
-            List<String> smccsv = new ArrayList<>();
-            for (int key : smc.keySet()) {
-                smccsv.add(key + "," + smc.get(key));
-                combined.add(key + "," + rob.get(key) + "," + smc.get(key));
+            List<String> tu2smccsv = new ArrayList<>();
+            for (int key : tu2smc.keySet()) {
+                tu2smccsv.add(key + "," + tu2smc.get(key));
+                tu2combined.add(key + "," + tu2rob.get(key) + "," + tu2smc.get(key));
             }
-            allRob.add(rob);
-            allSmc.add(smc);
-            Utilities.writeToFile(indexfp + "twoTUstoch" + simIndex + "Rob.csv", robcsv);
-            Utilities.writeToFile(indexfp + "twoTUstoch" + simIndex + "SatPer.csv", smccsv);
-            Utilities.writeToFile(indexfp + "twoTUstoch" + simIndex + "Comb.csv", combined);
+            
+            List<String> tu1combined = new ArrayList<>();
+            List<String> tu1robcsv = new ArrayList<>();
+            for (int key : tu1rob.keySet()) {
+                tu1robcsv.add(key + "," + tu1rob.get(key));
+            }
+            List<String> tu1smccsv = new ArrayList<>();
+            for (int key : tu1smc.keySet()) {
+                tu1smccsv.add(key + "," + tu1smc.get(key));
+                tu1combined.add(key + "," + tu1rob.get(key) + "," + tu1smc.get(key));
+            }
+            
+            allRob.add(tu2rob);
+            allSmc.add(tu2smc);
+            Utilities.writeToFile(indexfp + "twoTU_" + simIndex + "Rob.csv", tu2robcsv);
+            Utilities.writeToFile(indexfp + "twoTU_" + simIndex + "SatPer.csv", tu2smccsv);
+            Utilities.writeToFile(indexfp + "twoTU_" + simIndex + "Comb.csv", tu2combined);
+            Utilities.writeToFile(indexfp + "oneTU_" + simIndex + "Rob.csv", tu1robcsv);
+            Utilities.writeToFile(indexfp + "oneTU_" + simIndex + "SatPer.csv", tu1smccsv);
+            Utilities.writeToFile(indexfp + "oneTU_" + simIndex + "Comb.csv", tu1combined);
         }
+        
+        
         String combinedfp = resultfp + "combined" + Utilities.getSeparater();
         Utilities.makeDirectory(combinedfp);
         
@@ -232,11 +384,12 @@ public class CrawlerTest {
         String red1TUstochOut = basefp + "Circuit1TUStochasticReduced0.txt";
         String red2TUstochOut = basefp + "Circuit2TUStochasticReduced0.txt";
         
+        String csvfp = basefp + "csv" + Utilities.getSeparater();
         
-        outParser(basefp, red1TUdeterOut, "Circuit1TUDeterministicReduced0");
-        outParser(basefp, red2TUdeterOut, "Circuit2TUDeterministicReduced0");
-        outParser(basefp, red1TUstochOut, "Circuit1TUStochasticReduced0");
-        outParser(basefp, red2TUstochOut, "Circuit2TUStochasticReduced0");
+        outParser(csvfp, red1TUdeterOut, "Circuit1TUDeterministicReduced0");
+        outParser(csvfp, red2TUdeterOut, "Circuit2TUDeterministicReduced0");
+        outParser(csvfp, red1TUstochOut, "Circuit1TUStochasticReduced0");
+        outParser(csvfp, red2TUstochOut, "Circuit2TUStochasticReduced0");
         
     }
     

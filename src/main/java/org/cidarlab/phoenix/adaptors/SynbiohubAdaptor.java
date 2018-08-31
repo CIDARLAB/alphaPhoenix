@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
 import javax.xml.stream.XMLStreamException;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.CharSet;
 import org.cidarlab.phoenix.utils.Utilities;
 import org.json.JSONArray;
 import org.sbml.jsbml.SBMLDocument;

@@ -24,7 +24,6 @@ import javax.xml.stream.XMLStreamException;
 import org.cidarlab.gridtli.dom.TLIException;
 import org.cidarlab.phoenix.dom.CandidateComponent;
 import org.cidarlab.phoenix.dom.Component;
-import org.cidarlab.phoenix.dom.Component.ComponentRole;
 import org.cidarlab.phoenix.dom.Interaction;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.library.CDSComponent;
