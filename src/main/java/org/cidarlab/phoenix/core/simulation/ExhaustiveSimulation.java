@@ -66,18 +66,20 @@ public class ExhaustiveSimulation extends AbstractSimulation {
             
             if(indSMmap.isEmpty()){
                 
-                noSM++;
-                System.out.println("Current Assignment : " + count + " has no small molecules.");
-                printAssignment(module,assignment);
-                
-                String ifp = fp + count + Utilities.getSeparater();
-                Utilities.makeDirectory(ifp);
-                
-                SBMLWriter writer = new SBMLWriter();
-                String modelFile = ifp + "model.xml";
-                writer.write(module.getModel().getSbml(), modelFile);
-                
-                runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
+                if (count < 3000) {
+                    noSM++;
+                    System.out.println("Current Assignment : " + count + " has no small molecules.");
+                    printAssignment(module, assignment);
+
+                    String ifp = fp + count + Utilities.getSeparater();
+                    Utilities.makeDirectory(ifp);
+
+                    SBMLWriter writer = new SBMLWriter();
+                    String modelFile = ifp + "model.xml";
+                    writer.write(module.getModel().getSbml(), modelFile);
+
+                    runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
+                }
                 count++;
                 
             } else {
@@ -94,27 +96,27 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                 
                 List<Map<String, Double>> concList = getSmallMoleculeConcentration(module, assignment, ioc, library);
                 for (Map<String, Double> conc : concList) {
-                    
-                    System.out.println("Current Assignment : " + count);
-                    printAssignment(module, assignment);
-                    
-                    JSONObject smevents = new JSONObject();
-                    
-                    String ifp = fp + count + Utilities.getSeparater();
-                    Utilities.makeDirectory(ifp);
-                    
-                    SBMLDocument sbml = new SBMLDocument(module.getModel().getSbml());
-                    SBMLWriter writer = new SBMLWriter();
-                    String modelFile = ifp + "model.xml";
-                    String smfp = ifp + "assignedSM.json";
-                    for(String ind:conc.keySet()){
-                        smevents.put(ind, conc.get(ind));
-                        SBMLAdaptor.addEvent(sbml, ind, 600.00, conc.get(ind));
+                    if (count < 3000) {
+                        System.out.println("Current Assignment : " + count);
+                        printAssignment(module, assignment);
+
+                        JSONObject smevents = new JSONObject();
+
+                        String ifp = fp + count + Utilities.getSeparater();
+                        Utilities.makeDirectory(ifp);
+
+                        SBMLDocument sbml = new SBMLDocument(module.getModel().getSbml());
+                        SBMLWriter writer = new SBMLWriter();
+                        String modelFile = ifp + "model.xml";
+                        String smfp = ifp + "assignedSM.json";
+                        for (String ind : conc.keySet()) {
+                            smevents.put(ind, conc.get(ind));
+                            SBMLAdaptor.addEvent(sbml, ind, 600.00, conc.get(ind));
+                        }
+                        writer.write(sbml, modelFile);
+                        Utilities.writeToFile(smfp, smevents.toString(2));
+                        runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
                     }
-                    writer.write(sbml, modelFile);
-                    Utilities.writeToFile(smfp, smevents.toString(2));
-                    runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
-                    
                     count++;
                 }
             }
