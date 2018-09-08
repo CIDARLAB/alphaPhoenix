@@ -6,11 +6,15 @@
 package org.cidarlab.phoenix.examples.exhaustive.stochastic;
 
 import hyness.stl.TreeNode;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.stream.XMLStreamException;
+import org.cidarlab.gridtli.dom.TLIException;
 import org.cidarlab.phoenix.adaptors.MiniEugeneAdaptor;
 import org.cidarlab.phoenix.adaptors.STLAdaptor;
 import org.cidarlab.phoenix.core.Controller;
@@ -43,7 +47,7 @@ public class Circuit2tuTest {
     private static final int runCount = 20;
     
     @Test
-    public void testExhaustiveAssignment() throws URISyntaxException, SBOLValidationException, SynBioHubException, MalformedURLException {
+    public void testExhaustiveAssignment() throws URISyntaxException, SBOLValidationException, SynBioHubException, MalformedURLException, XMLStreamException, IOException, FileNotFoundException, TLIException, InterruptedException {
         
         int size = 8;
         

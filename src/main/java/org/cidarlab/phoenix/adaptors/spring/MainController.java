@@ -341,7 +341,7 @@ public class MainController {
                 } else {
                     try {
                         PhoenixProject proj = createProject(user.getId().toString(), projectName, stl, eugeneCode, registry, collection, runCount, confidence, threshold);
-                        proj.executeBasicProject(runCount, confidence, threshold);
+                        proj.executeBasicProject();
                         
                         response.setStatus(HttpServletResponse.SC_OK);
                         JSONObject res = new JSONObject();
@@ -452,7 +452,16 @@ public class MainController {
     
     @RequestMapping(value = "/sbol/{id}", method = RequestMethod.GET)
     public void getImageAsByteArray(@PathVariable(value="id") String imageId, HttpServletResponse response) throws IOException {
-        String imagefp = Utilities.getDnaFiguresPlotsFilepath() + imageId + ".png";
+        
+        String imagefp = "";
+        if(imageId.contains("/")){
+            imagefp = Utilities.getResultsFilepath() + "results/" + imageId + ".png";
+            System.out.println(imagefp);
+        } else {
+            imagefp = Utilities.getDnaFiguresPlotsFilepath() + imageId + ".png";
+            
+        }
+        
         InputStream in = new FileInputStream(new File(imagefp));
         response.setContentType(MediaType.IMAGE_PNG_VALUE);
         IOUtils.copy(in, response.getOutputStream());

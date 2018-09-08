@@ -30,6 +30,10 @@ import org.cidarlab.phoenix.adaptors.SBOLAdaptor;
 import org.cidarlab.phoenix.adaptors.STLAdaptor;
 import org.cidarlab.phoenix.adaptors.SynbiohubAdaptor;
 import org.cidarlab.phoenix.adaptors.UIAdaptor;
+import org.cidarlab.phoenix.core.assignment.AbstractAssignment;
+import org.cidarlab.phoenix.core.assignment.Exhaustive;
+import org.cidarlab.phoenix.core.assignment.SimulatedAnnealing;
+import org.cidarlab.phoenix.dom.AssignmentNode;
 import org.cidarlab.phoenix.dom.CandidateComponent;
 import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Module;
@@ -205,7 +209,8 @@ public class PhoenixProject {
             Logger.getLogger(PhoenixProject.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    
     public void executeBasicProject(int runCount, double confidence, double threshold) throws IOException, SBOLValidationException, SBOLConversionException, XMLStreamException, TLIException, InterruptedException, URISyntaxException {
         String jobfp = this.projectFolder + this.jobId + Utilities.getSeparater();
         SBOLDocument sbol = SBOLReader.read(jobfp + "sbol.xml");
@@ -370,7 +375,91 @@ public class PhoenixProject {
         Utilities.writeToFile(jobfp + "results.json", results.toString());
 
     }
+    
+    
+    public void executeBasicProject() throws IOException, SBOLValidationException, SBOLConversionException, XMLStreamException, TLIException, InterruptedException, URISyntaxException {
+        
+        String jobfp = this.projectFolder + this.jobId + Utilities.getSeparater();
+        args.setProjectFolder(jobfp);
+        
+        SBOLDocument sbol = SBOLReader.read(jobfp + "sbol.xml");
+        Library lib = new Library(sbol, Args.Decomposition.PR_C_T, jobfp);
+        
+        String eugfilecontent = Utilities.getFileContentAsString(jobfp + "eug.json");
+        JSONObject eug = new JSONObject(eugfilecontent);
+        int eugCircSize;
+        Integer eugNumSolutions = null;
 
+        if (eug.has("solutions")) {
+            eugNumSolutions = eug.getInt("solutions");
+        }
+        
+        eugCircSize = eug.getInt("size");
+        String eugfp = jobfp + "structure.eug";
+        TreeNode jobstl = STLAdaptor.getSTL(jobfp + "stl.txt");
+        
+        boolean first = true;
+        double bestval = 0;
+        int bestindex = 0;
+
+        List<Module> modules = MiniEugeneAdaptor.getStructures(eugfp, eugCircSize, eugNumSolutions, this.jobId);
+        
+        System.out.println("Number of modules from Eugene :: " + modules.size());
+        
+        List<String> eugDesignList = new ArrayList<>();
+        String eugdesignSpace = "";
+        for (Module m : modules) { 
+           eugdesignSpace += (m.getComponentString() + "\n");
+        }
+        Utilities.writeToFile(jobfp + "designspace.txt", eugdesignSpace);
+        
+        List<Module> decomposedModules = new ArrayList<>();
+        for (Module m : modules) {
+            decomposedModules.add(Controller.decompose(m, args.getDecomposition()));
+        }
+        
+        List<AssignmentNode> assignments = new ArrayList<>();
+        switch(args.getAssignment()){
+            case SIMULATED_ANNEALING:
+                SimulatedAnnealing sa = new SimulatedAnnealing();
+                sa.solve(decomposedModules, lib, jobstl, args);
+                break;
+            case EXHAUSTIVE:
+                Exhaustive exhaustive = new Exhaustive();
+                assignments = exhaustive.solve(decomposedModules, lib, jobstl, args);
+                break;
+        }
+        
+        
+        
+        JSONArray results = new JSONArray();
+        int resultCount = 0;
+        
+        
+        String jobresultsfp;
+        jobresultsfp = jobfp + "results" + Utilities.getSeparater();
+        if (!Utilities.validFilepath(jobresultsfp)) {
+            Utilities.makeDirectory(jobresultsfp);
+        }
+        List<String> resultLines = new ArrayList<>();
+        resultLines.add("Module Index, Assignment Index, Score");
+        for(AssignmentNode an:assignments){
+            resultLines.add(an.getModuleIndex() + "," + an.getAssignmentIndex() + "," + an.getScore());
+            JSONObject resultsObj = new JSONObject();
+            resultsObj.put("img", "/sbol/" + this.userid + "/" + this.jobId + "/" + an.getModuleIndex() + "/" + an.getAssignmentIndex() + "/" + "circuit");
+            resultsObj.put("name", "Module " + an.getModuleIndex() + " Assignment " + an.getAssignmentIndex());
+            resultsObj.put("score", an.getScore());
+            
+            JSONArray tracesArr = new JSONArray();
+            resultsObj.put("traces", tracesArr);
+            results.put(resultsObj);
+        }
+        
+        //System.out.println(results.toString());
+        Utilities.writeToFile(jobfp + "results.json", results.toString());
+
+    }
+    
     public static void executeAssignment(String jobid, Decomposition decomposition) throws InterruptedException, URISyntaxException {
         try {
             String jobfp = Utilities.getResultsFilepath() + jobid + Utilities.getSeparater();
@@ -423,11 +512,7 @@ public class PhoenixProject {
 
             Utilities.writeToFile(jobfp + "design.json", arr.toString(2));
 
-        } catch (SBOLValidationException ex) {
-            Logger.getLogger(PhoenixProject.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(PhoenixProject.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SBOLConversionException ex) {
+        } catch (SBOLValidationException | IOException | SBOLConversionException ex) {
             Logger.getLogger(PhoenixProject.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -683,10 +768,11 @@ public class PhoenixProject {
     }
 
     //<editor-fold desc="Constructors and functions for webapp">
-    public PhoenixProject(String userid, String projectName, String stl, String eugeneCode, String registry, String collection, int runCount, double confidence, double threshold) throws IOException, SBOLConversionException {
+    public PhoenixProject(String _userid, String projectName, String stl, String eugeneCode, String registry, String collection, int runCount, double confidence, double threshold) throws IOException, SBOLConversionException {
 
-        this.jobId = createJobUUID(userid);
-        String userRootFP = Utilities.getResultsFilepath() + userid + Utilities.getSeparater();
+        this.userid = _userid;
+        this.jobId = createJobUUID(_userid);
+        String userRootFP = Utilities.getResultsFilepath() + _userid + Utilities.getSeparater();
         this.projectFolder = userRootFP;
         String jobfp = this.projectFolder + this.jobId + Utilities.getSeparater();
 

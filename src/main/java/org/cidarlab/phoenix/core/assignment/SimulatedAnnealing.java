@@ -50,7 +50,7 @@ public class SimulatedAnnealing extends AbstractAssignment {
     private final double coolingRate = 0.003;
     private double temperature = 1000;
 
-    @Override
+    //@Override
     public void solve(List<Module> modules, Library library, TreeNode stl, Args args) {
         for (Module m : modules) {
             try {

@@ -17,7 +17,7 @@ import org.cidarlab.phoenix.utils.Args;
  */
 public class SimulatedAnnealingBinarySearch extends AbstractAssignment {
 
-    @Override
+    //@Override
     public void solve(List<Module> modules, Library library, TreeNode stl, Args args) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
