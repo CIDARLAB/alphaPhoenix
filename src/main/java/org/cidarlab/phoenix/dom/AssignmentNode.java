@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Objects;
 import javax.xml.stream.XMLStreamException;
 import lombok.Getter;
+import lombok.Setter;
 import org.cidarlab.gridtli.dom.Signal;
 import org.cidarlab.gridtli.dom.TLIException;
 import org.cidarlab.phoenix.adaptors.IBioSimAdaptor;
@@ -57,7 +58,19 @@ public class AssignmentNode {
     
     @Getter
     private Map<String,String> ioc;
-
+    
+    @Getter
+    @Setter
+    private int moduleIndex;
+    
+    @Getter
+    @Setter
+    private int assignmentIndex;
+    
+    @Getter
+    @Setter
+    private double score;
+    
     public int hammingDistance(AssignmentNode _node){
         int count = 0;
         for(Component c:this.components){
@@ -98,34 +111,91 @@ public class AssignmentNode {
     
     public AssignmentNode(Module module, Map<String,CandidateComponent> _candidate, Library library){
         
-        assignment = _candidate;
-        components = new ArrayList<>();
+        this.assignment = _candidate;
+        this.components = new ArrayList<>();
         
         for(Component c:module.getComponents()){
-            components.add(c);
+            this.components.add(c);
         }
             
         this.ioc = AbstractSimulation.getIOCmap(module, assignment, library);
-        indSMmap = AbstractSimulation.getIndSMmap(module, assignment, ioc, library);
+        this.indSMmap = AbstractSimulation.getIndSMmap(module, assignment, ioc, library);
         
-        smallMolecules = new ArrayList<>();
-        smURImap = new HashMap<>();
+        this.smallMolecules = new ArrayList<>();
+        this.smURImap = new HashMap<>();
         
-        for(String sm:indSMmap.keySet()){
+        for(String sm:this.indSMmap.keySet()){
             //System.out.println("SM : " + sm);
-            smallMolecules.add(sm);
+            this.smallMolecules.add(sm);
         }
         
         for(URI smURI:library.getSmallMolecules().keySet()){
             SmallMoleculeComponent smc = library.getSmallMolecules().get(smURI);
-            if(smallMolecules.contains(smc.getName())){
-                smURImap.put(smc.getName(),smURI);
+            if(this.smallMolecules.contains(smc.getName())){
+                this.smURImap.put(smc.getName(),smURI);
             }
         }
         
         this.concs = new HashMap<>();
         
     }
+    
+    public AssignmentNode(Module module, Map<String,CandidateComponent> _candidate, Map<String, String> _ioc, Library library){
+        
+        this.assignment = _candidate;
+        this.components = new ArrayList<>();
+        
+        for(Component c:module.getComponents()){
+            this.components.add(c);
+        }
+            
+        this.ioc = _ioc;
+        this.indSMmap = new HashMap<>();
+        
+        this.smallMolecules = new ArrayList<>();
+        this.smURImap = new HashMap<>();
+        this.concs = new HashMap<>();
+        
+    }
+    
+    public AssignmentNode(Module module, Map<String,CandidateComponent> _candidate, Map<String, String> _ioc, Map<String, Double> _concs, Library library){
+        
+        this.assignment = _candidate;
+        this.components = new ArrayList<>();
+        
+        for(Component c:module.getComponents()){
+            this.components.add(c);
+        }
+            
+        this.ioc = _ioc;
+        
+        this.smallMolecules = new ArrayList<>();
+        this.smURImap = new HashMap<>();
+        this.concs = new HashMap<>();
+        
+        this.indSMmap = AbstractSimulation.getIndSMmap(module, assignment, ioc, library);
+        
+        
+        for(String sm:this.indSMmap.keySet()){
+            //System.out.println("SM : " + sm);
+            this.smallMolecules.add(sm);
+        }
+        
+        for(URI smURI:library.getSmallMolecules().keySet()){
+            SmallMoleculeComponent smc = library.getSmallMolecules().get(smURI);
+            if(this.smallMolecules.contains(smc.getName())){
+                this.smURImap.put(smc.getName(),smURI);
+            }
+        }
+        
+        for(String smName:indSMmap.keySet()){
+            this.concs.put(smName, _concs.get( indSMmap.get(smName)));
+        }
+        
+        
+    }
+    
+    
     
     public void assignRandomConcentrations(Library library){
         for(String sm:smallMolecules){

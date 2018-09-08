@@ -6,6 +6,8 @@
 package org.cidarlab.phoenix.adaptors;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -674,6 +676,15 @@ public class DnaPlotlibAdaptor {
         Process proc = null;
         proc = runtime.exec(command);
         proc.waitFor();
+        
+        InputStream is = proc.getInputStream();
+        InputStream es = proc.getErrorStream();
+        OutputStream os = proc.getOutputStream();
+        is.close();
+        es.close();
+        os.close();
+        
+        
         //System.out.println("Script completed.");
     }
     
@@ -690,6 +701,14 @@ public class DnaPlotlibAdaptor {
         Process proc = null;
         proc = runtime.exec(command);
         proc.waitFor();
+        
+        InputStream is = proc.getInputStream();
+        InputStream es = proc.getErrorStream();
+        OutputStream os = proc.getOutputStream();
+        is.close();
+        es.close();
+        os.close();
+        
         System.out.println("Script completed.");
     }
     

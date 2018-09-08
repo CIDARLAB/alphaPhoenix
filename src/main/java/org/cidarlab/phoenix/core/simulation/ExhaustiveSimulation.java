@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.xml.stream.XMLStreamException;
+import org.apache.commons.io.FileUtils;
 import org.cidarlab.gridtli.adaptors.PyPlotAdaptor;
 import org.cidarlab.gridtli.adaptors.PyPlotAdaptor.Axis;
 import org.cidarlab.gridtli.dom.Signal;
@@ -25,6 +26,7 @@ import org.cidarlab.phoenix.adaptors.DnaPlotlibAdaptor;
 import org.cidarlab.phoenix.adaptors.IBioSimAdaptor;
 import org.cidarlab.phoenix.adaptors.SBMLAdaptor;
 import org.cidarlab.phoenix.adaptors.STLAdaptor;
+import org.cidarlab.phoenix.dom.AssignmentNode;
 import org.cidarlab.phoenix.dom.CandidateComponent;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.library.Library;
@@ -42,7 +44,8 @@ import org.sbml.jsbml.SBMLWriter;
  */
 public class ExhaustiveSimulation extends AbstractSimulation {
     
-    public static void run(Module module, Library library, TreeNode stl, Args args, String fp) throws URISyntaxException, MalformedURLException, XMLStreamException, FileNotFoundException, IOException, TLIException, InterruptedException {
+    public static List<AssignmentNode> run(Module module, Library library, TreeNode stl, Args args, int moduleIndex, String fp) throws URISyntaxException, MalformedURLException, XMLStreamException, FileNotFoundException, IOException, TLIException, InterruptedException {
+        List<AssignmentNode> nodes = new ArrayList<>();
         String tempfp = fp + "temp" + Utilities.getSeparater();
         Utilities.makeDirectory(tempfp);
         int count = 0;
@@ -77,7 +80,20 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                 String modelFile = ifp + "model.xml";
                 writer.write(module.getModel().getSbml(), modelFile);
                 
-                runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
+                double score = runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
+                boolean result = (score >= args.getThreshold());
+                if(result){
+                    AssignmentNode an = new AssignmentNode(module, assignment, ioc, library);
+                    an.setModuleIndex(moduleIndex);
+                    an.setAssignmentIndex(count);
+                    an.setScore(score);
+                    //an.setFilepath(ifp);
+                    nodes.add(an);
+                } else {
+                    FileUtils.deleteDirectory(new File(ifp));
+                }
+                
+                
                 count++;
                 
             } else {
@@ -113,7 +129,19 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                     }
                     writer.write(sbml, modelFile);
                     Utilities.writeToFile(smfp, smevents.toString(2));
-                    runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
+                    double  score = runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
+                    boolean result = (score >= args.getThreshold());
+                    if(result){
+                        AssignmentNode an = new AssignmentNode(module, assignment, ioc, conc, library);
+                        an.setModuleIndex(moduleIndex);
+                        an.setAssignmentIndex(count);
+                        an.setScore(score);
+                        //an.setFilepath(ifp);
+                        nodes.add(an);
+                        
+                    } else {
+                        FileUtils.deleteDirectory(new File(ifp));
+                    }
                     
                     count++;
                 }
@@ -127,10 +155,10 @@ public class ExhaustiveSimulation extends AbstractSimulation {
         for(Integer i:smCounts.keySet()){
             System.out.println("Number of assignments with " + i + " SM(s) : " + smCounts.get(i));
         }
-        
+        return nodes;
     }
     
-    private static void runSimulation(Module module, Map<String, CandidateComponent> assignment, Map<String, String> ioc, Library library, TreeNode stl, String modelFile, Args args, String ifp) throws InterruptedException, IOException, TLIException {
+    private static double runSimulation(Module module, Map<String, CandidateComponent> assignment, Map<String, String> ioc, Library library, TreeNode stl, String modelFile, Args args, String ifp) throws InterruptedException, IOException, TLIException {
         
         String dnaplotlibfp = ifp + "visualsbol.py";
         String dnaplotlibscript = DnaPlotlibAdaptor.generateScript(module, assignment, ioc, new HashMap<String, String>(), library, ifp + "circuit");
@@ -162,7 +190,8 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                 File f = new File(tsdfp);
                 f.delete();
             }
-
+            
+            
             
         } else if (args.getSimulation().equals(DETERMINISTIC)) {
             IBioSimAdaptor.simulateODE(modelFile, ifp, maxtime, 10, 10);
@@ -181,14 +210,32 @@ public class ExhaustiveSimulation extends AbstractSimulation {
             }    
         }
         
+        double score = Double.MAX_VALUE;
+        
+        
+        
+        
         for (String key : allsignals.keySet()) {
+            if (args.getSimulation().equals(DETERMINISTIC)) {
+                double perc = STLAdaptor.getRobustness(stl, allsignals.get(key).get(0));
+                if (perc < score) {
+                    score = perc;
+                }
+            } else if (args.getSimulation().equals(STOCHASTIC)) {
+                double perc = STLAdaptor.computeSatisfyingPercent(allsignals.get(key), stl);
+                if (perc < score) {
+                    score = perc;
+                }
+            }
+            
             Utilities.writeSignalsToCSV(allsignals.get(key), ifp + key + ".csv");
             List<String> pylines = PyPlotAdaptor.generateSignalPlotScript(allsignals.get(key), ifp + key + ".png", 0, maxtime, 0, 1000000, Axis.LINEAR, Axis.SYMLOG);
             Utilities.writeToFile(ifp + key + "_signals.py", pylines);
             PyPlotAdaptor.runScript(ifp + key + "_signals.py");
         }
+        return score;
         
-                
+       
     }
     
 }

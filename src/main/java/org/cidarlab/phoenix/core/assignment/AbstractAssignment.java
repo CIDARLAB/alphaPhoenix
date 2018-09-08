@@ -34,7 +34,7 @@ import org.cidarlab.phoenix.utils.Args;
  */
 public abstract class AbstractAssignment {
     
-    abstract public void solve(List<Module> modules, Library library, TreeNode stl, Args args);
+    //abstract public void solve(List<Module> modules, Library library, TreeNode stl, Args args);
     
     /**
      *
@@ -89,11 +89,11 @@ public abstract class AbstractAssignment {
             return false;
         }
 
-        for (URI pp : promProteins) {
+        /*for (URI pp : promProteins) {
             if (!cdsProteins.contains(pp)) {
                 return false;
             }
-        }
+        }*/
         
         for (URI cp : cdsProteins) {
             if (!promProteins.contains(cp)) {

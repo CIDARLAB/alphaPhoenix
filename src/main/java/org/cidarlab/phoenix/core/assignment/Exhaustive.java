@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.stream.XMLStreamException;
 import org.cidarlab.gridtli.dom.TLIException;
+import org.cidarlab.phoenix.dom.AssignmentNode;
 import org.cidarlab.phoenix.dom.CandidateComponent;
 import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Interaction;
@@ -43,25 +44,25 @@ import org.cidarlab.phoenix.utils.Utilities;
  */
 public class Exhaustive extends AbstractAssignment {
 
-    @Override
-    public void solve(List<Module> modules, Library library, TreeNode stl, Args args) {
+    //@Override
+    public List<AssignmentNode> solve(List<Module> modules, Library library, TreeNode stl, Args args) throws URISyntaxException, XMLStreamException, FileNotFoundException, IOException, MalformedURLException, TLIException, InterruptedException {
+        
+        String jobfp = args.getProjectFolder() + "results" + Utilities.getSeparater();
+        
         for(Module m:modules){
             solve(m,library,stl,args);
             
         }
+        List<AssignmentNode> assignments = new ArrayList<>();
+        
         for(int i=0;i<modules.size();i++){
-            String simfp = args.getProjectFolder() + i + Utilities.getSeparater();
+            String simfp = jobfp + i + Utilities.getSeparater();
             Utilities.makeDirectory(simfp);
             Module m = modules.get(i);
-            
-            try {
-                ExhaustiveSimulation.run(modules.get(i),library,stl,args,simfp);
-            } catch (URISyntaxException | MalformedURLException | XMLStreamException | FileNotFoundException ex) {
-                Logger.getLogger(Exhaustive.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException | TLIException | InterruptedException ex) {
-                Logger.getLogger(Exhaustive.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            assignments.addAll(ExhaustiveSimulation.run(modules.get(i), library, stl, args, i, simfp));
         }
+        
+        return assignments;
     }
     
     
