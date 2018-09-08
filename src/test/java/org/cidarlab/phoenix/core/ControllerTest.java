@@ -12,6 +12,7 @@ import java.util.List;
 import org.cidarlab.phoenix.adaptors.MiniEugeneAdaptor;
 import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Module;
+import org.cidarlab.phoenix.utils.Args;
 import org.cidarlab.phoenix.utils.Utilities;
 import org.json.JSONObject;
 import org.junit.After;
@@ -54,7 +55,7 @@ public class ControllerTest {
         String eug = Utilities.getResourcesFilepath() + "miniEugeneFiles" + Utilities.getSeparater() + "inverterCP.eug";
         int size = 8;
         List<Module> modules = MiniEugeneAdaptor.getStructures(eug, size, "inverter");
-        Module test = Controller.decompose(modules.get(1));
+        Module test = Controller.decompose(modules.get(1), Args.Decomposition.PR_C_T);
         for(Component c:test.getComponents()){
             System.out.println(c.getName());
         }

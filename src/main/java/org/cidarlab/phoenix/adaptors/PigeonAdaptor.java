@@ -29,9 +29,9 @@ public class PigeonAdaptor {
         if(or.equals(Orientation.REVERSE))
             featureString += "<";
         switch(role){
-            case PROMOTER:
-            case PROMOTER_REPRESSIBLE:
             case PROMOTER_INDUCIBLE:
+            case PROMOTER_REPRESSIBLE:
+            case PROMOTER_ACTIVATABLE:
             case PROMOTER_CONSTITUTIVE:
                 featureString += "p ";
                 break;
@@ -41,8 +41,8 @@ public class PigeonAdaptor {
             case CDS:
             case CDS_REPRESSOR:
             case CDS_ACTIVATOR:
-            case CDS_REPRESSIBLE_REPRESSOR:
-            case CDS_ACTIVATIBLE_ACTIVATOR:
+            //case CDS_REPRESSIBLE_REPRESSOR:
+            //case CDS_ACTIVATIBLE_ACTIVATOR:
             case CDS_LINKER:
             case CDS_TAG:
             case CDS_RESISTANCE:

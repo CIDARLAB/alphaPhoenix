@@ -5,15 +5,16 @@
  */
 package org.cidarlab.phoenix.examples;
 
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.cidarlab.phoenix.adaptors.MiniEugeneAdaptor;
 import org.cidarlab.phoenix.core.PhoenixProject;
-import org.cidarlab.phoenix.core.PhoenixProject.Simulation;
 import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.Orientation;
+import org.cidarlab.phoenix.utils.Args;
 import org.cidarlab.phoenix.utils.Utilities;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
@@ -33,39 +34,41 @@ public class ConstitutiveExpressionTest {
         
     
     @Test
-    public void testConstitutiveExpression(){
+    public void testConstitutiveExpression() throws URISyntaxException{
         String eugfp = eugFilepath;
         int eugCircSize = 4;
         Integer eugNumSolutions = null;
         String stlfp = stlFilepath;
         String libraryfp = libFilepath;
-        Simulation simulation = PhoenixProject.Simulation.DETERMINISTIC;
+        Args.Simulation simulation = Args.Simulation.STOCHASTIC;
+        Args.Decomposition decomposition = Args.Decomposition.PR_C_T;
         int runCount = 100;
         double confidence = 0.0;
         double threshold = 0.0;
         Map<String,Double> inputMap = new HashMap<String,Double>(); 
         boolean plot = true;
         
-        PhoenixProject newProj = new PhoenixProject( eugfp,  eugCircSize,  eugNumSolutions,  stlfp, libraryfp, simulation, runCount, confidence, threshold,  inputMap, plot);
+        PhoenixProject newProj = new PhoenixProject( eugfp,  eugCircSize,  eugNumSolutions,  stlfp, libraryfp, simulation, decomposition, runCount, confidence, threshold,  inputMap, plot);
         
     }
     
     //@Test
-    public void testCreateDesignPageJSON() throws InterruptedException{
+    public void testCreateDesignPageJSON() throws InterruptedException, URISyntaxException{
         System.out.println("Starting JSON Test");
         String eugfp = eugFilepath;
         int eugCircSize = 4;
         Integer eugNumSolutions = null;
         String stlfp = stlFilepath;
         String libraryfp = libFilepath;
-        Simulation simulation = PhoenixProject.Simulation.DETERMINISTIC;
+        Args.Simulation simulation = Args.Simulation.DETERMINISTIC;
+        Args.Decomposition decomposition = Args.Decomposition.PR_C_T;
         int runCount = 100;
         double confidence = 0.0;
         double threshold = 0.0;
         Map<String,Double> inputMap = new HashMap<String,Double>(); 
         boolean plot = true;
         PhoenixProject newProj = new PhoenixProject( eugfp,  eugCircSize,  eugNumSolutions,  stlfp, libraryfp);
-        PhoenixProject.executeAssignment(newProj.getJobId());
+        PhoenixProject.executeAssignment(newProj.getJobId(), decomposition);
     }
     
     

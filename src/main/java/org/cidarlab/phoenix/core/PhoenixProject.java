@@ -8,6 +8,7 @@ package org.cidarlab.phoenix.core;
 import hyness.stl.TreeNode;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,14 +35,16 @@ import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.SMC;
 import org.cidarlab.phoenix.failuremode.FailureModeGrammar;
-import org.cidarlab.phoenix.library.Library;
+import org.cidarlab.phoenix.dom.library.Library;
+import org.cidarlab.phoenix.utils.Args;
+import org.cidarlab.phoenix.utils.Args.Assignment;
+import org.cidarlab.phoenix.utils.Args.Decomposition;
+import org.cidarlab.phoenix.utils.Args.Simulation;
 import org.cidarlab.phoenix.utils.Utilities;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLWriter;
-import org.sbml.jsbml.Species;
 import org.sbolstandard.core2.SBOLConversionException;
 import org.sbolstandard.core2.SBOLDocument;
 import org.sbolstandard.core2.SBOLReader;
@@ -62,7 +65,10 @@ public class PhoenixProject {
 
     @Getter
     private String jobId;
-
+    
+    @Getter
+    private Args args;
+    
     public String getJobFolder() {
         if (projectFolder.endsWith("" + Utilities.getSeparater())) {
             return (projectFolder + jobId);
@@ -92,7 +98,7 @@ public class PhoenixProject {
         createJob();
     }
 
-    public PhoenixProject(String eugfp, int eugCircSize, Integer eugNumSolutions, String stlfp, String libraryfp, Simulation simulation, int runCount, double confidence, double threshold, Map<String, Double> inputMap, boolean plot) {
+    public PhoenixProject(String eugfp, int eugCircSize, Integer eugNumSolutions, String stlfp, String libraryfp, Simulation simulation, Decomposition decomposition, int runCount, double confidence, double threshold, Map<String, Double> inputMap, boolean plot) throws URISyntaxException {
         createCLIfolder();
         try {
             createJob();
@@ -140,11 +146,9 @@ public class PhoenixProject {
                 System.exit(-1);
             }
 
-            PhoenixProject.execute(jobId, simulation, runCount, confidence, threshold, plot, inputMap);
+            PhoenixProject.execute(jobId, simulation, decomposition, runCount, confidence, threshold, plot, inputMap);
 
-        } catch (IOException | SBOLConversionException ex) {
-            Logger.getLogger(PhoenixProject.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (TLIException ex) {
+        } catch (IOException | SBOLConversionException | TLIException ex) {
             Logger.getLogger(PhoenixProject.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -202,10 +206,10 @@ public class PhoenixProject {
         }
     }
 
-    public void executeBasicProject(int runCount, double confidence, double threshold) throws IOException, SBOLValidationException, SBOLConversionException, XMLStreamException, TLIException, InterruptedException {
+    public void executeBasicProject(int runCount, double confidence, double threshold) throws IOException, SBOLValidationException, SBOLConversionException, XMLStreamException, TLIException, InterruptedException, URISyntaxException {
         String jobfp = this.projectFolder + this.jobId + Utilities.getSeparater();
         SBOLDocument sbol = SBOLReader.read(jobfp + "sbol.xml");
-        Library lib = new Library(sbol);
+        Library lib = new Library(sbol, Args.Decomposition.PR_C_T, jobfp);
         String eugfilecontent = Utilities.getFileContentAsString(jobfp + "eug.json");
         JSONObject eug = new JSONObject(eugfilecontent);
         int eugCircSize;
@@ -233,7 +237,7 @@ public class PhoenixProject {
 
         List<Module> decomposedModules = new ArrayList<Module>();
         for (Module m : modules) {
-            decomposedModules.add(Controller.decompose(m));
+            decomposedModules.add(Controller.decompose(m, args.getDecomposition()));
         }
         JSONArray results = new JSONArray();
         int resultCount = 0;
@@ -248,10 +252,9 @@ public class PhoenixProject {
         
         for (Module decomposedModule : decomposedModules) {
             
-            List<Map<String, CandidateComponent>> assignments = Controller.assign(decomposedModule, lib, sbol);
+            List<Map<String, CandidateComponent>> assignments = new ArrayList<>();
             System.out.println("");
             System.out.println(assignments.size() + " candidate assignments found for design " + resultCount);
-            
             String designfp = jobresultsfp + "design" + resultCount + Utilities.getSeparater();
             Utilities.makeDirectory(designfp);
             
@@ -261,6 +264,11 @@ public class PhoenixProject {
             String moduleImage = decomposedModule.getAbstractSBOLVisual(new HashMap<String,String>());
             
             for (int i = 0; i < assignments.size(); i++) {
+                
+                System.out.println("Assignment Number : " + i);
+                for(String key:assignments.get(i).keySet()){
+                    System.out.println(key + "::" + assignments.get(i).get(key).getCandidate().getName());
+                }
                 
                 String assignmentfp;
                 assignmentfp = designfp + i + Utilities.getSeparater();
@@ -282,14 +290,14 @@ public class PhoenixProject {
                 //This is where you add events.
                 for (Component c : decomposedModule.getComponents()) {
                     switch (c.getRole()) {
-                        case PROMOTER:
-                        case PROMOTER_REPRESSIBLE:
                         case PROMOTER_INDUCIBLE:
+                        case PROMOTER_REPRESSIBLE:
+                        case PROMOTER_ACTIVATABLE:
                             CandidateComponent assignmentcc = assignment.get(c.getName());
                             if (assignmentcc.getCandidate().getName().equals("pLas_RBS30")) {
                                 eventvalues.put("ind_" + c.getIOCname(), 1.00);
                             } else if (assignmentcc.getCandidate().getName().equals("pBAD_RBS30")) {
-                                eventvalues.put("ind_" + c.getIOCname(), 100.00);
+                                eventvalues.put("ind_" + c.getIOCname(), 0.00);
                             }
                             break;
                         default:
@@ -363,7 +371,7 @@ public class PhoenixProject {
 
     }
 
-    public static void executeAssignment(String jobid) throws InterruptedException {
+    public static void executeAssignment(String jobid, Decomposition decomposition) throws InterruptedException, URISyntaxException {
         try {
             String jobfp = Utilities.getResultsFilepath() + jobid + Utilities.getSeparater();
             if (!Utilities.validFilepath(jobfp)) {
@@ -371,7 +379,7 @@ public class PhoenixProject {
                 System.exit(-1);
             }
             SBOLDocument sbol = SBOLReader.read(jobfp + "sbol.xml");
-            Library lib = new Library(sbol);
+            Library lib = new Library(sbol, decomposition,jobfp);
             String eugfilecontent = Utilities.getFileContentAsString(jobfp + "eug.json");
             JSONObject eug = new JSONObject(eugfilecontent);
             int eugCircSize;
@@ -400,13 +408,13 @@ public class PhoenixProject {
             List<Module> decomposedModules = new ArrayList<Module>();
 
             for (Module m : modules) {
-                decomposedModules.add(Controller.decompose(m));
+                decomposedModules.add(Controller.decompose(m, decomposition));
             }
 
             JSONArray arr = new JSONArray();
 
             for (Module m : decomposedModules) {
-                Controller.assignTUCandidates(m, lib, sbol);
+                //Controller.assignTUCandidates(m, lib, sbol);
             }
 
             for (Module m : decomposedModules) {
@@ -424,7 +432,7 @@ public class PhoenixProject {
         }
     }
 
-    public static void execute(String jobid, Simulation simulation, int runCount, double confidence, double threshold, boolean plot, Map<String, Double> inputMap) throws TLIException {
+    public static void execute(String jobid, Simulation simulation, Decomposition decomposition, int runCount, double confidence, double threshold, boolean plot, Map<String, Double> inputMap) throws TLIException, URISyntaxException {
         try {
             String jobfp = Utilities.getResultsFilepath() + jobid + Utilities.getSeparater();
             if (!Utilities.validFilepath(jobfp)) {
@@ -432,7 +440,7 @@ public class PhoenixProject {
                 System.exit(-1);
             }
             SBOLDocument sbol = SBOLReader.read(jobfp + "sbol.xml");
-            Library lib = new Library(sbol);
+            Library lib = new Library(sbol, Args.Decomposition.PR_C_T,jobfp);
             String eugfilecontent = Utilities.getFileContentAsString(jobfp + "eug.json");
             JSONObject eug = new JSONObject(eugfilecontent);
             int eugCircSize;
@@ -461,8 +469,9 @@ public class PhoenixProject {
             Module best = getBestModule(modules);
             Utilities.writeToFile(jobfp + "bestdesign.txt", best.getComponentString());
 
-            Module decomposedModule = Controller.decompose(best);
-            List<Map<String, CandidateComponent>> assignments = Controller.assign(decomposedModule, lib, sbol);
+            Module decomposedModule = Controller.decompose(best, decomposition);
+            List<Map<String, CandidateComponent>> assignments = new ArrayList<>();
+                    //Controller.assign(decomposedModule, lib, sbol);
 
             List<Integer> bestlist = new ArrayList<Integer>();
 
@@ -508,14 +517,14 @@ public class PhoenixProject {
 
                         for (Component c : decomposedModule.getComponents()) {
                             switch (c.getRole()) {
-                                case PROMOTER:
-                                case PROMOTER_REPRESSIBLE:
                                 case PROMOTER_INDUCIBLE:
+                                case PROMOTER_REPRESSIBLE:
+                                case PROMOTER_ACTIVATABLE:
                                     CandidateComponent assignmentcc = assignment.get(c.getName());
                                     if (assignmentcc.getCandidate().getName().equals("pLas_RBS30")) {
-                                        eventvalues.put("ind_" + c.getIOCname(), 1.00);
+                                        eventvalues.put("ind_" + c.getIOCname(), 0.00);
                                     } else if (assignmentcc.getCandidate().getName().equals("pBAD_RBS30")) {
-                                        eventvalues.put("ind_" + c.getIOCname(), 100.00);
+                                        eventvalues.put("ind_" + c.getIOCname(), 0.00);
                                     }
                                     break;
                                 default:
@@ -564,14 +573,14 @@ public class PhoenixProject {
                         //This is where you add events.
                         for (Component c : decomposedModule.getComponents()) {
                             switch (c.getRole()) {
-                                case PROMOTER:
-                                case PROMOTER_REPRESSIBLE:
                                 case PROMOTER_INDUCIBLE:
+                                case PROMOTER_REPRESSIBLE:
+                                case PROMOTER_ACTIVATABLE:
                                     CandidateComponent assignmentcc = assignment.get(c.getName());
                                     if (assignmentcc.getCandidate().getName().equals("pLas_RBS30")) {
-                                        eventvalues.put("ind_" + c.getIOCname(), 1.00);
+                                        eventvalues.put("ind_" + c.getIOCname(), 0.00);
                                     } else if (assignmentcc.getCandidate().getName().equals("pBAD_RBS30")) {
-                                        eventvalues.put("ind_" + c.getIOCname(), 100.00);
+                                        eventvalues.put("ind_" + c.getIOCname(), 0.00);
                                     }
                                     break;
                                 default:
@@ -625,7 +634,7 @@ public class PhoenixProject {
         List<Module> sorted = FailureModeGrammar.sortByFailureModes(modules);
         return sorted.get(0);
     }
-
+    
     private int getNextPositiveId() {
         int id = ThreadLocalRandom.current().nextInt();
         while (id <= 0) {
@@ -674,7 +683,7 @@ public class PhoenixProject {
     }
 
     //<editor-fold desc="Constructors and functions for webapp">
-    public PhoenixProject(String userid, String projectName, String stl, String eugeneCode, String registry, String collection) throws IOException, SBOLConversionException {
+    public PhoenixProject(String userid, String projectName, String stl, String eugeneCode, String registry, String collection, int runCount, double confidence, double threshold) throws IOException, SBOLConversionException {
 
         this.jobId = createJobUUID(userid);
         String userRootFP = Utilities.getResultsFilepath() + userid + Utilities.getSeparater();
@@ -738,12 +747,14 @@ public class PhoenixProject {
 
         SBOLDocument sbol = SynbiohubAdaptor.getSBOL(registry, collection);
         SBOLWriter.write(sbol, (jobfp + "sbol.xml"));
-
+        
+        this.args = new Args(Decomposition.PR_C_T,Simulation.STOCHASTIC, runCount, confidence, threshold, Assignment.EXHAUSTIVE);
+        
         details.put("state", State.COMPLETED);
         Utilities.writeToFile(jobfp + "details.json", details.toString());
     }
 
-    public void design() throws IOException, SBOLValidationException, SBOLConversionException, InterruptedException {
+    public void design() throws IOException, SBOLValidationException, SBOLConversionException, InterruptedException, URISyntaxException {
         String jobfp = this.projectFolder + this.jobId + Utilities.getSeparater();
 
         JSONObject details = new JSONObject(Utilities.getFileContentAsString(jobfp + "details.json"));
@@ -752,7 +763,7 @@ public class PhoenixProject {
         Utilities.writeToFile(jobfp + "details.json", details.toString());
 
         SBOLDocument sbol = SBOLReader.read(jobfp + "sbol.xml");
-        Library lib = new Library(sbol);
+        Library lib = new Library(sbol, this.args.getDecomposition(),jobfp);
         String eugfilecontent = Utilities.getFileContentAsString(jobfp + "eug.json");
         JSONObject eug = new JSONObject(eugfilecontent);
         int eugCircSize;
@@ -769,13 +780,13 @@ public class PhoenixProject {
 
         List<Module> decomposedModules = new ArrayList<Module>();
         for (Module m : modules) {
-            decomposedModules.add(Controller.decompose(m));
+            decomposedModules.add(Controller.decompose(m, args.getDecomposition()));
         }
 
         JSONArray arr = new JSONArray();
 
         for (Module m : decomposedModules) {
-            Controller.assignTUCandidates(m, lib, sbol);
+            //Controller.assignTUCandidates(m, lib, sbol);
             arr.put(UIAdaptor.getModuleJSON(m));
         }
 
@@ -804,11 +815,7 @@ public class PhoenixProject {
 
     //</editor-fold>
     
-    public static enum Simulation {
-
-        DETERMINISTIC,
-        STOCHASTIC
-    }
+    
 
     public static enum State {
 

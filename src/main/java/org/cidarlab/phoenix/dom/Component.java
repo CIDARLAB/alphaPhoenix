@@ -5,6 +5,8 @@
  */
 package org.cidarlab.phoenix.dom;
 
+import org.cidarlab.phoenix.dom.library.Library;
+import org.cidarlab.phoenix.dom.library.LibraryComponent;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -13,7 +15,6 @@ import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import org.cidarlab.minieugene.predicates.interaction.Interaction.InteractionType;
-import org.cidarlab.phoenix.library.Library;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -104,19 +105,83 @@ public class Component {
         }
     }
     
+    public boolean isPromoter(){
+        switch(role){
+            case GENERIC_PROMOTER:
+            case PROMOTER_REPRESSIBLE:
+            case PROMOTER_ACTIVATABLE:
+            case PROMOTER_CONSTITUTIVE:
+                return true;
+            default:
+                return false;
+        }
+    }
+    
+    public boolean isRBS(){
+        switch(role){
+            case GENERIC_RBS:
+            case RBS:
+                return true;
+            default: 
+                return false;
+        }
+    }
+    
+    public boolean isCDS(){
+        switch(role){
+            case GENERIC_CDS:
+            case CDS:
+            case CDS_REPRESSOR:
+            case CDS_ACTIVATOR:
+            case CDS_LINKER:
+            case CDS_TAG:
+            case CDS_RESISTANCE:
+            case CDS_FLUORESCENT:
+            case CDS_FLUORESCENT_FUSION:
+                return true;
+            default:
+                return false;
+        }
+    }
+    
+    public boolean isTerminator(){
+        switch(role){
+            case GENERIC_TERMINATOR:
+            case TERMINATOR:
+                return true;
+            default:
+                return false;
+        }
+    }
+    
+    
+    public boolean isGeneric(){
+        switch(role){
+            case GENERIC_PROMOTER:
+            case GENERIC_RBS:
+            case GENERIC_CDS:
+            case GENERIC_TERMINATOR:
+                return true;
+            default: 
+                return false;
+        
+        }
+    }
+    
     public static enum ComponentRole{
+        GENERIC_PROMOTER,
+        GENERIC_RBS,
+        GENERIC_CDS,
+        GENERIC_TERMINATOR,
         PROTEIN,
-        INDUCER,
-        PROMOTER,
-        PROMOTER_REPRESSIBLE,
         PROMOTER_INDUCIBLE,
+        PROMOTER_REPRESSIBLE,
+        PROMOTER_ACTIVATABLE,
         PROMOTER_CONSTITUTIVE,
         RBS,
         CDS,
         CDS_REPRESSOR,
         CDS_ACTIVATOR,
-        CDS_REPRESSIBLE_REPRESSOR,
-        CDS_ACTIVATIBLE_ACTIVATOR,
         CDS_LINKER,
         CDS_TAG,
         CDS_RESISTANCE,
@@ -127,6 +192,9 @@ public class Component {
         VECTOR,
         TESTING,
         MARKER,
-        WILDCARD;
+        WILDCARD,
+        SMALL_MOLECULE,
+        ENGINEERED_REGION,
+        COMPLEX
     }
 }

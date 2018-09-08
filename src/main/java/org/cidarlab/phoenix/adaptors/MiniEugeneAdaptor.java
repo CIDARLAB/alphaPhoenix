@@ -6,6 +6,7 @@
 package org.cidarlab.phoenix.adaptors;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -96,7 +97,7 @@ public class MiniEugeneAdaptor {
                 
                 org.cidarlab.phoenix.dom.Component phoenixComponent = new org.cidarlab.phoenix.dom.Component();
                 phoenixComponent.setName(c.getName());
-                phoenixComponent.setRole(findRole(ctype));
+                phoenixComponent.setRole(findRole(c.getName()));
                 
                 //Primitive orientation                
                 if (c.isForward()) {
@@ -111,13 +112,68 @@ public class MiniEugeneAdaptor {
             phoenixModule.setRole(ModuleRole.HIGHER_FUNCTION);
             phoenixModule.setRoot(true);
             addInteractions(phoenixModule, interactions);
+            renameGenericComponents(phoenixModule);
             phoenixModules.add(phoenixModule);             
         }
         
         return phoenixModules;
     }
     
-    public static void addInteractions(Module module, Set<Interaction> interactions){
+    private static void renameGenericComponents(Module module){
+        
+        Set<String> specific = new HashSet<String>();
+        int ap = 0;
+        int ar = 0;
+        int ac = 0;
+        int at = 0;
+         for(org.cidarlab.phoenix.dom.Component c:module.getComponents()){
+            switch(c.getRole()){
+                case GENERIC_PROMOTER:
+                case GENERIC_RBS:
+                case GENERIC_CDS:
+                case GENERIC_TERMINATOR:
+                    break;
+                default:
+                    specific.add(c.getName());
+                    break;        
+                    
+            }
+         }
+        for(org.cidarlab.phoenix.dom.Component c:module.getComponents()){
+            switch(c.getRole()){
+                case GENERIC_PROMOTER:
+                    String pname = c.getName() + ap;
+                    ap++;
+                    c.setName(pname);
+                    break;
+                case GENERIC_RBS:
+                    String rname = c.getName() + ar;
+                    ar++;
+                    while(specific.contains(rname)){
+                        rname = c.getName() + ar;
+                        ar++;
+                    }
+                    c.setName(rname);
+                    break;
+                case GENERIC_CDS:
+                    String cname = c.getName() + ac;
+                    ac++;
+                    c.setName(cname);
+                    break;
+                case GENERIC_TERMINATOR:
+                    String tname = c.getName() + at;
+                    at++;
+                    while(specific.contains(tname)){
+                        tname = c.getName() + at;
+                        at++;
+                    }
+                    c.setName(tname);
+                    break;
+            }
+        }
+    }
+    
+    private static void addInteractions(Module module, Set<Interaction> interactions){
         for(Interaction i:interactions){
             org.cidarlab.phoenix.dom.Component from = null;
             org.cidarlab.phoenix.dom.Component to = null;
@@ -142,38 +198,71 @@ public class MiniEugeneAdaptor {
         } 
     }
     
+    
+    //Determine primitive role from Eugene component name
+    public static org.cidarlab.phoenix.dom.Component.ComponentRole findRole(String type) {
+        
+        org.cidarlab.phoenix.dom.Component.ComponentRole role = org.cidarlab.phoenix.dom.Component.ComponentRole.WILDCARD;
+        
+        if(type.equals("p")){
+          role = org.cidarlab.phoenix.dom.Component.ComponentRole.GENERIC_PROMOTER;
+        } else if(type.equals("r")){
+          role = org.cidarlab.phoenix.dom.Component.ComponentRole.GENERIC_RBS;  
+        } else if(type.equals("c")){
+          role = org.cidarlab.phoenix.dom.Component.ComponentRole.GENERIC_CDS;  
+        } else if(type.equals("t")){
+            role = org.cidarlab.phoenix.dom.Component.ComponentRole.GENERIC_TERMINATOR;
+        } else if (type.startsWith("cp")) {
+            role = org.cidarlab.phoenix.dom.Component.ComponentRole.PROMOTER_CONSTITUTIVE;
+        } else if (type.startsWith("ap")) {
+            role = org.cidarlab.phoenix.dom.Component.ComponentRole.PROMOTER_ACTIVATABLE;
+        } else if (type.startsWith("rp")) {
+            role = org.cidarlab.phoenix.dom.Component.ComponentRole.PROMOTER_REPRESSIBLE;
+        } else if (type.startsWith("ac")) {
+            role = org.cidarlab.phoenix.dom.Component.ComponentRole.CDS_ACTIVATOR;
+        } else if (type.startsWith("rc")) {
+            role = org.cidarlab.phoenix.dom.Component.ComponentRole.CDS_REPRESSOR;
+        } else if (type.startsWith("fc")) {
+            role = org.cidarlab.phoenix.dom.Component.ComponentRole.CDS_FLUORESCENT;
+        } else if (type.startsWith("t")) {
+            role = org.cidarlab.phoenix.dom.Component.ComponentRole.TERMINATOR;
+        } else if (type.startsWith("r")) {
+            role = org.cidarlab.phoenix.dom.Component.ComponentRole.RBS;
+        }  
+        return role;
+    }
+    
+    
     //Determine primitive role from Eugene component types
     public static org.cidarlab.phoenix.dom.Component.ComponentRole findRole(ComponentType type) {
         
         org.cidarlab.phoenix.dom.Component.ComponentRole role = org.cidarlab.phoenix.dom.Component.ComponentRole.WILDCARD;
-        if (type.getName().startsWith("p")) {
-            role = org.cidarlab.phoenix.dom.Component.ComponentRole.PROMOTER;
-        } else if (type.getName().startsWith("ip")) {
-            role = org.cidarlab.phoenix.dom.Component.ComponentRole.PROMOTER_INDUCIBLE;
-        } else if (type.getName().startsWith("rp")) {
-            role = org.cidarlab.phoenix.dom.Component.ComponentRole.PROMOTER_REPRESSIBLE;
+        
+        if(type.getName().equals("p")){
+          role = org.cidarlab.phoenix.dom.Component.ComponentRole.GENERIC_PROMOTER;
+        } else if(type.getName().equals("r")){
+          role = org.cidarlab.phoenix.dom.Component.ComponentRole.GENERIC_RBS;  
+        } else if(type.getName().equals("c")){
+          role = org.cidarlab.phoenix.dom.Component.ComponentRole.GENERIC_CDS;  
+        } else if(type.getName().equals("t")){
+            role = org.cidarlab.phoenix.dom.Component.ComponentRole.GENERIC_TERMINATOR;
         } else if (type.getName().startsWith("cp")) {
             role = org.cidarlab.phoenix.dom.Component.ComponentRole.PROMOTER_CONSTITUTIVE;
-        } else if (type.getName().startsWith("rc")) {
-            role = org.cidarlab.phoenix.dom.Component.ComponentRole.CDS_REPRESSIBLE_REPRESSOR;
-        } else if (type.getName().startsWith("fc")) {
-            role = org.cidarlab.phoenix.dom.Component.ComponentRole.CDS_ACTIVATIBLE_ACTIVATOR;
-        } else if (type.getName().startsWith("r")) {
-            role = org.cidarlab.phoenix.dom.Component.ComponentRole.RBS;
-        } else if (type.getName().startsWith("c")) {
+        } else if (type.getName().startsWith("ap")) {
+            role = org.cidarlab.phoenix.dom.Component.ComponentRole.PROMOTER_ACTIVATABLE;
+        } else if (type.getName().startsWith("rp")) {
+            role = org.cidarlab.phoenix.dom.Component.ComponentRole.PROMOTER_REPRESSIBLE;
+        } else if (type.getName().startsWith("ac")) {
             role = org.cidarlab.phoenix.dom.Component.ComponentRole.CDS_ACTIVATOR;
-        } else if (type.getName().startsWith("g")) {
+        } else if (type.getName().startsWith("rc")) {
             role = org.cidarlab.phoenix.dom.Component.ComponentRole.CDS_REPRESSOR;
+        } else if (type.getName().startsWith("fc")) {
+            role = org.cidarlab.phoenix.dom.Component.ComponentRole.CDS_FLUORESCENT;
         } else if (type.getName().startsWith("t")) {
             role = org.cidarlab.phoenix.dom.Component.ComponentRole.TERMINATOR;
-        } else if (type.getName().startsWith("unk")) {
-            role = org.cidarlab.phoenix.dom.Component.ComponentRole.CDS;
-        } else if (type.getName().startsWith("fl")) {
-            role = org.cidarlab.phoenix.dom.Component.ComponentRole.CDS_FLUORESCENT;
-        } else if (type.getName().startsWith("l")) {
-            role = org.cidarlab.phoenix.dom.Component.ComponentRole.CDS_LINKER;
-        } 
-         
+        } else if (type.getName().startsWith("r")) {
+            role = org.cidarlab.phoenix.dom.Component.ComponentRole.RBS;
+        }  
         return role;
     }
     

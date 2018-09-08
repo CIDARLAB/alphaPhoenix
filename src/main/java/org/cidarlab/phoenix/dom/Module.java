@@ -33,7 +33,11 @@ public class Module {
     
     @Getter
     @Setter
-    private List<List<CandidateComponent>> assignments = new ArrayList<>();
+    private List<CandidateComponent> candidates = new ArrayList<>();
+    
+    @Getter
+    @Setter
+    private List<Map<String, CandidateComponent>> assignments = new ArrayList<>();
     
     @Getter
     @Setter
@@ -67,6 +71,22 @@ public class Module {
     @Getter
     @Setter
     private boolean root;
+    
+    public static Component getPromInPR(Module pr){
+        return pr.getComponents().get(0);
+    }
+    
+    public static Component getRbsInPR(Module pr){
+        return pr.getComponents().get(1);
+    }
+    
+    public static Component getRbsInRC(Module rc){
+        return rc.getComponents().get(0);
+    }
+    
+    public static Component getCDSInRC(Module rc){
+        return rc.getComponents().get(1);
+    }
     
     //Get all Interactions
     
@@ -124,7 +144,7 @@ public class Module {
         Set<String> completed = new HashSet<>();
         for(Component c:this.components){
             if(!completed.contains(c.getName())){
-                if(Controller.isPromoter(c)){
+                if(c.isPromoter()){
                     if(c.getInteractions().isEmpty()){
                         if(c.getRole().equals(ComponentRole.PROMOTER_CONSTITUTIVE)){
                             //Shouldn't this be in_x++? 
@@ -141,7 +161,7 @@ public class Module {
                         conn++;
                     }
                     
-                } else if(Controller.isCDS(c)){
+                } else if(c.isCDS()){
                     if(c.getInteractions().isEmpty()){
                         c.setIOCname("out" + out);
                         out++;
@@ -184,7 +204,7 @@ public class Module {
             String plotFp = Utilities.getDnaFiguresPlotsFilepath() + fn;
             String script = DnaPlotlibAdaptor.generateScript(this.components, false, colorMap, plotFp);
             Utilities.writeToFile(scriptFp, script);
-            DnaPlotlibAdaptor.runScript(scriptFp);
+            DnaPlotlibAdaptor.runWebAppScript(scriptFp);
             
             JSONObject figlist = new JSONObject(Utilities.getFileContentAsString(Utilities.getDnaFiguresFilepath() + "figlist.json"));
             figlist.put(fn, fn);
@@ -211,10 +231,10 @@ public class Module {
         HIGHER_FUNCTION,
         TRANSCRIPTIONAL_UNIT,
         PROMOTER,
+        PROMOTER_RBS,
+        RBS_CDS,
         CDS, 
-        BIOCPS_INPUT,
-        BIOCPS_MODULE,
-        BIOCPS_OUTPUT
+        TERMINATOR,
     }
     
     

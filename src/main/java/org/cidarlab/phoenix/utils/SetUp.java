@@ -60,12 +60,12 @@ public class SetUp {
         
         ip1 = new Component();
         ip1.setOrientation(Orientation.FORWARD);
-        ip1.setRole(Component.ComponentRole.PROMOTER_INDUCIBLE);
+        ip1.setRole(Component.ComponentRole.PROMOTER_ACTIVATABLE);
         ip1.setName("InduciblePromoter1");
         
         ip2 = new Component();
         ip2.setOrientation(Orientation.FORWARD);
-        ip2.setRole(Component.ComponentRole.PROMOTER_INDUCIBLE);
+        ip2.setRole(Component.ComponentRole.PROMOTER_ACTIVATABLE);
         ip2.setName("InduciblePromoter2");
         
         

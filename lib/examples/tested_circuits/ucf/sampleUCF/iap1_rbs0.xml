@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+  <model>
+    <listOfCompartments>
+      <compartment constant="false" id="cell" name="cell" size="1"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species boundaryCondition="false" compartment="cell" constant="false" hasOnlySubstanceUnits="true" id="out" initialAmount="0" name="out" sboTerm="SBO:0000601"/>
+      <species boundaryCondition="false" compartment="cell" constant="false" hasOnlySubstanceUnits="true" id="conn" initialAmount="0" name="conn" sboTerm="SBO:0000600"/>
+      <species boundaryCondition="false" compartment="cell" constant="false" hasOnlySubstanceUnits="true" id="ind" initialAmount="0" name="ind" sboTerm="SBO:0000600"/>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction fast="false" id="out_expression" name="out_expression" reversible="false" sboTerm="SBO:0000589">
+        <listOfProducts>
+          <speciesReference constant="true" species="out" stoichiometry="1"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference sboTerm="SBO:0000459" species="conn"/>
+          <modifierSpeciesReference sboTerm="SBO:0000459" species="ind"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <plus/>
+              <apply>
+                <plus/>
+                <ci> basal </ci>
+                <apply>
+                  <times/>
+                  <ci> max </ci>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <minus/>
+                        <ci> conn </ci>
+                        <apply>
+                          <times/>
+                          <ci> conn </ci>
+                          <apply>
+                            <divide/>
+                            <apply>
+                              <power/>
+                              <ci> ind </ci>
+                              <ci> n_SM </ci>
+                            </apply>
+                            <apply>
+                              <plus/>
+                              <apply>
+                                <power/>
+                                <ci> K_d_SM </ci>
+                                <ci> n_SM </ci>
+                              </apply>
+                              <apply>
+                                <power/>
+                                <ci> ind </ci>
+                                <ci> n_SM </ci>
+                              </apply>
+                            </apply>
+                          </apply>
+                        </apply>
+                      </apply>
+                      <ci> n </ci>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <apply>
+                        <power/>
+                        <ci> K_d </ci>
+                        <ci> n </ci>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <minus/>
+                          <ci> conn </ci>
+                          <apply>
+                            <times/>
+                            <ci> conn </ci>
+                            <apply>
+                              <divide/>
+                              <apply>
+                                <power/>
+                                <ci> ind </ci>
+                                <ci> n_SM </ci>
+                              </apply>
+                              <apply>
+                                <plus/>
+                                <apply>
+                                  <power/>
+                                  <ci> K_d_SM </ci>
+                                  <ci> n_SM </ci>
+                                </apply>
+                                <apply>
+                                  <power/>
+                                  <ci> ind </ci>
+                                  <ci> n_SM </ci>
+                                </apply>
+                              </apply>
+                            </apply>
+                          </apply>
+                        </apply>
+                        <ci> n </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <times/>
+                <ci> max_TF </ci>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <power/>
+                    <apply>
+                      <times/>
+                      <ci> conn </ci>
+                      <apply>
+                        <divide/>
+                        <apply>
+                          <power/>
+                          <ci> ind </ci>
+                          <ci> n_SM </ci>
+                        </apply>
+                        <apply>
+                          <plus/>
+                          <apply>
+                            <power/>
+                            <ci> K_d_SM </ci>
+                            <ci> n_SM </ci>
+                          </apply>
+                          <apply>
+                            <power/>
+                            <ci> ind </ci>
+                            <ci> n_SM </ci>
+                          </apply>
+                        </apply>
+                      </apply>
+                    </apply>
+                    <ci> n_TF </ci>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <apply>
+                      <power/>
+                      <ci> K_d_TF </ci>
+                      <ci> n_TF </ci>
+                    </apply>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <times/>
+                        <ci> conn </ci>
+                        <apply>
+                          <divide/>
+                          <apply>
+                            <power/>
+                            <ci> ind </ci>
+                            <ci> n_SM </ci>
+                          </apply>
+                          <apply>
+                            <plus/>
+                            <apply>
+                              <power/>
+                              <ci> K_d_SM </ci>
+                              <ci> n_SM </ci>
+                            </apply>
+                            <apply>
+                              <power/>
+                              <ci> ind </ci>
+                              <ci> n_SM </ci>
+                            </apply>
+                          </apply>
+                        </apply>
+                      </apply>
+                      <ci> n_TF </ci>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+            </apply>
+          </math>
+                  <listOfLocalParameters>
+            <localParameter id="basal" name="basal" value="1.65416053"/>
+            <localParameter id="max" name="max" value="5.19757143"/>
+            <localParameter id="K_d" name="K_d" value="4559.44415"/>
+            <localParameter id="n" name="n" value="9.8731276"/>
+            <localParameter id="max_TF" name="max_TF" value="53.8087369"/>
+            <localParameter id="K_d_TF" name="K_d_TF" value="3.78127585E4"/>
+            <localParameter id="n_TF" name="n_TF" value="0.554394336"/>
+            <localParameter id="K_d_SM" name="K_d_SM" value="28.0026157"/>
+            <localParameter id="n_SM" name="n_SM" value="0.899674268"/>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

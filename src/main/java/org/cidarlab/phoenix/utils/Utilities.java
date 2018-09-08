@@ -13,8 +13,12 @@ import java.net.URLDecoder;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.cidarlab.gridtli.dom.Point;
+import org.cidarlab.gridtli.dom.Signal;
+import org.cidarlab.gridtli.dom.TLIException;
 import org.json.JSONObject;
 
 /**
@@ -195,6 +199,48 @@ public class Utilities {
     
     //</editor-fold>
     
+    public static void writeSignalsToCSV(List<Signal> signals, String filepath){
+        List<String> lines = new ArrayList<String>();
+        String line0 = "";
+        String line1 = "";
+        int lim = signals.get(0).getPoints().size() - 1;
+        for(int i=0;i<lim;i++){
+            Point p = signals.get(0).getPoints().get(i);
+            line0 += (p.getX() + ",");
+            line1 += (p.getY() + ",");
+        }
+        line0 += signals.get(0).getPoints().get(lim).getX();
+        line1 += signals.get(0).getPoints().get(lim).getY();
+        
+        lines.add(line0);
+        lines.add(line1);
+        for(int i=1;i<signals.size();i++){
+            String line = "";
+            for(int j=0;j<lim;j++){
+                Point p = signals.get(i).getPoints().get(j);
+                line += (p.getY() + ",");
+            }
+            line += signals.get(i).getPoints().get(lim).getY();
+            lines.add(line);
+        }
+        writeToFile(filepath, lines);
+    }
+    
+    public static List<Signal> readSignalsFromCSV(String filepath) throws TLIException{
+        List<String[]> lines = getCSVFileContentAsList(filepath);
+        List<Signal> signals = new ArrayList<>();
+        File f = new File(filepath);
+        String sig = f.getName();
+        sig = sig.substring(0, sig.lastIndexOf(".csv"));
+        for(int i=1;i<lines.size();i++){
+            List<Point> points = new ArrayList<>();
+            for(int j=0;j<lines.get(0).length;j++){
+                points.add(new Point(Double.valueOf(lines.get(0)[j]),"t",Double.valueOf(lines.get(i)[j]),sig));   
+            }
+            signals.add(new Signal(points));
+        }
+        return signals;
+    }
     
     static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     static SecureRandom rnd = new SecureRandom();
@@ -223,6 +269,7 @@ public class Utilities {
             while((line=reader.readLine()) != null){
                 filecontent += (line+"\n");
             }
+            reader.close();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, "File at " + filepath + " not found.");
@@ -242,6 +289,7 @@ public class Utilities {
             while((line=reader.readLine()) != null){
                 filecontent.add(line);
             }
+            reader.close();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, "File at " + filepath + " not found.");
@@ -260,6 +308,7 @@ public class Utilities {
             while( (nextline = reader.readNext()) != null ){
                 listPieces.add(nextline);
             }
+            reader.close();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -271,10 +320,10 @@ public class Utilities {
     public static void writeToFile(String filepath, String content){
         File file = new File(filepath);
         try {
-            FileWriter fr = new FileWriter(file);
-            try (BufferedWriter br = new BufferedWriter(fr)) {
+            try (BufferedWriter br = new BufferedWriter(new FileWriter(file))) {
                 br.write(content);
                 br.flush();
+                br.close();
             }
         } catch (IOException ex) {
             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
@@ -284,13 +333,13 @@ public class Utilities {
     public static void writeToFile(String filepath, List<String> lines){
         File file = new File(filepath);
         try {
-            FileWriter fr = new FileWriter(file);
-            try (BufferedWriter br = new BufferedWriter(fr)) {
+            try (BufferedWriter br = new BufferedWriter(new FileWriter(file))) {
                 for(String line:lines){
                     br.write(line);
                     br.newLine();
                 }
                 br.flush();
+                br.close();
             }
         } catch (IOException ex) {
             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
@@ -302,5 +351,13 @@ public class Utilities {
             return '\\';
         }
         return '/';
+    }
+
+    public static int getRandom(int min, int max) {
+        if (min == max) {
+            return min;
+        }
+        int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
+        return randomNum;
     }
 }

@@ -33,7 +33,6 @@ import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
-import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
@@ -144,11 +143,11 @@ public class SBMLAdaptor {
 //				}
 			}
 		}
-		if (substitutions.isEmpty()) {
-			for (int i = 1; i < mods.size(); i++) {
-				substitutions.putAll(inferIOSubstitutions(mods.get(i - 1), mods.get(i)));
-			}
-		}
+//		if (substitutions.isEmpty()) {
+//			for (int i = 1; i < mods.size(); i++) {
+//				substitutions.putAll(inferIOSubstitutions(mods.get(i - 1), mods.get(i)));
+//			}
+//		}
 		if (!substitutions.isEmpty()) {
 			substituteSpecies(substitutions, composedMod);
 		}
@@ -166,6 +165,7 @@ public class SBMLAdaptor {
             t.setInitialValue(false);
             t.setPersistent(true);
             event.createEventAssignment(id, new ASTNode(value));
+            event.setUseValuesFromTriggerTime(true);
         }
 	
 	private static boolean versionSBase(NamedSBase sb, Model mod) {
@@ -184,7 +184,10 @@ public class SBMLAdaptor {
 	}
         
         public static void renameSpecies(SBMLDocument doc, String oldID, String newID) {
-            try {            
+            try {
+                if (doc.getModel().getSpecies(newID) != null) {
+                    doc.getModel().removeSpecies(newID);
+                }
                 updateVarId(doc, true, oldID, newID);
                 Species spec = doc.getModel().getSpecies(oldID);
                 if (spec != null) {
@@ -536,11 +539,11 @@ public class SBMLAdaptor {
     private static Reaction createRepressibleExpressionReaction(Species repressor, Species expressed, Model mod) {
     	Reaction repressibleExpression = createRatelessRepressibleExpressionReaction(repressor, expressed, mod);
         KineticLaw repressibleExpressionLaw = repressibleExpression.createKineticLaw();
-        LocalParameter maxExpressionRate = repressibleExpressionLaw.createLocalParameter("max_rate");
-        maxExpressionRate.setName("max_rate");
+        LocalParameter maxExpressionRate = repressibleExpressionLaw.createLocalParameter("max");
+        maxExpressionRate.setName("max");
         maxExpressionRate.setValue(1.0);
-        LocalParameter basalExpressionRate = repressibleExpressionLaw.createLocalParameter("basal_rate");
-        basalExpressionRate.setName("basal_rate");
+        LocalParameter basalExpressionRate = repressibleExpressionLaw.createLocalParameter("basal");
+        basalExpressionRate.setName("basal");
         basalExpressionRate.setValue(1.0);
         LocalParameter kd = repressibleExpressionLaw.createLocalParameter("K_d");
         kd.setName("K_d");
@@ -564,11 +567,11 @@ public class SBMLAdaptor {
     private static Reaction createActivatableExpressionReaction(Species activator, Species expressed, Model mod) {
         Reaction activatableExpression = createRatelessActivatableExpressionReaction(activator, expressed, mod);
         KineticLaw activatableExpressionLaw = activatableExpression.createKineticLaw();
-        LocalParameter maxExpressionRate = activatableExpressionLaw.createLocalParameter("max_rate");
-        maxExpressionRate.setName("max_rate");
+        LocalParameter maxExpressionRate = activatableExpressionLaw.createLocalParameter("max");
+        maxExpressionRate.setName("max");
         maxExpressionRate.setValue(1.0);
-        LocalParameter basalExpressionRate = activatableExpressionLaw.createLocalParameter("basal_rate");
-        basalExpressionRate.setName("basal_rate");
+        LocalParameter basalExpressionRate = activatableExpressionLaw.createLocalParameter("basal");
+        basalExpressionRate.setName("basal");
         basalExpressionRate.setValue(1.0);
         LocalParameter kd = activatableExpressionLaw.createLocalParameter("K_d");
         kd.setName("K_d");
@@ -592,36 +595,43 @@ public class SBMLAdaptor {
     private static Reaction createInducibleActivatableExpressionReaction(Species activator, Species inducer, Species expressed, Model mod) {
         Reaction inducibleActivatableExpression = createRatelessInducibleActivatableExpressionReaction(activator, inducer, expressed, mod);
         KineticLaw inducibleActivatableExpressionLaw = inducibleActivatableExpression.createKineticLaw();
-        LocalParameter maxExpressionRate1 = inducibleActivatableExpressionLaw.createLocalParameter("max_rate1");
-        maxExpressionRate1.setName("max_rate1");
-        maxExpressionRate1.setValue(1.0);
-        LocalParameter basalExpressionRate1 = inducibleActivatableExpressionLaw.createLocalParameter("basal_rate1");
-        basalExpressionRate1.setName("basal_rate1");
-        basalExpressionRate1.setValue(1.0);
-        LocalParameter kd1 = inducibleActivatableExpressionLaw.createLocalParameter("K_d1");
-        kd1.setName("K_d1");
-        kd1.setValue(2.0);
-        LocalParameter hillCoef1 = inducibleActivatableExpressionLaw.createLocalParameter("n1");
-        hillCoef1.setName("n1");
-        hillCoef1.setValue(1.0);
-        LocalParameter maxExpressionRate2 = inducibleActivatableExpressionLaw.createLocalParameter("max_rate2");
-        maxExpressionRate2.setName("max_rate2");
-        maxExpressionRate2.setValue(1.0);
-        LocalParameter basalExpressionRate2 = inducibleActivatableExpressionLaw.createLocalParameter("basal_rate2");
-        basalExpressionRate2.setName("basal_rate2");
-        basalExpressionRate2.setValue(1.0);
-        LocalParameter kd2 = inducibleActivatableExpressionLaw.createLocalParameter("K_d2");
-        kd2.setName("K_d2");
-        kd2.setValue(2.0);
-        LocalParameter hillCoef2 = inducibleActivatableExpressionLaw.createLocalParameter("n2");
-        hillCoef2.setName("n2");
-        hillCoef2.setValue(1.0);
-        inducibleActivatableExpressionLaw.setMath(parseFormula("0.1*(" + basalExpressionRate1.getId()
-                + "+(" + maxExpressionRate1.getId() + "*(" + activator.getId() + "^" + hillCoef1.getId() + "/(" + kd1.getId() + "+" + activator.getId()
-                + "^" + hillCoef1.getId() + "))))*(" + basalExpressionRate2.getId()
-                + "+(" + maxExpressionRate2.getId() + "*(" + inducer.getId() + "^" + hillCoef2.getId() + "/(" + kd2.getId() + "+" + inducer.getId()
-                + "^" + hillCoef2.getId() + "))))"));
+        LocalParameter basalExpressionRate = inducibleActivatableExpressionLaw.createLocalParameter("basal");
+        basalExpressionRate.setName("basal");
+        basalExpressionRate.setValue(1.0);
+        LocalParameter maxBasalExpressionRate = inducibleActivatableExpressionLaw.createLocalParameter("max");
+        maxBasalExpressionRate.setName("max");
+        maxBasalExpressionRate.setValue(1.0);
+        LocalParameter kdBasal = inducibleActivatableExpressionLaw.createLocalParameter("K_d");
+        kdBasal.setName("K_d");
+        kdBasal.setValue(1.0);
+        LocalParameter hillCoefBasal = inducibleActivatableExpressionLaw.createLocalParameter("n");
+        hillCoefBasal.setName("n");
+        hillCoefBasal.setValue(2.0);
+        LocalParameter maxTFExpressionRate = inducibleActivatableExpressionLaw.createLocalParameter("max_TF");
+        maxTFExpressionRate.setName("max_TF");
+        maxTFExpressionRate.setValue(1.0);
+        LocalParameter kdTF = inducibleActivatableExpressionLaw.createLocalParameter("K_d_TF");
+        kdTF.setName("K_d_TF");
+        kdTF.setValue(1.0);
+        LocalParameter hillCoefTF = inducibleActivatableExpressionLaw.createLocalParameter("n_TF");
+        hillCoefTF.setName("n_TF");
+        hillCoefTF.setValue(2.0);
+        LocalParameter kdSM = inducibleActivatableExpressionLaw.createLocalParameter("K_d_SM");
+        kdSM.setName("K_d_SM");
+        kdSM.setValue(1.0);
+        LocalParameter hillCoefSM = inducibleActivatableExpressionLaw.createLocalParameter("n_SM");
+        hillCoefSM.setName("n_SM");
+        hillCoefSM.setValue(2.0);
+        String boundTF = createActivationHillWithoutBasal(inducer.getId(), activator.getId(), kdSM.getId(), hillCoefSM.getId());
+        String unboundTF = "(" + activator.getId() + "-" + boundTF + ")";
+        String basal = basalExpressionRate.getId() + "+" + createActivationHillWithoutBasal(unboundTF, maxBasalExpressionRate.getId(), kdBasal.getId(), hillCoefBasal.getId());
+        String induced = createActivationHillWithoutBasal(boundTF, maxTFExpressionRate.getId(), kdTF.getId(), hillCoefTF.getId());
+        inducibleActivatableExpressionLaw.setMath(parseFormula(basal + "+" + induced));
         return inducibleActivatableExpression;
+    }
+    
+    private static String createActivationHillWithoutBasal(String x, String max, String Kd, String n) {
+        return "(" + max + "*((" + x + "^" + n + ")/((" + Kd + "^" + n + ")+(" + x + "^" + n + "))))";
     }
     
     private static Reaction createRatelessInducibleActivatableExpressionReaction(Species activator, Species inducer, Species expressed, Model mod) {

@@ -5,6 +5,7 @@
  */
 package org.cidarlab.phoenix.dom;
 
+import org.cidarlab.phoenix.dom.library.LibraryComponent;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
@@ -51,6 +52,17 @@ public class CandidateComponent {
         int hash = 7;
         hash = 79 * hash + Objects.hashCode(this.candidate.getComponentDefintion());
         return hash;
+    }
+    
+    public CandidateComponent(LibraryComponent _candidate){
+        this.candidate = _candidate;
+    }
+    
+    public CandidateComponent(Orientation _orientation, String _name, ComponentRole _role, LibraryComponent _candidate){
+        this.orientation = _orientation;
+        this.name = _name;
+        this.role = _role;
+        this.candidate = _candidate;        
     }
     
     public CandidateComponent(Component c, LibraryComponent _candidate){

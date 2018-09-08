@@ -1,0 +1,16 @@
+//Size=4
+
+// COUNTING
+p exactly 1
+r exactly 1
+c exactly 1
+t exactly 1
+
+
+//POSITIONING
+t after c
+c after r
+r after p
+
+//ORIENTATION
+ALL_FORWARD

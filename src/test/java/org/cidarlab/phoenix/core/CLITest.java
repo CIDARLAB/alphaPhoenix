@@ -5,6 +5,7 @@
  */
 package org.cidarlab.phoenix.core;
 
+import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.cidarlab.gridtli.dom.TLIException;
@@ -43,7 +44,7 @@ public class CLITest {
      * Test of main method, of class CLI.
      */
     @Test
-    public void testMain() {
+    public void testMain() throws URISyntaxException {
         String[] args = new String[2];
         args[0] = "--gridtli";
         args[1] = "-help";

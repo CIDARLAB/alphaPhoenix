@@ -13,11 +13,16 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
 import javax.xml.stream.XMLStreamException;
 import org.apache.commons.io.FileUtils;
+import org.cidarlab.phoenix.utils.Utilities;
+import org.json.JSONArray;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
 import org.sbolstandard.core2.SBOLDocument;
@@ -87,6 +92,33 @@ public class SynbiohubAdaptor {
             Logger.getLogger(SynbiohubAdaptor.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    public static JSONArray getEugeneRules(URL eruleurl, String tempfp){
+        try {
+            
+            String zipfp = tempfp + "temp.zip";
+            
+            ReadableByteChannel readableByteChannel = Channels.newChannel(eruleurl.openStream());
+            FileOutputStream fileOutputStream = new FileOutputStream(zipfp);
+            FileChannel fileChannel = fileOutputStream.getChannel();
+            fileOutputStream.getChannel().transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+            
+            String output = tempfp + "temp.json";
+            gunzip(zipfp,output);
+            
+            File outfile = new File(output);
+            File zipfile = new File(zipfp);
+            JSONArray arr = new JSONArray(Utilities.getFileContentAsString(output));
+            outfile.delete();
+            zipfile.delete();
+            return arr;
+            
+        } catch (IOException ex) {
+            Logger.getLogger(SynbiohubAdaptor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+        
     }
     
 }
