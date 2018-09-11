@@ -48,6 +48,7 @@ public class Exhaustive extends AbstractAssignment {
     public List<AssignmentNode> solve(List<Module> modules, Library library, TreeNode stl, Args args) throws URISyntaxException, XMLStreamException, FileNotFoundException, IOException, MalformedURLException, TLIException, InterruptedException {
         
         String jobfp = args.getProjectFolder() + "results" + Utilities.getSeparater();
+        Utilities.makeDirectory(jobfp);
         
         for(Module m:modules){
             solve(m,library,stl,args);

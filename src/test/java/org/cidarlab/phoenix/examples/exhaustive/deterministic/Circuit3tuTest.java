@@ -39,7 +39,7 @@ public class Circuit3tuTest {
     
     private static final String three_tuFP = sampleCircuitsFP + "3tu" + Utilities.getSeparater();
     
-    private static final String three_tu_results = three_tuFP + "results" + Utilities.getSeparater();
+    private static final String three_tu_results = three_tuFP + "allRuns";
     
     private static final String three_tu_eug = three_tuFP + "tripleTU.eug";
     private static final String three_tu_stl = three_tuFP + "stl.txt";
@@ -51,10 +51,12 @@ public class Circuit3tuTest {
         
         int size = 12;
         
+        Utilities.makeDirectory(three_tu_results);
+        
         List<Module> modules = MiniEugeneAdaptor.getStructures(three_tu_eug, size, "inverter");
         System.out.println("Number of modules : " + modules.size());
         TreeNode stl = STLAdaptor.getSTL(three_tu_stl);
-        Args args = new Args(Args.Decomposition.PR_C_T, Args.Simulation.DETERMINISTIC, runCount, 0.99, 0.5, Args.Assignment.EXHAUSTIVE);
+        Args args = new Args(Args.Decomposition.PR_C_T, Args.Simulation.DETERMINISTIC, runCount, 0, 0, Args.Assignment.EXHAUSTIVE);
         args.setProjectFolder(three_tu_results);
         Exhaustive exhaustive = new Exhaustive();
         
