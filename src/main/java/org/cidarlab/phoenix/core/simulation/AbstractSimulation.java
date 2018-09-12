@@ -128,6 +128,8 @@ public abstract class AbstractSimulation {
     protected static List<Map<String,Double>> getSmallMoleculeConcentration(Module m, Map<String, CandidateComponent> assignment, Map<String,String> ioc, Library library){
         List<Map<String,Double>> smMap = new ArrayList<>();
         Map<String,List<Double>> smConcentrations = new HashMap<>();
+        Map<String,List<Double>> nameConcMap = new HashMap<>();
+        
         for(Component c:m.getComponents()){
             String cname = c.getName();
             if (c.isPromoter()) {
@@ -153,6 +155,7 @@ public abstract class AbstractSimulation {
                             String indName = "ind_" + ioc.get(cname);
                             if (!smConcentrations.containsKey(indName)) {
                                 smConcentrations.put(indName, smc.getValues());
+                                nameConcMap.put(smc.getName(), smc.getValues());
                             }
                         }
                     }
@@ -160,7 +163,7 @@ public abstract class AbstractSimulation {
             }
         }
         System.out.println("Small Molecule Concentrations:");
-        System.out.println(smConcentrations);
+        System.out.println(nameConcMap);
         List<Map<String,Double>> temp = new ArrayList<>();
         for(String ind:smConcentrations.keySet()){
             List<Double> indConc = smConcentrations.get(ind);
