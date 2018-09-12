@@ -90,11 +90,12 @@ public abstract class AbstractAssignment {
             return false;
         }
 
-        for (URI pp : promProteins) {
+        //This is what you want to comment out..
+        /*for (URI pp : promProteins) {
             if (!cdsProteins.contains(pp)) {
                 return false;
             }
-        }
+        }*/
         
         for (URI cp : cdsProteins) {
             if (!promProteins.contains(cp)) {

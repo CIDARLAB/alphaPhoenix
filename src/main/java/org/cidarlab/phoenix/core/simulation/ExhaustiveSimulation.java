@@ -82,7 +82,7 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                 
                 //double score = 0;
                 double score = runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
-                System.out.println("Score = " + score);
+                //System.out.println("Score = " + score);
                 boolean result = (score >= args.getThreshold());
                 if(result){
                     AssignmentNode an = new AssignmentNode(module, assignment, ioc, library);

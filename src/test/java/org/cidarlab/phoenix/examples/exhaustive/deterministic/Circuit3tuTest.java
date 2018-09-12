@@ -39,7 +39,7 @@ public class Circuit3tuTest {
     
     private static final String three_tuFP = sampleCircuitsFP + "3tu" + Utilities.getSeparater();
     
-    private static final String three_tu_results = three_tuFP + "allRuns";
+    private static final String three_tu_results = three_tuFP + "allRuns" + Utilities.getSeparater();
     
     private static final String three_tu_eug = three_tuFP + "tripleTU.eug";
     private static final String three_tu_stl = three_tuFP + "stl.txt";

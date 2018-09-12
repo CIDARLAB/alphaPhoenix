@@ -39,7 +39,7 @@ public class Circuit2tuTest {
     
     private static final String two_tuFP = sampleCircuitsFP + "2tu" + Utilities.getSeparater();
     
-    private static final String two_tu_results = two_tuFP + "allRuns";
+    private static final String two_tu_results = two_tuFP + "allRuns" + Utilities.getSeparater();
     
     private static final String two_tu_eug = two_tuFP + "doubleTU.eug";
     private static final String two_tu_stl = two_tuFP + "stl.txt";

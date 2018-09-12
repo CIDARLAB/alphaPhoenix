@@ -41,7 +41,7 @@ public class Circuit1tuTest {
     private static String sampleCircuitsFP = tested_circuitsFP + "circuits" + Utilities.getSeparater();
     
     private static final String one_tuFP = sampleCircuitsFP + "1tu" + Utilities.getSeparater();
-    private static final String one_tu_results = one_tuFP + "allRuns";
+    private static final String one_tu_results = one_tuFP + "allRuns" + Utilities.getSeparater();
     private static final String one_tu_eug = one_tuFP + "singleTU.eug";
     private static final String one_tu_stl = one_tuFP + "stl.txt";
     
