@@ -5,6 +5,9 @@
  */
 package org.cidarlab.phoenix.adaptors;
 
+import edu.utah.ece.async.ibiosim.analysis.properties.AnalysisProperties;
+import edu.utah.ece.async.ibiosim.analysis.simulation.DynamicSimulation;
+import edu.utah.ece.async.ibiosim.analysis.simulation.DynamicSimulation.SimulationType;
 import edu.utah.ece.async.ibiosim.analysis.simulation.flattened.SimulatorODERK;
 import edu.utah.ece.async.ibiosim.analysis.simulation.flattened.SimulatorSSADirect;
 import edu.utah.ece.async.ibiosim.dataModels.util.dataparser.TSDParser;
@@ -46,10 +49,19 @@ public class IBioSimAdaptor {
     public static void simulateODE(String SBMLFileName, String outDir, double timeLimit,
             double timeStep, double printInterval, long rndSeed, double stoichAmpValue,
             int numSteps, double relError, double absError) throws IOException {
-        SimulatorODERK simulator = new SimulatorODERK(SBMLFileName, outDir, 1, timeLimit,
-                timeStep, rndSeed, printInterval, stoichAmpValue, new String[0], numSteps,
-                relError, absError, "amount");
-        simulator.simulate();
+        DynamicSimulation simulator = new DynamicSimulation(SimulationType.HIERARCHICAL_RK);
+        AnalysisProperties properties = new AnalysisProperties("", new File(SBMLFileName).getName(), outDir, false);
+        properties.getSimulationProperties().setPrinter_track_quantity("amount");
+        properties.getSimulationProperties().setTimeLimit(timeLimit);
+        properties.getSimulationProperties().setMaxTimeStep(timeStep);
+        properties.getSimulationProperties().setRndSeed(rndSeed);
+        properties.getSimulationProperties().setRelError(relError);
+        properties.getSimulationProperties().setAbsError(absError);
+        properties.getSimulationProperties().setPrintInterval(printInterval);
+        properties.getSimulationProperties().setRun(1);
+        properties.getSimulationProperties().setNumSteps(numSteps);
+        properties.getAdvancedProperties().setStoichAmp(stoichAmpValue);
+        simulator.simulate(properties, SBMLFileName);
         TSDParser tsdParser = new TSDParser(outDir + "run-1.tsd", false);
         tsdParser.outputCSV(outDir + "run-1.csv");
         new File(outDir + "run-1.tsd").delete();
@@ -68,7 +80,7 @@ public class IBioSimAdaptor {
      */
     public static void simulateODE(String SBMLFileName, String outDir, double timeLimit,
             double timeStep, double printInterval) throws IOException {
-        simulateODE(SBMLFileName, outDir, timeLimit, timeStep, printInterval, ThreadLocalRandom.current().nextLong(), 2.0, 50, 1e-6, 1e-9);
+        simulateODE(SBMLFileName, outDir, timeLimit, timeStep, printInterval, ThreadLocalRandom.current().nextLong(), 1.0, 50, 1e-9, 1e-9);
     }
 
     /**
@@ -89,23 +101,23 @@ public class IBioSimAdaptor {
     public static void simulateStocastic(String SBMLFileName, String outDir,
             double timeLimit, double timeStep, double printInterval, int numRuns,
             double minTimeStep, long rndSeed, double stoichAmpValue) throws IOException {
-        SimulatorSSADirect simulator = new SimulatorSSADirect(SBMLFileName, outDir, numRuns,
-                timeLimit, timeStep, minTimeStep, rndSeed, printInterval, stoichAmpValue,
-                new String[0], "amount");
-        simulator.simulate();
-        TSDParser tsdParser = new TSDParser(outDir + "run-1.tsd", false);
-        tsdParser.outputCSV(outDir + "run-1.csv");
-        for (int i = 2; i <= numRuns; i ++) {
-            simulator = new SimulatorSSADirect(SBMLFileName, outDir, numRuns,
-                timeLimit, timeStep, minTimeStep, rndSeed, printInterval, stoichAmpValue,
-                new String[0], "amount");
-            simulator.setupForNewRun(i);
-            simulator.simulate();
+        DynamicSimulation simulator = new DynamicSimulation(SimulationType.HIERARCHICAL_DIRECT);
+        AnalysisProperties properties = new AnalysisProperties("", new File(SBMLFileName).getName(), outDir, false);
+        properties.getSimulationProperties().setPrinter_track_quantity("amount");
+        properties.getSimulationProperties().setTimeLimit(timeLimit);
+        properties.getSimulationProperties().setMaxTimeStep(timeStep);
+        properties.getSimulationProperties().setMinTimeStep(minTimeStep);
+        properties.getSimulationProperties().setRndSeed(rndSeed);
+        properties.getSimulationProperties().setPrintInterval(printInterval);
+        properties.getSimulationProperties().setRun(numRuns);
+        properties.getAdvancedProperties().setStoichAmp(stoichAmpValue);
+        simulator.simulate(properties, SBMLFileName);
+        TSDParser tsdParser;
+        for (int i = 1; i <= numRuns; i ++) {
             tsdParser = new TSDParser(outDir + "run-" + i + ".tsd", false);
             tsdParser.outputCSV(outDir + "run-" + i + ".csv");
             new File(outDir + "run-" + i + ".tsd").delete();
         }
-        new File(outDir + "run-1.tsd").delete();
     }
 
     /**
