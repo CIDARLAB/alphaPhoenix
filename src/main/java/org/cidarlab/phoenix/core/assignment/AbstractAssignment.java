@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.cidarlab.phoenix.adaptors.STLAdaptor;
+import org.cidarlab.phoenix.core.simulation.AbstractSimulation;
 import org.cidarlab.phoenix.dom.CandidateComponent;
 import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Component.ComponentRole;
@@ -89,6 +90,7 @@ public abstract class AbstractAssignment {
             return false;
         }
 
+        //This is what you want to comment out..
         /*for (URI pp : promProteins) {
             if (!cdsProteins.contains(pp)) {
                 return false;
@@ -132,7 +134,7 @@ public abstract class AbstractAssignment {
             }
         }
         
-        //Check if current assignment has all unique assignments taken care of. 
+        //<editor-fold desc="Check if current assignment has all unique assignments taken care of."> 
         Set<URI> specificAssignment = new HashSet<>();
         Set<String> specComp = new HashSet<>();
         
@@ -168,7 +170,94 @@ public abstract class AbstractAssignment {
                 specificAssignment.add(currentURI);
             }
         }
+        //</editor-fold>
         
+        
+        //Do the self loop check here....
+        for(int i=0;i<module.getChildren().size();i++){
+            Module tu = module.getChildren().get(i);
+            Set<URI> promprots = new HashSet<>();
+            URI cdsprot = null;
+            for(Component c:tu.getComponents()){
+                if(c.isPromoter()){
+                    String cname = c.getName();
+                    LibraryComponent lc = assignment.get(cname).getCandidate();
+                    PromoterComponent promcomp = null;
+                    if (lc instanceof CompositeComponent) {
+                        CompositeComponent compcomp = (CompositeComponent) lc;
+                        promcomp = library.getAllPromoters().get(compcomp.getChildren().get(0));
+                    } else {
+                        promcomp = (PromoterComponent) lc;
+                    }
+                    for (LibraryComponent tf : promcomp.getTranscriptionFactors()) {
+                        if (tf instanceof PrimitiveComponent) {
+                            promprots.add(tf.getComponentDefintion());
+                        } else if (tf instanceof ComplexComponent) {
+                            ComplexComponent complexComponent = (ComplexComponent) tf;
+                            promprots.add(complexComponent.getProtein());
+                        }
+                    }
+                } else if(c.isCDS()){
+                    String cname = c.getName();
+                    CDSComponent cdscomp = (CDSComponent)assignment.get(cname).getCandidate();
+                    cdsprot = cdscomp.getProtein();
+                }
+            }
+            if( (cdsprot != null)) {
+                if (promprots.contains(cdsprot)) {
+                    //System.out.println("SELF LOOP");
+                    //AbstractSimulation.printAssignment(module, assignment);
+                    boolean selfloop = true;
+                    for (int j = 0; j < module.getChildren().size(); j++) {
+                        if (i != j) {
+                            Module outertu = module.getChildren().get(j);
+                            Set<URI> outerpromprots = new HashSet<>();
+                            URI outercdsprot = null;
+                            for (Component c : outertu.getComponents()) {
+                                if (c.isPromoter()) {
+                                    String cname = c.getName();
+                                    LibraryComponent lc = assignment.get(cname).getCandidate();
+                                    PromoterComponent promcomp = null;
+                                    if (lc instanceof CompositeComponent) {
+                                        CompositeComponent compcomp = (CompositeComponent) lc;
+                                        promcomp = library.getAllPromoters().get(compcomp.getChildren().get(0));
+                                    } else {
+                                        promcomp = (PromoterComponent) lc;
+                                    }
+                                    for (LibraryComponent tf : promcomp.getTranscriptionFactors()) {
+                                        if (tf instanceof PrimitiveComponent) {
+                                            outerpromprots.add(tf.getComponentDefintion());
+                                        } else if (tf instanceof ComplexComponent) {
+                                            ComplexComponent complexComponent = (ComplexComponent) tf;
+                                            outerpromprots.add(complexComponent.getProtein());
+                                        }
+                                    }
+                                } else if (c.isCDS()) {
+                                    String cname = c.getName();
+                                    CDSComponent cdscomp = (CDSComponent) assignment.get(cname).getCandidate();
+                                    outercdsprot = cdscomp.getProtein();
+                                }
+                            }
+                            if (!outercdsprot.equals(cdsprot)) {
+                                if (outerpromprots.contains(cdsprot)) {
+                                    selfloop = false;
+                                    break;
+                                }
+                            }
+                            
+                        }
+                    }
+                    if(selfloop){
+                        //System.out.println("There is a self loop here.. :( ");
+                        return false;
+                    }
+                    //System.out.println("--------------------------------");
+        
+                }
+            }
+            
+        }
+                    
         return true;
     }
     

@@ -10,8 +10,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.cidarlab.phoenix.adaptors.SBMLAdaptor;
@@ -83,6 +85,8 @@ public abstract class AbstractSimulation {
     
     public static Map<String,String> getIndSMmap(Module m, Map<String, CandidateComponent> assignment, Map<String,String> ioc, Library library){
         Map<String,String> map = new HashMap<>();
+        Set<URI> cdsprots = new HashSet<>();
+        Map<String,URI> promprots = new HashMap<>();
         for(Component c:m.getComponents()){
             if(c.isPromoter()){
                 String cname = c.getName();
@@ -99,18 +103,33 @@ public abstract class AbstractSimulation {
                         ComplexComponent complex = (ComplexComponent)tf;
                         SmallMoleculeComponent smc = library.getSmallMolecules().get(complex.getSmallMolecule());
                         if(!map.containsKey(smc.getName())){
+                            promprots.put(smc.getName(), complex.getProtein());
                             map.put(smc.getName(), "ind_" + ioc.get(cname));
                         }
                     }
                 }
+            } else if(c.isCDS()){
+                String cname = c.getName();
+                CDSComponent cdscomp = (CDSComponent) assignment.get(cname).getCandidate();
+                cdsprots.add(cdscomp.getProtein());
+             } 
+        }
+        
+        Map<String,String> finalmap = new HashMap<>();
+        for(String smc:map.keySet()){
+            if(cdsprots.contains(promprots.get(smc))){
+                finalmap.put(smc, map.get(smc));
             }
         }
-        return map;
+        
+        return finalmap;
     }
     
     protected static List<Map<String,Double>> getSmallMoleculeConcentration(Module m, Map<String, CandidateComponent> assignment, Map<String,String> ioc, Library library){
         List<Map<String,Double>> smMap = new ArrayList<>();
         Map<String,List<Double>> smConcentrations = new HashMap<>();
+        Map<String,List<Double>> nameConcMap = new HashMap<>();
+        
         for(Component c:m.getComponents()){
             String cname = c.getName();
             if (c.isPromoter()) {
@@ -136,6 +155,7 @@ public abstract class AbstractSimulation {
                             String indName = "ind_" + ioc.get(cname);
                             if (!smConcentrations.containsKey(indName)) {
                                 smConcentrations.put(indName, smc.getValues());
+                                nameConcMap.put(smc.getName(), smc.getValues());
                             }
                         }
                     }
@@ -143,7 +163,7 @@ public abstract class AbstractSimulation {
             }
         }
         System.out.println("Small Molecule Concentrations:");
-        System.out.println(smConcentrations);
+        System.out.println(nameConcMap);
         List<Map<String,Double>> temp = new ArrayList<>();
         for(String ind:smConcentrations.keySet()){
             List<Double> indConc = smConcentrations.get(ind);

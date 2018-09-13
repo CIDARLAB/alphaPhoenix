@@ -80,7 +80,9 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                 String modelFile = ifp + "model.xml";
                 writer.write(module.getModel().getSbml(), modelFile);
                 
+                //double score = 0;
                 double score = runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
+                //System.out.println("Score = " + score);
                 boolean result = (score >= args.getThreshold());
                 if(result){
                     AssignmentNode an = new AssignmentNode(module, assignment, ioc, library);
@@ -129,6 +131,7 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                     }
                     writer.write(sbml, modelFile);
                     Utilities.writeToFile(smfp, smevents.toString(2));
+                    //double  score = 0.0;
                     double  score = runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
                     boolean result = (score >= args.getThreshold());
                     if(result){
