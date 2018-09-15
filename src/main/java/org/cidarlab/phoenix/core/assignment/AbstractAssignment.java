@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.cidarlab.phoenix.adaptors.STLAdaptor;
-import org.cidarlab.phoenix.core.simulation.AbstractSimulation;
 import org.cidarlab.phoenix.dom.CandidateComponent;
 import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Component.ComponentRole;
@@ -27,7 +26,6 @@ import org.cidarlab.phoenix.dom.library.Library;
 import org.cidarlab.phoenix.dom.library.LibraryComponent;
 import org.cidarlab.phoenix.dom.library.PrimitiveComponent;
 import org.cidarlab.phoenix.dom.library.PromoterComponent;
-import org.cidarlab.phoenix.utils.Args;
 
 /**
  *

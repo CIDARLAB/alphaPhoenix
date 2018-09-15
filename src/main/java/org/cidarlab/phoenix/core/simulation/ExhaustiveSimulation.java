@@ -70,8 +70,8 @@ public class ExhaustiveSimulation extends AbstractSimulation {
             if(indSMmap.isEmpty()){
                 
                 noSM++;
-                System.out.println("Current Assignment : " + count + " has no small molecules.");
-                printAssignment(module,assignment);
+                //System.out.println("Current Assignment : " + count + " has no small molecules.");
+                //printAssignment(module,assignment);
                 
                 String ifp = fp + count + Utilities.getSeparater();
                 Utilities.makeDirectory(ifp);
@@ -91,6 +91,8 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                     an.setScore(score);
                     //an.setFilepath(ifp);
                     nodes.add(an);
+                    System.out.println("Current Assignment : " + count);
+                    System.out.println(an.toString(library));
                 } else {
                     FileUtils.deleteDirectory(new File(ifp));
                 }
@@ -113,8 +115,8 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                 List<Map<String, Double>> concList = getSmallMoleculeConcentration(module, assignment, ioc, library);
                 for (Map<String, Double> conc : concList) {
                     
-                    System.out.println("Current Assignment : " + count);
-                    printAssignment(module, assignment);
+                    //System.out.println("Current Assignment : " + count);
+                    //printAssignment(module, assignment);
                     
                     JSONObject smevents = new JSONObject();
                     
@@ -141,7 +143,9 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                         an.setScore(score);
                         //an.setFilepath(ifp);
                         nodes.add(an);
-                        
+                        System.out.println("Current Assignment : " + count);
+                        System.out.println(an.toString(library));
+                
                     } else {
                         FileUtils.deleteDirectory(new File(ifp));
                     }

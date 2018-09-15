@@ -129,6 +129,21 @@ public abstract class AbstractSimulation {
         List<Map<String,Double>> smMap = new ArrayList<>();
         Map<String,List<Double>> smConcentrations = new HashMap<>();
         Map<String,List<Double>> nameConcMap = new HashMap<>();
+         
+        Set<URI> cdsProts = new HashSet<>();
+        for(Component c:m.getComponents()){
+            if(c.isCDS()){
+                LibraryComponent lc = assignment.get(c.getName()).getCandidate();
+                if(lc instanceof CDSComponent){
+                    CDSComponent cdsComp = (CDSComponent)lc;
+                    cdsProts.add(cdsComp.getProtein());
+                } else if(lc instanceof CompositeComponent){
+                    CompositeComponent composite = (CompositeComponent)lc;
+                    CDSComponent cdsComp = (CDSComponent)library.getAllLibraryComponents().get(composite.getChildren().get(1));
+                    cdsProts.add(cdsComp.getProtein());
+                }
+            }
+        }
         
         for(Component c:m.getComponents()){
             String cname = c.getName();
@@ -154,16 +169,20 @@ public abstract class AbstractSimulation {
 
                             String indName = "ind_" + ioc.get(cname);
                             if (!smConcentrations.containsKey(indName)) {
-                                smConcentrations.put(indName, smc.getValues());
-                                nameConcMap.put(smc.getName(), smc.getValues());
+                                if(cdsProts.contains(complex.getProtein())){
+                                    smConcentrations.put(indName, smc.getValues());
+                                    nameConcMap.put(smc.getName(), smc.getValues());        
+                                }
                             }
                         }
                     }
                 }
             }
         }
-        System.out.println("Small Molecule Concentrations:");
-        System.out.println(nameConcMap);
+        //System.out.println("Small Molecule Concentrations:");
+        //System.out.println(nameConcMap);
+        //System.out.println("Small Molecule concentrations...");
+        //System.out.println(smConcentrations);
         List<Map<String,Double>> temp = new ArrayList<>();
         for(String ind:smConcentrations.keySet()){
             List<Double> indConc = smConcentrations.get(ind);

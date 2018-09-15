@@ -25,7 +25,10 @@ import org.cidarlab.phoenix.adaptors.IBioSimAdaptor;
 import org.cidarlab.phoenix.adaptors.SBMLAdaptor;
 import org.cidarlab.phoenix.adaptors.STLAdaptor;
 import org.cidarlab.phoenix.core.simulation.AbstractSimulation;
+import org.cidarlab.phoenix.dom.library.CompositeComponent;
+import org.cidarlab.phoenix.dom.library.CompositeComponent.CompositeType;
 import org.cidarlab.phoenix.dom.library.Library;
+import org.cidarlab.phoenix.dom.library.LibraryComponent;
 import org.cidarlab.phoenix.dom.library.SmallMoleculeComponent;
 import org.cidarlab.phoenix.utils.Args;
 import org.cidarlab.phoenix.utils.Utilities;
@@ -269,6 +272,15 @@ public class AssignmentNode {
         return str;
     }
     
+
+    public String toString(Library library){
+        String str = getComponentString(library);
+        for(String sm:concs.keySet()){
+            str += sm + "=" + concs.get(sm) + ";";
+        }
+        return str;
+    }
+    
     @Override
     public boolean equals(Object o){
         if(o instanceof AssignmentNode){
@@ -292,7 +304,42 @@ public class AssignmentNode {
     public String getComponentString(){
         String str = "";
         for(Component c:components){
+            
+            LibraryComponent lc = assignment.get(c.getName()).getCandidate();
+            if(lc instanceof CompositeComponent){
+                
+            }
+            
             str += assignment.get(c.getName()).getCandidate().getName() + ";";
+        } 
+        return str;
+    }
+    
+    public String getComponentString(Library library){
+        String str = "";
+        for(Component c:components){
+            
+            LibraryComponent lc = assignment.get(c.getName()).getCandidate();
+            if(lc instanceof CompositeComponent){
+                CompositeComponent composite = (CompositeComponent)lc;
+                if(composite.getType().equals(CompositeType.PR)){
+                    if(c.isPromoter()){
+                        str += library.getAllLibraryComponents().get(composite.getChildren().get(0)).getName() + ";";
+                    } else if(c.isRBS()){
+                        str += library.getAllLibraryComponents().get(composite.getChildren().get(1)).getName() + ";";
+                    }
+                } else if(composite.getType().equals(CompositeType.RC)){
+                    if(c.isRBS()){
+                        str += library.getAllLibraryComponents().get(composite.getChildren().get(0)).getName() + ";";
+                    } else if(c.isCDS()){
+                        str += library.getAllLibraryComponents().get(composite.getChildren().get(1)).getName() + ";";
+                    }
+                }
+            } else {
+                str += lc.getName() + ";";
+            }
+             
+            
         } 
         return str;
     }
