@@ -41,9 +41,11 @@ public class Circuit1tuTest {
     private static String sampleCircuitsFP = tested_circuitsFP + "circuits" + Utilities.getSeparater();
     
     private static final String one_tuFP = sampleCircuitsFP + "1tu" + Utilities.getSeparater();
-    private static final String one_tu_results = one_tuFP + "results" + Utilities.getSeparater();
+    private static final String one_tu_results = one_tuFP + "allRuns" + Utilities.getSeparater();
     private static final String one_tu_eug = one_tuFP + "singleTU.eug";
     private static final String one_tu_stl = one_tuFP + "stl.txt";
+    
+    private static final int runCount = 100;
     
     @Test
     public void testEugeneScript() {
@@ -108,8 +110,6 @@ public class Circuit1tuTest {
     
     @Test
     public void testExhaustiveAssignment() throws URISyntaxException, SBOLValidationException, SynBioHubException, MalformedURLException, XMLStreamException, IOException, FileNotFoundException, TLIException, InterruptedException {
-        
-        int runCount = 100;
         
         int size = 4;
         List<Module> modules = MiniEugeneAdaptor.getStructures(one_tu_eug, size, "inverter");
