@@ -662,10 +662,11 @@ public class DnaPlotlibAdaptor {
         StringBuilder commandBuilder = null;
         if(Utilities.isLinux()){
             commandBuilder = new StringBuilder("/usr/bin/python " + filepath);
-        }
+        } 
         else {
-            System.out.println("Not supported yet. Program exiting");
-            System.exit(-1);
+            commandBuilder = new StringBuilder("python " + filepath);
+            //System.out.println("Not supported yet. Program exiting");
+            //System.exit(-1);
         }
         String[] clist = new String[2];
         String command = commandBuilder.toString();
