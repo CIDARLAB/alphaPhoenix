@@ -224,7 +224,7 @@ public class ExhaustiveSimulation extends AbstractSimulation {
         
         for (String key : allsignals.keySet()) {
             if (args.getSimulation().equals(DETERMINISTIC)) {
-                double perc = STLAdaptor.getRobustness(stl, allsignals.get(key).get(0));
+                double perc = STLAdaptor.getRobustness(stl, allsignals.get(key).get(0),0);
                 if (perc < score) {
                     score = perc;
                 }
