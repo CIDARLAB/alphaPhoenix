@@ -8,8 +8,6 @@ package org.cidarlab.phoenix.adaptors;
 import edu.utah.ece.async.ibiosim.analysis.properties.AnalysisProperties;
 import edu.utah.ece.async.ibiosim.analysis.simulation.DynamicSimulation;
 import edu.utah.ece.async.ibiosim.analysis.simulation.DynamicSimulation.SimulationType;
-import edu.utah.ece.async.ibiosim.analysis.simulation.flattened.SimulatorODERK;
-import edu.utah.ece.async.ibiosim.analysis.simulation.flattened.SimulatorSSADirect;
 import edu.utah.ece.async.ibiosim.dataModels.util.dataparser.TSDParser;
 import java.io.File;
 import java.io.IOException;

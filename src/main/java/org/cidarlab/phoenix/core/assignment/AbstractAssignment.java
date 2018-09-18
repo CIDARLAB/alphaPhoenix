@@ -39,7 +39,6 @@ public abstract class AbstractAssignment {
      *
      * @param module
      * @param assignment
-     * @param cmap
      * @param library
      * @param stl
      * @return

@@ -664,7 +664,7 @@ public class DnaPlotlibAdaptor {
             commandBuilder = new StringBuilder("/usr/bin/python " + filepath);
         } 
         else {
-            commandBuilder = new StringBuilder("python " + filepath);
+            commandBuilder = new StringBuilder("python \"" + filepath + "\"");
             //System.out.println("Not supported yet. Program exiting");
             //System.exit(-1);
         }
