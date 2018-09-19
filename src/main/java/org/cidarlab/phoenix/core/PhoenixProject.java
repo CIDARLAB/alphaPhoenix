@@ -218,173 +218,6 @@ public class PhoenixProject {
         }
     }
     
-    
-    public void executeBasicProject(int runCount, double confidence, double threshold) throws IOException, SBOLValidationException, SBOLConversionException, XMLStreamException, TLIException, InterruptedException, URISyntaxException {
-        String jobfp = this.projectFolder + this.jobId + Utilities.getSeparater();
-        SBOLDocument sbol = SBOLReader.read(jobfp + "sbol.xml");
-        Library lib = new Library(sbol, Args.Decomposition.PR_C_T, jobfp);
-        String eugfilecontent = Utilities.getFileContentAsString(jobfp + "eug.json");
-        JSONObject eug = new JSONObject(eugfilecontent);
-        int eugCircSize;
-        Integer eugNumSolutions = null;
-
-        if (eug.has("solutions")) {
-            eugNumSolutions = eug.getInt("solutions");
-        }
-        eugCircSize = eug.getInt("size");
-        String eugfp = jobfp + "structure.eug";
-        TreeNode jobstl = STLAdaptor.getSTL(jobfp + "stl.txt");
-        boolean first = true;
-        double bestval = 0;
-        int bestindex = 0;
-
-        List<Module> modules = MiniEugeneAdaptor.getStructures(eugfp, eugCircSize, eugNumSolutions, this.jobId);
-
-        List<String> eugDesignList = new ArrayList<String>();
-        String eugdesignSpace = "";
-        for (Module m : modules) {
-            eugdesignSpace += (m.getComponentString() + "\n");
-        }
-
-        Utilities.writeToFile(jobfp + "designspace.txt", eugdesignSpace);
-
-        List<Module> decomposedModules = new ArrayList<Module>();
-        for (Module m : modules) {
-            decomposedModules.add(Controller.decompose(m, args.getDecomposition()));
-        }
-        JSONArray results = new JSONArray();
-        int resultCount = 0;
-        
-        
-        String jobresultsfp;
-        jobresultsfp = jobfp + "results" + Utilities.getSeparater();
-        if (!Utilities.validFilepath(jobresultsfp)) {
-            Utilities.makeDirectory(jobresultsfp);
-        }
-        
-        
-        for (Module decomposedModule : decomposedModules) {
-            
-            List<Map<String, CandidateComponent>> assignments = new ArrayList<>();
-            System.out.println("");
-            System.out.println(assignments.size() + " candidate assignments found for design " + resultCount);
-            String designfp = jobresultsfp + "design" + resultCount + Utilities.getSeparater();
-            Utilities.makeDirectory(designfp);
-            
-            List<String> storeslines = new ArrayList<String>();
-            storeslines.add("Assignment Index,Percentage Satisfying, Error");
-            
-            String moduleImage = decomposedModule.getAbstractSBOLVisual(new HashMap<String,String>());
-            
-            for (int i = 0; i < assignments.size(); i++) {
-                
-                System.out.println("Assignment Number : " + i);
-                for(String key:assignments.get(i).keySet()){
-                    System.out.println(key + "::" + assignments.get(i).get(key).getCandidate().getName());
-                }
-                
-                String assignmentfp;
-                assignmentfp = designfp + i + Utilities.getSeparater();
-                Utilities.makeDirectory(assignmentfp);
-                
-                Map<String, CandidateComponent> assignment = assignments.get(i);
-                Controller.assignLeafModels(decomposedModule, assignmentfp, sbol, assignment);
-                Controller.composeModels(decomposedModule, assignmentfp, assignment);
-                
-                
-                String modelFile;
-                SBMLWriter writer = new SBMLWriter();
-                Map<String, Double> eventvalues = new HashMap<>();
-
-                System.out.println("Starting Stochastic Simulation for assignment " + i);
-                modelFile = assignmentfp + "model.xml";
-                
-
-                //This is where you add events.
-                for (Component c : decomposedModule.getComponents()) {
-                    switch (c.getRole()) {
-                        case PROMOTER_INDUCIBLE:
-                        case PROMOTER_REPRESSIBLE:
-                        case PROMOTER_ACTIVATABLE:
-                            CandidateComponent assignmentcc = assignment.get(c.getName());
-                            if (assignmentcc.getCandidate().getName().equals("pLas_RBS30")) {
-                                eventvalues.put("ind_" + c.getIOCname(), 1.00);
-                            } else if (assignmentcc.getCandidate().getName().equals("pBAD_RBS30")) {
-                                eventvalues.put("ind_" + c.getIOCname(), 0.00);
-                            }
-                            break;
-                        default:
-                            //System.out.println("NOTHING");
-                            break;
-                    }
-                }
-                for (String indkey : eventvalues.keySet()) {
-                    SBMLAdaptor.addEvent(decomposedModule.getModel().getSbml(), indkey, 600.00, eventvalues.get(indkey));
-                }
-                //End of horrible hard coding.. :( 
-
-                writer.write(decomposedModule.getModel().getSbml(), modelFile);
-                IBioSimAdaptor.simulateStocastic(modelFile, assignmentfp, STLAdaptor.getMaxTime(jobstl), 1, 1, runCount);
-                SMC smc = STLAdaptor.smc(jobstl, assignmentfp, false, runCount, confidence);
-                double perc = smc.getSatisfactionPercentage();
-                double error = smc.getError();
-                
-                double lower = perc - error;
-                storeslines.add(i + "," + perc + "," + error);
-                System.out.println("Lower : " + lower);
-                System.out.println("Threshold : " + threshold);
-                if (perc >= threshold) {
-                //if (true) {    
-                    JSONObject resultObj = new JSONObject();
-                    resultObj.put("name", ("Result " + resultCount++));
-                    resultObj.put("img", moduleImage);
-                    resultObj.put("score", perc);
-                    
-                    JSONArray tracesArr = new JSONArray();
-                    
-                    int traceCount = 0;
-                    for(String signalkey:smc.getSimulations().keySet()){
-                        
-                        for(Signal sig:smc.getSimulations().get(signalkey)){
-                            JSONObject traceObj = new JSONObject();
-                            //traceObj.put("name", "trace" + traceCount++);
-                            traceObj.put("name", signalkey);
-                            traceObj.put("legendgroup", signalkey);
-                            traceObj.put("type", "scatter");
-                            JSONArray xarr = new JSONArray();
-                            JSONArray yarr = new JSONArray();
-                            for(Point point:sig.getPoints()){
-                               xarr.put(point.getX());
-                               yarr.put(point.getY());
-                            }
-                            traceObj.put("x", xarr);
-                            traceObj.put("y", yarr);
-                            traceObj.put("showlegend",traceCount == 0);
-                            JSONObject lineobj = new JSONObject();
-                            lineobj.put("color", "#2196F3AA");
-                            traceObj.put("line", lineobj);
-                            
-                            tracesArr.put(traceObj);
-                            traceCount++;
-                        }
-                        
-                    }
-                    resultObj.put("traces", tracesArr);
-                    
-                    results.put(resultObj);
-                }
-            }
-
-            
-
-        }
-        
-        //System.out.println(results.toString());
-        Utilities.writeToFile(jobfp + "results.json", results.toString());
-
-    }
-    
-    
     public void executeBasicProject() throws IOException, SBOLValidationException, SBOLConversionException, XMLStreamException, TLIException, InterruptedException, URISyntaxException {
         
         String jobfp = this.projectFolder + this.jobId + Utilities.getSeparater();
@@ -891,11 +724,28 @@ public class PhoenixProject {
         details.put("state", State.COMPLETED);
         Utilities.writeToFile(jobfp + "details.json", details.toString());
     }
-
+    
+    public static JSONObject getSpecificationObjects(String username, String projectname){
+        JSONObject obj = new JSONObject();
+        String projectfp = Utilities.getResultsFilepath() + username + Utilities.getSeparater() + projectname + Utilities.getSeparater();
+        
+        if((!Utilities.validFilepath(projectfp + "library.json")) || (!Utilities.validFilepath(projectfp + "structure.eug")) || (!Utilities.validFilepath(projectfp + "stl.txt"))){
+            return null;
+        }
+        
+        JSONObject lib = new JSONObject(projectfp + "library.json");
+        obj.put("registry", lib.get("registry"));
+        obj.put("collection", lib.get("collection"));
+        obj.put("database", lib.get("database"));
+        obj.put("stl", Utilities.getFileContentAsString(projectfp + "stl.txt"));
+        obj.put("eugene", Utilities.getFileContentAsString(projectfp + "structure.eug"));
+        return obj;
+    }
+    
     public static JSONArray getDesignArray(String username, String projectname) {
         String jobfolder = Utilities.getResultsFilepath() + username + Utilities.getSeparater() + projectname + Utilities.getSeparater();
         String projectString = Utilities.getFileContentAsString(jobfolder + "design.json");
-        if (projectString != "") {
+        if (!projectString.equals("")) {
             return new JSONArray(projectString);
         }
         return null;

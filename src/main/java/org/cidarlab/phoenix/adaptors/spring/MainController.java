@@ -322,11 +322,13 @@ public class MainController {
             try {
                 response.setStatus(HttpServletResponse.SC_OK);
                 writer = response.getWriter();
-                //JSONArray results = PhoenixProject.getResultsArray(user.getId().toString(), projectId);
+                
                 String projectfp = Utilities.getResultsFilepath() + user.getId().toString() + Utilities.getSeparater() + projectId + Utilities.getSeparater();
                 FileUtils.deleteDirectory(new File(projectfp));
-                writer.write("Project deleted.");
-                response.setStatus(HttpServletResponse.SC_OK);
+                JSONObject res = new JSONObject();
+                res.put("project", projectId);
+                res.put("status", "deleted");
+                writer.write(res.toString());
                 writer.flush();
             } catch (IOException ex) {
                 response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
@@ -404,6 +406,46 @@ public class MainController {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
+    @ResponseBody
+    @RequestMapping(value = "/viewSpecification", method = RequestMethod.POST)
+    public void viewSpecification(@RequestBody String request, HttpServletResponse response) throws UnsupportedEncodingException, URISyntaxException {
+
+        
+        JSONObject jsonreq = new JSONObject(request);
+
+        String sessionId = jsonreq.getString("id");
+        String token = jsonreq.getString("token");
+        String projectId = jsonreq.getString("project");
+
+        
+        Session session = Session.findByCredentials(sessionId, token);
+        if(session != null) {
+            User user = Session.getUser(session);
+            
+            PrintWriter writer;
+            try {
+                response.setStatus(HttpServletResponse.SC_OK);
+                writer = response.getWriter();
+                JSONObject project = PhoenixProject.getSpecificationObjects(user.getId().toString(), projectId);
+                if(project != null) {
+                    writer.write(project.toString());
+                    response.setStatus(HttpServletResponse.SC_OK);
+                } else {
+                    writer.write("Project not found");
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                }
+                writer.flush();
+            } catch (IOException ex) {
+                response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+       
+    }
+    
+    
     //</editor-fold>
     
     //<editor-fold desc="DESIGN">
