@@ -518,6 +518,42 @@ public class MainController {
     }
     
     
+    @ResponseBody
+    @RequestMapping(value = "/downloadAssignment", method = RequestMethod.POST, produces="application/zip")
+    public void downloadAssignment(@RequestBody String request, HttpServletResponse response) throws UnsupportedEncodingException {
+        
+        JSONObject jsonreq = new JSONObject(request);
+
+        String sessionId = jsonreq.getString("id");
+        String token = jsonreq.getString("token");
+        String projectId = jsonreq.getString("project");
+        int moduleId = jsonreq.getInt("moduleId");
+        int assignmentId = jsonreq.getInt("assignmentId");
+        
+        Session session = Session.findByCredentials(sessionId, token);
+        if(session != null) {
+            User user = Session.getUser(session);
+            
+            PrintWriter writer;
+            try {
+                response.setStatus(HttpServletResponse.SC_OK);
+                writer = response.getWriter();
+                String zipfp = PhoenixProject.downloadAssignment(user.getId().toString(), projectId, moduleId, assignmentId);
+                
+                response.setStatus(HttpServletResponse.SC_OK);
+                InputStream in = new FileInputStream(new File(zipfp));
+                IOUtils.copy(in, response.getOutputStream());
+                
+                writer.flush();
+            } catch (IOException ex) {
+                response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    
+    
     @RequestMapping(value = "/sbol/{userid}/{projectid}/{moduleid}/{assignmentid}/{name}", method = RequestMethod.GET)
     public void getImageAsByteArray(
             @PathVariable(value="userid") String userid,

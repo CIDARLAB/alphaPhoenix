@@ -7,8 +7,11 @@ package org.cidarlab.phoenix.core;
 
 import hyness.stl.TreeNode;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -20,6 +23,8 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import javax.xml.stream.XMLStreamException;
 import lombok.Getter;
 import org.apache.commons.io.FileUtils;
@@ -899,7 +904,7 @@ public class PhoenixProject {
     public static JSONArray getResultsArray(String username, String projectname) {
         String jobfolder = Utilities.getResultsFilepath() + username + Utilities.getSeparater() + projectname + Utilities.getSeparater();
         String projectString = Utilities.getFileContentAsString(jobfolder + "results.json");
-        if (projectString != "") {
+        if (!projectString.equals("")) {
             return new JSONArray(projectString);
         }
         return null;
@@ -922,6 +927,35 @@ public class PhoenixProject {
     }
     
     
+    public static String downloadAssignment(String userId, String projectId, int moduleId, int assignmentId) throws FileNotFoundException, IOException  {
+        
+        
+        String afp = Utilities.getResultsFilepath() + userId + Utilities.getSeparater() + projectId + Utilities.getSeparater() + "results" + Utilities.getSeparater() + moduleId + Utilities.getSeparater() + assignmentId + Utilities.getSeparater();
+        
+        String zfilename = afp + "assignment" + assignmentId + ".zip";
+        
+        ZipOutputStream zout = new ZipOutputStream(new FileOutputStream(new File(zfilename)));
+        
+        File[] filelist = (new File(afp)).listFiles();
+        for (File f : filelist) {
+            if(f.getName().equals("assignment" + assignmentId + ".zip")){
+                continue;
+            }
+            ZipEntry ze = new ZipEntry(f.getName());
+            zout.putNextEntry(ze);
+            byte[] bytes = Files.readAllBytes(f.toPath());
+            zout.write(bytes, 0, bytes.length);
+            zout.closeEntry();
+        }
+        zout.close();
+        
+        
+        return zfilename;
+    }
+
+    
+    
+    
     public static JSONObject getAssignmentObject(String userId, String projectId, int moduleId, int assignmentId) throws TLIException {
         List<String> colors = new ArrayList<>();
         colors.add("#2196F3AA");
@@ -933,7 +967,7 @@ public class PhoenixProject {
         
         
         
-        String afp = Utilities.getResultsFilepath() + userId + Utilities.getSeparater() + projectId + Utilities.getSeparater() + moduleId + Utilities.getSeparater() + assignmentId + Utilities.getSeparater();
+        String afp = Utilities.getResultsFilepath() + userId + Utilities.getSeparater() + projectId + Utilities.getSeparater() + "results" + Utilities.getSeparater() + moduleId + Utilities.getSeparater() + assignmentId + Utilities.getSeparater();
         JSONObject obj = new JSONObject();
         obj.put("img", "/sbol/" + userId + "/" + projectId + "/" + moduleId + "/" + assignmentId + "/circuit" );
         
