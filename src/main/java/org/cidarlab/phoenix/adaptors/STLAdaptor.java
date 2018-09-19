@@ -319,7 +319,7 @@ public class STLAdaptor {
                         allsignals.get(key).add(s);
                     }
                     TreeNode stlnode = stlmap.get(key);
-                    double val = getRobustness(stlnode, s);
+                    double val = getRobustness(stlnode, s, 0);
                     //double val = signalRobustness(stlnode,s);
                     if (first) {
                         rob = val;
@@ -370,7 +370,7 @@ public class STLAdaptor {
                 signals.add(s);
                 Grid g = new Grid(signals,100,50);
                 TreeNode stlnode = stlmap.get(key);
-                double val = getRobustness(stlnode, s);
+                double val = getRobustness(stlnode, s, 0);
                 //double val = signalRobustness(stlnode,s);
                 if(first){
                     rob = val;
@@ -428,8 +428,117 @@ public class STLAdaptor {
         
     }
     
+    private static List<Double> getIntervalTimePoints(Signal s, double low, double high){
+        
+        boolean started = false;
+        List<Double> time = new ArrayList<>();
+        //Point previous = s.getPoints().get(0);
+        for(Point p:s.getPoints()){
+            if(started){
+                if(p.getX() == high){
+                    time.add(p.getX());
+                    break;
+                } else if(p.getX() > high){
+                    time.add(high);
+                } else {
+                    time.add(p.getX());
+                    //previous = p;
+                }
+            } else {
+                if(p.getX() == low){
+                    time.add(p.getX());
+                    started = true;
+                } else if(p.getX() > low){
+                    time.add(low);
+                    time.add(p.getX());
+                    started = true;
+                } else {
+                    //x lesser than low
+                    //previous = p;
+                }
+            }
+        }
+        return time;
+    }
     
-    public static double getRobustness(TreeNode stl, Signal s){
+    public static double getYVal(Signal s, double time){
+        Point previous = s.getPoints().get(0);
+        for(Point p:s.getPoints()){
+            if(p.getX() == time){
+                return p.getY();
+            } else if(p.getX() > time){
+                return getInterpolation(previous,p,time).getY();
+            } else{
+                previous = p;
+            }
+        }
+        return 0;
+    }
+    
+    public static double getLinearPredicateRobustness(LinearPredicateLeaf lpf, Signal s, double time){
+        //double r = 0;
+        double yval = getYVal(s,time);
+        if(lpf.rop.equals(RelOperation.LE) || lpf.rop.equals(RelOperation.LT) || lpf.rop.equals(RelOperation.EQ)){
+            return (lpf.threshold - yval);
+        //} else if(lpf.rop.equals(RelOperation.GT) || lpf.rop.equals(RelOperation.GE) ){
+        } else {
+            return (yval - lpf.threshold);
+        }
+        //return r;
+    }
+    
+    public static double getRobustness(TreeNode stl, Signal s, double time){
+        double r = 0;
+        
+        if(stl instanceof AlwaysNode){
+            AlwaysNode an = (AlwaysNode) stl;
+            double low = an.low + time;
+            double high = an.high + time;
+            List<Double> timePoints = getIntervalTimePoints(s, low, high);
+            r = getRobustness(an.child,s,timePoints.get(0));
+            for(int i=1;i<timePoints.size();i++){
+                double val = getRobustness(an.child,s,timePoints.get(i));
+                if(r <  val){
+                    r = val;
+                }
+            }
+            
+        } else if(stl instanceof EventNode){
+            EventNode en = (EventNode)stl;
+            double low = en.low + time;
+            double high = en.high + time;
+            List<Double> timePoints = getIntervalTimePoints(s, low, high);
+            r = getRobustness(en.child,s,timePoints.get(0));
+            for(int i=1;i<timePoints.size();i++){
+                double val = getRobustness(en.child,s,timePoints.get(i));
+                if(r >  val){
+                    r = val;
+                }
+            }
+            
+        } else if (stl instanceof LinearPredicateLeaf){
+            LinearPredicateLeaf lpf = (LinearPredicateLeaf)stl;
+            return getLinearPredicateRobustness(lpf,s,time);
+            
+        } else if(stl instanceof ConjunctionNode){
+            ConjunctionNode cn = (ConjunctionNode)stl;
+            return min(getRobustness(cn.left,s,time),getRobustness(cn.right,s,time));
+            
+        } else if(stl instanceof DisjunctionNode){
+            DisjunctionNode dn = (DisjunctionNode)stl;
+            return max(getRobustness(dn.left,s,time),getRobustness(dn.right,s,time));
+            
+        } else {
+            System.out.println("Unsupported STL format.");
+        }
+        
+        return r;
+            
+    }
+    
+    
+    
+    /*public static double getRobustness(TreeNode stl, Signal s){
         double r = 0;
         boolean first = true;
         if(stl instanceof ConjunctionNode){
@@ -445,23 +554,8 @@ public class STLAdaptor {
             System.out.println("Sorry. Current formats of STL supported are Conjucntion, Disjunction and Always. Other formats are currently under test");
             System.exit(-1);
         }
-        
-//        List<TreeNode> disjunctions = getDisjunctionLeaves(stl);
-//        for(TreeNode node:disjunctions){
-//            double val = getConjunctionNodeRobustness(node,s);
-//            
-//            //Get max
-//            if(first){
-//                first = false;
-//                r = val;
-//            } else {
-//                if(val > r){
-//                    r = val;
-//                }
-//            }
-//        }
         return r;
-    }
+    }*/
     
     /*
     private static double getConjunctionNodeRobustness(TreeNode stl, Signal s){
@@ -616,7 +710,7 @@ public class STLAdaptor {
     public static double computeSatisfyingPercent(List<Signal> signals, TreeNode stl) throws IOException {
         int sat = 0;
         for (Signal s : signals) {
-            if (getRobustness(stl,s) >= 0) {
+            if (getRobustness(stl,s,0) >= 0) {
                 sat++;
             }
         }

@@ -39,7 +39,7 @@ public class Circuit2tuTest {
     
     private static final String two_tuFP = sampleCircuitsFP + "2tu" + Utilities.getSeparater();
     
-    private static final String two_tu_results = two_tuFP + "results" + Utilities.getSeparater();
+    private static final String two_tu_results = two_tuFP + "allRuns" + Utilities.getSeparater();
     
     private static final String two_tu_eug = two_tuFP + "doubleTU.eug";
     private static final String two_tu_stl = two_tuFP + "stl.txt";
@@ -51,10 +51,12 @@ public class Circuit2tuTest {
         
         int size = 8;
         
+        Utilities.makeDirectory(two_tu_results);
+        
         List<Module> modules = MiniEugeneAdaptor.getStructures(two_tu_eug, size, "inverter");
         System.out.println("Number of modules : " + modules.size());
         TreeNode stl = STLAdaptor.getSTL(two_tu_stl);
-        Args args = new Args(Args.Decomposition.PR_C_T, Args.Simulation.DETERMINISTIC, runCount, 0.99, 0.5, Args.Assignment.EXHAUSTIVE);
+        Args args = new Args(Args.Decomposition.PR_C_T, Args.Simulation.DETERMINISTIC, runCount, 0, 0, Args.Assignment.EXHAUSTIVE);
         args.setProjectFolder(two_tu_results);
         Exhaustive exhaustive = new Exhaustive();
         

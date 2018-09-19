@@ -136,9 +136,7 @@ public class Crawler {
             for(File file:files){
                 if(file.getName().endsWith(".csv") && file.getName().startsWith("out")){
                     List<Signal> signals = Utilities.readSignalsFromCSV(file.getAbsolutePath());
-                    //String varname = file.getName();
-                    //varname = varname.substring(0,varname.lastIndexOf(".csv"));
-                    double rob = STLAdaptor.getRobustness(stl, signals.get(0));
+                    double rob = STLAdaptor.getRobustness(stl, signals.get(0), 0);
                     indRobmap.put(Integer.valueOf(f.getName()), rob);
                 }
             }

@@ -660,12 +660,13 @@ public class DnaPlotlibAdaptor {
     public static void runScript(String filepath) throws InterruptedException, IOException{
         //System.out.println("Running python script for : " + filepath);
         StringBuilder commandBuilder = null;
-        if(org.cidarlab.gridtli.tli.Utilities.isLinux()){
+        if(Utilities.isLinux()){
             commandBuilder = new StringBuilder("/usr/bin/python " + filepath);
-        }
+        } 
         else {
-            System.out.println("Not supported yet. Program exiting");
-            System.exit(-1);
+            commandBuilder = new StringBuilder("python \"" + filepath + "\"");
+            //System.out.println("Not supported yet. Program exiting");
+            //System.exit(-1);
         }
         String[] clist = new String[2];
         String command = commandBuilder.toString();
@@ -698,8 +699,7 @@ public class DnaPlotlibAdaptor {
         clist[0] = ("cd " + Utilities.getFilepath() + "lib" + Utilities.getSeparater() + "dnaFigures" + Utilities.getSeparater() + "plots" + Utilities.getSeparater());
         clist[1] = (command);
         Runtime runtime = Runtime.getRuntime();
-        Process proc = null;
-        proc = runtime.exec(command);
+        Process proc = runtime.exec(command);
         proc.waitFor();
         
         InputStream is = proc.getInputStream();

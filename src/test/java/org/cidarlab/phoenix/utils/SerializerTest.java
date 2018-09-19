@@ -10,6 +10,7 @@ import hyness.stl.ConjunctionNode;
 import hyness.stl.DisjunctionNode;
 import hyness.stl.LinearPredicateLeaf;
 import hyness.stl.RelOperation;
+import java.io.File;
 import java.time.Instant;
 import java.util.concurrent.ThreadLocalRandom;
 import org.json.JSONArray;

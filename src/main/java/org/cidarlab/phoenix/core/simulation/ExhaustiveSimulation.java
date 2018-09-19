@@ -70,8 +70,8 @@ public class ExhaustiveSimulation extends AbstractSimulation {
             if(indSMmap.isEmpty()){
                 
                 noSM++;
-                System.out.println("Current Assignment : " + count + " has no small molecules.");
-                printAssignment(module,assignment);
+                //System.out.println("Current Assignment : " + count + " has no small molecules.");
+                //printAssignment(module,assignment);
                 
                 String ifp = fp + count + Utilities.getSeparater();
                 Utilities.makeDirectory(ifp);
@@ -80,15 +80,22 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                 String modelFile = ifp + "model.xml";
                 writer.write(module.getModel().getSbml(), modelFile);
                 
+                //double score = 0;
                 double score = runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
+                //System.out.println("Score = " + score);
                 boolean result = (score >= args.getThreshold());
                 if(result){
                     AssignmentNode an = new AssignmentNode(module, assignment, ioc, library);
                     an.setModuleIndex(moduleIndex);
                     an.setAssignmentIndex(count);
                     an.setScore(score);
+                    
+                    Utilities.writeToFile(ifp + "assignmentDetails.json", an.getDetails().toString());
+                    
                     //an.setFilepath(ifp);
                     nodes.add(an);
+                    System.out.println("Current Assignment : " + count);
+                    System.out.println(an.toString(library));
                 } else {
                     FileUtils.deleteDirectory(new File(ifp));
                 }
@@ -111,8 +118,8 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                 List<Map<String, Double>> concList = getSmallMoleculeConcentration(module, assignment, ioc, library);
                 for (Map<String, Double> conc : concList) {
                     
-                    System.out.println("Current Assignment : " + count);
-                    printAssignment(module, assignment);
+                    //System.out.println("Current Assignment : " + count);
+                    //printAssignment(module, assignment);
                     
                     JSONObject smevents = new JSONObject();
                     
@@ -129,6 +136,7 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                     }
                     writer.write(sbml, modelFile);
                     Utilities.writeToFile(smfp, smevents.toString(2));
+                    //double  score = 0.0;
                     double  score = runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
                     boolean result = (score >= args.getThreshold());
                     if(result){
@@ -136,9 +144,14 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                         an.setModuleIndex(moduleIndex);
                         an.setAssignmentIndex(count);
                         an.setScore(score);
+                        
+                        Utilities.writeToFile(ifp + "assignmentDetails.json", an.getDetails().toString());
+                    
                         //an.setFilepath(ifp);
                         nodes.add(an);
-                        
+                        System.out.println("Current Assignment : " + count);
+                        System.out.println(an.toString(library));
+                
                     } else {
                         FileUtils.deleteDirectory(new File(ifp));
                     }
@@ -217,7 +230,7 @@ public class ExhaustiveSimulation extends AbstractSimulation {
         
         for (String key : allsignals.keySet()) {
             if (args.getSimulation().equals(DETERMINISTIC)) {
-                double perc = STLAdaptor.getRobustness(stl, allsignals.get(key).get(0));
+                double perc = STLAdaptor.getRobustness(stl, allsignals.get(key).get(0),0);
                 if (perc < score) {
                     score = perc;
                 }
