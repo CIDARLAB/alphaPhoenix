@@ -9,11 +9,14 @@ import hyness.stl.TreeNode;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -446,12 +449,15 @@ public class PhoenixProject {
         for(AssignmentNode an:assignments){
             resultLines.add(an.getModuleIndex() + "," + an.getAssignmentIndex() + "," + an.getScore());
             JSONObject resultsObj = new JSONObject();
-            resultsObj.put("img", "/sbol/" + this.userid + "/" + this.jobId + "/" + an.getModuleIndex() + "/" + an.getAssignmentIndex() + "/" + "circuit");
+            //resultsObj.put("img", "/sbol/" + this.userid + "/" + this.jobId + "/" + an.getModuleIndex() + "/" + an.getAssignmentIndex() + "/" + "circuit");
+            resultsObj.put("moduleid", an.getModuleIndex());
+            resultsObj.put("assignmentid", an.getAssignmentIndex());
             resultsObj.put("name", "Module " + an.getModuleIndex() + " Assignment " + an.getAssignmentIndex());
             resultsObj.put("score", an.getScore());
+            resultsObj.put("imageSize", an.getComponents().size());
             
-            JSONArray tracesArr = new JSONArray();
-            resultsObj.put("traces", tracesArr);
+            //JSONArray tracesArr = new JSONArray();
+            //resultsObj.put("traces", tracesArr);
             results.put(resultsObj);
         }
         
@@ -898,7 +904,98 @@ public class PhoenixProject {
         }
         return null;
     }
+    
+    static SecureRandom rnd = new SecureRandom();
+    
+    public static String generateNewColor(List<String> colors){
+        String newColor = "";
+        String AB = "0123456789ABCDEF";
+        do{
+            StringBuilder sb = new StringBuilder(6);
+            for (int i = 0; i < 6; i++) {
+                sb.append(AB.charAt(rnd.nextInt(AB.length())));
+            }
+            newColor = sb.toString() + "AA";
+        }while(colors.contains(newColor));
+    
+        return newColor;
+    }
+    
+    
+    public static JSONObject getAssignmentObject(String userId, String projectId, int moduleId, int assignmentId) throws TLIException {
+        List<String> colors = new ArrayList<>();
+        colors.add("#2196F3AA");
+        colors.add("#009900AA");
+        colors.add("#FF0000AA");
+        colors.add("#FF9900AA");
+        colors.add("#00FFCCAA");
+        
+        
+        
+        
+        String afp = Utilities.getResultsFilepath() + userId + Utilities.getSeparater() + projectId + Utilities.getSeparater() + moduleId + Utilities.getSeparater() + assignmentId + Utilities.getSeparater();
+        JSONObject obj = new JSONObject();
+        obj.put("img", "/sbol/" + userId + "/" + projectId + "/" + moduleId + "/" + assignmentId + "/circuit" );
+        
+        JSONObject details = new JSONObject(Utilities.getFileContentAsString(afp + "assignmentDetails.json"));
+        
+        obj.put("score", details.get("score"));
+        obj.put("components", details.get("components"));
+        
+        
+        File[] filelist = (new File(afp)).listFiles();
+        int outCount = 0;
+        Map<String,String> signalColorMap = new HashMap<>();
+        JSONArray tracesArr = new JSONArray();
+        for(File f:filelist){
+            int traceCount = 0;
+            if(f.getName().startsWith("out") && f.getName().endsWith(".csv")){
+                String signalName = f.getName();
+                signalName = signalName.substring(0, signalName.lastIndexOf(".csv"));
+                
+                String currentColor;
+                if(outCount < colors.size()){
+                   currentColor = colors.get(outCount); 
+                } else {
+                   currentColor = generateNewColor(colors);
+                   colors.add(currentColor);
+                }
+                outCount++;
+                
+                List<Signal> signals = Utilities.readSignalsFromCSV(f.getAbsolutePath());
+                for(Signal s:signals){
+                    JSONObject traceObj = new JSONObject();
+                            //traceObj.put("name", "trace" + traceCount++);
+                    traceObj.put("name", signalName);
+                    traceObj.put("legendgroup", signalName);
+                    traceObj.put("type", "scatter");
+                    JSONArray xarr = new JSONArray();
+                    JSONArray yarr = new JSONArray();
+                    for (Point point : s.getPoints()) {
+                        xarr.put(point.getX());
+                        yarr.put(point.getY());
+                    }
+                    traceObj.put("x", xarr);
+                    traceObj.put("y", yarr);
+                    traceObj.put("showlegend", traceCount == 0);
+                    JSONObject lineobj = new JSONObject();
+                    lineobj.put("color", currentColor);
+                    traceObj.put("line", lineobj);
 
+                    tracesArr.put(traceObj);
+                    traceCount++;
+                }
+                
+            }
+        }
+        obj.put("traces", tracesArr);
+        
+        return obj;
+        
+        
+    }
+
+    
     //</editor-fold>
     
     

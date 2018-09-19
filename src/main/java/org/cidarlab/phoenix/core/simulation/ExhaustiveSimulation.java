@@ -89,6 +89,9 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                     an.setModuleIndex(moduleIndex);
                     an.setAssignmentIndex(count);
                     an.setScore(score);
+                    
+                    Utilities.writeToFile(ifp + "assignmentDetails.json", an.getDetails().toString());
+                    
                     //an.setFilepath(ifp);
                     nodes.add(an);
                     System.out.println("Current Assignment : " + count);
@@ -141,6 +144,9 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                         an.setModuleIndex(moduleIndex);
                         an.setAssignmentIndex(count);
                         an.setScore(score);
+                        
+                        Utilities.writeToFile(ifp + "assignmentDetails.json", an.getDetails().toString());
+                    
                         //an.setFilepath(ifp);
                         nodes.add(an);
                         System.out.println("Current Assignment : " + count);

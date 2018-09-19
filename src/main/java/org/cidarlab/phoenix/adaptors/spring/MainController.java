@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.stream.XMLStreamException;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.bson.types.ObjectId;
 import org.cidarlab.gridtli.dom.TLIException;
@@ -301,6 +302,40 @@ public class MainController {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    @ResponseBody
+    @RequestMapping(value = "/removeProject", method = RequestMethod.POST)
+    public void removeProject(@RequestBody String request, HttpServletResponse response) throws UnsupportedEncodingException {
+
+        JSONObject jsonreq = new JSONObject(request);
+
+        String sessionId = jsonreq.getString("id");
+        String token = jsonreq.getString("token");
+        String projectId = jsonreq.getString("project");
+        
+        
+        Session session = Session.findByCredentials(sessionId, token);
+        if(session != null) {
+            User user = Session.getUser(session);
+            
+            PrintWriter writer;
+            try {
+                response.setStatus(HttpServletResponse.SC_OK);
+                writer = response.getWriter();
+                //JSONArray results = PhoenixProject.getResultsArray(user.getId().toString(), projectId);
+                String projectfp = Utilities.getResultsFilepath() + user.getId().toString() + Utilities.getSeparater() + projectId + Utilities.getSeparater();
+                FileUtils.deleteDirectory(new File(projectfp));
+                writer.write("Project deleted.");
+                response.setStatus(HttpServletResponse.SC_OK);
+                writer.flush();
+            } catch (IOException ex) {
+                response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+
     //</editor-fold>
 
     //<editor-fold desc="SPEC">
@@ -388,8 +423,6 @@ public class MainController {
             User user = Session.getUser(session);
             
             PrintWriter writer;
-        
-
             try {
                 response.setStatus(HttpServletResponse.SC_OK);
                 writer = response.getWriter();
@@ -428,8 +461,6 @@ public class MainController {
             User user = Session.getUser(session);
             
             PrintWriter writer;
-        
-
             try {
                 response.setStatus(HttpServletResponse.SC_OK);
                 writer = response.getWriter();
@@ -448,23 +479,68 @@ public class MainController {
             }
         }
     }
-    //</editor-fold>
     
-    @RequestMapping(value = "/sbol/{id}", method = RequestMethod.GET)
-    public void getImageAsByteArray(@PathVariable(value="id") String imageId, HttpServletResponse response) throws IOException {
+    
+    @ResponseBody
+    @RequestMapping(value = "/assignment", method = RequestMethod.POST)
+    public void assignment(@RequestBody String request, HttpServletResponse response) throws UnsupportedEncodingException {
         
-        String imagefp = "";
-        if(imageId.contains("/")){
-            imagefp = Utilities.getResultsFilepath() + "results/" + imageId + ".png";
-            System.out.println(imagefp);
-        } else {
-            imagefp = Utilities.getDnaFiguresPlotsFilepath() + imageId + ".png";
+        JSONObject jsonreq = new JSONObject(request);
+
+        String sessionId = jsonreq.getString("id");
+        String token = jsonreq.getString("token");
+        String projectId = jsonreq.getString("project");
+        int moduleId = jsonreq.getInt("moduleId");
+        int assignmentId = jsonreq.getInt("assignmentId");
+        
+        Session session = Session.findByCredentials(sessionId, token);
+        if(session != null) {
+            User user = Session.getUser(session);
             
+            PrintWriter writer;
+            try {
+                response.setStatus(HttpServletResponse.SC_OK);
+                writer = response.getWriter();
+                JSONObject results = PhoenixProject.getAssignmentObject(user.getId().toString(), projectId, moduleId, assignmentId);
+                if(results.length() > 0) {
+                    writer.write(results.toString());
+                    response.setStatus(HttpServletResponse.SC_OK);
+                } else {
+                    writer.write("Assignment not found");
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                }
+                writer.flush();
+            } catch (IOException | TLIException ex) {
+                response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+    }
+    
+    
+    @RequestMapping(value = "/sbol/{userid}/{projectid}/{moduleid}/{assignmentid}/{name}", method = RequestMethod.GET)
+    public void getImageAsByteArray(
+            @PathVariable(value="userid") String userid,
+            @PathVariable(value="projectid") String projectid, 
+            @PathVariable(value="moduleid") String moduleid, 
+            @PathVariable(value="assignmentid") String assignmentid, 
+            @PathVariable(value="name") String name, 
+            HttpServletResponse response) throws IOException {
+        
+        String imagefp = Utilities.getResultsFilepath() 
+                + userid + Utilities.getSeparater() 
+                + projectid +  Utilities.getSeparater() 
+                + "results" + Utilities.getSeparater()
+                + moduleid +  Utilities.getSeparater() 
+                + assignmentid +  Utilities.getSeparater()+ name + ".png";
         
         InputStream in = new FileInputStream(new File(imagefp));
         response.setContentType(MediaType.IMAGE_PNG_VALUE);
         IOUtils.copy(in, response.getOutputStream());
     }
+    
+    //</editor-fold>
+    
+    
     
 }

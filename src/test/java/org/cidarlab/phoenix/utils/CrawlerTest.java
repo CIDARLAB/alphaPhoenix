@@ -409,4 +409,9 @@ public class CrawlerTest {
         getSTLScores(basefp,stl);
     }
     
+    
+    public static void main(String[] args) {
+        
+    }
+    
 }

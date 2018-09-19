@@ -32,6 +32,7 @@ import org.cidarlab.phoenix.dom.library.LibraryComponent;
 import org.cidarlab.phoenix.dom.library.SmallMoleculeComponent;
 import org.cidarlab.phoenix.utils.Args;
 import org.cidarlab.phoenix.utils.Utilities;
+import org.json.JSONObject;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLWriter;
 
@@ -141,6 +142,13 @@ public class AssignmentNode {
         
         this.concs = new HashMap<>();
         
+    }
+    
+    public JSONObject getDetails(){
+        JSONObject obj = new JSONObject();
+        obj.put("score", score);
+        obj.put("components", components.size());
+        return obj;
     }
     
     public AssignmentNode(Module module, Map<String,CandidateComponent> _candidate, Map<String, String> _ioc, Library library){

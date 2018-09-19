@@ -119,6 +119,8 @@ public class AnalyticsTest {
     }
     
     
-    
+    public static void main(String[] args) {
+        
+    }
     
 }
