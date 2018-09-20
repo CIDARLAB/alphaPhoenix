@@ -45,7 +45,6 @@ public class Circuit3tuTest {
     
     private static final int runCount = 20;
     
-    @Test
     public void testExhaustiveAssignment() throws URISyntaxException, SBOLValidationException, SynBioHubException, MalformedURLException, XMLStreamException, IOException, FileNotFoundException, TLIException, InterruptedException {
         
         int size = 12;
@@ -97,5 +96,10 @@ public class Circuit3tuTest {
         System.out.println("###############################");
         System.out.println("Final Number of assignments  :: " + m1.getAssignments().size());
     
+    }
+    
+    public static void main(String[] args) throws URISyntaxException, SBOLValidationException, SynBioHubException, XMLStreamException, IOException, MalformedURLException, FileNotFoundException, TLIException, InterruptedException {
+        Circuit3tuTest circ = new Circuit3tuTest();
+        circ.testExhaustiveAssignment();
     }
 }

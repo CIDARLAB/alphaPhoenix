@@ -116,7 +116,6 @@ public class SynbiohubAdaptorTest {
     public void tearDown() {
     }
     
-    @Test
     public void testCreateLib() {
 
         
@@ -363,6 +362,11 @@ public class SynbiohubAdaptorTest {
             Logger.getLogger(SynbiohubAdaptorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    
+    public static void main(String[] args) throws URISyntaxException {
+        SynbiohubAdaptorTest sat = new SynbiohubAdaptorTest();
+        sat.testCreateLib();
     }
     
    

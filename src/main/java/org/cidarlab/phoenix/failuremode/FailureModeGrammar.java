@@ -13,14 +13,45 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.cidarlab.phoenix.adaptors.PigeonAdaptor;
+import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Module;
+import org.cidarlab.phoenix.dom.Orientation;
 
 /**
  *
  * @author prash
  */
 public class FailureModeGrammar {
+    
+    private static String generateFeatureString(Module module){
+        String pigeonString = "";
+        for(Component c:module.getComponents()){
+            pigeonString += getComponentString(c, c.getOrientation());
+        }
+        return pigeonString;
+    }
+    
+    private static String getComponentString(Component comp, Orientation or){
+        String featureString = "";
+        if(or.equals(Orientation.REVERSE))
+            featureString += "<";
+        
+        if(comp.isPromoter()){
+            featureString += "p ";
+        } else if(comp.isRBS()){
+            featureString += "r ";
+        } else if(comp.isCDS()){
+            featureString += "c ";
+        } else if(comp.isTerminator()){
+            featureString += "t ";
+        }
+        
+        
+        return featureString;
+    }
+    
+    
+    
     
     public static int getRoadBlockingCount(String pigeonString) {
         ANTLRInputStream input = new ANTLRInputStream(pigeonString);
@@ -100,7 +131,7 @@ public class FailureModeGrammar {
     }
     
     public static void assignFailureModes(Module module){
-        String featureString = PigeonAdaptor.generatePigeonString(module);
+        String featureString = generateFeatureString(module);
         if(getRoadBlockingCount(featureString)>0){
             module.getFailureModes().add(FailureMode.ROAD_BLOCKING);
         }

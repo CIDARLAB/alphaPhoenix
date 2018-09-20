@@ -72,7 +72,6 @@ public class Circuit1tuTest {
         
     }
     
-    
     @Test
     public void testDecomposeTest(){
         int size = 4;
@@ -106,7 +105,6 @@ public class Circuit1tuTest {
         
     }
     
-    @Test
     public void testExhaustiveAssignment() throws URISyntaxException, SBOLValidationException, SynBioHubException, MalformedURLException, XMLStreamException, IOException, FileNotFoundException, TLIException, InterruptedException {
         
         int runCount = 100;
@@ -153,4 +151,10 @@ public class Circuit1tuTest {
         System.out.println("Final Number of assignments  :: " + m1.getAssignments().size());
         
     }
+    
+    public static void main(String[] args) throws URISyntaxException, SBOLValidationException, SynBioHubException, XMLStreamException, IOException, MalformedURLException, FileNotFoundException, TLIException, InterruptedException {
+        Circuit1tuTest circ = new Circuit1tuTest();
+        circ.testExhaustiveAssignment();
+    }
+    
 }

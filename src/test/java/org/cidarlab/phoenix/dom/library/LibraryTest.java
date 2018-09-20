@@ -49,8 +49,7 @@ public class LibraryTest {
     @Test
     public void testPR_C_T() throws URISyntaxException, SynBioHubException, SBOLValidationException, MalformedURLException{
         String synbiohuburl = "https://synbiohub.programmingbiology.org";
-        String phoenixliburl = "https://synbiohub.programmingbiology.org/public/PhoenixParts/PhoenixParts_collection/1";
-        String phoenixSampleurl = "https://synbiohub.programmingbiology.org/public/AlphaSample/AlphaSample_collection/1";
+        String phoenixliburl = "https://synbiohub.programmingbiology.org/public/PhoenixReduced/PhoenixReduced_collection/1";
         
         String rulesfp = Utilities.getTestedCircuitsFilepath() + "ucf" + Utilities.getSeparater() + "ucf" + Utilities.getSeparater();
         
@@ -76,10 +75,10 @@ public class LibraryTest {
         System.out.println("############################################\n");
         System.out.println("Composite PR                 : " + lib.getPr().size());
         System.out.println("############################################\n");
-
-        
-        
     }
     
+    
+    
+  
     
 }

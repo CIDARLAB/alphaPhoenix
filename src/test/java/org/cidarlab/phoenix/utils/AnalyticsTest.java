@@ -88,7 +88,6 @@ public class AnalyticsTest {
         os.close();
     }
     
-    @Test
     public void generateFiguresTest() throws IOException, InterruptedException{
         double xthresh = 50;
         double ythresh = 10000;
@@ -119,8 +118,9 @@ public class AnalyticsTest {
     }
     
     
-    public static void main(String[] args) {
-        
+    public static void main(String[] args) throws IOException, InterruptedException{
+        AnalyticsTest analytics = new AnalyticsTest();
+        analytics.generateFiguresTest();
     }
     
 }

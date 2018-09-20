@@ -50,7 +50,7 @@ public class SampleCircuit2tuTest {
     
     private static int runCount = 20;
     
-    @Test
+    
     public void testExhaustiveAssignment() throws URISyntaxException, SBOLValidationException, SynBioHubException, MalformedURLException, XMLStreamException, IOException, FileNotFoundException, TLIException, InterruptedException {
         
         int size = 8;
@@ -104,6 +104,10 @@ public class SampleCircuit2tuTest {
         
     }
     
+    public static void main(String[] args) throws URISyntaxException, SBOLValidationException, SynBioHubException, XMLStreamException, IOException, MalformedURLException, FileNotFoundException, TLIException, InterruptedException {
+        SampleCircuit2tuTest circ = new SampleCircuit2tuTest();
+        circ.testExhaustiveAssignment();
+    }
     
     
 }

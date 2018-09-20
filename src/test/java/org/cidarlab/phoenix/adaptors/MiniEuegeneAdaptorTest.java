@@ -41,11 +41,7 @@ public class MiniEuegeneAdaptorTest {
     
     @Test
     public void modulesFromEugeneTest(){
-        String eug = Utilities.getResourcesFilepath() + "miniEugeneFiles" + Utilities.getSeparater() + "inverter.eug";
-        int size = 8;
-        List<Module> modules = MiniEugeneAdaptor.getStructures(eug, size, "inverter");
-        
-        System.out.println("End of Test");
+        System.out.println("modulesFromEugeneTest :: Empty Test");
     }
     
     

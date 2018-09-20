@@ -10,17 +10,13 @@ import hyness.stl.ConjunctionNode;
 import hyness.stl.DisjunctionNode;
 import hyness.stl.LinearPredicateLeaf;
 import hyness.stl.RelOperation;
-import java.io.File;
-import java.io.IOException;
 import java.time.Instant;
 import java.util.concurrent.ThreadLocalRandom;
-import org.cidarlab.phoenix.core.PhoenixProject;
 import org.json.JSONArray;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
 
 /**
  *
@@ -51,7 +47,7 @@ public class SerializerTest {
      * Test of stlToJSON method, of class Serializer.
      */
     
-    @Test
+    //@Test
     public void hashTest(){
         
         String now = Instant.now().toString();
@@ -60,7 +56,7 @@ public class SerializerTest {
         System.out.println(check);
     }
     
-    @Test
+    //@Test
     public void testgetlong(){
         System.out.println(ThreadLocalRandom.current().nextLong());
     }

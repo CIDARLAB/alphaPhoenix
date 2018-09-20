@@ -5,7 +5,6 @@
  */
 package org.cidarlab.phoenix.utils;
 
-import com.google.common.io.Files;
 import hyness.stl.TreeNode;
 import java.io.File;
 import java.io.IOException;
@@ -23,13 +22,10 @@ import org.cidarlab.gridtli.dom.Signal;
 import org.cidarlab.gridtli.dom.TLIException;
 import org.cidarlab.gridtli.tli.TemporalLogicInference;
 import org.cidarlab.phoenix.adaptors.STLAdaptor;
-import org.cidarlab.phoenix.utils.Crawler.CrawlerTask;
-import org.json.JSONArray;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
 
 /**
  *
@@ -400,7 +396,7 @@ public class CrawlerTest {
     }
 
     
-    @Test
+    //@Test
     public void testSTL() throws TLIException, InterruptedException, IOException{
         String folder = "stl1";
         String basefp = Utilities.getLibFilepath() + "computationalTests" + Utilities.getSeparater() + "stl" + Utilities.getSeparater() + folder + Utilities.getSeparater();
@@ -410,7 +406,13 @@ public class CrawlerTest {
     }
     
     
-    public static void main(String[] args) {
+    public static void main(String[] args)  throws TLIException, InterruptedException, IOException {
+        CrawlerTest ct = new CrawlerTest();
+        
+        //Test for a specific STL
+        ct.testSTL();
+        
+        
         
     }
     

@@ -43,7 +43,6 @@ public class Circuit2tuTest {
     
     private static final int runCount = 20;
     
-    @Test
     public void testExhaustiveAssignment() throws URISyntaxException, SBOLValidationException, SynBioHubException, MalformedURLException {
         
         int size = 8;
@@ -95,5 +94,10 @@ public class Circuit2tuTest {
         System.out.println("###############################");
         System.out.println("Final Number of assignments  :: " + m1.getAssignments().size());
         
+    }
+    
+    public static void main(String[] args) throws URISyntaxException, SBOLValidationException, SynBioHubException, MalformedURLException {
+        Circuit2tuTest circ = new Circuit2tuTest();
+        circ.testExhaustiveAssignment();
     }
 }
