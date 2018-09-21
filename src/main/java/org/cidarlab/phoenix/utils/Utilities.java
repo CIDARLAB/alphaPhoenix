@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.security.SecureRandom;
@@ -253,6 +255,14 @@ public class Utilities {
         return sb.toString();
     }
 
+    public static String generateRandomColor(){
+        String hex = "0123456789ABCDEF";
+        StringBuilder sb = new StringBuilder(6);
+        for (int i = 0; i < 6; i++) {
+            sb.append(hex.charAt(rnd.nextInt(hex.length())));
+        }
+        return sb.toString();
+    }
 
     
     
@@ -359,5 +369,24 @@ public class Utilities {
         }
         int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
         return randomNum;
+    }
+
+    public static void runPythonScript(String filepath) throws InterruptedException, IOException {
+        StringBuilder commandBuilder = null;
+        if (Utilities.isLinux()) {
+            commandBuilder = new StringBuilder("/usr/bin/python " + filepath);
+        } else {
+            commandBuilder = new StringBuilder("python \"" + filepath + "\"");
+        }
+        String command = commandBuilder.toString();
+        Runtime runtime = Runtime.getRuntime();
+        Process proc = runtime.exec(command);
+        proc.waitFor();
+        InputStream is = proc.getInputStream();
+        InputStream es = proc.getErrorStream();
+        OutputStream os = proc.getOutputStream();
+        is.close();
+        es.close();
+        os.close();
     }
 }

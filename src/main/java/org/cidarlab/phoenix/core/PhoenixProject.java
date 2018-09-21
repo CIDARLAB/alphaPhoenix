@@ -629,6 +629,17 @@ public class PhoenixProject {
         obj.put("score", details.get("score"));
         obj.put("components", details.get("components"));
         
+        JSONArray concarr = new JSONArray();
+        JSONObject concs = ((JSONObject)details.get("smc"));
+        for(String smc: concs.keySet()){
+            
+            concarr.put(smc  + " = " + concs.get(smc));
+        }
+        
+        
+        obj.put("scm", concarr);
+        
+        
         
         File[] filelist = (new File(afp)).listFiles();
         int outCount = 0;

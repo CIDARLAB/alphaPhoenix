@@ -217,7 +217,7 @@ public class DnaPlotlibAdaptor {
                "ax_dna.set_aspect('equal')\n" +
                "ax_dna.axis('off')\n\n";
         
-        scr += "fig.savefig('" + filename + ".png', dpi=300)\n" +
+        scr += "fig.savefig('" + filename + ".png', dpi=1200)\n" +
                "plt.close('all')";
         
         
@@ -657,37 +657,6 @@ public class DnaPlotlibAdaptor {
         }
     }
     
-    public static void runScript(String filepath) throws InterruptedException, IOException{
-        //System.out.println("Running python script for : " + filepath);
-        StringBuilder commandBuilder = null;
-        if(Utilities.isLinux()){
-            commandBuilder = new StringBuilder("/usr/bin/python " + filepath);
-        } 
-        else {
-            commandBuilder = new StringBuilder("python \"" + filepath + "\"");
-            //System.out.println("Not supported yet. Program exiting");
-            //System.exit(-1);
-        }
-        String[] clist = new String[2];
-        String command = commandBuilder.toString();
-        //clist[0] = ("cd " + Utilities.getFilepath() + "lib" + Utilities.getSeparater() + "dnaFigures" + Utilities.getSeparater() + "plots" + Utilities.getSeparater());
-        //clist[1] = (command);
-        clist[0] = command;
-        Runtime runtime = Runtime.getRuntime();
-        Process proc = null;
-        proc = runtime.exec(command);
-        proc.waitFor();
-        
-        InputStream is = proc.getInputStream();
-        InputStream es = proc.getErrorStream();
-        OutputStream os = proc.getOutputStream();
-        is.close();
-        es.close();
-        os.close();
-        
-        
-        //System.out.println("Script completed.");
-    }
     
     
     public static void runWebAppScript(String filepath) throws InterruptedException, IOException{

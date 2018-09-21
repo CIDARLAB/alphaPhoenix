@@ -176,7 +176,7 @@ public class ExhaustiveSimulation extends AbstractSimulation {
         String dnaplotlibfp = ifp + "visualsbol.py";
         String dnaplotlibscript = DnaPlotlibAdaptor.generateScript(module, assignment, ioc, new HashMap<String, String>(), library, ifp + "circuit");
         Utilities.writeToFile(dnaplotlibfp, dnaplotlibscript);
-        DnaPlotlibAdaptor.runScript(dnaplotlibfp);
+        Utilities.runPythonScript(dnaplotlibfp);
         
         double maxtime = STLAdaptor.getMaxTime(stl);
         

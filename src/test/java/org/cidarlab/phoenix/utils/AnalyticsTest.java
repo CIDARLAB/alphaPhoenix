@@ -11,6 +11,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.io.FileUtils;
+import org.cidarlab.gridtli.dom.Point;
+import org.cidarlab.gridtli.dom.Signal;
+import org.cidarlab.gridtli.dom.TLIException;
 import org.junit.Test;
 
 /**
@@ -108,28 +112,6 @@ public class AnalyticsTest {
     }
     
     
-    public void executeScript(String script) throws IOException, InterruptedException{
-        StringBuilder commandBuilder = null;
-        if(Utilities.isLinux()){
-            commandBuilder = new StringBuilder("/usr/bin/python " + script);
-        }
-        else {
-            System.out.println("Not supported yet. Program exiting");
-            System.exit(-1);
-        }
-        String command = commandBuilder.toString();
-        Runtime runtime = Runtime.getRuntime();
-        Process proc = runtime.exec(command);
-        proc.waitFor();
-        
-        InputStream is = proc.getInputStream();
-        InputStream es = proc.getErrorStream();
-        OutputStream os = proc.getOutputStream();
-        is.close();
-        es.close();
-        os.close();
-    }
-    
     public void generateFiguresTest(double xthresh, double ythresh) throws IOException, InterruptedException{
         
         
@@ -154,26 +136,192 @@ public class AnalyticsTest {
                 
                 generateScoreScatterPlot(fplist,assignmentfp);
                 
-                executeScript(assignmentfp + "oneTUscores.py");
-                executeScript(assignmentfp + "twoTUscores.py");
+                Utilities.runPythonScript(assignmentfp + "oneTUscores.py");
+                Utilities.runPythonScript(assignmentfp + "twoTUscores.py");
                 
-                executeScript(assignmentfp + "scatter.py");
+                Utilities.runPythonScript(assignmentfp + "scatter.py");
+                
             }
             
         }
         
     }
     
+    public void copySimulations() throws IOException{
+        String simfp = basefp + "simulations" + Utilities.getSeparater();
+        Utilities.makeDirectory(simfp);
+        String onetusimfp = simfp + "1tu" + Utilities.getSeparater();
+        String twotusimfp = simfp + "2tu" + Utilities.getSeparater();
+        String threetusimfp = simfp + "3tu" + Utilities.getSeparater();
+        
+        Utilities.makeDirectory(onetusimfp);
+        Utilities.makeDirectory(twotusimfp);
+        Utilities.makeDirectory(threetusimfp);
+        
+        String baseResultsfp = Utilities.getLibFilepath() + "examples" + Utilities.getSeparater() + "tested_circuits" + Utilities.getSeparater() + "circuits" + Utilities.getSeparater();
+
+        String oneTUfp = baseResultsfp + "1tu" + Utilities.getSeparater() + "allRuns" + Utilities.getSeparater();
+        String twoTUfp = baseResultsfp + "2tu" + Utilities.getSeparater() + "allRuns" + Utilities.getSeparater();
+        String threeTUfp = baseResultsfp + "3tu" + Utilities.getSeparater() + "allRuns" + Utilities.getSeparater();
+        
+
+        String oneTUdetfp = oneTUfp + "DeterministicRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
+        String twoTUdetfp = twoTUfp + "DeterministicRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
+        String threeTUdetfp = threeTUfp + "DeterministicRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
+        
+        File[] onetulist = (new File(oneTUdetfp)).listFiles();
+        File[] twotulist = (new File(twoTUdetfp)).listFiles();
+        File[] threetulist = (new File(threeTUdetfp)).listFiles();
+        
+        for(File f:onetulist){
+            String fp = f.getAbsolutePath();
+            if(!fp.endsWith("" + Utilities.getSeparater())){
+                fp += Utilities.getSeparater();
+            }
+            FileUtils.copyFile(new File(fp + "out0.png"), new File(onetusimfp + f.getName() + ".png"));
+        }
+        
+        for(File f:twotulist){
+            String fp = f.getAbsolutePath();
+            if(!fp.endsWith("" + Utilities.getSeparater())){
+                fp += Utilities.getSeparater();
+            }
+            FileUtils.copyFile(new File(fp + "out0.png"), new File(twotusimfp + f.getName() + ".png"));
+        }
+        
+        for(File f:threetulist){
+            String fp = f.getAbsolutePath();
+            if(!fp.endsWith("" + Utilities.getSeparater())){
+                fp += Utilities.getSeparater();
+            }
+            FileUtils.copyFile(new File(fp + "out0.png"), new File(threetusimfp + f.getName() + ".png"));
+        }
+        
+    }
     
-    public static void main(String[] args) throws IOException, InterruptedException{
+    public void findConcaves() throws TLIException, InterruptedException, IOException{
+
+        String concavefp = basefp + "concaves" + Utilities.getSeparater();
+        Utilities.makeDirectory(concavefp);
+        
+        
+        String baseResultsfp = Utilities.getLibFilepath() + "examples" + Utilities.getSeparater() + "tested_circuits" + Utilities.getSeparater() + "circuits" + Utilities.getSeparater();
+
+        String oneTUfp = baseResultsfp + "1tu" + Utilities.getSeparater() + "allRuns" + Utilities.getSeparater();
+        String twoTUfp = baseResultsfp + "2tu" + Utilities.getSeparater() + "allRuns" + Utilities.getSeparater();
+        String threeTUfp = baseResultsfp + "3tu" + Utilities.getSeparater() + "allRuns" + Utilities.getSeparater();
+        
+
+        String oneTUdetfp = oneTUfp + "DeterministicRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
+        String twoTUdetfp = twoTUfp + "DeterministicRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
+        String threeTUdetfp = threeTUfp + "DeterministicRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
+        
+        File[] onetulist = (new File(oneTUdetfp)).listFiles();
+        File[] twotulist = (new File(twoTUdetfp)).listFiles();
+        File[] threetulist = (new File(threeTUdetfp)).listFiles();
+        
+        printConcaves(concavefp, "1tu",onetulist);
+        printConcaves(concavefp, "2tu",twotulist);
+        printConcaves(concavefp, "3tu",threetulist);
+        
+        
+    }
+    
+    private static void printConcaves(String concavefp, String tu, File[] filelist) throws TLIException, InterruptedException, IOException{
+        for(File f:filelist){
+            String fp = f.getAbsolutePath();
+            
+            if(!fp.endsWith("" + Utilities.getSeparater())){
+                fp += Utilities.getSeparater();
+            }
+            
+            Signal s = Utilities.readSignalsFromCSV(fp + "out0.csv").get(0);
+            List<Point> points = new ArrayList<>();
+            for(Point p:s.getPoints()){
+                if(p.getX() >= 600){
+                    points.add(p);
+                }
+            }
+            boolean found = false;
+            for(int i=0;i<points.size()-1;i++){
+                if(points.get(i+1).getY() < points.get(i).getY()){
+                    found = true;
+                    break;
+                }
+            }
+            if(found){
+                //System.out.println("Decreasing :: " + tu + " :: " + f.getName());
+            }
+            
+            found = false;
+            
+            boolean increasing = false;
+            for(int i=0;i<points.size()-1;i++){
+                
+                if(increasing){
+                    if (points.get(i + 1).getY() < points.get(i).getY()) {
+                        found = true;
+                        break;
+                    }
+                } else {
+                    if (points.get(i + 1).getY() > points.get(i).getY()) {
+                        increasing = true;
+                    }
+                }
+            }
+            
+            if(found){
+                System.out.println("Concave :: " + tu + " :: " + f.getName());
+                
+                List<String> script = new ArrayList<>();
+                script.add("import matplotlib\n" 
+                        + "matplotlib.use('agg',warn=False, force=True)\n" 
+                        + "from matplotlib import pyplot as plt\n" 
+                        + "from matplotlib import patches as patches\n" 
+                        + "\n" 
+                        + "fig = plt.figure()");
+                String x = "sx = [";
+                String y = "sy = [";
+                
+                for(int i=0;i<points.size()-1;i++){
+                    x += points.get(i).getX() + ",";
+                    y += points.get(i).getY() + ",";
+                }
+                Point last = points.get(points.size()-1);
+                x += last.getX() + "]";
+                y += last.getY() + "]";
+                
+                script.add(x);
+                script.add(y);
+                script.add("plt.plot(sx,sy,color='black',linestyle='solid')");
+                
+                script.add("plt.xlabel(\"time\")\n" 
+                        + "plt.ylabel(\"out0\")");
+                script.add("plt.xlim(600.0,1500.0)");
+                
+                script.add("fig.savefig('" + concavefp + tu + "_" + f.getName() + ".png', dpi=300)");
+                
+                Utilities.writeToFile(concavefp + tu + "_" + f.getName() + ".py", script);
+                Utilities.runPythonScript(concavefp + tu + "_" + f.getName() + ".py");
+                
+            }
+            
+            
+        }
+    }
+    
+    
+    public static void main(String[] args) throws IOException, InterruptedException, TLIException{
         
         double xthresh = 50;
         double ythresh = 1000;
         
         AnalyticsTest analytics = new AnalyticsTest();
-        analytics.generateFiguresTest(xthresh,ythresh);
+        //analytics.generateFiguresTest(50.00,1000.00);
+        //analytics.generateFiguresTest(50.00,10000.00);
         
-        
+        //analytics.copySimulations();
+        analytics.findConcaves();
         
     }
     

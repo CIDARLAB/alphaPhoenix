@@ -148,6 +148,7 @@ public class AssignmentNode {
         JSONObject obj = new JSONObject();
         obj.put("score", score);
         obj.put("components", components.size());
+        obj.put("smc", this.concs);
         return obj;
     }
     
