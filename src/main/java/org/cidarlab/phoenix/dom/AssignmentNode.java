@@ -144,11 +144,12 @@ public class AssignmentNode {
         
     }
     
-    public JSONObject getDetails(){
+    public JSONObject getDetails(Library lib){
         JSONObject obj = new JSONObject();
         obj.put("score", score);
         obj.put("components", components.size());
         obj.put("smc", this.concs);
+        obj.put("assignment", this.toString(lib));
         return obj;
     }
     

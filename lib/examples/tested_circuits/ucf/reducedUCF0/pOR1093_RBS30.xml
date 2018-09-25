@@ -41,9 +41,9 @@
             </apply>
           </math>
                   <listOfLocalParameters>
-            <localParameter id="max" name="max" value="1.087"/>
+            <localParameter id="max" name="max" value="2260.661"/>
             <localParameter id="basal" name="basal" value="0.218"/>
-            <localParameter id="K_d" name="K_d" value="1.11"/>
+            <localParameter id="K_d" name="K_d" value="0.001"/>
             <localParameter id="n" name="n" value="0.536"/>
           </listOfLocalParameters>
         </kineticLaw>

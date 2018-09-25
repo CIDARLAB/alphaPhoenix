@@ -23,7 +23,7 @@ import org.junit.Test;
  */
 public class AnalyticsTest {
     
-    private final String basefp = Utilities.getLibFilepath() + "computationalTests" + Utilities.getSeparater();
+    private final static String basefp = Utilities.getLibFilepath() + "computationalTests" + Utilities.getSeparater();
     
     private void generateRobSMCScript(String fp, String assignmentfp, String filename){
         List<String[]> lines = Utilities.getCSVFileContentAsList(fp);
@@ -147,7 +147,7 @@ public class AnalyticsTest {
         
     }
     
-    public void copySimulations() throws IOException{
+    public static void copySimulations() throws IOException{
         String simfp = basefp + "simulations" + Utilities.getSeparater();
         Utilities.makeDirectory(simfp);
         String onetusimfp = simfp + "1tu" + Utilities.getSeparater();
@@ -178,7 +178,9 @@ public class AnalyticsTest {
             if(!fp.endsWith("" + Utilities.getSeparater())){
                 fp += Utilities.getSeparater();
             }
-            FileUtils.copyFile(new File(fp + "out0.png"), new File(onetusimfp + f.getName() + ".png"));
+            if(Utilities.validFilepath(fp + "out0.png")){
+                FileUtils.copyFile(new File(fp + "out0.png"), new File(onetusimfp + f.getName() + ".png"));
+            }
         }
         
         for(File f:twotulist){
@@ -186,7 +188,9 @@ public class AnalyticsTest {
             if(!fp.endsWith("" + Utilities.getSeparater())){
                 fp += Utilities.getSeparater();
             }
-            FileUtils.copyFile(new File(fp + "out0.png"), new File(twotusimfp + f.getName() + ".png"));
+            if(Utilities.validFilepath(fp + "out0.png")){
+                FileUtils.copyFile(new File(fp + "out0.png"), new File(twotusimfp + f.getName() + ".png"));
+            }
         }
         
         for(File f:threetulist){
@@ -194,7 +198,9 @@ public class AnalyticsTest {
             if(!fp.endsWith("" + Utilities.getSeparater())){
                 fp += Utilities.getSeparater();
             }
-            FileUtils.copyFile(new File(fp + "out0.png"), new File(threetusimfp + f.getName() + ".png"));
+            if(Utilities.validFilepath(fp + "out0.png")){
+                FileUtils.copyFile(new File(fp + "out0.png"), new File(threetusimfp + f.getName() + ".png"));
+            }
         }
         
     }
@@ -228,7 +234,10 @@ public class AnalyticsTest {
     }
     
     private static void printConcaves(String concavefp, String tu, File[] filelist) throws TLIException, InterruptedException, IOException{
+        
+        //System.out.println("Started print Concaves function");
         for(File f:filelist){
+            
             String fp = f.getAbsolutePath();
             
             if(!fp.endsWith("" + Utilities.getSeparater())){
@@ -236,6 +245,7 @@ public class AnalyticsTest {
             }
             
             Signal s = Utilities.readSignalsFromCSV(fp + "out0.csv").get(0);
+            //List<Point> points = new ArrayList<>(s.getPoints());
             List<Point> points = new ArrayList<>();
             for(Point p:s.getPoints()){
                 if(p.getX() >= 600){
@@ -249,9 +259,42 @@ public class AnalyticsTest {
                     break;
                 }
             }
-            if(found){
-                //System.out.println("Decreasing :: " + tu + " :: " + f.getName());
-            }
+            /*if(found){
+                System.out.println("Decreasing :: " + tu + " :: " + f.getName());
+                
+                List<String> script = new ArrayList<>();
+                script.add("import matplotlib\n" 
+                        + "matplotlib.use('agg',warn=False, force=True)\n" 
+                        + "from matplotlib import pyplot as plt\n" 
+                        + "from matplotlib import patches as patches\n" 
+                        + "\n" 
+                        + "fig = plt.figure()");
+                String x = "sx = [";
+                String y = "sy = [";
+                
+                for(int i=0;i<points.size()-1;i++){
+                    x += points.get(i).getX() + ",";
+                    y += points.get(i).getY() + ",";
+                }
+                Point last = points.get(points.size()-1);
+                x += last.getX() + "]";
+                y += last.getY() + "]";
+                
+                script.add(x);
+                script.add(y);
+                script.add("plt.plot(sx,sy,color='black',linestyle='solid')");
+                
+                script.add("plt.xlabel(\"time\")\n" 
+                        + "plt.ylabel(\"out0\")");
+                script.add("plt.xlim(600.0,1500.0)");
+                
+                script.add("fig.savefig('" + concavefp + tu + "_" + f.getName() + ".png', dpi=300)");
+                
+                Utilities.writeToFile(concavefp + tu + "_" + f.getName() + ".py", script);
+                Utilities.runPythonScript(concavefp + tu + "_" + f.getName() + ".py");
+            }*/
+            
+            
             
             found = false;
             
@@ -321,8 +364,18 @@ public class AnalyticsTest {
         //analytics.generateFiguresTest(50.00,10000.00);
         
         //analytics.copySimulations();
-        analytics.findConcaves();
+        //analytics.findConcaves();
         
+        String pulsefp = Utilities.getFilepath() + Utilities.getSeparater() + "lib" + Utilities.getSeparater() + "examples" + Utilities.getSeparater() + "tested_circuits" + Utilities.getSeparater() + "pulse_circuit" + Utilities.getSeparater();
+        String pulseconcavefp = pulsefp + "concaves" + Utilities.getSeparater();
+        Utilities.makeDirectory(pulseconcavefp);
+        String pulseresults = pulsefp + "allRuns" + Utilities.getSeparater() + "results" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
+        File[] pulselist = (new File(pulseresults)).listFiles();
+        //printConcaves(pulseconcavefp, "pulse",pulselist);
+        
+        //copySimulations();
+        
+        //analytics.findConcaves();
     }
     
 }

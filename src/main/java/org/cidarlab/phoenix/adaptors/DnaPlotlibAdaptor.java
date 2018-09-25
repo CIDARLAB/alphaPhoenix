@@ -162,6 +162,7 @@ public class DnaPlotlibAdaptor {
         
         int maxArcs = 0;
         
+        List<String> cdsNames = new ArrayList<>();
         for(Component c:m.getComponents()){
             if (c.isCDS()) {
                 int iCount = 0;
@@ -169,9 +170,11 @@ public class DnaPlotlibAdaptor {
                     if(p.isPromoter()){
                         if (ioc.containsKey(c.getName()) && ioc.containsKey(p.getName())) {
                             if (ioc.get(c.getName()).equals(ioc.get(p.getName()))) {
+                                cdsNames.add(c.getName());
+                                iCount = (cdsNames.size() -1);
                                 double arcHeight = 20.0 + (5 * iCount);
                                 arcName = "reg" + arcCount++;
-                                iCount++;
+                                //iCount++;
                                 scr += arcName + " = " + createArcString(partNameMap.get(c.getName()), partNameMap.get(p.getName()), getInteractionType(assignment.get(p.getName()).getCandidate(),library), arcHeight) + "\n";
                                 arcList.add(arcName);
                             }
@@ -179,11 +182,12 @@ public class DnaPlotlibAdaptor {
                         
                     }
                 }
-                if(iCount > maxArcs){
+                /*if(iCount > maxArcs){
                     maxArcs = iCount;
-                }
+                }*/
             }
         }
+        maxArcs = cdsNames.size();
         if(!arcList.isEmpty()){
             regString += arcList.get(0);
             for(int i=1;i<arcCount;i++){

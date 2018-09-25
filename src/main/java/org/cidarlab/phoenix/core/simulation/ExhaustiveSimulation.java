@@ -90,7 +90,7 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                     an.setAssignmentIndex(count);
                     an.setScore(score);
                     
-                    Utilities.writeToFile(ifp + "assignmentDetails.json", an.getDetails().toString());
+                    Utilities.writeToFile(ifp + "assignmentDetails.json", an.getDetails(library).toString());
                     
                     //an.setFilepath(ifp);
                     nodes.add(an);
@@ -136,6 +136,9 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                     }
                     writer.write(sbml, modelFile);
                     Utilities.writeToFile(smfp, smevents.toString(2));
+                    
+                    
+                    
                     //double  score = 0.0;
                     double  score = runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
                     boolean result = (score >= args.getThreshold());
@@ -145,7 +148,7 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                         an.setAssignmentIndex(count);
                         an.setScore(score);
                         
-                        Utilities.writeToFile(ifp + "assignmentDetails.json", an.getDetails().toString());
+                        Utilities.writeToFile(ifp + "assignmentDetails.json", an.getDetails(library).toString());
                     
                         //an.setFilepath(ifp);
                         nodes.add(an);

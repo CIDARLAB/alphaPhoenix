@@ -81,7 +81,7 @@ public class SampleCircuit1tuTest {
     
     
     @Test
-    public void testDecomposeTest(){
+    public void decomposeTest(){
         int size = 4;
         List<Module> modules = MiniEugeneAdaptor.getStructures(one_tu_eug, size, "inverter");
         Module module = modules.get(0);

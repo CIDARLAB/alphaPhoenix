@@ -18,6 +18,7 @@ import org.cidarlab.phoenix.dom.CandidateComponent;
 import org.cidarlab.phoenix.dom.Component;
 import org.cidarlab.phoenix.dom.Component.ComponentRole;
 import org.cidarlab.phoenix.dom.Module;
+import org.cidarlab.phoenix.dom.Module.ModuleRole;
 import org.cidarlab.phoenix.dom.library.CDSComponent;
 import org.cidarlab.phoenix.dom.library.ComplexComponent;
 import org.cidarlab.phoenix.dom.library.CompositeComponent;
@@ -88,11 +89,11 @@ public abstract class AbstractAssignment {
         }
 
         //This is what you want to comment out..
-        /*for (URI pp : promProteins) {
+        for (URI pp : promProteins) {
             if (!cdsProteins.contains(pp)) {
                 return false;
             }
-        }*/
+        }
         
         for (URI cp : cdsProteins) {
             if (!promProteins.contains(cp)) {
@@ -171,6 +172,8 @@ public abstract class AbstractAssignment {
         
         
         //Do the self loop check here....
+        //<editor-fold desc="Self loop check - Commented out">
+        /*
         for(int i=0;i<module.getChildren().size();i++){
             Module tu = module.getChildren().get(i);
             Set<URI> promprots = new HashSet<>();
@@ -254,9 +257,99 @@ public abstract class AbstractAssignment {
             }
             
         }
+        */
+        //</editor-fold>
+        
+        if(redundantAssignment(module,assignment,library)){
+            return false;
+        }
+        
+        
                     
         return true;
     }
+    
+    private void traverseRegulationPR(URI protein, List<Module> tulist, Set<URI> activeCDS, Map<String,CandidateComponent> assignment, Library library){
+        //Set<URI> regulating = new HashSet<>();
+        for(Module tu:tulist){
+            Component cds = tu.getChildren().get(1).getComponents().get(0);
+            if(!activeCDS.contains(assignment.get(cds.getName()).getCandidate().getComponentDefintion())){
+                CDSComponent cdscomp = (CDSComponent) (assignment.get(cds.getName()).getCandidate());
+                if (cdscomp.getProtein().equals(protein)) {
+                    activeCDS.add(assignment.get(cds.getName()).getCandidate().getComponentDefintion());
+                    Module pr = tu.getChildren().get(0);
+                    Component prom = Module.getPromInPR(pr);
+                    CompositeComponent promlc = (CompositeComponent) assignment.get(prom.getName()).getCandidate();
+                    PromoterComponent promcomp = library.getAllPromoters().get(promlc.getChildren().get(0));
+                    for(LibraryComponent tf:promcomp.getTranscriptionFactors()){
+                        URI promprot;
+                        if(tf instanceof ComplexComponent){
+                            ComplexComponent complex = (ComplexComponent)tf;
+                            promprot = complex.getProtein();
+                        } else {
+                            promprot = tf.getComponentDefintion();
+                        }
+                        traverseRegulationPR(promprot,tulist,activeCDS,assignment,library);
+                    }
+                }
+            }
+            
+        }
+            
+        
+        //return regulating;
+    }
+    
+    private boolean redundantAssignment(Module m, Map<String,CandidateComponent> assignment, Library library){
+        
+        List<Module> tulist = new ArrayList<>(m.getChildren());
+        Set<URI> allCDS = new HashSet<>();
+        Set<URI> activeCDS = new HashSet<>();
+        for (Component c : m.getComponents()) {
+            if (c.isCDS()) {
+                LibraryComponent lc = assignment.get(c.getName()).getCandidate();
+                allCDS.add(lc.getComponentDefintion());
+                if (library.getOutputCDS().containsKey(lc.getComponentDefintion())) {
+                    activeCDS.add(lc.getComponentDefintion());
+                } 
+            }
+        }
+        
+        for(Module tu:tulist){
+            Module cds = tu.getChildren().get(1);
+            if(cds.getRole().equals(ModuleRole.CDS)){
+                Component c = cds.getComponents().get(0);
+                if(activeCDS.contains(assignment.get(c.getName()).getCandidate().getComponentDefintion())){
+                    //This TU contains an output CDS
+                    Module pr = tu.getChildren().get(0);
+                    Component prom = Module.getPromInPR(pr);
+                    CompositeComponent promlc = (CompositeComponent)assignment.get(prom.getName()).getCandidate();
+                    PromoterComponent promcomp = library.getAllPromoters().get(promlc.getChildren().get(0));
+                    for(LibraryComponent tf:promcomp.getTranscriptionFactors()){
+                        URI promprot;
+                        if(tf instanceof ComplexComponent){
+                            ComplexComponent complex = (ComplexComponent)tf;
+                            promprot = complex.getProtein();
+                        } else {
+                            promprot = tf.getComponentDefintion();
+                        }
+                        traverseRegulationPR(promprot,tulist,activeCDS,assignment,library);
+                    }
+                    
+                     
+                }
+            } else if(cds.getRole().equals(ModuleRole.RBS_CDS)){
+                throw new UnsupportedOperationException("P_RC_T not supported yet.");
+            }
+        }
+        
+        if(activeCDS.containsAll(allCDS)){
+            return false;
+        }
+        
+        return true;
+    }
+    
     
     private URI getAssignmentURI(Component c, LibraryComponent lc){
         
@@ -400,9 +493,11 @@ public abstract class AbstractAssignment {
             if(c.getRole().equals(Component.ComponentRole.CDS_FLUORESCENT)){
                 cCandidates.putAll(library.getOutputCDS());
             } else if(c.getRole().equals(Component.ComponentRole.CDS_ACTIVATOR)){
-                cCandidates.putAll(library.getConnectorCDS());                
+                cCandidates.putAll(library.getActivatingCDS());
+                //cCandidates.putAll(library.getConnectorCDS());                
             } else if(c.getRole().equals(Component.ComponentRole.CDS_REPRESSOR)){
-                cCandidates.putAll(library.getConnectorCDS());                
+                cCandidates.putAll(library.getRepressingCDS());
+                //cCandidates.putAll(library.getConnectorCDS());                
             }
         }
         

@@ -100,6 +100,14 @@ public class Library {
     @Getter
     private SBOLDocument sbol;
     
+    @Getter
+    private Map<URI,CDSComponent> activatingCDS = new HashMap<>();
+    
+    @Getter
+    private Map<URI,CDSComponent> repressingCDS = new HashMap<>();
+    
+            
+    
     public Library(SBOLDocument doc, Decomposition decomposition, String tempfp) throws URISyntaxException, SBOLValidationException, MalformedURLException {
         
         this.sbol = doc;
@@ -436,6 +444,62 @@ public class Library {
             }
         }
         
+        for(URI uri: this.connectorCDS.keySet()){
+            if(activates(connectorCDS.get(uri))){
+                this.activatingCDS.put(uri, connectorCDS.get(uri));
+            } 
+            if(represses(connectorCDS.get(uri))){
+                this.repressingCDS.put(uri, connectorCDS.get(uri));
+            }
+        }
+        
+        
+    }
+    
+    private boolean activates(CDSComponent cds){
+        URI cdsprot = cds.getProtein();
+        Set<PromoterComponent> promoters = new HashSet<>();
+        promoters.addAll(this.activatiblePromoters.values());
+        promoters.addAll(this.indActPromoters.values());
+        
+        for(PromoterComponent pc: promoters){
+            for(LibraryComponent lc:pc.getTranscriptionFactors()){
+                if(lc instanceof ComplexComponent){
+                    ComplexComponent complex = (ComplexComponent)lc;
+                    if(cdsprot.equals(complex.getProtein())){
+                        return true;
+                    }
+                } else {
+                    if(cdsprot.equals(lc.getComponentDefintion())){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
+    private boolean represses(CDSComponent cds){
+        URI cdsprot = cds.getProtein();
+        Set<PromoterComponent> promoters = new HashSet<>();
+        promoters.addAll(this.repressiblePromoters.values());
+        promoters.addAll(this.indRepPromoters.values());
+        
+        for(PromoterComponent pc: promoters){
+            for(LibraryComponent lc:pc.getTranscriptionFactors()){
+                if(lc instanceof ComplexComponent){
+                    ComplexComponent complex = (ComplexComponent)lc;
+                    if(cdsprot.equals(complex.getProtein())){
+                        return true;
+                    }
+                } else {
+                    if(cdsprot.equals(lc.getComponentDefintion())){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
     
     

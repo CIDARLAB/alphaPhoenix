@@ -23,6 +23,7 @@ import org.cidarlab.gridtli.dom.Signal;
 import org.cidarlab.gridtli.dom.TLIException;
 import org.cidarlab.gridtli.tli.TemporalLogicInference;
 import org.cidarlab.phoenix.adaptors.STLAdaptor;
+import org.json.JSONObject;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -34,41 +35,41 @@ import org.junit.BeforeClass;
  */
 public class CrawlerTest {
 
-    private final String baseResultsfp = Utilities.getLibFilepath() + "examples" + Utilities.getSeparater() + "tested_circuits" + Utilities.getSeparater() + "circuits" + Utilities.getSeparater();
+    private final static String baseResultsfp = Utilities.getLibFilepath() + "examples" + Utilities.getSeparater() + "tested_circuits" + Utilities.getSeparater() + "circuits" + Utilities.getSeparater();
 
-    private final String oneTUfp = baseResultsfp + "1tu" + Utilities.getSeparater() + "allRuns" + Utilities.getSeparater();
-    private final String twoTUfp = baseResultsfp + "2tu" + Utilities.getSeparater() + "allRuns" + Utilities.getSeparater();
-    private final String threeTUfp = baseResultsfp + "3tu" + Utilities.getSeparater() + "allRuns" + Utilities.getSeparater();
+    private final static String oneTUfp = baseResultsfp + "1tu" + Utilities.getSeparater() + "allRuns" + Utilities.getSeparater();
+    private final static String twoTUfp = baseResultsfp + "2tu" + Utilities.getSeparater() + "allRuns" + Utilities.getSeparater();
+    private final static String threeTUfp = baseResultsfp + "3tu" + Utilities.getSeparater() + "allRuns" + Utilities.getSeparater();
 
-    private final String oneTUdetfp = oneTUfp + "DeterministicRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
-    private final String oneTUdetRes = oneTUfp + "DeterministicRed0.txt";
-    private final String oneTUstofp = oneTUfp + "StochasticRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
-    private final String oneTUstoRes = oneTUfp + "StochasticRed0.txt";
-
-    private final String twoTUdetfp = twoTUfp + "DeterministicRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
-    private final String twoTUdetRes = twoTUfp + "DeterministicRed0.txt";
-    private final String twoTUstofp = twoTUfp + "StochasticRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
-    private final String twoTUstoRes = twoTUfp + "StochasticRed0.txt";
-
-    private final String threeTUdetfp = threeTUfp + "DeterministicRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
-    private final String threeTUdetRes = threeTUfp + "DeterministicRed0.txt";
-    //private final String threeTUstofp = threeTUfp + "StochasticRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
-    //private final String threeTUstoRes = threeTUfp + "StochasticRed0.txt";
-
-    private Map<Integer, String> onetudet;
-    private Map<Integer, String> onetusto;
-    private Map<Integer, String> twotudet;
-    private Map<Integer, String> twotusto;
-    private Map<Integer, String> threetudet;
-
-    private Map<String, Integer> onetudetrev;
-    private Map<String, Integer> onetustorev;
-    private Map<String, Integer> twotudetrev;
-    private Map<String, Integer> twotustorev;
-    private Map<String, Integer> threetudetrev;
-
+    private final static String oneTUdetfp = oneTUfp + "DeterministicRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
+    private final static String oneTUstofp = oneTUfp + "StochasticRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
+    
+    private final static String twoTUdetfp = twoTUfp + "DeterministicRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
+    private final static String twoTUstofp = twoTUfp + "StochasticRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
+    
+    private final static String threeTUdetfp = threeTUfp + "DeterministicRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
+    private final static String threeTUstofp = threeTUfp + "StochasticRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
+    
+    private static Map<Integer, String> onetudet;
+    private static Map<Integer, String> twotudet;
+    private static Map<Integer, String> threetudet;
+    private static Map<Integer, String> onetusto;
+    private static Map<Integer, String> twotusto;
+    private static Map<Integer, String> threetusto;
+    
+    private static Map<String, Integer> onetustorev;
+    private static Map<String, Integer> twotustorev;
+    private static Map<String, Integer> threetustorev;
+    
     //private Map<Integer, String> threetusto;
     public CrawlerTest() {
+    
+        onetudet = getIndexAssignmentMap(oneTUdetfp);
+        twotudet = getIndexAssignmentMap(twoTUdetfp);
+        threetudet = getIndexAssignmentMap(threeTUdetfp);
+        generateAssignmentsFile(onetudet, oneTUfp + "DeterministicRed0.csv");
+        generateAssignmentsFile(twotudet, twoTUfp + "DeterministicRed0.csv");
+        generateAssignmentsFile(threetudet, threeTUfp + "DeterministicRed0.csv");
     }
 
     @BeforeClass
@@ -82,7 +83,7 @@ public class CrawlerTest {
     @Before
     public void setUp() {
 
-        //threetustorev = readResultFile(threeTUstoRes);
+        //threetustorev = getIndexAssignmentMap(threeTUstoRes);
     }
 
     @After
@@ -115,6 +116,11 @@ public class CrawlerTest {
         Utilities.makeDirectory(twotufp);
         System.out.println("Starting 2 TU ########################################");
         getScores(twoTUstofp, twotufp, xthresh, ythresh);
+        
+        String threetufp = resultfp + "3tu" + Utilities.getSeparater();
+        Utilities.makeDirectory(threetufp);
+        System.out.println("Starting 3 TU ########################################");
+        getScores(threeTUstofp, threetufp, xthresh, ythresh);
 
     }
 
@@ -151,15 +157,19 @@ public class CrawlerTest {
             Map<Integer, Double> twoTURob = Crawler.getRobustness(stl, twoTUdetfp);
             Map<Integer, Double> twoTUsmc = Crawler.getComputeSatisfyingPercent(stl, twoTUstofp);
             Map<Integer, Double> threeTURob = Crawler.getRobustness(stl, threeTUdetfp);
-
+            Map<Integer, Double> threeTUsmc = Crawler.getRobustness(stl, threeTUstofp);
+            
             List<String> oneTURobLines = new ArrayList<>();
             List<String> oneTUsmcLines = new ArrayList<>();
             List<String> twoTURobLines = new ArrayList<>();
             List<String> twoTUsmcLines = new ArrayList<>();
             List<String> threeTURobLines = new ArrayList<>();
-
+            List<String> threeTUsmcLines = new ArrayList<>();
+            
+            
             List<String> oneTUscores = new ArrayList<>();
             List<String> twoTUscores = new ArrayList<>();
+            List<String> threeTUscores = new ArrayList<>();
 
             for (Integer i : oneTURob.keySet()) {
                 oneTURobLines.add(i + "," + onetudet.get(i) + "," + oneTURob.get(i));
@@ -181,6 +191,12 @@ public class CrawlerTest {
 
             for (Integer i : threeTURob.keySet()) {
                 threeTURobLines.add(i + "," + threetudet.get(i) + "," + threeTURob.get(i));
+                threeTUscores.add(i + "," + threetudet.get(i) + "," + threeTURob.get(i) + "," + threeTUsmc.get(threetustorev.get(threetudet.get(i))));
+            
+            }
+            
+            for (Integer i : threeTUsmc.keySet()) {
+                threeTUsmcLines.add(i + "," + threetusto.get(i) + "," + threeTUsmc.get(i));
             }
 
             Utilities.writeToFile(fp + "1tuRobustness.csv", oneTURobLines);
@@ -188,10 +204,12 @@ public class CrawlerTest {
             Utilities.writeToFile(fp + "2tuRobustness.csv", twoTURobLines);
             Utilities.writeToFile(fp + "2tuSMC.csv", twoTUsmcLines);
             Utilities.writeToFile(fp + "3tuRobustness.csv", threeTURobLines);
+            Utilities.writeToFile(fp + "3tuSMC.csv", threeTUsmcLines);
 
             Utilities.writeToFile(fp + "1tuScores.csv", oneTUscores);
             Utilities.writeToFile(fp + "2tuScores.csv", twoTUscores);
-
+            Utilities.writeToFile(fp + "3tuScores.csv", threeTUscores);
+            
             List<String> topcsv = new ArrayList<>();
             topcsv.add("Score,Circuit Configuration");
             List<String> bottomcsv = new ArrayList<>();
@@ -365,53 +383,53 @@ public class CrawlerTest {
         return lines;
     }
 
-    private void getSTLScores(String basefp, TreeNode stl) throws TLIException, InterruptedException, IOException {
+    public void getSTLScores(String basefp, TreeNode stl, List<String> stlPlotScript, double timemin, double timemax) throws TLIException, InterruptedException, IOException {
 
         Map<Integer, Double> oneTURob = Crawler.getRobustness(stl, oneTUdetfp);
-        Map<Integer, Double> oneTUsmc = Crawler.getComputeSatisfyingPercent(stl, oneTUstofp);
+        //Map<Integer, Double> oneTUsmc = Crawler.getComputeSatisfyingPercent(stl, oneTUstofp);
         Map<Integer, Double> twoTURob = Crawler.getRobustness(stl, twoTUdetfp);
-        Map<Integer, Double> twoTUsmc = Crawler.getComputeSatisfyingPercent(stl, twoTUstofp);
+        //Map<Integer, Double> twoTUsmc = Crawler.getComputeSatisfyingPercent(stl, twoTUstofp);
         Map<Integer, Double> threeTURob = Crawler.getRobustness(stl, threeTUdetfp);
 
         List<String> oneTURobLines = new ArrayList<>();
-        List<String> oneTUsmcLines = new ArrayList<>();
+        //List<String> oneTUsmcLines = new ArrayList<>();
         List<String> twoTURobLines = new ArrayList<>();
-        List<String> twoTUsmcLines = new ArrayList<>();
+        //List<String> twoTUsmcLines = new ArrayList<>();
         List<String> threeTURobLines = new ArrayList<>();
 
-        List<String> oneTUscores = new ArrayList<>();
-        List<String> twoTUscores = new ArrayList<>();
+        //List<String> oneTUscores = new ArrayList<>();
+        //List<String> twoTUscores = new ArrayList<>();
 
         for (Integer i : oneTURob.keySet()) {
             oneTURobLines.add(i + "," + onetudet.get(i) + "," + oneTURob.get(i));
-            oneTUscores.add(i + "," + onetudet.get(i) + "," + oneTURob.get(i) + "," + oneTUsmc.get(onetustorev.get(onetudet.get(i))));
+            //oneTUscores.add(i + "," + onetudet.get(i) + "," + oneTURob.get(i) + "," + oneTUsmc.get(onetustorev.get(onetudet.get(i))));
         }
 
-        for (Integer i : oneTUsmc.keySet()) {
-            oneTUsmcLines.add(i + "," + onetusto.get(i) + "," + oneTUsmc.get(i));
-        }
+        //for (Integer i : oneTUsmc.keySet()) {
+        //    oneTUsmcLines.add(i + "," + onetusto.get(i) + "," + oneTUsmc.get(i));
+        //}
 
         for (Integer i : twoTURob.keySet()) {
             twoTURobLines.add(i + "," + twotudet.get(i) + "," + twoTURob.get(i));
-            twoTUscores.add(i + "," + twotudet.get(i) + "," + twoTURob.get(i) + "," + twoTUsmc.get(twotustorev.get(twotudet.get(i))));
+            //twoTUscores.add(i + "," + twotudet.get(i) + "," + twoTURob.get(i) + "," + twoTUsmc.get(twotustorev.get(twotudet.get(i))));
         }
 
-        for (Integer i : twoTUsmc.keySet()) {
-            twoTUsmcLines.add(i + "," + twotusto.get(i) + "," + twoTUsmc.get(i));
-        }
+        //for (Integer i : twoTUsmc.keySet()) {
+        //    twoTUsmcLines.add(i + "," + twotusto.get(i) + "," + twoTUsmc.get(i));
+        //}
 
         for (Integer i : threeTURob.keySet()) {
             threeTURobLines.add(i + "," + threetudet.get(i) + "," + threeTURob.get(i));
         }
 
         Utilities.writeToFile(basefp + "1tuRobustness.csv", oneTURobLines);
-        Utilities.writeToFile(basefp + "1tuSMC.csv", oneTUsmcLines);
+        //Utilities.writeToFile(basefp + "1tuSMC.csv", oneTUsmcLines);
         Utilities.writeToFile(basefp + "2tuRobustness.csv", twoTURobLines);
-        Utilities.writeToFile(basefp + "2tuSMC.csv", twoTUsmcLines);
+        //Utilities.writeToFile(basefp + "2tuSMC.csv", twoTUsmcLines);
         Utilities.writeToFile(basefp + "3tuRobustness.csv", threeTURobLines);
 
-        Utilities.writeToFile(basefp + "1tuScores.csv", oneTUscores);
-        Utilities.writeToFile(basefp + "2tuScores.csv", twoTUscores);
+        //Utilities.writeToFile(basefp + "1tuScores.csv", oneTUscores);
+        //Utilities.writeToFile(basefp + "2tuScores.csv", twoTUscores);
 
         List<String> topcsv = new ArrayList<>();
         topcsv.add("Score,Circuit Configuration");
@@ -440,8 +458,11 @@ public class CrawlerTest {
                 + "\n"
                 + "fig = plt.figure()\n");
 
-        topScriptLines.addAll(PyPlotAdaptor.generateSTLCoverScript(stl));
-        bottomScriptLines.addAll(PyPlotAdaptor.generateSTLCoverScript(stl));
+        //topScriptLines.addAll(PyPlotAdaptor.generateSTLCoverScript(stl));
+        //bottomScriptLines.addAll(PyPlotAdaptor.generateSTLCoverScript(stl));
+        
+        topScriptLines.addAll(stlPlotScript);
+        bottomScriptLines.addAll(stlPlotScript);
 
         topScriptLines.add("\n");
         bottomScriptLines.add("\n");
@@ -518,13 +539,13 @@ public class CrawlerTest {
 
         topScriptLines.add("plt.xlabel(\"time\")\n"
                 + "plt.ylabel(\"out0\")\n"
-                + "plt.xlim(600.0,1500.0)\n"
+                + "plt.xlim(" + timemin + "," + timemax + ")\n"
                 + "plt.ylim(0.0,1000000.0)\n"
                 + "plt.yscale('symlog')");
 
         bottomScriptLines.add("plt.xlabel(\"time\")\n"
                 + "plt.ylabel(\"out0\")\n"
-                + "plt.xlim(600.0,1500.0)\n"
+                + "plt.xlim(" + timemin + "," + timemax + ")\n"
                 + "plt.ylim(0.0,1000000.0)\n"
                 + "plt.yscale('symlog')");
 
@@ -547,68 +568,64 @@ public class CrawlerTest {
 
     }
 
-    private static Map<String, Integer> readResultFileRev(String fp) {
-        String startStr = "Current Assignment : ";
+    private static Map<String, Integer> getAssignmentIndexMap(String folderpath) {
         Map<String, Integer> map = new HashMap<>();
-        List<String> lines = Utilities.getFileContentAsStringList(fp);
-        for (int i = 0; i < lines.size(); i++) {
-            String indexLine = lines.get(i);
-            String assignmentLine = lines.get(i + 1);
-            indexLine = indexLine.substring(startStr.length());
-            map.put(assignmentLine, Integer.valueOf(indexLine));
-            i++;
-
+        
+        File[] filelist = (new File(folderpath)).listFiles();
+        for(File f:filelist){
+            int index = Integer.valueOf(f.getName());
+            String fp = f.getAbsolutePath();
+            if(!fp.endsWith("" + Utilities.getSeparater())){
+                fp += Utilities.getSeparater();
+            }
+            String detailsfp = fp + "assignmentDetails.json";
+            JSONObject details = new JSONObject(Utilities.getFileContentAsString(detailsfp));
+            map.put(details.getString("assignment"),index);
         }
-
+        
         return map;
     }
 
-    private static Map<Integer, String> readResultFile(String fp) {
-        String startStr = "Current Assignment : ";
+    private static Map<Integer, String> getIndexAssignmentMap(String folderpath) {
         Map<Integer, String> map = new HashMap<>();
-        List<String> lines = Utilities.getFileContentAsStringList(fp);
-        for (int i = 0; i < lines.size(); i++) {
-            String indexLine = lines.get(i);
-            String assignmentLine = lines.get(i + 1);
-            indexLine = indexLine.substring(startStr.length());
-            map.put(Integer.valueOf(indexLine), assignmentLine);
-            i++;
-
+        
+        File[] filelist = (new File(folderpath)).listFiles();
+        for(File f:filelist){
+            int index = Integer.valueOf(f.getName());
+            String fp = f.getAbsolutePath();
+            if(!fp.endsWith("" + Utilities.getSeparater())){
+                fp += Utilities.getSeparater();
+            }
+            String detailsfp = fp + "assignmentDetails.json";
+            JSONObject details = new JSONObject(Utilities.getFileContentAsString(detailsfp));
+            map.put(index, details.getString("assignment"));
         }
-
+        
         return map;
     }
 
-    //@Test
-    public void testSTL() throws TLIException, InterruptedException, IOException {
-        String folder = "stl1";
-        String basefp = Utilities.getLibFilepath() + "computationalTests" + Utilities.getSeparater() + "stl" + Utilities.getSeparater() + folder + Utilities.getSeparater();
-        String stlfp = basefp + "stl.txt";
-        TreeNode stl = STLAdaptor.getSTL(stlfp);
-        getSTLScores(basefp, stl);
-    }
+    
 
+    public static void generateAssignmentsFile(Map<Integer, String> indexAssignment, String fp){
+        
+        List<String> lines = new ArrayList<>();
+        List<Integer> indices = new ArrayList<>(indexAssignment.keySet());
+        Collections.sort(indices);
+        for(int i:indices){
+            lines.add(i + "," + indexAssignment.get(i));
+        }
+        Utilities.writeToFile(fp, lines);
+    }
+    
+    
     public static void main(String[] args) throws TLIException, InterruptedException, IOException {
 
         CrawlerTest ct = new CrawlerTest();
 
-        ct.onetudet = readResultFile(ct.oneTUdetRes);
-        ct.onetusto = readResultFile(ct.oneTUstoRes);
-        ct.twotudet = readResultFile(ct.twoTUdetRes);
-        ct.twotusto = readResultFile(ct.twoTUstoRes);
-        ct.threetudet = readResultFile(ct.threeTUdetRes);
-
-        ct.onetudetrev = readResultFileRev(ct.oneTUdetRes);
-        ct.onetustorev = readResultFileRev(ct.oneTUstoRes);
-        ct.twotudetrev = readResultFileRev(ct.twoTUdetRes);
-        ct.twotustorev = readResultFileRev(ct.twoTUstoRes);
-        ct.threetudetrev = readResultFileRev(ct.threeTUdetRes);
-
-        double xthresh = 50.00;
-        double ythresh = 1000.00;
-
-        ct.fullScoreTest(50.00, 1000.00);
-        ct.fullScoreTest(50.00, 10000.00);
+        
+        
+        //ct.fullScoreTest(50.00, 1000.00);
+        //ct.fullScoreTest(50.00, 10000.00);
         //ct.fullScoreTest(10.00, 1000.00);
 
         //Test for a specific STL
