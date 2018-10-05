@@ -1,6 +1,7 @@
 lib/examples/tested_circuits/simAnnTest/
 lib/computationalTests/
 lib/caseStudy/
+lib/examples/tested_circuits/pulse_circuit/allRuns/
 lib/examples/tested_circuits/sample_circuits/2tu/allRuns/
 lib/examples/tested_circuits/sample_circuits/1tu/allRuns/
 lib/examples/tested_circuits/sample_circuits/3tu/allRuns/
