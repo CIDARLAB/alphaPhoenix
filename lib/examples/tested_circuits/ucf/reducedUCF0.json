@@ -45,12 +45,6 @@
 			"type":"repressed",
 		},
 		{
-			"id":"pOR1093",
-			"sequence":"CGGGC",
-			"part":"promoter",
-			"type":"repressed",
-		},
-		{
 			"id":"RBS30",
 			"part":"rbs",
 			"sequence":"GTATATCTCGA"
@@ -67,47 +61,40 @@
 		},
 		{
             		"id":"GFP",
-            		"k_loss":0.00443383612441,
+            		"k_loss":0.017179401454748944,
             		"part":"cds",
             		"type":"reporter",
 	    		"sequence":"CTCAAGCG"
         	},
 		{
             		"id":"LasR",
-            		"k_loss":0.00443383612441,
+            		"k_loss":0.017179401454748944,
             		"part":"cds",
             		"type":"connector",
 	    		"sequence":"TCTCG"
         	},
 		{
             		"id":"LuxR",
-            		"k_loss":0.00443383612441,
+            		"k_loss":0.017179401454748944,
             		"part":"cds",
             		"type":"connector",
 	 	   	"sequence":"AGATT"
         	},
  	    {
             		"id":"RhlR",
-            		"k_loss":0.00443383612441,
+            		"k_loss":0.017179401454748944,
             		"part":"cds",
             		"type":"connector",
 	 	   	"sequence":"AGATT"
         	},
         {
             		"id":"PhlF",
-            		"k_loss":0.00443383612441,
+            		"k_loss":0.017179401454748944,
             		"part":"cds",
             		"type":"connector",
 	 	   	"sequence":"AGATT"
         	},
         {
-            		"id":"cI",
-            		"k_loss":0.00443383612441,
-            		"part":"cds",
-            		"type":"connector",
-	 	   	"sequence":"AGATT"
-        	},
-		{
             		"id":"Ter1",
             		"part":"terminator",
 	    		"sequence":"AACATCA"
@@ -186,20 +173,8 @@
 			], 
 			"basal": 0.969,
         		"max": 928.567,
-        		"K_d": 0.254,
+        		"K_d": 57.191,
         		"n": 1.337
-		},
-		{
-			"id":"pOR1093_RBS30",
-			"type":"promoter-rbs",
-			"parts":[
-				"pOR1093",
-				"RBS30"
-			], 
-			"basal": 0.218,
-        		"max": 2260.661,
-        		"K_d": 0.001,
-        		"n": 0.536
 		},
 		{
 			"id":"pLas007_RBS30",
@@ -258,13 +233,6 @@
             "parts" : [
                 "pPhl081_RBS30",
                 "PhlF"
-            ], 
-            "interaction" : "repression"
-        },
-        {
-            "parts" : [
-                "pOR1093_RBS30",
-                "cI"
             ], 
             "interaction" : "repression"
         },

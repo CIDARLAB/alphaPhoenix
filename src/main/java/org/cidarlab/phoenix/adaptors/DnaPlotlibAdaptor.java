@@ -641,11 +641,11 @@ public class DnaPlotlibAdaptor {
             case CDS:
             case CDS_REPRESSOR:
             case CDS_ACTIVATOR:
-            case CDS_LINKER:
-            case CDS_TAG:
-            case CDS_RESISTANCE:
+            //case CDS_LINKER:
+            //case CDS_TAG:
+            //case CDS_RESISTANCE:
             case CDS_FLUORESCENT:
-            case CDS_FLUORESCENT_FUSION:
+            //case CDS_FLUORESCENT_FUSION:
                 return 'c';
             case GENERIC_TERMINATOR:
             case TERMINATOR:

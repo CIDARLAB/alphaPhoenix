@@ -36,14 +36,14 @@ public class Circuit2tuTest {
     
     private static final String two_tuFP = sampleCircuitsFP + "2tu" + Utilities.getSeparater();
     
-    private static final String two_tu_results = two_tuFP + "results" + Utilities.getSeparater();
+    private static final String two_tu_results = two_tuFP + "allRuns" + Utilities.getSeparater();
     
     private static final String two_tu_eug = two_tuFP + "doubleTU.eug";
     private static final String two_tu_stl = two_tuFP + "stl.txt";
     
     private static final int runCount = 20;
     
-    public void testExhaustiveAssignment() throws URISyntaxException, SBOLValidationException, SynBioHubException, MalformedURLException {
+    public void testSimulatedAnnealing() throws URISyntaxException, SBOLValidationException, SynBioHubException, MalformedURLException {
         
         int size = 8;
         
@@ -98,6 +98,6 @@ public class Circuit2tuTest {
     
     public static void main(String[] args) throws URISyntaxException, SBOLValidationException, SynBioHubException, MalformedURLException {
         Circuit2tuTest circ = new Circuit2tuTest();
-        circ.testExhaustiveAssignment();
+        circ.testSimulatedAnnealing();
     }
 }

@@ -174,6 +174,8 @@ public class ExhaustiveSimulation extends AbstractSimulation {
         return nodes;
     }
     
+    
+    
     private static double runSimulation(Module module, Map<String, CandidateComponent> assignment, Map<String, String> ioc, Library library, TreeNode stl, String modelFile, Args args, String ifp) throws InterruptedException, IOException, TLIException {
         
         String dnaplotlibfp = ifp + "visualsbol.py";
@@ -181,20 +183,21 @@ public class ExhaustiveSimulation extends AbstractSimulation {
         Utilities.writeToFile(dnaplotlibfp, dnaplotlibscript);
         Utilities.runPythonScript(dnaplotlibfp);
         
-        double maxtime = STLAdaptor.getMaxTime(stl);
+        double stlmaxtime = (STLAdaptor.getMaxTime(stl));
+        double maxtime = stlmaxtime + 600;
         
         Map<String, TreeNode> stlmap = STLAdaptor.getSignalSTLMap(stl);
         Map<String, List<Signal>> allsignals = new HashMap<>();
                 
         
         if (args.getSimulation().equals(STOCHASTIC)) {
-            IBioSimAdaptor.simulateStocastic(modelFile, ifp, STLAdaptor.getMaxTime(stl), 10, 10, args.getRunCount());
+            IBioSimAdaptor.simulateStocastic(modelFile, ifp, maxtime, 10, 10, args.getRunCount());
             for (int i = 1; i <= args.getRunCount(); i++) {
                 String tsdfp = ifp + "run-" + i + ".csv";
                 Map<String, Signal> signalMap = IBioSimAdaptor.getSignals(tsdfp);
                 for (String key : stlmap.keySet()) {
                     if (signalMap.containsKey(key)) {
-                        Signal s = signalMap.get(key);
+                        Signal s = getSteadyState(signalMap.get(key));
                         if (allsignals.containsKey(key)) {
                             allsignals.get(key).add(s);
                         } else {
@@ -207,15 +210,13 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                 f.delete();
             }
             
-            
-            
         } else if (args.getSimulation().equals(DETERMINISTIC)) {
             IBioSimAdaptor.simulateODE(modelFile, ifp, maxtime, 10, 10);
             String tsdfp = ifp + "run-1.csv";
             Map<String, Signal> signalMap = IBioSimAdaptor.getSignals(tsdfp);
             for (String key : stlmap.keySet()) {
                 if (signalMap.containsKey(key)) {
-                    Signal s = signalMap.get(key);
+                    Signal s = getSteadyState(signalMap.get(key));
                     if (allsignals.containsKey(key)) {
                         allsignals.get(key).add(s);
                     } else {
@@ -245,7 +246,7 @@ public class ExhaustiveSimulation extends AbstractSimulation {
             }
             
             Utilities.writeSignalsToCSV(allsignals.get(key), ifp + key + ".csv");
-            List<String> pylines = PyPlotAdaptor.generateSignalPlotScript(allsignals.get(key), ifp + key + ".png", 0, maxtime, 0, 1000000, Axis.LINEAR, Axis.SYMLOG);
+            List<String> pylines = PyPlotAdaptor.generateSignalPlotScript(allsignals.get(key), ifp + key + ".png", 0, stlmaxtime, 0, 1000000, Axis.LINEAR, Axis.SYMLOG, "MEFL");
             Utilities.writeToFile(ifp + key + "_signals.py", pylines);
             PyPlotAdaptor.runScript(ifp + key + "_signals.py");
         }

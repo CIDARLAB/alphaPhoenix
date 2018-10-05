@@ -7,6 +7,7 @@ lib/examples/tested_circuits/sample_circuits/3tu/allRuns/
 lib/examples/tested_circuits/circuits/1tu/allRuns/
 lib/examples/tested_circuits/circuits/2tu/allRuns/
 lib/examples/tested_circuits/circuits/3tu/allRuns/
+lib/examples/tested_circuits/pulse_circuit/concaves/
 target/
 results/
 jsbml.log

@@ -245,21 +245,24 @@ public class AnalyticsTest {
             }
             
             Signal s = Utilities.readSignalsFromCSV(fp + "out0.csv").get(0);
-            //List<Point> points = new ArrayList<>(s.getPoints());
-            List<Point> points = new ArrayList<>();
+            List<Point> points = new ArrayList<>(s.getPoints());
+            /*List<Point> points = new ArrayList<>();
             for(Point p:s.getPoints()){
                 if(p.getX() >= 600){
                     points.add(p);
                 }
-            }
+            }*/
+            
+            
             boolean found = false;
+            /*
             for(int i=0;i<points.size()-1;i++){
                 if(points.get(i+1).getY() < points.get(i).getY()){
                     found = true;
                     break;
                 }
             }
-            /*if(found){
+            if(found){
                 System.out.println("Decreasing :: " + tu + " :: " + f.getName());
                 
                 List<String> script = new ArrayList<>();
@@ -340,7 +343,7 @@ public class AnalyticsTest {
                 
                 script.add("plt.xlabel(\"time\")\n" 
                         + "plt.ylabel(\"out0\")");
-                script.add("plt.xlim(600.0,1500.0)");
+                script.add("plt.xlim(0.0,900.0)");
                 
                 script.add("fig.savefig('" + concavefp + tu + "_" + f.getName() + ".png', dpi=300)");
                 
@@ -355,9 +358,7 @@ public class AnalyticsTest {
     
     
     public static void main(String[] args) throws IOException, InterruptedException, TLIException{
-        
-        double xthresh = 50;
-        double ythresh = 1000;
+    
         
         AnalyticsTest analytics = new AnalyticsTest();
         //analytics.generateFiguresTest(50.00,1000.00);
@@ -369,11 +370,11 @@ public class AnalyticsTest {
         String pulsefp = Utilities.getFilepath() + Utilities.getSeparater() + "lib" + Utilities.getSeparater() + "examples" + Utilities.getSeparater() + "tested_circuits" + Utilities.getSeparater() + "pulse_circuit" + Utilities.getSeparater();
         String pulseconcavefp = pulsefp + "concaves" + Utilities.getSeparater();
         Utilities.makeDirectory(pulseconcavefp);
-        String pulseresults = pulsefp + "allRuns" + Utilities.getSeparater() + "results" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
+        String pulseresults = pulsefp + "allRuns" + Utilities.getSeparater() + "DeterministicRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
         File[] pulselist = (new File(pulseresults)).listFiles();
-        //printConcaves(pulseconcavefp, "pulse",pulselist);
+        printConcaves(pulseconcavefp, "pulse",pulselist);
         
-        //copySimulations();
+        copySimulations();
         
         //analytics.findConcaves();
     }

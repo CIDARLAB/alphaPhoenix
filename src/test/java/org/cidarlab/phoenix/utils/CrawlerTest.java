@@ -36,11 +36,13 @@ import org.junit.BeforeClass;
 public class CrawlerTest {
 
     private final static String baseResultsfp = Utilities.getLibFilepath() + "examples" + Utilities.getSeparater() + "tested_circuits" + Utilities.getSeparater() + "circuits" + Utilities.getSeparater();
-
+    private final static String basePulsefp = Utilities.getLibFilepath() + "examples" + Utilities.getSeparater() + "tested_circuits" + Utilities.getSeparater() + "pulse_circuit" + Utilities.getSeparater();
+    
     private final static String oneTUfp = baseResultsfp + "1tu" + Utilities.getSeparater() + "allRuns" + Utilities.getSeparater();
     private final static String twoTUfp = baseResultsfp + "2tu" + Utilities.getSeparater() + "allRuns" + Utilities.getSeparater();
     private final static String threeTUfp = baseResultsfp + "3tu" + Utilities.getSeparater() + "allRuns" + Utilities.getSeparater();
-
+    private final static String pulsefp = basePulsefp  + "allRuns" + Utilities.getSeparater();
+    
     private final static String oneTUdetfp = oneTUfp + "DeterministicRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
     private final static String oneTUstofp = oneTUfp + "StochasticRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
     
@@ -50,9 +52,15 @@ public class CrawlerTest {
     private final static String threeTUdetfp = threeTUfp + "DeterministicRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
     private final static String threeTUstofp = threeTUfp + "StochasticRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
     
+    private final static String pulsedetfp = pulsefp + "DeterministicRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
+    
+    
     private static Map<Integer, String> onetudet;
     private static Map<Integer, String> twotudet;
     private static Map<Integer, String> threetudet;
+    private static Map<Integer, String> pulsedet;
+    
+    
     private static Map<Integer, String> onetusto;
     private static Map<Integer, String> twotusto;
     private static Map<Integer, String> threetusto;
@@ -67,6 +75,7 @@ public class CrawlerTest {
         onetudet = getIndexAssignmentMap(oneTUdetfp);
         twotudet = getIndexAssignmentMap(twoTUdetfp);
         threetudet = getIndexAssignmentMap(threeTUdetfp);
+        pulsedet = getIndexAssignmentMap(pulsedetfp);
         generateAssignmentsFile(onetudet, oneTUfp + "DeterministicRed0.csv");
         generateAssignmentsFile(twotudet, twoTUfp + "DeterministicRed0.csv");
         generateAssignmentsFile(threetudet, threeTUfp + "DeterministicRed0.csv");
@@ -353,13 +362,9 @@ public class CrawlerTest {
         String fp = tufp + index + Utilities.getSeparater();
         Signal signal = Utilities.readSignalsFromCSV(fp + "out0.csv").get(0);
 
-        List<Point> points = new ArrayList<>();
+        List<Point> points = new ArrayList<>(signal.getPoints());
 
-        for (Point p : signal.getPoints()) {
-            if (p.getX() >= 600) {
-                points.add(p);
-            }
-        }
+        
 
         /*
          String color = "";
@@ -382,7 +387,7 @@ public class CrawlerTest {
         lines.add("plt.plot(sx" + count + ",sy" + count + ",color='#" + color + "',linestyle='solid', label = '" + label + "')");
         return lines;
     }
-
+    
     public void getSTLScores(String basefp, TreeNode stl, List<String> stlPlotScript, double timemin, double timemax) throws TLIException, InterruptedException, IOException {
 
         Map<Integer, Double> oneTURob = Crawler.getRobustness(stl, oneTUdetfp);
@@ -390,12 +395,17 @@ public class CrawlerTest {
         Map<Integer, Double> twoTURob = Crawler.getRobustness(stl, twoTUdetfp);
         //Map<Integer, Double> twoTUsmc = Crawler.getComputeSatisfyingPercent(stl, twoTUstofp);
         Map<Integer, Double> threeTURob = Crawler.getRobustness(stl, threeTUdetfp);
-
+        //Map<Integer, Double> threeTURob = new HashMap<>();
+        
+        Map<Integer,Double> pulseRob = Crawler.getRobustness(stl, pulsedetfp);
+        
         List<String> oneTURobLines = new ArrayList<>();
         //List<String> oneTUsmcLines = new ArrayList<>();
         List<String> twoTURobLines = new ArrayList<>();
         //List<String> twoTUsmcLines = new ArrayList<>();
         List<String> threeTURobLines = new ArrayList<>();
+        
+        List<String> pulseRobLines = new ArrayList<>();
 
         //List<String> oneTUscores = new ArrayList<>();
         //List<String> twoTUscores = new ArrayList<>();
@@ -421,12 +431,18 @@ public class CrawlerTest {
         for (Integer i : threeTURob.keySet()) {
             threeTURobLines.add(i + "," + threetudet.get(i) + "," + threeTURob.get(i));
         }
+        
+        for (Integer i : pulseRob.keySet()) {
+            pulseRobLines.add(i + "," + pulsedet.get(i) + "," + pulseRob.get(i));
+        }
 
         Utilities.writeToFile(basefp + "1tuRobustness.csv", oneTURobLines);
         //Utilities.writeToFile(basefp + "1tuSMC.csv", oneTUsmcLines);
         Utilities.writeToFile(basefp + "2tuRobustness.csv", twoTURobLines);
         //Utilities.writeToFile(basefp + "2tuSMC.csv", twoTUsmcLines);
         Utilities.writeToFile(basefp + "3tuRobustness.csv", threeTURobLines);
+        
+        Utilities.writeToFile(basefp + "pulseRobustness.csv", pulseRobLines);
 
         //Utilities.writeToFile(basefp + "1tuScores.csv", oneTUscores);
         //Utilities.writeToFile(basefp + "2tuScores.csv", twoTUscores);
@@ -440,6 +456,7 @@ public class CrawlerTest {
         scores.addAll(oneTURob.values());
         scores.addAll(twoTURob.values());
         scores.addAll(threeTURob.values());
+        scores.addAll(pulseRob.values());
 
         List<String> topScriptLines = new ArrayList<>();
         List<String> bottomScriptLines = new ArrayList<>();
@@ -470,13 +487,19 @@ public class CrawlerTest {
         List<Double> sorted = new ArrayList<>(scores);
 
         List<String> colors = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        /*for (int i = 0; i < 5; i++) {
             String color = "";
             do {
                 color = Utilities.generateRandomColor();
             } while (colors.contains(color));
             colors.add(color);
-        }
+        }*/
+        colors.add("D4AC0D");
+        colors.add("FF0000");
+        colors.add("047504");
+        colors.add("FF5733");
+        colors.add("900C3F");
+        
         int sigcount = 0;
 
         Collections.sort(sorted, Collections.reverseOrder());
@@ -500,6 +523,13 @@ public class CrawlerTest {
                 if (threeTURob.get(index).equals(currScore)) {
                     topcsv.add(currScore + "," + threetudet.get(index));
                     topScriptLines.addAll(generateSignalScript(threeTUdetfp, index, colors.get(i), threetudet.get(index), sigcount));
+                    sigcount++;
+                }
+            }
+            for (Integer index : pulseRob.keySet()) {
+                if (pulseRob.get(index).equals(currScore)) {
+                    topcsv.add(currScore + "," + pulsedet.get(index));
+                    topScriptLines.addAll(generateSignalScript(pulsedetfp, index, colors.get(i), pulsedet.get(index), sigcount));
                     sigcount++;
                 }
             }
@@ -531,6 +561,13 @@ public class CrawlerTest {
                     sigcount++;
                 }
             }
+            for (Integer index : pulseRob.keySet()) {
+                if (pulseRob.get(index).equals(currScore)) {
+                    bottomcsv.add(currScore + "," + pulsedet.get(index));
+                    bottomScriptLines.addAll(generateSignalScript(pulsedetfp, index, colors.get(i), pulsedet.get(index), sigcount));
+                    sigcount++;
+                }
+            }
             colorCount++;
         }
 
@@ -538,13 +575,13 @@ public class CrawlerTest {
         Utilities.writeToFile(basefp + "bottom.csv", bottomcsv);
 
         topScriptLines.add("plt.xlabel(\"time\")\n"
-                + "plt.ylabel(\"out0\")\n"
+                + "plt.ylabel(\"MEFL\")\n"
                 + "plt.xlim(" + timemin + "," + timemax + ")\n"
                 + "plt.ylim(0.0,1000000.0)\n"
                 + "plt.yscale('symlog')");
 
         bottomScriptLines.add("plt.xlabel(\"time\")\n"
-                + "plt.ylabel(\"out0\")\n"
+                + "plt.ylabel(\"MEFL\")\n"
                 + "plt.xlim(" + timemin + "," + timemax + ")\n"
                 + "plt.ylim(0.0,1000000.0)\n"
                 + "plt.yscale('symlog')");
@@ -567,7 +604,226 @@ public class CrawlerTest {
         Utilities.runPythonScript(basefp + "bottomFig.py");
 
     }
+    
+    
+    public void getSTLScores(String basefp, TreeNode stl, List<String> stlPlotScript, double timemin, double timemax, double ymin, double ymax) throws TLIException, InterruptedException, IOException {
 
+        Map<Integer, Double> oneTURob = Crawler.getRobustness(stl, oneTUdetfp);
+        //Map<Integer, Double> oneTUsmc = Crawler.getComputeSatisfyingPercent(stl, oneTUstofp);
+        Map<Integer, Double> twoTURob = Crawler.getRobustness(stl, twoTUdetfp);
+        //Map<Integer, Double> twoTUsmc = Crawler.getComputeSatisfyingPercent(stl, twoTUstofp);
+        Map<Integer, Double> threeTURob = Crawler.getRobustness(stl, threeTUdetfp);
+        //Map<Integer, Double> threeTURob = new HashMap<>();
+        
+        Map<Integer,Double> pulseRob = Crawler.getRobustness(stl, pulsedetfp);
+        
+        List<String> oneTURobLines = new ArrayList<>();
+        //List<String> oneTUsmcLines = new ArrayList<>();
+        List<String> twoTURobLines = new ArrayList<>();
+        //List<String> twoTUsmcLines = new ArrayList<>();
+        List<String> threeTURobLines = new ArrayList<>();
+        
+        List<String> pulseRobLines = new ArrayList<>();
+
+        //List<String> oneTUscores = new ArrayList<>();
+        //List<String> twoTUscores = new ArrayList<>();
+
+        for (Integer i : oneTURob.keySet()) {
+            oneTURobLines.add(i + "," + onetudet.get(i) + "," + oneTURob.get(i));
+            //oneTUscores.add(i + "," + onetudet.get(i) + "," + oneTURob.get(i) + "," + oneTUsmc.get(onetustorev.get(onetudet.get(i))));
+        }
+
+        //for (Integer i : oneTUsmc.keySet()) {
+        //    oneTUsmcLines.add(i + "," + onetusto.get(i) + "," + oneTUsmc.get(i));
+        //}
+
+        for (Integer i : twoTURob.keySet()) {
+            twoTURobLines.add(i + "," + twotudet.get(i) + "," + twoTURob.get(i));
+            //twoTUscores.add(i + "," + twotudet.get(i) + "," + twoTURob.get(i) + "," + twoTUsmc.get(twotustorev.get(twotudet.get(i))));
+        }
+
+        //for (Integer i : twoTUsmc.keySet()) {
+        //    twoTUsmcLines.add(i + "," + twotusto.get(i) + "," + twoTUsmc.get(i));
+        //}
+
+        for (Integer i : threeTURob.keySet()) {
+            threeTURobLines.add(i + "," + threetudet.get(i) + "," + threeTURob.get(i));
+        }
+        
+        for (Integer i : pulseRob.keySet()) {
+            pulseRobLines.add(i + "," + pulsedet.get(i) + "," + pulseRob.get(i));
+        }
+
+        Utilities.writeToFile(basefp + "1tuRobustness.csv", oneTURobLines);
+        //Utilities.writeToFile(basefp + "1tuSMC.csv", oneTUsmcLines);
+        Utilities.writeToFile(basefp + "2tuRobustness.csv", twoTURobLines);
+        //Utilities.writeToFile(basefp + "2tuSMC.csv", twoTUsmcLines);
+        Utilities.writeToFile(basefp + "3tuRobustness.csv", threeTURobLines);
+        
+        Utilities.writeToFile(basefp + "pulseRobustness.csv", pulseRobLines);
+
+        //Utilities.writeToFile(basefp + "1tuScores.csv", oneTUscores);
+        //Utilities.writeToFile(basefp + "2tuScores.csv", twoTUscores);
+
+        List<String> topcsv = new ArrayList<>();
+        topcsv.add("Score,Circuit Configuration");
+        List<String> bottomcsv = new ArrayList<>();
+        bottomcsv.add("Score,Circuit Configuration");
+
+        Set<Double> scores = new HashSet<>();
+        scores.addAll(oneTURob.values());
+        scores.addAll(twoTURob.values());
+        scores.addAll(threeTURob.values());
+        scores.addAll(pulseRob.values());
+
+        List<String> topScriptLines = new ArrayList<>();
+        List<String> bottomScriptLines = new ArrayList<>();
+
+        topScriptLines.add("import matplotlib\n"
+                + "matplotlib.use('agg',warn=False, force=True)\n"
+                + "from matplotlib import pyplot as plt\n"
+                + "from matplotlib import patches as patches\n"
+                + "\n"
+                + "fig = plt.figure()\n");
+
+        bottomScriptLines.add("import matplotlib\n"
+                + "matplotlib.use('agg',warn=False, force=True)\n"
+                + "from matplotlib import pyplot as plt\n"
+                + "from matplotlib import patches as patches\n"
+                + "\n"
+                + "fig = plt.figure()\n");
+
+        //topScriptLines.addAll(PyPlotAdaptor.generateSTLCoverScript(stl));
+        //bottomScriptLines.addAll(PyPlotAdaptor.generateSTLCoverScript(stl));
+        
+        topScriptLines.addAll(stlPlotScript);
+        bottomScriptLines.addAll(stlPlotScript);
+
+        topScriptLines.add("\n");
+        bottomScriptLines.add("\n");
+
+        List<Double> sorted = new ArrayList<>(scores);
+
+        List<String> colors = new ArrayList<>();
+        /*for (int i = 0; i < 5; i++) {
+            String color = "";
+            do {
+                color = Utilities.generateRandomColor();
+            } while (colors.contains(color));
+            colors.add(color);
+        }*/
+        colors.add("D4AC0D");
+        colors.add("FF0000");
+        colors.add("047504");
+        colors.add("FF5733");
+        colors.add("900C3F");
+        
+        int sigcount = 0;
+
+        Collections.sort(sorted, Collections.reverseOrder());
+        for (int i = 0; i < 5; i++) {
+            double currScore = sorted.get(i);
+            for (Integer index : oneTURob.keySet()) {
+                if (oneTURob.get(index).equals(currScore)) {
+                    topcsv.add(currScore + "," + onetudet.get(index));
+                    topScriptLines.addAll(generateSignalScript(oneTUdetfp, index, colors.get(i), onetudet.get(index), sigcount));
+                    sigcount++;
+                }
+            }
+            for (Integer index : twoTURob.keySet()) {
+                if (twoTURob.get(index).equals(currScore)) {
+                    topcsv.add(currScore + "," + twotudet.get(index));
+                    topScriptLines.addAll(generateSignalScript(twoTUdetfp, index, colors.get(i), twotudet.get(index), sigcount));
+                    sigcount++;
+                }
+            }
+            for (Integer index : threeTURob.keySet()) {
+                if (threeTURob.get(index).equals(currScore)) {
+                    topcsv.add(currScore + "," + threetudet.get(index));
+                    topScriptLines.addAll(generateSignalScript(threeTUdetfp, index, colors.get(i), threetudet.get(index), sigcount));
+                    sigcount++;
+                }
+            }
+            for (Integer index : pulseRob.keySet()) {
+                if (pulseRob.get(index).equals(currScore)) {
+                    topcsv.add(currScore + "," + pulsedet.get(index));
+                    topScriptLines.addAll(generateSignalScript(pulsedetfp, index, colors.get(i), pulsedet.get(index), sigcount));
+                    sigcount++;
+                }
+            }
+        }
+
+        
+        sigcount = 0;
+        int colorCount = 0;
+        for (int i = sorted.size() - 1; i >= sorted.size() - 5; i--) {
+            double currScore = sorted.get(i);
+            for (Integer index : oneTURob.keySet()) {
+                if (oneTURob.get(index).equals(currScore)) {
+                    bottomcsv.add(currScore + "," + onetudet.get(index));
+                    bottomScriptLines.addAll(generateSignalScript(oneTUdetfp, index, colors.get(colorCount), onetudet.get(index), sigcount));
+                    sigcount++;
+                }
+            }
+            for (Integer index : twoTURob.keySet()) {
+                if (twoTURob.get(index).equals(currScore)) {
+                    bottomcsv.add(currScore + "," + twotudet.get(index));
+                    bottomScriptLines.addAll(generateSignalScript(twoTUdetfp, index, colors.get(colorCount), twotudet.get(index), sigcount));
+                    sigcount++;
+                }
+            }
+            for (Integer index : threeTURob.keySet()) {
+                if (threeTURob.get(index).equals(currScore)) {
+                    bottomcsv.add(currScore + "," + threetudet.get(index));
+                    bottomScriptLines.addAll(generateSignalScript(threeTUdetfp, index, colors.get(colorCount), threetudet.get(index), sigcount));
+                    sigcount++;
+                }
+            }
+            for (Integer index : pulseRob.keySet()) {
+                if (pulseRob.get(index).equals(currScore)) {
+                    bottomcsv.add(currScore + "," + pulsedet.get(index));
+                    bottomScriptLines.addAll(generateSignalScript(pulsedetfp, index, colors.get(i), pulsedet.get(index), sigcount));
+                    sigcount++;
+                }
+            }
+            colorCount++;
+        }
+
+        Utilities.writeToFile(basefp + "top.csv", topcsv);
+        Utilities.writeToFile(basefp + "bottom.csv", bottomcsv);
+
+        topScriptLines.add("plt.xlabel(\"time\")\n"
+                + "plt.ylabel(\"MEFL\")\n"
+                + "plt.xlim(" + timemin + "," + timemax + ")\n"
+                + "plt.ylim(" + ymin + "," + ymax + ")\n"
+                + "plt.yscale('symlog')");
+
+        bottomScriptLines.add("plt.xlabel(\"time\")\n"
+                + "plt.ylabel(\"MEFL\")\n"
+                + "plt.xlim(" + timemin + "," + timemax + ")\n"
+                + "plt.ylim(" + ymin + "," + ymax + ")\n"
+                + "plt.yscale('symlog')");
+
+        topScriptLines.add("art = []\n"
+                + "lgd = plt.legend(loc=9, bbox_to_anchor=(0.5, -0.1), ncol=2)\n"
+                + "art.append(lgd)");
+
+        bottomScriptLines.add("art = []\n"
+                + "lgd = plt.legend(loc=9, bbox_to_anchor=(0.5, -0.1), ncol=2)\n"
+                + "art.append(lgd)");
+
+        topScriptLines.add("fig.savefig('" + basefp + "topFig.png" + "', dpi=300, additional_artists=art, bbox_inches=\"tight\")");
+        bottomScriptLines.add("fig.savefig('" + basefp + "bottomFig.png" + "', dpi=300, additional_artists=art, bbox_inches=\"tight\")");
+
+        Utilities.writeToFile(basefp + "topFig.py", topScriptLines);
+        Utilities.writeToFile(basefp + "bottomFig.py", bottomScriptLines);
+
+        Utilities.runPythonScript(basefp + "topFig.py");
+        Utilities.runPythonScript(basefp + "bottomFig.py");
+
+    }
+    
+    
     private static Map<String, Integer> getAssignmentIndexMap(String folderpath) {
         Map<String, Integer> map = new HashMap<>();
         

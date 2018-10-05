@@ -137,11 +137,11 @@ public class UIAdaptor {
                         case CDS_ACTIVATOR:
                         //case CDS_REPRESSIBLE_REPRESSOR:
                         //case CDS_ACTIVATIBLE_ACTIVATOR:
-                        case CDS_LINKER:
-                        case CDS_TAG:
-                        case CDS_RESISTANCE:
+                        //case CDS_LINKER:
+                        //case CDS_TAG:
+                        //case CDS_RESISTANCE:
                         case CDS_FLUORESCENT:
-                        case CDS_FLUORESCENT_FUSION:
+                        //case CDS_FLUORESCENT_FUSION:
                         case TESTING:
                             cdsFlag = true;
                             break;

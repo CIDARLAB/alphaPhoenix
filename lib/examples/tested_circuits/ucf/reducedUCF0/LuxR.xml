@@ -21,7 +21,7 @@
             </apply>
           </math>
                   <listOfLocalParameters>
-            <localParameter id="k_loss" name="k_loss" value="0.00443383612441"/>
+            <localParameter id="k_loss" name="k_loss" value="0.017179401454748944"/>
           </listOfLocalParameters>
         </kineticLaw>
       </reaction>

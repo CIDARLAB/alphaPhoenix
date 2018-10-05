@@ -1,0 +1,548 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+  <model>
+    <listOfCompartments>
+      <compartment constant="false" id="cell" name="cell" size="1"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species boundaryCondition="false" compartment="cell" constant="false" hasOnlySubstanceUnits="true" id="conn0" initialAmount="0" name="conn0"/>
+      <species boundaryCondition="false" compartment="cell" constant="false" hasOnlySubstanceUnits="true" id="conn1" initialAmount="0" name="conn1"/>
+      <species boundaryCondition="false" compartment="cell" constant="false" hasOnlySubstanceUnits="true" id="ind_conn0" initialAmount="0" name="ind_conn0" sboTerm="SBO:0000600"/>
+      <species boundaryCondition="false" compartment="cell" constant="false" hasOnlySubstanceUnits="true" id="conn2" initialAmount="0" name="conn2"/>
+      <species boundaryCondition="false" compartment="cell" constant="false" hasOnlySubstanceUnits="true" id="out0" initialAmount="0" name="out0" sboTerm="SBO:0000601"/>
+      <species boundaryCondition="false" compartment="cell" constant="false" hasOnlySubstanceUnits="true" id="ind_conn2" initialAmount="0" name="ind_conn2" sboTerm="SBO:0000600"/>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction fast="false" id="out_expression" name="out_expression" reversible="false" sboTerm="SBO:0000589">
+        <listOfProducts>
+          <speciesReference constant="true" species="conn0" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <ci> k_express </ci>
+          </math>
+                  <listOfLocalParameters>
+            <localParameter id="k_express" name="k_express" value="0.120943"/>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction fast="false" id="conn_degradation" name="conn_degradation" reversible="false" sboTerm="SBO:0000179">
+        <listOfReactants>
+          <speciesReference constant="true" species="conn0" stoichiometry="1"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> k_loss </ci>
+              <ci> conn0 </ci>
+            </apply>
+          </math>
+                  <listOfLocalParameters>
+            <localParameter id="k_loss" name="k_loss" value="0.017179401454748944"/>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction fast="false" id="out_expression1" name="out_expression" reversible="false" sboTerm="SBO:0000589">
+        <listOfProducts>
+          <speciesReference constant="true" species="conn1" stoichiometry="1"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference sboTerm="SBO:0000459" species="conn0"/>
+          <modifierSpeciesReference sboTerm="SBO:0000459" species="ind_conn0"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <plus/>
+              <apply>
+                <plus/>
+                <ci> basal </ci>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times/>
+                    <ci> max </ci>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <minus/>
+                        <ci> conn0 </ci>
+                        <apply>
+                          <divide/>
+                          <apply>
+                            <times/>
+                            <ci> conn0 </ci>
+                            <apply>
+                              <power/>
+                              <ci> ind_conn0 </ci>
+                              <ci> n_SM </ci>
+                            </apply>
+                          </apply>
+                          <apply>
+                            <plus/>
+                            <apply>
+                              <power/>
+                              <ci> K_d_SM </ci>
+                              <ci> n_SM </ci>
+                            </apply>
+                            <apply>
+                              <power/>
+                              <ci> ind_conn0 </ci>
+                              <ci> n_SM </ci>
+                            </apply>
+                          </apply>
+                        </apply>
+                      </apply>
+                      <ci> n </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <apply>
+                      <power/>
+                      <ci> K_d </ci>
+                      <ci> n </ci>
+                    </apply>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <minus/>
+                        <ci> conn0 </ci>
+                        <apply>
+                          <divide/>
+                          <apply>
+                            <times/>
+                            <ci> conn0 </ci>
+                            <apply>
+                              <power/>
+                              <ci> ind_conn0 </ci>
+                              <ci> n_SM </ci>
+                            </apply>
+                          </apply>
+                          <apply>
+                            <plus/>
+                            <apply>
+                              <power/>
+                              <ci> K_d_SM </ci>
+                              <ci> n_SM </ci>
+                            </apply>
+                            <apply>
+                              <power/>
+                              <ci> ind_conn0 </ci>
+                              <ci> n_SM </ci>
+                            </apply>
+                          </apply>
+                        </apply>
+                      </apply>
+                      <ci> n </ci>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> max_TF </ci>
+                  <apply>
+                    <power/>
+                    <apply>
+                      <divide/>
+                      <apply>
+                        <times/>
+                        <ci> conn0 </ci>
+                        <apply>
+                          <power/>
+                          <ci> ind_conn0 </ci>
+                          <ci> n_SM </ci>
+                        </apply>
+                      </apply>
+                      <apply>
+                        <plus/>
+                        <apply>
+                          <power/>
+                          <ci> K_d_SM </ci>
+                          <ci> n_SM </ci>
+                        </apply>
+                        <apply>
+                          <power/>
+                          <ci> ind_conn0 </ci>
+                          <ci> n_SM </ci>
+                        </apply>
+                      </apply>
+                    </apply>
+                    <ci> n_TF </ci>
+                  </apply>
+                </apply>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <power/>
+                    <ci> K_d_TF </ci>
+                    <ci> n_TF </ci>
+                  </apply>
+                  <apply>
+                    <power/>
+                    <apply>
+                      <divide/>
+                      <apply>
+                        <times/>
+                        <ci> conn0 </ci>
+                        <apply>
+                          <power/>
+                          <ci> ind_conn0 </ci>
+                          <ci> n_SM </ci>
+                        </apply>
+                      </apply>
+                      <apply>
+                        <plus/>
+                        <apply>
+                          <power/>
+                          <ci> K_d_SM </ci>
+                          <ci> n_SM </ci>
+                        </apply>
+                        <apply>
+                          <power/>
+                          <ci> ind_conn0 </ci>
+                          <ci> n_SM </ci>
+                        </apply>
+                      </apply>
+                    </apply>
+                    <ci> n_TF </ci>
+                  </apply>
+                </apply>
+              </apply>
+            </apply>
+          </math>
+                  <listOfLocalParameters>
+            <localParameter id="basal" name="basal" value="1.80951336"/>
+            <localParameter id="max" name="max" value="4.6218934"/>
+            <localParameter id="K_d" name="K_d" value="4023.22017"/>
+            <localParameter id="n" name="n" value="1.89042783"/>
+            <localParameter id="max_TF" name="max_TF" value="622.358665"/>
+            <localParameter id="K_d_TF" name="K_d_TF" value="257.01295"/>
+            <localParameter id="n_TF" name="n_TF" value="0.879642834"/>
+            <localParameter id="K_d_SM" name="K_d_SM" value="76.6575351"/>
+            <localParameter id="n_SM" name="n_SM" value="1.42754651"/>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction fast="false" id="conn_degradation1" name="conn_degradation" reversible="false" sboTerm="SBO:0000179">
+        <listOfReactants>
+          <speciesReference constant="true" species="conn1" stoichiometry="1"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> k_loss </ci>
+              <ci> conn1 </ci>
+            </apply>
+          </math>
+                  <listOfLocalParameters>
+            <localParameter id="k_loss" name="k_loss" value="0.017179401454748944"/>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction fast="false" id="out_expression2" name="out_expression" reversible="false" sboTerm="SBO:0000589">
+        <listOfProducts>
+          <speciesReference constant="true" species="conn2" stoichiometry="1"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference sboTerm="SBO:0000020" species="conn1"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <plus/>
+              <ci> basal </ci>
+              <apply>
+                <divide/>
+                <ci> max </ci>
+                <apply>
+                  <plus/>
+                  <cn type="integer"> 1 </cn>
+                  <apply>
+                    <power/>
+                    <apply>
+                      <divide/>
+                      <ci> conn1 </ci>
+                      <ci> K_d </ci>
+                    </apply>
+                    <ci> n </ci>
+                  </apply>
+                </apply>
+              </apply>
+            </apply>
+          </math>
+                  <listOfLocalParameters>
+            <localParameter id="max" name="max" value="928.567"/>
+            <localParameter id="basal" name="basal" value="0.969"/>
+            <localParameter id="K_d" name="K_d" value="57.191"/>
+            <localParameter id="n" name="n" value="1.337"/>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction fast="false" id="conn_degradation2" name="conn_degradation" reversible="false" sboTerm="SBO:0000179">
+        <listOfReactants>
+          <speciesReference constant="true" species="conn2" stoichiometry="1"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> k_loss </ci>
+              <ci> conn2 </ci>
+            </apply>
+          </math>
+                  <listOfLocalParameters>
+            <localParameter id="k_loss" name="k_loss" value="0.017179401454748944"/>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction fast="false" id="out_expression3" name="out_expression" reversible="false" sboTerm="SBO:0000589">
+        <listOfProducts>
+          <speciesReference constant="true" species="out0" stoichiometry="1"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference sboTerm="SBO:0000459" species="conn2"/>
+          <modifierSpeciesReference sboTerm="SBO:0000459" species="ind_conn2"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <plus/>
+              <apply>
+                <plus/>
+                <ci> basal </ci>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times/>
+                    <ci> max </ci>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <minus/>
+                        <ci> conn2 </ci>
+                        <apply>
+                          <divide/>
+                          <apply>
+                            <times/>
+                            <ci> conn2 </ci>
+                            <apply>
+                              <power/>
+                              <ci> ind_conn2 </ci>
+                              <ci> n_SM </ci>
+                            </apply>
+                          </apply>
+                          <apply>
+                            <plus/>
+                            <apply>
+                              <power/>
+                              <ci> K_d_SM </ci>
+                              <ci> n_SM </ci>
+                            </apply>
+                            <apply>
+                              <power/>
+                              <ci> ind_conn2 </ci>
+                              <ci> n_SM </ci>
+                            </apply>
+                          </apply>
+                        </apply>
+                      </apply>
+                      <ci> n </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <apply>
+                      <power/>
+                      <ci> K_d </ci>
+                      <ci> n </ci>
+                    </apply>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <minus/>
+                        <ci> conn2 </ci>
+                        <apply>
+                          <divide/>
+                          <apply>
+                            <times/>
+                            <ci> conn2 </ci>
+                            <apply>
+                              <power/>
+                              <ci> ind_conn2 </ci>
+                              <ci> n_SM </ci>
+                            </apply>
+                          </apply>
+                          <apply>
+                            <plus/>
+                            <apply>
+                              <power/>
+                              <ci> K_d_SM </ci>
+                              <ci> n_SM </ci>
+                            </apply>
+                            <apply>
+                              <power/>
+                              <ci> ind_conn2 </ci>
+                              <ci> n_SM </ci>
+                            </apply>
+                          </apply>
+                        </apply>
+                      </apply>
+                      <ci> n </ci>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> max_TF </ci>
+                  <apply>
+                    <power/>
+                    <apply>
+                      <divide/>
+                      <apply>
+                        <times/>
+                        <ci> conn2 </ci>
+                        <apply>
+                          <power/>
+                          <ci> ind_conn2 </ci>
+                          <ci> n_SM </ci>
+                        </apply>
+                      </apply>
+                      <apply>
+                        <plus/>
+                        <apply>
+                          <power/>
+                          <ci> K_d_SM </ci>
+                          <ci> n_SM </ci>
+                        </apply>
+                        <apply>
+                          <power/>
+                          <ci> ind_conn2 </ci>
+                          <ci> n_SM </ci>
+                        </apply>
+                      </apply>
+                    </apply>
+                    <ci> n_TF </ci>
+                  </apply>
+                </apply>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <power/>
+                    <ci> K_d_TF </ci>
+                    <ci> n_TF </ci>
+                  </apply>
+                  <apply>
+                    <power/>
+                    <apply>
+                      <divide/>
+                      <apply>
+                        <times/>
+                        <ci> conn2 </ci>
+                        <apply>
+                          <power/>
+                          <ci> ind_conn2 </ci>
+                          <ci> n_SM </ci>
+                        </apply>
+                      </apply>
+                      <apply>
+                        <plus/>
+                        <apply>
+                          <power/>
+                          <ci> K_d_SM </ci>
+                          <ci> n_SM </ci>
+                        </apply>
+                        <apply>
+                          <power/>
+                          <ci> ind_conn2 </ci>
+                          <ci> n_SM </ci>
+                        </apply>
+                      </apply>
+                    </apply>
+                    <ci> n_TF </ci>
+                  </apply>
+                </apply>
+              </apply>
+            </apply>
+          </math>
+                  <listOfLocalParameters>
+            <localParameter id="basal" name="basal" value="2.52734707"/>
+            <localParameter id="max" name="max" value="1.55789934"/>
+            <localParameter id="K_d" name="K_d" value="862.809479"/>
+            <localParameter id="n" name="n" value="0.940226509"/>
+            <localParameter id="max_TF" name="max_TF" value="209.984146"/>
+            <localParameter id="K_d_TF" name="K_d_TF" value="7.92387903E-5"/>
+            <localParameter id="n_TF" name="n_TF" value="0.420848569"/>
+            <localParameter id="K_d_SM" name="K_d_SM" value="3.70260028E5"/>
+            <localParameter id="n_SM" name="n_SM" value="2.66658835"/>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction fast="false" id="out_degradation" name="out_degradation" reversible="false" sboTerm="SBO:0000179">
+        <listOfReactants>
+          <speciesReference constant="true" species="out0" stoichiometry="1"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> k_loss </ci>
+              <ci> out0 </ci>
+            </apply>
+          </math>
+                  <listOfLocalParameters>
+            <localParameter id="k_loss" name="k_loss" value="0.017179401454748944"/>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+    <listOfEvents>
+      <event id="event0" useValuesFromTriggerTime="true">
+        <trigger initialValue="false" persistent="true">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <true/>
+          </math>
+                </trigger>
+        <delay>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <cn> 600 </cn>
+          </math>
+                </delay>
+        <listOfEventAssignments>
+          <eventAssignment variable="ind_conn0">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">            
+              <cn> 0.01 </cn>
+            </math>
+                    </eventAssignment>
+        </listOfEventAssignments>
+      </event>
+      <event id="event1" useValuesFromTriggerTime="true">
+        <trigger initialValue="false" persistent="true">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <true/>
+          </math>
+                </trigger>
+        <delay>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <cn> 600 </cn>
+          </math>
+                </delay>
+        <listOfEventAssignments>
+          <eventAssignment variable="ind_conn2">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">            
+              <cn> 0 </cn>
+            </math>
+                    </eventAssignment>
+        </listOfEventAssignments>
+      </event>
+    </listOfEvents>
+  </model>
+</sbml>

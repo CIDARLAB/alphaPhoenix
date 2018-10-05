@@ -25,6 +25,7 @@ import org.cidarlab.phoenix.adaptors.IBioSimAdaptor;
 import org.cidarlab.phoenix.adaptors.SBMLAdaptor;
 import org.cidarlab.phoenix.adaptors.STLAdaptor;
 import org.cidarlab.phoenix.core.simulation.AbstractSimulation;
+import static org.cidarlab.phoenix.core.simulation.AbstractSimulation.getSteadyState;
 import org.cidarlab.phoenix.dom.library.CompositeComponent;
 import org.cidarlab.phoenix.dom.library.CompositeComponent.CompositeType;
 import org.cidarlab.phoenix.dom.library.Library;
@@ -104,13 +105,40 @@ public class AssignmentNode {
     }
     
     public AssignmentNode(AssignmentNode _node){
-        this.components = new ArrayList<>(_node.components);
-        this.smallMolecules = new ArrayList<>(_node.smallMolecules);
-        this.assignment = new HashMap<>(_node.assignment);
-        this.concs = new HashMap<>(_node.concs);
-        this.smURImap = new HashMap<>(_node.smURImap);
-        this.indSMmap = new HashMap<>(_node.indSMmap);
-        this.ioc = new HashMap<>(_node.ioc);
+        
+        this.components = new ArrayList<>(_node.components); //This should just be a shallow copy. 
+        
+        this.smallMolecules = new ArrayList<>(); //deep copy
+        for(String key:_node.smallMolecules){
+            this.smallMolecules.add(key);
+        }
+        
+        this.assignment = new HashMap<>(); //deep copy
+        for(String key:_node.assignment.keySet()){
+            this.assignment.put(key, _node.assignment.get(key));
+        }
+        
+        this.concs = new HashMap<>(); //deep copy
+        for(String key:_node.concs.keySet()){
+            this.concs.put(key, _node.concs.get(key));
+        }
+        
+        this.smURImap = new HashMap<>(); //deep copy
+        for(String key:_node.smURImap.keySet()){
+            this.smURImap.put(key, _node.smURImap.get(key));
+        }
+        
+        this.indSMmap = new HashMap<>(); //deep copy
+        for(String key:_node.indSMmap.keySet()){
+            this.indSMmap.put(key, _node.indSMmap.get(key));
+        }
+        
+        this.ioc = new HashMap<>(); //deep copy
+        for(String key:_node.ioc.keySet()){
+            this.ioc.put(key, _node.ioc.get(key));
+        }
+        
+        this.moduleIndex = _node.moduleIndex;
     } 
     
     public AssignmentNode(Module module, Map<String,CandidateComponent> _candidate, Library library){
@@ -210,6 +238,9 @@ public class AssignmentNode {
     
     
     
+    
+    
+    
     public void assignRandomConcentrations(Library library){
         for(String sm:smallMolecules){
             SmallMoleculeComponent smc = library.getSmallMolecules().get(smURImap.get(sm));
@@ -260,15 +291,18 @@ public class AssignmentNode {
         }
         
         List<String> signalList = new ArrayList<>(allsignals.keySet());
-        rob = STLAdaptor.signalRobustness(stl,allsignals.get(signalList.get(0)));
+        Signal s = getSteadyState(allsignals.get(signalList.get(0)));
+        rob = STLAdaptor.getRobustness(stl, s, 0);
+                //signalRobustness(stl,));
         
         for(int i=1;i<signalList.size();i++){
-            double currentRob = STLAdaptor.signalRobustness(stl,allsignals.get(signalList.get(i)));
+            //double currentRob = STLAdaptor.signalRobustness(stl,allsignals.get(signalList.get(i)));
+            s = getSteadyState(allsignals.get(signalList.get(i)));
+            double currentRob = STLAdaptor.getRobustness(stl, s, 0);
             if(currentRob < rob){
                 rob = currentRob;
             }
         }
-        
         return rob;
     }
     
@@ -354,8 +388,7 @@ public class AssignmentNode {
         return str;
     }
     
-    public void modifyAssignment(Module module, Map<String,CandidateComponent> _assignment, Map<String,Double> oldConcs, Library library){
-        this.assignment.putAll(_assignment); 
+    public void updateConcentrations(Module module,  Map<String,Double> oldConcs, Library library){
         this.ioc = AbstractSimulation.getIOCmap(module, assignment, library);
         indSMmap = AbstractSimulation.getIndSMmap(module, assignment, ioc, library);
         

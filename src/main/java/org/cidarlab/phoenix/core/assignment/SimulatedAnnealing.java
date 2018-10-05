@@ -47,8 +47,8 @@ import org.sbml.jsbml.SBMLDocument;
  */
 public class SimulatedAnnealing extends AbstractAssignment {
 
-    private final double coolingRate = 0.003;
-    private double temperature = 1000;
+    private double coolingRate = 0.0045;
+    private double temperature = 10000;
 
     //@Override
     public void solve(List<Module> modules, Library library, TreeNode stl, Args args) {
@@ -61,19 +61,6 @@ public class SimulatedAnnealing extends AbstractAssignment {
                 Logger.getLogger(SimulatedAnnealing.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        for (int i = 0; i < modules.size(); i++) {
-            String simfp = args.getProjectFolder() + i + Utilities.getSeparater();
-            Utilities.makeDirectory(simfp);
-            Module m = modules.get(i);
-
-            /*try {
-             Simulation.run(modules.get(i),library,stl,args,simfp);
-             } catch (URISyntaxException | MalformedURLException | XMLStreamException | FileNotFoundException ex) {
-             Logger.getLogger(Exhaustive.class.getName()).log(Level.SEVERE, null, ex);
-             } catch (IOException | TLIException | InterruptedException ex) {
-             Logger.getLogger(Exhaustive.class.getName()).log(Level.SEVERE, null, ex);
-             }*/
-        }
     }
 
     private void solve(Module module, Library library, TreeNode stl, Args args) throws URISyntaxException, MalformedURLException, XMLStreamException, FileNotFoundException, IOException, TLIException {
@@ -81,59 +68,77 @@ public class SimulatedAnnealing extends AbstractAssignment {
 
         int count = 0;
         int outCount = getOutputCount(stl);
-        List<Module> children = new ArrayList<>();
-        for (Module tu : module.getChildren()) {
-            children.addAll(tu.getChildren());
+        
+        int candidateCount = 1;
+        for(Module tu:module.getChildren()){
+            for(Module leaf:tu.getChildren()){
+                candidateCount *= leaf.getCandidates().size();
+            }
         }
-
-        /*System.out.println("Candidate Assignments for each Leaf Module:");
-        for (Module child : children) {
-            //System.out.println("Module : " + child.getId());
-            System.out.print("Module : ");
-            for (Component c : child.getComponents()) {
-                System.out.print(c.getName() + " ");
-            }
-            System.out.println("\nCandidates ::");
-            for (CandidateComponent cc : child.getCandidates()) {
-                System.out.println("-- " + cc.getCandidate().getComponentDefintion());
-            }
-        }*/
+        
+        if(candidateCount < 40000){
+            setCoolingRate(candidateCount);
+        }
         
         String testfp = args.getProjectFolder() + "test" + Utilities.getSeparater();
         Utilities.makeDirectory(testfp);
         Map<URI,SBMLDocument> modelmap = AbstractSimulation.downloadAllModels(library, testfp);
-        Map<String, CandidateComponent> currentAssignment = generateFirstAssignment(module, library, stl);
         
+        Map<String, CandidateComponent> currentAssignment = getRandomAssignment(module, library, stl);
         AssignmentNode currentNode = new AssignmentNode(module,currentAssignment,library);
         currentNode.assignRandomConcentrations(library);
-        
-        System.out.println("First Assignment : " + currentNode.toString());
-        //System.out.println("First Assignment : " + assignmentToString(module, first));
         
         double currentScore = currentNode.robustness(module, stl, library, modelmap, args.getDecomposition(), testfp);
         double newScore = 0.0;
         
+        System.out.println("First Assignment : " + currentNode.toString(library));
         System.out.println("Current Score : " + currentScore);
-        
+        int loopThreshold = 2000;
+        int loopCount = 0;
+        boolean cooledDown = true;
         while (temperature > 1) {
             //System.out.println("Temperature :: " + temperature);
-            AssignmentNode newNode = findNeighbor(module,currentNode,library);
-            while(newNode == null){
-                newNode = findNeighbor(module,currentNode,library);
-            }
-            newScore = newNode.robustness(module, stl, library, modelmap, args.getDecomposition(), testfp);
+            AssignmentNode newNode;
+            loopCount = 0;
             
-            double ap = acceptanceProbability(currentScore,newScore,temperature,1);
+            do{
+                newNode = findNeighbor(module,currentNode,library,outCount,stl);
+                loopCount++;
+            }while( (newNode == null) && (loopCount < loopThreshold));
+            
+            if((newNode == null) || (loopCount >= loopThreshold)){
+                cooledDown = false;
+                break;
+            }
+            
+            
+            
+            newScore = newNode.robustness(module, stl, library, modelmap, args.getDecomposition(), testfp);
+            int hammingDistance = currentNode.hammingDistance(newNode);
+            double ap = acceptanceProbability(currentScore,newScore,temperature,hammingDistance);
             double random = Math.random();
+            System.out.println("----------------------------------------------------");
+            System.out.println("Current Node  : " + currentNode.toString(library));
+            System.out.println("Current Score : " + currentScore);
+            System.out.println("Next Node     : " + newNode.toString(library));
+            System.out.println("New Score     : " + newScore);
+            System.out.println("Acceptance    : " + ap);
             if(ap > random){
+                System.out.println("Status        : Accepted" );
                 currentScore = newScore;
                 currentNode = newNode; // or make this new AssignmentNode(newNode);
+            } else {
+                System.out.println("Status        : Rejected" );
             }
             
             temperature *= (1 - coolingRate);
             count++;
         }
-
+        
+        if(!cooledDown){
+            System.out.println("Current thread was able to reach " + count + " nodes. This could be due to Random Number Generation. Please try again to check for better results");
+        }
+        
         System.out.println("Total :: " + count);
     }
     
@@ -217,26 +222,209 @@ public class SimulatedAnnealing extends AbstractAssignment {
         
     }
     
+    private Map<URI,CandidateComponent> getOtherRBSCandidates(List<CandidateComponent> candidates, CandidateComponent pr){
+        Map<URI,CandidateComponent> others = new HashMap<>();
+        
+        URI currprom = getPRprom(pr);
+        URI currrbs = getPRrbs(pr);
+        
+        for(CandidateComponent cc:candidates){
+            URI otherprom = getPRprom(cc);
+            URI otherrbs = getPRrbs(cc);
+            if(currprom.equals(otherprom) && (!currrbs.equals(otherrbs))){
+                others.put(cc.getCandidate().getComponentDefintion(), cc);
+            }
+        }
+        
+        return others;
+        
+    }
+    
+    private Map<URI,CandidateComponent> getOtherPromCandidates(List<CandidateComponent> candidates, CandidateComponent pr){
+        Map<URI,CandidateComponent> others = new HashMap<>();
+        
+        URI currprom = getPRprom(pr);
+        URI currrbs = getPRrbs(pr);
+        
+        for(CandidateComponent cc:candidates){
+            URI otherprom = getPRprom(cc);
+            URI otherrbs = getPRrbs(cc);
+            if(!currprom.equals(otherprom)){
+                others.put(cc.getCandidate().getComponentDefintion(), cc);
+            }
+        }
+        
+        return others;
+        
+    }
+    
+    private Map<URI,CandidateComponent> getOtherCandidates(List<CandidateComponent> candidates, LibraryComponent current){
+        Map<URI,CandidateComponent> others = new HashMap<>();
+        
+        for(CandidateComponent cc:candidates){
+            if(!cc.getCandidate().getComponentDefintion().equals(current.getComponentDefintion())){
+                others.put(cc.getCandidate().getComponentDefintion(), cc);
+            }
+        }
             
-    public AssignmentNode findNeighbor(Module module, AssignmentNode current, Library lib){
+        
+        return others;
+        
+    }
+    
+    private Map<URI,CandidateComponent> getOtherOutputCDSCandidates(List<CandidateComponent> candidates, LibraryComponent current, Library lib){
+        Map<URI,CandidateComponent> others = new HashMap<>();
+        
+        for(CandidateComponent cc:candidates){
+            if(!cc.getCandidate().getComponentDefintion().equals(current.getComponentDefintion())){
+                if(lib.getOutputCDS().containsKey(cc.getCandidate().getComponentDefintion())){
+                    others.put(cc.getCandidate().getComponentDefintion(), cc);
+                }
+            }
+        }
+        return others;
+    }
+    
+    private Map<URI,CandidateComponent> getOtherActivatingCDSCandidates(List<CandidateComponent> candidates, LibraryComponent current, Library lib){
+        Map<URI,CandidateComponent> others = new HashMap<>();
+        
+        for(CandidateComponent cc:candidates){
+            if(!cc.getCandidate().getComponentDefintion().equals(current.getComponentDefintion())){
+                if(lib.getActivatingCDS().containsKey(cc.getCandidate().getComponentDefintion())){
+                    others.put(cc.getCandidate().getComponentDefintion(), cc);
+                }
+            }
+        }
+        return others;
+    }
+    
+    private Map<URI,CandidateComponent> getOtherRepressingCDSCandidates(List<CandidateComponent> candidates, LibraryComponent current, Library lib){
+        Map<URI,CandidateComponent> others = new HashMap<>();
+        
+        for(CandidateComponent cc:candidates){
+            if(!cc.getCandidate().getComponentDefintion().equals(current.getComponentDefintion())){
+                if(lib.getRepressingCDS().containsKey(cc.getCandidate().getComponentDefintion())){
+                    others.put(cc.getCandidate().getComponentDefintion(), cc);
+                }
+            }
+        }
+        return others;
+    }
+    
+    private Map<URI,CandidateComponent> getOtherCDSCandidates(List<CandidateComponent> candidates, LibraryComponent current, Library lib){
+
+        if(lib.getOutputCDS().containsKey(current.getComponentDefintion())){
+            return getOtherOutputCDSCandidates(candidates,current,lib);
+        } else if(lib.getActivatingCDS().containsKey(current.getComponentDefintion())){
+            return getOtherActivatingCDSCandidates(candidates,current,lib);
+        } else if(lib.getRepressingCDS().containsKey(current.getComponentDefintion())){
+            return getOtherRepressingCDSCandidates(candidates,current,lib);
+        }
+        
+        return null;
+    
+    }
+    
+    private AssignmentNode swapPromoter(Module module, AssignmentNode current, AssignmentNode nextNode, List<Module> prList, Component curr, CandidateComponent newcdscc, Library lib, TreeNode stl){
+        
+        CDSComponent oldcds = (CDSComponent) lib.getAllLibraryComponents().get(current.getAssignment().get(curr.getName()).getCandidate().getComponentDefintion());
+        CDSComponent newcds = (CDSComponent) lib.getAllLibraryComponents().get(newcdscc.getCandidate().getComponentDefintion());
+        
+        for(Component c:module.getComponents()){
+            if(current.getAssignment().get(c.getName()).getCandidate().getComponentDefintion().equals(oldcds.getComponentDefintion())){
+                nextNode.getAssignment().put(c.getName(), newcdscc);
+            }
+        }
+        
+        for(Module pr:prList){
+            Component prom = Module.getPromInPR(pr);
+            Component rbs = Module.getRbsInPR(pr);
+            CandidateComponent prcc = current.getAssignment().get(prom.getName());
+            boolean regulated = false;
+            PromoterComponent promcomp = lib.getAllPromoters().get( getPRprom(prcc) );
+            for(LibraryComponent tf:promcomp.getTranscriptionFactors()){
+                if(tf instanceof ComplexComponent){
+                    ComplexComponent complex = (ComplexComponent)tf;
+                    if(complex.getProtein().equals(oldcds.getProtein())){
+                        regulated = true;
+                        break;
+                    }
+                } else {
+                    if(tf.getComponentDefintion().equals(oldcds.getProtein())){
+                        regulated = true;
+                        break;
+                    }
+                }
+            }
+            if(regulated){
+                //Swap this.
+                URI rbsuri = getPRrbs(prcc);
+                List<CandidateComponent> candidatesubset = new ArrayList<>();
+                        
+                for(CandidateComponent cc:pr.getCandidates()){
+                    URI subsetRBSuri = getPRrbs(cc);
+                    if(subsetRBSuri.equals(rbsuri) || (rbs.isGeneric())){
+                        URI newprot = newcds.getProtein();
+                        PromoterComponent subsetpromcomp = lib.getAllPromoters().get( getPRprom(cc) );
+                        regulated = false;
+                        for (LibraryComponent tf : subsetpromcomp.getTranscriptionFactors()) {
+                            if (tf instanceof ComplexComponent) {
+                                ComplexComponent complex = (ComplexComponent) tf;
+                                if (complex.getProtein().equals(newprot)) {
+                                    regulated = true;
+                                }
+                            } else {
+                                if (tf.getComponentDefintion().equals(newprot)) {
+                                    regulated = true;
+                                }
+                            }
+                        }
+                        if(regulated){
+                            candidatesubset.add(cc);
+                            //Swap now..
+                            nextNode.getAssignment().put(prom.getName(), cc);
+                            nextNode.getAssignment().put(rbs.getName(), cc);
+                            break;
+                        } //Need a check to see if 
+                    }
+                }
+                
+                if(candidatesubset.isEmpty()){
+                    return null;
+                }
+                
+            }
+        }
+        nextNode.updateConcentrations(module, current.getConcs(), lib);
+        
+        if(validAssignment(module,nextNode.getAssignment(),lib,stl)){
+            return nextNode;
+        }
+        return null;
+    }
+    
+    private AssignmentNode findNeighbor(Module module, AssignmentNode current, Library lib, int outCount, TreeNode stl){
         
         AssignmentNode nextNode = new AssignmentNode(current);
         int pos = current.getRandomPosition();
-        
+        int randomCount = 0;
         while(repeatRandom(pos, module, current,lib)){
             pos = current.getRandomPosition();
+            randomCount++;
+            if(randomCount > 32){
+                return null;
+            }
         }
         
         List<Module> prList = new ArrayList<>();
         List<Module> rcList = new ArrayList<>();
         List<Module> promList = new ArrayList<>();
-        List<Module> rbsList = new ArrayList<>();
         List<Module> cdsList = new ArrayList<>();
         List<Module> terList = new ArrayList<>();
         
         
         for (Module tu : module.getChildren()) {
-            for (Module leaf : module.getChildren()) {
+            for (Module leaf : tu.getChildren()) {
                 switch(leaf.getRole()){
                     case PROMOTER_RBS:
                         prList.add(leaf);
@@ -262,110 +450,852 @@ public class SimulatedAnnealing extends AbstractAssignment {
         if(pos < current.getComponents().size()){
             //Change the component
             Component curr = current.getComponents().get(pos);
-            List<Module> subsets = new ArrayList<>();
+            LibraryComponent currlc = current.getAssignment().get(curr.getName()).getCandidate();
+            //List<Module> subsets = new ArrayList<>();
+            Module subset = null;
             for(Module tu:module.getChildren()){
                 for(Module leaf:tu.getChildren()){
                     for(Component c:leaf.getComponents()){
-                        if(c.getName().equals(curr.getName())){
-                            subsets.add(leaf);
+                        if(c.getName().equals(curr.getName()) && (c.getRole().equals(curr.getRole()))  ){
+                            subset = leaf;
                             break;
                         }
                     }
                 }
             }
-            
-            for(Module subset:subsets){
-                switch(subset.getRole()){
-                    case PROMOTER_RBS:
+            if(subset == null){
+                //This should technically not happen
+                return null;
+            }
+           
+            //Module subset = subsets.get(0);
+            switch (subset.getRole()) {
+                case PROMOTER_RBS:
+                    Component prom = Module.getPromInPR(subset);
+                    Component rbs = Module.getRbsInPR(subset);
+                    CandidateComponent currentcc = current.getAssignment().get(prom.getName());
+                    URI currentpromuri = getPRprom(currentcc);
+                    URI currentrbsuri = getPRrbs(currentcc);
+                    
+                    if(curr.isPromoter()){
+                        System.out.println("Promoter swap partially done.. ");
+                        List<CandidateComponent> othercandidates = new ArrayList<>(getOtherPromCandidates(subset.getCandidates(),current.getAssignment().get(curr.getName())).values());
                         
-                        
-                        break;
-                    case CDS:
-                        
-                        
-                        break;
-                    case TERMINATOR:
-                        List<CandidateComponent> tercc = subset.getCandidates();
-                        URI currentTer = nextNode.getAssignment().get(curr.getName()).getCandidate().getComponentDefintion();
-                        CandidateComponent newTercc = tercc.get(Utilities.getRandom(0, (tercc.size()-1) ));
-                        while(newTercc.getCandidate().getComponentDefintion().equals(currentTer)){
-                            newTercc = tercc.get(Utilities.getRandom(0, (tercc.size()-1) ));
+                        if(othercandidates.isEmpty()){
+                            return null;
                         }
-                        Map<String,CandidateComponent> newAssignmentTer = new HashMap<>();
-                        newAssignmentTer.put(curr.getName(), newTercc);
+                        CandidateComponent newcc = othercandidates.get(Utilities.getRandom(0, othercandidates.size() - 1));
+                        URI newpromuri = getPRprom(newcc);
+                        URI newrbsuri = getPRrbs(newcc);
                         if(curr.isGeneric()){
-                            //Do nothing?
-                        } else {
-                            //This terminator is not generic. So find if the nextTer clashes with another instance of terList which is not generic, and has the same assignment as nextTer. 
-                            while(clashes(module, newAssignmentTer,nextNode.getAssignment())){
-                                Set<URI> assignmentURIs = getAssignmentURIs(module, newAssignmentTer);
-                                List<Module> specTer = new ArrayList<>();
-                                for(Module ter:terList){
-                                    for(Component c:ter.getComponents()){
-                                        if(!newAssignmentTer.containsKey(c.getName())){
-                                            if(!c.isGeneric()){
-                                                if(c.isTerminator()){
-                                                    URI cAss = nextNode.getAssignment().get(c.getName()).getCandidate().getComponentDefintion();
-                                                    if(assignmentURIs.contains(cAss)){
-                                                        specTer.add(ter);
+                            //Generic prom being swapped. 
+                            if(constitutiveCandidate(currentcc, lib)){
+                                //Current Promoter is a constitutive Promoter. 
+                                if(constitutiveCandidate(newcc,lib)){
+                                    //<editor-fold desc="Current Promoter is Generic. Current Candidate: Consitutitve. New Candidate: Constitutive">
+                                    //New Candidate Promoter is also constitutive. 
+                                    if(rbs.isGeneric()){
+                                        //If current RBS is generic. Doesn't matter. Swap. 
+                                        nextNode.getAssignment().put(prom.getName(), newcc);
+                                        nextNode.getAssignment().put(rbs.getName(), newcc);
+                                        if (validAssignment(module, nextNode.getAssignment(), lib, stl)) {
+                                            return nextNode;
+                                        } else {
+                                            return null;
+                                        }
+                                    } else {
+                                        //Current RBS is specific. 
+                                        
+                                        if(currentrbsuri.equals(newrbsuri)){
+                                            //New RBS and Current RBS are the same. Swap.
+                                            nextNode.getAssignment().put(prom.getName(), newcc);
+                                            nextNode.getAssignment().put(rbs.getName(), newcc);
+                                            if (validAssignment(module, nextNode.getAssignment(), lib, stl)) {
+                                                return nextNode;
+                                            } else {
+                                                return null;
+                                            }
+                                        } else {
+                                            //New RBS and Current RBS are different. 
+                                            boolean alreadyAssigned = false;
+                                            for(Module pr:prList){
+                                                Component otherprom = Module.getPromInPR(pr);
+                                                Component otherrbs = Module.getRbsInPR(pr);
+                                                
+                                                if(!otherrbs.isGeneric()){
+                                                    CandidateComponent othercc = current.getAssignment().get(otherrbs.getName());
+                                                    URI otherrbsuri = getPRrbs(othercc);
+                                                    URI otherpromuri = getPRprom(othercc);
+                                                    if(otherrbsuri.equals(newrbsuri)){
+                                                        alreadyAssigned = true;
+                                                        boolean foundAlternative = false;
+                                                        for(CandidateComponent alternatecc:pr.getCandidates()){
+                                                            URI alternatepromuri = getPRprom(alternatecc);
+                                                            URI alternaterbsuri = getPRrbs(alternatecc);
+                                                            if(alternatepromuri.equals(otherpromuri)){
+                                                                if(alternaterbsuri.equals(currentrbsuri)){
+                                                                    nextNode.getAssignment().put(otherprom.getName(), alternatecc);
+                                                                    nextNode.getAssignment().put(otherrbs.getName(), alternatecc);
+                                                                }
+                                                            }
+                                                        }
+                                                        if(!foundAlternative){
+                                                            return null;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            nextNode.getAssignment().put(prom.getName(), newcc);
+                                            nextNode.getAssignment().put(rbs.getName(), newcc);
+                                            if (validAssignment(module, nextNode.getAssignment(), lib, stl)) {
+                                                return nextNode;
+                                            } else {
+                                                return null;
+                                            }
+                                        }
+                                        
+                                    }
+                                //</editor-fold>
+                                } 
+                                else {
+                                    //<editor-fold desc="Current Promoter is Generic. Current Candidate: Constitutive. New Candidate: Inducible">
+                                    //Old Candidate Promoter was Constitutive
+                                    //New Candidate Promoter is Inducible.
+                                    boolean alreadyAssigned = false;
+                                    for(Module pr:prList){
+                                        Component otherprom = Module.getPromInPR(pr);
+                                        Component otherrbs = Module.getRbsInPR(pr);
+                                        CandidateComponent othercc = current.getAssignment().get(otherprom.getName());
+                                        URI otherpromuri = getPRprom(othercc);
+                                        URI otherrbsuri = getPRrbs(othercc);
+                                        
+                                        if(otherpromuri.equals(newpromuri)){
+                                            alreadyAssigned = true;
+                                            if(rbs.isGeneric()){
+                                                nextNode.getAssignment().put(prom.getName(), newcc);
+                                                nextNode.getAssignment().put(rbs.getName(), newcc);
+                                                if (validAssignment(module, nextNode.getAssignment(), lib, stl)) {
+                                                    return nextNode;
+                                                } else {
+                                                    return null;
+                                                }
+                                            } else {
+                                                if(newrbsuri.equals(currentrbsuri)){
+                                                    //The RBS did not change.
+                                                    nextNode.getAssignment().put(prom.getName(), newcc);
+                                                    nextNode.getAssignment().put(rbs.getName(), newcc);
+                                                    if (validAssignment(module, nextNode.getAssignment(), lib, stl)) {
+                                                        return nextNode;
+                                                    } else {
+                                                        return null;
+                                                    }
+                                                } else {
+                                                    //RBS is different.
+                                                    boolean rbsAssigned = false;
+                                                    
+                                                    for(Module subpr:prList){
+                                                        Component subrbs = Module.getRbsInPR(subpr);
+                                                        Component subprom = Module.getPromInPR(subpr);
+                                                        for(CandidateComponent subcc: subpr.getCandidates()){
+                                                            URI subpromuri = getPRprom(subcc);
+                                                            URI subrbsuri = getPRrbs(subcc);
+                                                            if(!subrbs.isGeneric()){
+                                                                if(subrbsuri.equals(newrbsuri)){
+                                                                    rbsAssigned = true;
+                                                                    boolean alternateFound = false;
+                                                                    for(CandidateComponent finalcc:subpr.getCandidates()){
+                                                                        URI finalpromuri = getPRprom(finalcc);
+                                                                        URI finalrbsuri = getPRrbs(finalcc);
+                                                                        if(finalpromuri.equals(subpromuri)){
+                                                                            if(finalrbsuri.equals(currentrbsuri)){
+                                                                                nextNode.getAssignment().put(subprom.getName(), finalcc);
+                                                                                nextNode.getAssignment().put(subrbs.getName(), finalcc);
+                                                                                nextNode.getAssignment().put(prom.getName(), newcc);
+                                                                                nextNode.getAssignment().put(rbs.getName(), newcc);
+                                                                                if (validAssignment(module, nextNode.getAssignment(), lib, stl)) {
+                                                                                    return nextNode;
+                                                                                } else {
+                                                                                    return null;
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    
+                                                                    if(!alternateFound){
+                                                                        return null;
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    
+                                                    
+                                                    if(!rbsAssigned){
+                                                        nextNode.getAssignment().put(prom.getName(), newcc);
+                                                        nextNode.getAssignment().put(rbs.getName(), newcc);
+                                                        if (validAssignment(module, nextNode.getAssignment(), lib, stl)) {
+                                                            return nextNode;
+                                                        } else {
+                                                            return null;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            
+                                        }
+                                        
+                                        
+                                    }
+                                    
+                                    
+                                    if(!alreadyAssigned){
+                                        boolean replacedcdsToOut = false;
+                                        Map<String,Module> genericoutcdsMap = new HashMap<>();
+                                        Map<URI,Set<String>> outcountMap = new HashMap<>();
+                                        for(Module cdsModule :cdsList){
+                                            Component cds = cdsModule.getComponents().get(0);
+                                             if(cds.isCDS()){
+                                                CandidateComponent cdscc = current.getAssignment().get(cds.getName());
+                                                if(lib.getOutputCDS().containsKey(cdscc.getCandidate().getComponentDefintion())){
+                                                    if(!outcountMap.containsKey(cdscc.getCandidate().getComponentDefintion())){
+                                                        outcountMap.put(cdscc.getCandidate().getComponentDefintion(), new HashSet<String>());
+                                                    }
+                                                    outcountMap.get(cdscc.getCandidate().getComponentDefintion()).add(cds.getName());
+                                                    if(cds.isGeneric()){
+                                                        genericoutcdsMap.put(cds.getName(), cdsModule);
                                                     }
                                                 }
                                             }
                                         }
+                                        for(URI key:outcountMap.keySet()){
+                                            if(outcountMap.get(key).size() > 1){
+                                                for(String compname:outcountMap.get(key)){
+                                                    if(genericoutcdsMap.containsKey(compname)){
+                                                        Module m = genericoutcdsMap.get(compname);
+                                                        for(CandidateComponent cdscc:m.getCandidates()){
+                                                            CDSComponent cdscomp = (CDSComponent) lib.getAllLibraryComponents().get(cdscc.getCandidate().getComponentDefintion());
+                                                            URI cdsprot = cdscomp.getProtein();
+                                                            PromoterComponent promcomp = lib.getAllInduciblePromoters().get(newpromuri);
+                                                            boolean regulated = false;
+                                                            for(LibraryComponent tf:promcomp.getTranscriptionFactors()){
+                                                                if(tf instanceof ComplexComponent){
+                                                                    ComplexComponent complex = (ComplexComponent)tf;
+                                                                    if(complex.getProtein().equals(cdsprot)){
+                                                                        regulated = true;
+                                                                    }
+                                                                } else {
+                                                                    if(tf.getComponentDefintion().equals(cdsprot)){
+                                                                        regulated = true;
+                                                                    }
+                                                                }
+                                                            }
+                                                            if(regulated){
+                                                                replacedcdsToOut = true;
+                                                                nextNode.getAssignment().put(compname, cdscc);
+                                                                nextNode.getAssignment().put(prom.getName(), newcc);
+                                                                nextNode.getAssignment().put(rbs.getName(), newcc);
+                                                                
+                                                                if(rbs.isGeneric()){
+                                                                    if (validAssignment(module, nextNode.getAssignment(), lib, stl)) {
+                                                                        return nextNode;
+                                                                    } else {
+                                                                        return null;
+                                                                    }
+                                                                } else {
+                                                                    if(newrbsuri.equals(currentrbsuri)){
+                                                                        if (validAssignment(module, nextNode.getAssignment(), lib, stl)) {
+                                                                            return nextNode;
+                                                                        } else {
+                                                                            return null;
+                                                                        }
+                                                                    } else {
+                                                                        boolean specificrbsAssigned = false;
+                                                                        
+                                                                        for(Module pr:prList){
+                                                                            Component otherprom = Module.getPromInPR(pr);
+                                                                            Component otherrbs = Module.getRbsInPR(pr);
+                                                                            if(!otherrbs.isGeneric()){
+                                                                                CandidateComponent othercc = current.getAssignment().get(otherprom.getName());
+                                                                                URI otherpromuri = getPRprom(othercc);
+                                                                                URI otherrbsuri = getPRrbs(othercc);
+                                                                                if(otherrbsuri.equals(newrbsuri)){
+                                                                                    specificrbsAssigned = true;
+                                                                                    boolean alternatefound = false;
+                                                                                    for(CandidateComponent subcc:pr.getCandidates()){
+                                                                                        URI subpromuri = getPRprom(subcc);
+                                                                                        URI subrbsuri = getPRrbs(subcc);
+                                                                                        if(subpromuri.equals(otherpromuri)){
+                                                                                            if(subrbsuri.equals(currentrbsuri)){
+                                                                                                alternatefound = true;
+                                                                                                nextNode.getAssignment().put(otherprom.getName(), subcc);
+                                                                                                nextNode.getAssignment().put(otherrbs.getName(), subcc);
+                                                                                                break;
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                    if(!alternatefound){
+                                                                                        return null;
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                            
+                                                                        }
+                                                                        
+                                                                        if(!specificrbsAssigned){
+                                                                            if (validAssignment(module, nextNode.getAssignment(), lib, stl)) {
+                                                                                return nextNode;
+                                                                            } else {
+                                                                                return null;
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                                
+                                                            }
+                                                            
+                                                        }
+                                                        
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        
+                                        if(!replacedcdsToOut){
+                                            return null;
+                                        }
+                                        
                                     }
-                                }
-                                
-                                for(Module ter:specTer){
                                     
-                                    Component terComp = ter.getComponents().get(0);
-                                    List<CandidateComponent> candidateSubset = new ArrayList<>();
-                                    for(CandidateComponent cc:ter.getCandidates()){
-                                        URI cAss = cc.getCandidate().getComponentDefintion();
-                                        if(!assignmentURIs.contains(cAss)){
-                                            candidateSubset.add(cc);
+                                //</editor-fold>    
+                                }
+                            } else {
+                                //Current Promoter is an Inducible promoter.
+                                if(constitutiveCandidate(newcc,lib)){
+                                    //<editor-fold desc="Current Promoter is Generic. Current Candidate:Inducible. New Candidate:Constitutive.">
+                                    //New Promoter is Constitutive
+                                    boolean alreadyAssigned = false;
+                                    for(Module pr:prList){
+                                        Component otherprom = Module.getPromInPR(pr);
+                                        Component otherrbs = Module.getRbsInPR(pr);
+                                        CandidateComponent othercc = current.getAssignment().get(otherprom.getName());
+                                        URI otherpromuri = getPRprom(othercc);
+                                        URI otherrbsuri = getPRprom(othercc);
+                                        if(otherpromuri.equals(newpromuri)){
+                                            if(rbs.isGeneric() || newrbsuri.equals(currentrbsuri)){
+                                                nextNode.getAssignment().put(prom.getName(), newcc);
+                                                nextNode.getAssignment().put(rbs.getName(), newcc);
+                                                if (validAssignment(module, nextNode.getAssignment(), lib, stl)) {
+                                                    return nextNode;
+                                                } else {
+                                                    return null;
+                                                }
+                                            } else {
+                                                alreadyAssigned = true;
+                                                
+                                                for(Module alternatepr:prList){
+                                                    Component alternateprom = Module.getPromInPR(alternatepr);
+                                                    Component alternaterbs = Module.getRbsInPR(alternatepr);
+                                                    URI alternatepromcurrenturi = current.getAssignment().get(alternateprom.getName()).getCandidate().getComponentDefintion();
+                                                    boolean alternateExists = false;
+                                                    
+                                                    for(CandidateComponent alternatecc:alternatepr.getCandidates()){
+                                                        URI alternatepromuri = getPRprom(alternatecc);
+                                                        URI alternaterbsuri = getPRrbs(alternatecc);
+                                                        if(alternaterbsuri.equals(currentrbsuri)){
+                                                            if(alternatepromuri.equals(alternatepromcurrenturi)){
+                                                                alternateExists = true;
+                                                                nextNode.getAssignment().put(alternateprom.getName(), alternatecc);
+                                                                nextNode.getAssignment().put(alternaterbs.getName(), alternatecc);
+                                                            }
+                                                        }
+                                                    }
+                                                    
+                                                    if(!alternateExists){
+                                                        return null;
+                                                    }
+                                                    
+                                                }
+                                                
+                                                nextNode.getAssignment().put(prom.getName(), newcc);
+                                                nextNode.getAssignment().put(rbs.getName(), newcc);
+                                                if (validAssignment(module, nextNode.getAssignment(), lib, stl)) {
+                                                    return nextNode;
+                                                } else {
+                                                    return null;
+                                                }
+                                            }
                                         }
                                     }
                                     
-                                    if(candidateSubset.isEmpty()){
-                                        return null;
+                                    if(!alreadyAssigned){
+                                        //Replace any CDS that interacts with this promoter with any outCDS. 
+                                        Map<URI,CandidateComponent> outcdsmap = new HashMap<>();
+                                        for(String key:current.getAssignment().keySet()){
+                                            CandidateComponent outcc = current.getAssignment().get(key);
+                                            if(lib.getOutputCDS().containsKey(outcc.getCandidate().getComponentDefintion())){
+                                                outcdsmap.put(outcc.getCandidate().getComponentDefintion(), outcc);
+                                            }
+                                        }
+                                        List<URI> outcdsurilist = new ArrayList<>(outcdsmap.keySet());
+                                        PromoterComponent promcomp = lib.getAllPromoters().get(currentpromuri);
+                                        
+                                        for(Component c:module.getComponents()){
+                                            boolean regulated = false;
+                                            if(c.isCDS()){
+                                                if(c.isGeneric()){
+                                                    URI cdsprot = ((CDSComponent) current.getAssignment().get(c.getName()).getCandidate()).getProtein();
+                                                    for(LibraryComponent tf:promcomp.getTranscriptionFactors()){
+                                                        if(tf instanceof ComplexComponent){
+                                                            ComplexComponent complex = (ComplexComponent)tf;
+                                                            if(complex.getProtein().equals(cdsprot)){
+                                                                regulated = true;
+                                                            }
+                                                        } else {
+                                                            if(tf.getComponentDefintion().equals(cdsprot)){
+                                                                regulated = true;
+                                                            }
+                                                        }
+                                                    }
+                                                    if(regulated){                                                        
+                                                        nextNode.getAssignment().put(c.getName(), outcdsmap.get(outcdsurilist.get(Utilities.getRandom(0, outcdsurilist.size()-1))) );
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        
+                                        nextNode.getAssignment().put(prom.getName(), newcc);
+                                        nextNode.getAssignment().put(rbs.getName(), newcc);
+                                        if (validAssignment(module, nextNode.getAssignment(), lib, stl)) {
+                                            return nextNode;
+                                        } else {
+                                            return null;
+                                        }
+                                        
+                                    }
+                                    
+                                    //</editor-fold>
+                                } 
+                                else {
+                                    //<editor-fold desc="Current Promoter is Generic. Current Candidate:Inducible. New Candidate:Inducible.">
+                                    //New Promoter is Constitutive
+                                    
+                                    
+                                    
+                                    //</editor-fold>
+                                }
+                            }
+                            
+                        } else {
+                            //Specific prom being swapped.
+                            if(constitutiveCandidate(currentcc,lib)){
+                                //Current promoter is Constitutive
+                                
+                            } else {
+                                //Current promoter is inducible
+                            }
+                        }
+                    } else if(curr.isRBS()){
+                        System.out.println("Swapping an RBS");
+                        List<CandidateComponent> othercandidates = new ArrayList<>(getOtherRBSCandidates(subset.getCandidates(),current.getAssignment().get(curr.getName())).values());
+                        if(curr.isGeneric()){
+                            //<editor-fold desc="Generic RBS">
+                            if(othercandidates.isEmpty()){
+                                return null;
+                            } else {
+                                CandidateComponent newcc = othercandidates.get(Utilities.getRandom(0, othercandidates.size() - 1));
+                                nextNode.getAssignment().put(prom.getName(), newcc);
+                                nextNode.getAssignment().put(rbs.getName(), newcc);
+                                if (validAssignment(module, nextNode.getAssignment(), lib, stl)) {
+                                    return nextNode;
+                                }
+                            }
+                            //</editor-fold>
+                        } else {
+                            //<editor-fold desc="Specific RBS">
+                            if(othercandidates.isEmpty()){
+                                return null;
+                            } else {
+                                CandidateComponent newcc = othercandidates.get(Utilities.getRandom(0, othercandidates.size() - 1));
+                                
+                                URI newpromuri = getPRprom(newcc);
+                                URI newrbsuri = getPRrbs(newcc);
+                                
+                                boolean specificAssigned = false;
+                                boolean alreadyAssigned = false;
+                                for(Module pr:prList){
+                                    Component otherprom = Module.getPromInPR(pr);
+                                    Component otherrbs = Module.getRbsInPR(pr);
+                                    
+                                    CandidateComponent othercc = current.getAssignment().get(otherprom.getName());
+                                    URI otherpromuri = getPRprom(othercc);
+                                    URI otherrbsuri = getPRrbs(othercc);
+                                    
+                                    if(!otherrbs.isGeneric()){
+                                        if(otherrbsuri.equals(newrbsuri)){
+                                            if(!otherrbs.getName().equals(rbs.getName())){
+                                                
+                                                //This check should be redundant.
+                                                specificAssigned = true;
+                                                
+                                                for(CandidateComponent cc:pr.getCandidates()){
+                                                    
+                                                    Component othersubsetprom = Module.getPromInPR(pr);
+                                                    Component othersubsetrbs = Module.getRbsInPR(pr);
+                                                    
+                                                    URI othersubsetpromuri = getPRprom(othercc);
+                                                    URI othersubsetrbsuri = getPRrbs(othercc);
+                                                    if(othersubsetpromuri.equals(otherpromuri)){
+                                                        if(othersubsetrbsuri.equals(currentrbsuri)){
+                                                            
+                                                            alreadyAssigned = true;
+                                                            nextNode.getAssignment().put(othersubsetprom.getName(), cc);
+                                                            nextNode.getAssignment().put(othersubsetrbs.getName(), cc);
+                                                            
+                                                            nextNode.getAssignment().put(prom.getName(), newcc);
+                                                            nextNode.getAssignment().put(rbs.getName(), newcc);
+                                                            if (validAssignment(module, nextNode.getAssignment(), lib, stl)) {
+                                                                return nextNode;
+                                                            }
+                                                                                                                        
+                                                        }
+                                                    }
+                                                    
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
+                                }
+                                
+                                if(specificAssigned){
+                                   return null; 
+                                }
+                                
+                                //This is where you perform a simple swap?
+                                if(!alreadyAssigned){
+                                    nextNode.getAssignment().put(prom.getName(), newcc);
+                                    nextNode.getAssignment().put(rbs.getName(), newcc);
+                                    if (validAssignment(module, nextNode.getAssignment(), lib, stl)) {
+                                        return nextNode;
+                                    }    
+                                }
+                                
+                                
+                            }
+                            //</editor-fold>
+                        }
+                    }
+                    break;
+                case CDS:
+                    if (curr.isGeneric()) {
+                        
+                        //<editor-fold desc="Generic CDS. This can be anything else.">
+                        if (lib.getOutputCDS().containsKey(currlc.getComponentDefintion())) {
+                            System.out.println("Swapping a generic Output CDS");
+                            //This is an output CDS
+                            if (outCount == 1) {
+                                    //if there are other outCDS options then use that. 
+                                    Map<URI,CandidateComponent> otheroptions = getOtherOutputCDSCandidates(subset.getCandidates(),currlc,lib);
+                                    if(!otheroptions.isEmpty()){
+                                        //There is another Output CDS
+                                        List<CandidateComponent> otheroutcdscclist = new ArrayList<>(otheroptions.values());
+                                        CandidateComponent newOutcds = otheroutcdscclist.get(Utilities.getRandom(0, otheroutcdscclist.size()-1));
+                                        for(Component c:module.getComponents()){
+                                            //Ensure that all components that are of type Output CDS now have the new FP CDS.
+                                            if(current.getAssignment().get(c.getName()).getCandidate().getComponentDefintion().equals(currlc.getComponentDefintion())){
+                                                nextNode.getAssignment().put(c.getName(), newOutcds);
+                                            }
+                                        }
+                                        if(validAssignment(module, nextNode.getAssignment(), lib, stl)) {//You probably don't need to check if this node is valid. It should be valid by default.
+                                            return nextNode;
+                                        }
                                     } else {
-                                        newAssignmentTer.put(terComp.getName(), candidateSubset.get(Utilities.getRandom(0,(candidateSubset.size()-1))) );
+                                        for(Module cdsModule:cdsList){
+                                            Component othercdscomp = cdsModule.getComponents().get(0);
+                                            LibraryComponent othercdslc = current.getAssignment().get(othercdscomp.getName()).getCandidate();
+                                            if(othercdscomp.isCDS() && othercdscomp.isGeneric() && (!(othercdslc.getComponentDefintion().equals(currlc.getComponentDefintion()))) ){
+                                                nextNode.getAssignment().put(curr.getName(), current.getAssignment().get(othercdscomp.getName()));
+                                                nextNode.getAssignment().put(othercdscomp.getName(), current.getAssignment().get(curr.getName()));
+                                                if(validAssignment(module,nextNode.getAssignment(),lib,stl)){//You probably don't need to check if this node is valid. It should be valid by default.
+                                                    return nextNode; 
+                                                }
+                                            }
+                                        }
+                                        return null;
+                                    }
+                            } else {
+                                int assignedOutcount = getAssignedOutCDSCount(current.getAssignment(), lib);
+                                //Get set of all assigned outCDS
+                                //if assignedOutcount = 1 -> 
+                                throw new UnsupportedOperationException("Multiple output not supported in Simulated Annealing yet.");
+                            }
+
+                        } else {
+                            //This is a connector CDS
+                            System.out.println("Swapping a generic Connector CDS");
+                            boolean othercompSpecific = false;
+                            for(Module cdsModule:cdsList){
+                                Component c = cdsModule.getComponents().get(0);
+                                if(!c.isGeneric() && (current.getAssignment().get(c.getName()).getCandidate().getComponentDefintion().equals(currlc.getComponentDefintion()))){
+                                    if(!c.getName().equals(curr.getName())){
+                                        othercompSpecific = true;
                                     }
                                 }
                             }
                             
+                            if(othercompSpecific){
+                                //Another component with the same assignment is a specific component
+                                List<CandidateComponent> otherCandidates = new ArrayList<>(getOtherCDSCandidates(subset.getCandidates(),currlc,lib).values());
+                                CandidateComponent newcc = otherCandidates.get(Utilities.getRandom(0, otherCandidates.size()-1));
+                                boolean alreadyAssigned = false;
+                                for (Module cdsModule : cdsList) {
+                                    Component othercomp = cdsModule.getComponents().get(0);
+                                    if (!othercomp.getName().equals(curr.getName())) {
+                                        if (current.getAssignment().get(othercomp.getName()).getCandidate().getComponentDefintion().equals(newcc.getCandidate().getComponentDefintion())) {
+                                            //Already assigned.. 
+                                            alreadyAssigned = true;
+                                            nextNode.getAssignment().put(curr.getName(), newcc);
+                                            nextNode.getAssignment().put(othercomp.getName(), current.getAssignment().get(curr.getName()));
+                                            if (validAssignment(module, nextNode.getAssignment(), lib, stl)) {
+                                                return nextNode;
+                                            }
+                                        }
+                                    }
+                                }
+                                if(!alreadyAssigned){
+                                    return swapPromoter(module, current,nextNode, prList, curr,newcc,lib, stl);
+                                }
+                            } else {
+                                //Free to choose any "other candidate"
+                                List<CandidateComponent> otherCandidates = new ArrayList<>(getOtherCandidates(subset.getCandidates(),currlc).values());
+                                CandidateComponent newcc = otherCandidates.get(Utilities.getRandom(0, otherCandidates.size()-1));
+                                if(lib.getOutputCDS().containsKey(newcc.getCandidate().getComponentDefintion())){
+                                    //New CDS is Output
+                                    for(Module cdsModule:cdsList){
+                                        Component othercomp = cdsModule.getComponents().get(0);
+                                        if(othercomp.isGeneric()){
+                                            if(!othercomp.getName().equals(curr.getName())){
+                                                //The nested if condition makes the current if statement redundant. 
+                                                if (current.getAssignment().get(othercomp.getName()).getCandidate().getComponentDefintion().equals(newcc.getCandidate())) {
+                                                    //New candidate was already assigned elsewhere to another generic cds component. Hence swap them now. 
+                                                    nextNode.getAssignment().put(curr.getName(), newcc);
+                                                    nextNode.getAssignment().put(othercomp.getName(), current.getAssignment().get(curr.getName()));
+                                                    if(validAssignment(module,nextNode.getAssignment(),lib,stl)){
+                                                        return nextNode;
+                                                    }
+                                                }
+                                            }
+                                            
+                                        }
+                                    }
+                                    return null;
+                                } else {
+                                    //New CDS is a connector
+                                    boolean alreadyAssigned = false;
+                                    for(Component othercomp:module.getComponents()){
+                                        if(othercomp.isCDS()){
+                                            if(!othercomp.getName().equals(curr.getName())){
+                                                //This check should be redundant...
+                                                if (current.getAssignment().get(othercomp.getName()).getCandidate().getComponentDefintion().equals(newcc.getCandidate().getComponentDefintion())) {
+                                                    //Already assigned.. 
+                                                    alreadyAssigned = true;
+                                                    LibraryComponent otherlc = current.getAssignment().get(othercomp.getName()).getCandidate();
+                                                    if (othercomp.isGeneric()) {
+                                                        //The other component is Generic
+                                                        nextNode.getAssignment().put(curr.getName(), newcc);
+                                                        nextNode.getAssignment().put(othercomp.getName(), current.getAssignment().get(curr.getName()));
+                                                        if (validAssignment(module, nextNode.getAssignment(), lib, stl)) {
+                                                            return nextNode;
+                                                        }
+                                                    } else {
+                                                        //The other component is Specific
+                                                        if (sameTypeLibraryComponent(otherlc, newcc.getCandidate(), lib)) {
+                                                            //They are both of the same type. Hence swapping is possible. 
+                                                            nextNode.getAssignment().put(curr.getName(), newcc);
+                                                            nextNode.getAssignment().put(othercomp.getName(), current.getAssignment().get(curr.getName()));
+                                                            if (validAssignment(module, nextNode.getAssignment(), lib, stl)) {
+                                                                return nextNode;
+                                                            }
+                                                        } else {
+                                                            return null;
+                                                        }
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if(!alreadyAssigned){
+                                        //Find all promoters that are related and swap them too. 
+                                        return swapPromoter(module, current,nextNode, prList,curr,newcc,lib, stl);
+                                    }
+                                }    
+                                
+                                
+                            }
+                            
+                            
+                        }
+                    //</editor-fold>
+                    } 
+                    else {
+                        //<editor-fold desc="Specific CDS. In this case it has to have a specific role."> 
+                        List<CandidateComponent> othercandidates = new ArrayList<>(getOtherCandidates(subset.getCandidates(),currlc).values());
+                        CandidateComponent newcc = othercandidates.get(Utilities.getRandom(0, othercandidates.size()-1));
+                        boolean alreadyAssigned = false;
+                        if (lib.getOutputCDS().containsKey(currlc.getComponentDefintion())) {
+                            //This is an output CDS
+                            for(Component othercomp:module.getComponents()){
+                                if(othercomp.isCDS()){
+                                    if(!othercomp.getName().equals(curr.getName())){
+                                        if(current.getAssignment().get(othercomp.getName()).getCandidate().getComponentDefintion().equals(newcc.getCandidate().getComponentDefintion())){
+                                            //alreadyAssigned 
+                                            alreadyAssigned = true;
+                                            nextNode.getAssignment().put(othercomp.getName(), current.getAssignment().get(curr.getName()));
+                                            nextNode.getAssignment().put(curr.getName(), newcc);
+                                            if(validAssignment(module,nextNode.getAssignment(),lib,stl)){
+                                                return nextNode;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            if(!alreadyAssigned){
+                                for(Component c:module.getComponents()){
+                                    if(current.getAssignment().get(c.getName()).getCandidate().getComponentDefintion().equals(currlc.getComponentDefintion())){
+                                        nextNode.getAssignment().put(c.getName(), newcc);
+                                    }
+                                }
+                                if(validAssignment(module, nextNode.getAssignment(), lib, stl)) {
+                                    return nextNode;
+                                }
+                            }
+                            
+                            
+                        } else {
+                            //This is a connector CDS
+                            for(Component othercomp:module.getComponents()){
+                                if(othercomp.isCDS()){
+                                    if(!othercomp.getName().equals(curr.getName())){
+                                        if(current.getAssignment().get(othercomp.getName()).getCandidate().getComponentDefintion().equals(newcc.getCandidate().getComponentDefintion())){
+                                            //alreadyAssigned 
+                                            alreadyAssigned = true;
+                                            nextNode.getAssignment().put(othercomp.getName(), current.getAssignment().get(curr.getName()));
+                                            nextNode.getAssignment().put(curr.getName(), newcc);
+                                            if(validAssignment(module,nextNode.getAssignment(),lib,stl)){
+                                                return nextNode;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            if(!alreadyAssigned){
+                                return swapPromoter(module,current,nextNode,prList,curr,newcc,lib,stl);
+                            }
+                        }
+                        //</editor-fold>
+                    }
+                    break;
+                case TERMINATOR:
+                    System.out.println("Swapping Terminator");
+                    if(curr.isGeneric()){
+                        //<editor-fold desc="Generic Terminator">
+                        List<CandidateComponent> othercandidates = new ArrayList<>(getOtherCandidates(subset.getCandidates(), currlc).values());
+                        CandidateComponent newcc = othercandidates.get(Utilities.getRandom(0, othercandidates.size() - 1));
+                        nextNode.getAssignment().put(curr.getName(), newcc);
+                        if(validAssignment(module,nextNode.getAssignment(),lib,stl)){
+                            return nextNode;
+                        }
+                        //</editor-fold>
+                    } else {
+                        //<editor-fold desc="Specific Terminator">
+                        List<CandidateComponent> othercandidates = new ArrayList<>(getOtherCandidates(subset.getCandidates(), currlc).values());
+                        CandidateComponent newcc = othercandidates.get(Utilities.getRandom(0, othercandidates.size() - 1));
+                        boolean alreadyAssigned = false;
+                        for(Component c:module.getComponents()){
+                            if(c.isTerminator()){
+                                if(!c.getName().equals(curr.getName())){
+                                    if(current.getAssignment().get(c.getName()).getCandidate().getComponentDefintion().equals(newcc.getCandidate().getComponentDefintion())){
+                                        alreadyAssigned = true;
+                                        nextNode.getAssignment().put(curr.getName(), newcc);
+                                        nextNode.getAssignment().put(c.getName(), current.getAssignment().get(curr.getName()));
+                                        if (validAssignment(module, nextNode.getAssignment(), lib, stl)) {
+                                            return nextNode;
+                                        }
+                                    }
+                                }
+                            }
                         }
                         
-                        break;
-                    case PROMOTER:
-                        break;
-                    case RBS_CDS:
-                        break;
-                }
+                        if(!alreadyAssigned){
+                            nextNode.getAssignment().put(curr.getName(), newcc);
+                            if (validAssignment(module, nextNode.getAssignment(), lib, stl)) {
+                                return nextNode;
+                            }
+                        }
+                        //</editor-fold>
+                    }
+                    break;
+                case PROMOTER:
+                    break;
+                case RBS_CDS:
+                    break;
             }
             
-            
-            
         } else {
-            //Change the Small Molecule Concentration.
+            //<editor-fold desc="Change the Small Molecule Concentration.">
+            System.out.println("Swapping SM Conc.");
             int smIndex = pos - current.getComponents().size();
             String sm = current.getSmallMolecules().get(smIndex);
             double currentConc = current.getConcs().get(sm);
             
             SmallMoleculeComponent smc = lib.getSmallMolecules().get(current.getSmURImap().get(sm));
+            
+            if(smc.getValues().size() == 1){
+                return null;
+            }
+            
             double newConc = smc.getValues().get(Utilities.getRandom(0, (smc.getValues().size()-1) ));
             while(newConc == currentConc){
                 newConc = smc.getValues().get(Utilities.getRandom(0, (smc.getValues().size()-1) ));
             }
             
             nextNode.changeConc(sm, newConc);
-            
+            return nextNode;
+            //</editor-fold>
         }
         
         
         
         
-        return nextNode;
+        return null;
+    }
+    
+    private static boolean sameTypeLibraryComponent(LibraryComponent lc1, LibraryComponent lc2, Library lib){
+        if(lib.getOutputCDS().containsKey(lc1.getComponentDefintion()) && lib.getOutputCDS().containsKey(lc2.getComponentDefintion())){
+            return true;
+        }
+        if(lib.getActivatingCDS().containsKey(lc1.getComponentDefintion()) && lib.getActivatingCDS().containsKey(lc2.getComponentDefintion())){
+            return true;
+        }
+        if(lib.getRepressingCDS().containsKey(lc1.getComponentDefintion()) && lib.getRepressingCDS().containsKey(lc2.getComponentDefintion())){
+            return true;
+        }
+        
+        return false;
+    }
+    
+    private static int getAssignedOutCDSCount(Map<String,CandidateComponent> assignment, Library lib){
+        int count = 0;
+        for(String key:assignment.keySet()){
+            LibraryComponent lc = assignment.get(key).getCandidate();
+            if(lib.getOutputCDS().containsKey(lc.getComponentDefintion())){
+                count++;
+            }
+        }
+        return count;
     }
     
     private static Set<URI> getAssignmentURIs(Module m, Map<String,CandidateComponent> assignment){
@@ -518,7 +1448,13 @@ public class SimulatedAnnealing extends AbstractAssignment {
         
     }
     
-    
+    public void setCoolingRate(int candidateCount){
+        double runs = candidateCount * 0.05;
+        System.out.println("Estimated Runs :: " + runs);
+        coolingRate = (1 - (Math.pow((1/temperature), (1/runs))));
+        //temperature = 1 /(Math.pow((1 -coolingRate), runs));
+        System.out.println("Cooling Rate :: " + coolingRate);
+    }
     
     private String assignmentToString(Module module, Map<String, CandidateComponent> assignment) {
         String str = "";
@@ -531,203 +1467,5 @@ public class SimulatedAnnealing extends AbstractAssignment {
         return str;
     }
 
-
-    private Map<String, CandidateComponent> generateFirstAssignment(Module module, Library library, TreeNode stl) {
-
-        //Find out all Leaf modules.
-        List<Module> leafModules = new ArrayList<>();
-        for (Module tu : module.getChildren()) {
-            leafModules.addAll(tu.getChildren());
-        }
-        Map<String, CandidateComponent> assignment = new HashMap<>();
-        assignment = getStartingPoint(leafModules, library);
-        int loopCount = 0;
-        while(!validAssignment(module, assignment, library, stl)){
-            assignment = getStartingPoint(leafModules, library);
-            loopCount++;
-        }
-        System.out.println("Had to go through the loop " + loopCount + " times to generate the first assignment.");
-        return assignment;
-        
-    }
-    
-    private Map<String, CandidateComponent> getStartingPoint(List<Module> leafModules, Library library){
-        Map<String, CandidateComponent> assignment = new HashMap<>();
-        
-        for (Module leaf : leafModules) {
-
-            CandidateComponent cc = null;
-
-            //<editor-fold desc="Assign CandidateComponent for Promoter_RBS">
-            if (leaf.getRole().equals(ModuleRole.PROMOTER_RBS)) {
-                Component prom = Module.getPromInPR(leaf);
-                Component rbs = Module.getRbsInPR(leaf);
-
-                if (assignment.containsKey(prom.getName())) {
-                    if (assignment.containsKey(rbs.getName())) {
-                        continue;
-                    } else {
-                        //Contains Prom & Does not contain RBS
-                        CandidateComponent promcand = assignment.get(prom.getName());
-                        URI promuri = getPRprom(promcand);
-                        List<CandidateComponent> subset = new ArrayList<>();
-                        for (CandidateComponent cand : leaf.getCandidates()) {
-                            if (promuri.equals(getPRprom(cand))) {
-                                subset.add(cand);
-                            }
-                        }
-                        cc = subset.get(Utilities.getRandom(0, subset.size() - 1));
-                    }
-                } else {
-                    if (assignment.containsKey(rbs.getName())) {
-                        //Does not contain Prom & Contains RBS
-                        CandidateComponent rbscand = assignment.get(rbs.getName());
-                        URI rbsuri = getPRrbs(rbscand);
-                        //System.out.println("RBS URI : " + rbsuri);
-                        List<CandidateComponent> subset = new ArrayList<>();
-                        for (CandidateComponent cand : leaf.getCandidates()) {
-                            if (rbsuri.equals(getPRrbs(cand))) {
-                                subset.add(cand);
-                            }
-                        }
-                        cc = subset.get(Utilities.getRandom(0, subset.size() - 1));
-
-                    } else {
-                        //Does not contain Prom & Does not contain RBS
-                        cc = leaf.getCandidates().get(Utilities.getRandom(0, leaf.getCandidates().size() - 1));
-
-                    }
-                }
-
-                assignment.put(prom.getName(), cc);
-                assignment.put(rbs.getName(), cc);
-            } 
-            //</editor-fold>
-            
-            //<editor-fold desc="Assign CandidateComponent for Promoter - Do this later">
-            else if (leaf.getRole().equals(ModuleRole.PROMOTER)) {
-                cc = leaf.getCandidates().get(Utilities.getRandom(0, leaf.getCandidates().size() - 1));
-                Component prom = leaf.getComponents().get(0);
-
-                //Do this later..
-                assignment.put(prom.getName(), cc);
-            } 
-            //</editor-fold>
-            
-            //<editor-fold desc="Assign CandidateComponent for Terminator">
-            else if (leaf.getRole().equals(ModuleRole.TERMINATOR)) {
-                Component ter = leaf.getComponents().get(0);
-                cc = leaf.getCandidates().get(Utilities.getRandom(0, leaf.getCandidates().size() - 1));
-                assignment.put(ter.getName(), cc);
-            }
-            //</editor-fold>
-
-        }
-
-        for (Module leaf : leafModules) {
-
-            CandidateComponent cc = null;
-
-            //<editor-fold desc="Assign CandidateComponent for CDS">
-            if (leaf.getRole().equals(ModuleRole.CDS)) {
-                Component cds = leaf.getComponents().get(0);
-                if (assignment.containsKey(cds.getName())) {
-                    continue;
-                }
-                if (!cds.getInteractions().isEmpty()) {
-                    List<CandidateComponent> subset = new ArrayList<>();
-                    boolean toAssigned = false;
-                    for(Interaction i:cds.getInteractions()){
-                        Component to = i.getTo();
-                        if(assignment.containsKey(to.getName())){
-                            toAssigned = true;
-                            CandidateComponent promCandidate = assignment.get(to.getName());
-                            PromoterComponent promcomp = null;
-                            if(promCandidate.getCandidate() instanceof CompositeComponent){
-                                CompositeComponent composite = (CompositeComponent)promCandidate.getCandidate();
-                                promcomp  =  (PromoterComponent)library.getAllLibraryComponents().get(composite.getChildren().get(0));
-                                
-                            } else if(promCandidate.getCandidate() instanceof PromoterComponent){
-                                promcomp = (PromoterComponent)promCandidate.getCandidate();
-                            }
-                            for(LibraryComponent tf: promcomp.getTranscriptionFactors()){
-                                URI promprot = null;
-                                if(tf instanceof PrimitiveComponent){
-                                    promprot = tf.getComponentDefintion();
-                                } else if(tf instanceof ComplexComponent){
-                                    ComplexComponent complex = (ComplexComponent)tf;
-                                    promprot = complex.getProtein();
-                                }
-                                
-                                for(CandidateComponent cdscand:leaf.getCandidates()){
-                                    CDSComponent cdscomp = (CDSComponent)cdscand.getCandidate();
-                                    if(cdscomp.getProtein().equals(promprot)){
-                                        if(!subset.contains(cdscand)){
-                                            subset.add(cdscand);
-                                        }
-                                    }
-                                }
-                                
-                                
-                            }
-                            
-                            
-                        }
-                    }
-                    if(toAssigned){
-                        if(subset.isEmpty()){
-                            cc = leaf.getCandidates().get(Utilities.getRandom(0, leaf.getCandidates().size() - 1));
-                            System.out.println("Probably going to fail anyway. Will this happen though?");
-                        } else {
-                            cc = subset.get(Utilities.getRandom(0, subset.size() - 1));
-                        }
-                    } else {
-                        cc = leaf.getCandidates().get(Utilities.getRandom(0, leaf.getCandidates().size() - 1));
-                    }
-                    
-                } else {
-                    cc = leaf.getCandidates().get(Utilities.getRandom(0, leaf.getCandidates().size() - 1));
-                }
-                assignment.put(cds.getName(), cc);
-            } //</editor-fold>
-            
-            //<editor-fold desc="Assign CandidateComponent for RBS_CDS - Do this later">
-            else if (leaf.getRole().equals(ModuleRole.RBS_CDS)) {
-                cc = leaf.getCandidates().get(Utilities.getRandom(0, leaf.getCandidates().size() - 1));
-
-                Component rbs = Module.getRbsInRC(leaf);
-                Component cds = Module.getCDSInRC(leaf);
-                assignment.put(rbs.getName(), cc);
-                assignment.put(cds.getName(), cc);
-            }
-            //</editor-fold>
-
-        }
-
-        return assignment;
-    }
-
-    
-    private static URI getPRprom(CandidateComponent cc) {
-        CompositeComponent compcomp = (CompositeComponent) cc.getCandidate();
-        return compcomp.getChildren().get(0);
-    }
-    
-    private static URI getPRrbs(CandidateComponent cc) {
-        CompositeComponent compcomp = (CompositeComponent) cc.getCandidate();
-        return compcomp.getChildren().get(1);
-    }
-
-    
-    
-    private static URI getRCrbs(CandidateComponent cc) {
-        CompositeComponent compcomp = (CompositeComponent) cc.getCandidate();
-        return compcomp.getChildren().get(0);
-    }
-
-    private static URI getRCcds(CandidateComponent cc) {
-        CompositeComponent compcomp = (CompositeComponent) cc.getCandidate();
-        return compcomp.getChildren().get(1);
-    }
 
 }

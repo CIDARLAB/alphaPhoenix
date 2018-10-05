@@ -16,6 +16,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.cidarlab.gridtli.dom.Point;
+import org.cidarlab.gridtli.dom.Signal;
+import org.cidarlab.gridtli.dom.TLIException;
 import org.cidarlab.phoenix.adaptors.SBMLAdaptor;
 import org.cidarlab.phoenix.adaptors.SynbiohubAdaptor;
 import org.cidarlab.phoenix.core.Controller;
@@ -58,6 +61,18 @@ public abstract class AbstractSimulation {
         System.out.println("");
     }
     
+    public static Signal getSteadyState(Signal signal) throws TLIException{
+        List<Point> points = new ArrayList<>();
+        
+        double steadyState = 600;
+        for(Point p:signal.getPoints()){
+            if(p.getX() >= 600){
+                points.add(new Point(p.getX()-steadyState, p.getXSignal(), p.getY(), p.getYSignal()));
+            }
+        }
+        return new Signal(points);
+               
+    }
     
     public static Map<URI,SBMLDocument> downloadAllModels(Library library, String fp) throws URISyntaxException, MalformedURLException{
         Map<URI,SBMLDocument> modelmap = new HashMap<>();
