@@ -38,6 +38,26 @@ public abstract class AbstractAssignment {
     
     //abstract public void solve(List<Module> modules, Library library, TreeNode stl, Args args);
     
+    protected static boolean regulated(PromoterComponent promcomp, CDSComponent cdscomp){
+        
+        URI cdsprot = cdscomp.getProtein();
+        for(LibraryComponent tf:promcomp.getTranscriptionFactors()){
+            if(tf instanceof ComplexComponent){
+                ComplexComponent complex = (ComplexComponent)tf;
+                if(complex.getProtein().equals(cdsprot)){
+                    return true;
+                }
+                
+            } else {
+                if(tf.getComponentDefintion().equals(cdsprot)){
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
     protected static boolean constitutiveCandidate(CandidateComponent cc, Library lib){
         URI promuri = getPRprom(cc);
         URI rbsuri = getPRrbs(cc);
