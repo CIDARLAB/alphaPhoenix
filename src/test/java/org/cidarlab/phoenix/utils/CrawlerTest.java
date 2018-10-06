@@ -43,16 +43,16 @@ public class CrawlerTest {
     private final static String threeTUfp = baseResultsfp + "3tu" + Utilities.getSeparater() + "allRuns" + Utilities.getSeparater();
     private final static String pulsefp = basePulsefp  + "allRuns" + Utilities.getSeparater();
     
-    private final static String oneTUdetfp = oneTUfp + "DeterministicRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
+    public final static String oneTUdetfp = oneTUfp + "DeterministicRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
     private final static String oneTUstofp = oneTUfp + "StochasticRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
     
-    private final static String twoTUdetfp = twoTUfp + "DeterministicRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
+    public final static String twoTUdetfp = twoTUfp + "DeterministicRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
     private final static String twoTUstofp = twoTUfp + "StochasticRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
     
-    private final static String threeTUdetfp = threeTUfp + "DeterministicRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
+    public final static String threeTUdetfp = threeTUfp + "DeterministicRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
     private final static String threeTUstofp = threeTUfp + "StochasticRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
     
-    private final static String pulsedetfp = pulsefp + "DeterministicRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
+    public final static String pulsedetfp = pulsefp + "DeterministicRed0" + Utilities.getSeparater() + "0" + Utilities.getSeparater();
     
     
     private static Map<Integer, String> onetudet;

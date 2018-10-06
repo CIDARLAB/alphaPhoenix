@@ -261,12 +261,13 @@ public class AssignmentNode {
     public double robustness(Module module, TreeNode stl, Library library, Map<URI,SBMLDocument> modelmap, Args.Decomposition decomposition, String fp) throws URISyntaxException, MalformedURLException, XMLStreamException, FileNotFoundException, IOException, TLIException{
         double rob = 0.0;
         
-        double maxtime = STLAdaptor.getMaxTime(stl);
+        double stlmaxtime = (STLAdaptor.getMaxTime(stl));
+        double maxtime = stlmaxtime + 600;
         
         AbstractSimulation.assignLeafModels(module, assignment, library.getSbol(), modelmap, decomposition);
         AbstractSimulation.renameSpecies(module, ioc, library, decomposition);
         AbstractSimulation.composeModels(module, decomposition);
-            
+        
         SBMLDocument sbml = new SBMLDocument(module.getModel().getSbml());
         SBMLWriter writer = new SBMLWriter();
         String modelFile = fp + "model.xml";
@@ -283,7 +284,7 @@ public class AssignmentNode {
         
         for (String key : stlmap.keySet()) {
             if (signalMap.containsKey(key)) {
-                Signal s = signalMap.get(key);
+                Signal s = AbstractSimulation.getSteadyState(signalMap.get(key));
                 if (!allsignals.containsKey(key)) {
                     allsignals.put(key, s);
                 }
@@ -291,18 +292,26 @@ public class AssignmentNode {
         }
         
         List<String> signalList = new ArrayList<>(allsignals.keySet());
-        Signal s = getSteadyState(allsignals.get(signalList.get(0)));
+        Signal s = allsignals.get(signalList.get(0));
         rob = STLAdaptor.getRobustness(stl, s, 0);
                 //signalRobustness(stl,));
         
         for(int i=1;i<signalList.size();i++){
             //double currentRob = STLAdaptor.signalRobustness(stl,allsignals.get(signalList.get(i)));
-            s = getSteadyState(allsignals.get(signalList.get(i)));
+            s = allsignals.get(signalList.get(i));
             double currentRob = STLAdaptor.getRobustness(stl, s, 0);
             if(currentRob < rob){
                 rob = currentRob;
             }
         }
+        
+        for (String key : allsignals.keySet()) {
+            List<Signal> writesignals = new ArrayList<>();
+            writesignals.add(allsignals.get(key));
+            Utilities.writeSignalsToCSV(writesignals, fp + key + ".csv");
+        }
+        
+        
         return rob;
     }
     

@@ -34,23 +34,25 @@ public class Circuit3tuTest {
     
     private static final String three_tuFP = sampleCircuitsFP + "3tu" + Utilities.getSeparater();
     
-    private static final String three_tu_results = three_tuFP + "allRuns" + Utilities.getSeparater();
+    private static final String three_tu_results = three_tuFP + "allRuns" + Utilities.getSeparater()+ "saTest" + Utilities.getSeparater();
     
     private static final String three_tu_eug = three_tuFP + "tripleTU.eug";
     private static final String three_tu_stl = three_tuFP + "stl.txt";
     
     private static final int runCount = 20;
     
+    private static final int threads = 20;
+    
     public void testSimulatedAnnealing() throws URISyntaxException, SBOLValidationException, SynBioHubException, MalformedURLException {
+        
+        Utilities.makeDirectory(three_tu_results);
         
         int size = 12;
         
-        List<Module> modules = MiniEugeneAdaptor.getStructures(three_tu_eug, size, "inverter");
-        System.out.println("Number of modules : " + modules.size());
+        SimulatedAnnealing sa;
+        
+        
         TreeNode stl = STLAdaptor.getSTL(three_tu_stl);
-        Args args = new Args(Args.Decomposition.PR_C_T, Args.Simulation.STOCHASTIC, runCount, 0.99, 0.5, Args.Assignment.SIMULATED_ANNEALING);
-        args.setProjectFolder(three_tu_results);
-        SimulatedAnnealing sa = new SimulatedAnnealing();
         
         String synbiohuburl = "https://synbiohub.programmingbiology.org";
         String phoenixliburl = "https://synbiohub.programmingbiology.org/public/PhoenixParts/PhoenixParts_collection/1";
@@ -60,13 +62,28 @@ public class Circuit3tuTest {
         SBOLDocument sbol = shub.getSBOL(u);
         Library lib = new Library(sbol, Args.Decomposition.PR_C_T,three_tu_results);
         
-        List<Module> decomposed = new ArrayList<>();
+        List<Module> modules;
+        List<Module> decomposed;
         
-        for(Module m:modules){
-            decomposed.add(Controller.decompose(m, Args.Decomposition.PR_C_T));
+        
+        
+        for(int i=0;i<threads;i++){
+            
+            Args args = new Args(Args.Decomposition.PR_C_T, Args.Simulation.STOCHASTIC, runCount, 0.99, 0.5, Args.Assignment.SIMULATED_ANNEALING);
+        
+            String iterationfp = three_tu_results + "iteration" + i + Utilities.getSeparater();
+            Utilities.makeDirectory(iterationfp);
+            args.setProjectFolder(iterationfp);
+            
+            modules = MiniEugeneAdaptor.getStructures(three_tu_eug, size, "threetu");
+            decomposed = new ArrayList<>();
+            for (Module m : modules) {
+                decomposed.add(Controller.decompose(m, Args.Decomposition.PR_C_T));
+            }
+            
+            sa = new SimulatedAnnealing();
+            sa.solve(decomposed, lib, stl, args);
         }
-        
-        sa.solve(decomposed, lib, stl, args);
         
     }
     
