@@ -246,7 +246,7 @@ public class CaseStudy {
         
         CrawlerTest ct = new CrawlerTest();
         
-        int threads = 3;
+        int threads = 1;
         int runCount = 20;
         
         String caseStudyfp = Utilities.getLibFilepath() + "caseStudy" + Utilities.getSeparater();
@@ -375,7 +375,7 @@ public class CaseStudy {
                 
                 lines.add(x);
                 lines.add(y);
-                lines.add("plt.plot(sx" + filecount + ",sy" + filecount +  ",color='#0000FF',linestyle='solid')");
+                lines.add("plt.plot(sx" + filecount + ",sy" + filecount +  ", linewidth=0.5, color='#0000FF',linestyle='solid')");
                 
                 filecount++;
             }
