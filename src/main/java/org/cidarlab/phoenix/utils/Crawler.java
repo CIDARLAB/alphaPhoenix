@@ -125,9 +125,6 @@ public class Crawler {
         File[] filelist = root.listFiles();
         
         for(File f:filelist){
-            List<TreeNode> stlList = new ArrayList<TreeNode>();
-            List<TreeNode> steadystlList = new ArrayList<TreeNode>();
-            
             String fp = f.getAbsolutePath();
             if(!fp.endsWith("" + Utilities.getSeparater())){
                 fp += Utilities.getSeparater();

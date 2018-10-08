@@ -251,7 +251,7 @@ public class SimulatedAnnealingTest {
      * Test of solve method, of class SimulatedAnnealing.
      */
     
-    @Test
+    
     public void testSolve() {
         
         System.out.println("########################################################");
@@ -333,6 +333,7 @@ public class SimulatedAnnealingTest {
      * Test of local Solve method, of class SimulatedAnnealing.
      */
     //@Test
+    /*
     public void testLocalSolve() {
         
         System.out.println("########################################################");
@@ -388,9 +389,6 @@ public class SimulatedAnnealingTest {
         
         System.out.println("");
         
-        /*for(Component c:pulse.get(0).getComponents()){
-            System.out.println(c.getName() +  ":" + c.getRole());
-        }*/
         System.out.println("########################################################");
         System.out.println("Pulse - Library-----------------------------------------");
         System.out.println("########################################################");
@@ -401,9 +399,8 @@ public class SimulatedAnnealingTest {
         
         
     }
+    */
     
-    
-    //@Test
     public void testAcceptanceProbability(){
         double t0 = 1;
         double t1 = 10;
@@ -495,6 +492,13 @@ public class SimulatedAnnealingTest {
         System.out.println("###############################");
         
         
+    }
+    
+    
+    public static void main(String[] args) {
+        SimulatedAnnealingTest sa = new SimulatedAnnealingTest();
+        sa.testAcceptanceProbability();
+        sa.testSolve();
     }
     
 }

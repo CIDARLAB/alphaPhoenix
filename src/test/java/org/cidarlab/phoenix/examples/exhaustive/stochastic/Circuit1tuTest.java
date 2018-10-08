@@ -76,7 +76,7 @@ public class Circuit1tuTest {
     
     
     @Test
-    public void testDecomposeTest(){
+    public void decomposeTest(){
         int size = 4;
         List<Module> modules = MiniEugeneAdaptor.getStructures(one_tu_eug, size, "inverter");
         Module module = modules.get(0);
@@ -108,7 +108,6 @@ public class Circuit1tuTest {
         
     }
     
-    @Test
     public void testExhaustiveAssignment() throws URISyntaxException, SBOLValidationException, SynBioHubException, MalformedURLException, XMLStreamException, IOException, FileNotFoundException, TLIException, InterruptedException {
         
         int size = 4;
@@ -150,4 +149,10 @@ public class Circuit1tuTest {
         System.out.println("Final Number of assignments  :: " + m1.getAssignments().size());
         
     }
+    
+    public static void main(String[] args) throws URISyntaxException, SBOLValidationException, SynBioHubException, XMLStreamException, IOException, MalformedURLException, FileNotFoundException, TLIException, InterruptedException {
+        Circuit1tuTest circ = new Circuit1tuTest();
+        circ.testExhaustiveAssignment();
+    }
+    
 }

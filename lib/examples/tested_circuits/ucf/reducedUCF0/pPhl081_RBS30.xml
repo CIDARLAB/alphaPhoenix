@@ -41,10 +41,10 @@
             </apply>
           </math>
                   <listOfLocalParameters>
-            <localParameter id="max" name="max" value="8.513"/>
-            <localParameter id="basal" name="basal" value="0.898"/>
-            <localParameter id="K_d" name="K_d" value="8.624"/>
-            <localParameter id="n" name="n" value="1.149"/>
+            <localParameter id="max" name="max" value="928.567"/>
+            <localParameter id="basal" name="basal" value="0.969"/>
+            <localParameter id="K_d" name="K_d" value="57.191"/>
+            <localParameter id="n" name="n" value="1.337"/>
           </listOfLocalParameters>
         </kineticLaw>
       </reaction>

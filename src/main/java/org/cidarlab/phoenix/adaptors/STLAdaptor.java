@@ -356,6 +356,7 @@ public class STLAdaptor {
         return smc;
     }
     
+    /*
     public static double getRobustness(TreeNode stl,String filepath, String result, boolean plot) throws TLIException{
         Map<String,TreeNode> stlmap = getSignalSTLMap(stl);
         Map<String,Signal> signalMap = IBioSimAdaptor.getSignals(filepath);
@@ -393,7 +394,7 @@ public class STLAdaptor {
         }
         return rob;
     }
-    
+    */
     public static List<Signal> getSignalsFromFile(String filepath) throws TLIException{
         String filename = FilenameUtils.getName(filepath);
         String ext = FilenameUtils.getExtension(filename);
@@ -498,7 +499,7 @@ public class STLAdaptor {
             r = getRobustness(an.child,s,timePoints.get(0));
             for(int i=1;i<timePoints.size();i++){
                 double val = getRobustness(an.child,s,timePoints.get(i));
-                if(r <  val){
+                if(val <  r){
                     r = val;
                 }
             }
@@ -511,7 +512,7 @@ public class STLAdaptor {
             r = getRobustness(en.child,s,timePoints.get(0));
             for(int i=1;i<timePoints.size();i++){
                 double val = getRobustness(en.child,s,timePoints.get(i));
-                if(r >  val){
+                if(val >  r){
                     r = val;
                 }
             }

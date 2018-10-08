@@ -46,20 +46,14 @@ public class SBOLAdaptorTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of writeCircuitSBOL method, of class SBOLAdaptor.
-     */
-    @Test
-    public void testWriteCircuitSBOL() {
-    }
-
+    
     /**
      * Test of convertUCFtoSBOL method, of class SBOLAdaptor.
      * @throws org.sbolstandard.core2.SBOLValidationException
      * @throws java.net.URISyntaxException
      */
-    @Test
-    public void testConvertSampleUCFtoSBOL() throws SBOLValidationException, URISyntaxException, IOException, SBOLConversionException, FileNotFoundException, XMLStreamException {
+    
+    public static void testConvertSampleUCFtoSBOL() throws SBOLValidationException, URISyntaxException, IOException, SBOLConversionException, FileNotFoundException, XMLStreamException {
         String ucfFP = Utilities.getTestedCircuitsFilepath() + "ucf" + Utilities.getSeparater() +  "sampleUCF.json";
         String outputfp = Utilities.getTestedCircuitsFilepath() + "ucf" + Utilities.getSeparater() + "sampleUCF" + Utilities.getSeparater();
         JSONObject ucf = new JSONObject(Utilities.getFileContentAsString(ucfFP)); 
@@ -72,8 +66,7 @@ public class SBOLAdaptorTest {
      * @throws org.sbolstandard.core2.SBOLValidationException
      * @throws java.net.URISyntaxException
      */
-    @Test
-    public void testConvertUCFtoSBOL() throws SBOLValidationException, URISyntaxException, IOException, SBOLConversionException, FileNotFoundException, XMLStreamException {
+    public static void testConvertUCFtoSBOL() throws SBOLValidationException, URISyntaxException, IOException, SBOLConversionException, FileNotFoundException, XMLStreamException {
         String ucfFP = Utilities.getTestedCircuitsFilepath() + "ucf" + Utilities.getSeparater() +  "ucf.json";
         String outputfp = Utilities.getTestedCircuitsFilepath() + "ucf" + Utilities.getSeparater() + "ucf" + Utilities.getSeparater();
         JSONObject ucf = new JSONObject(Utilities.getFileContentAsString(ucfFP)); 
@@ -81,34 +74,17 @@ public class SBOLAdaptorTest {
     }
     
     
-    @Test
-    public void testConvertReduced0toSBOL() throws SBOLValidationException, URISyntaxException, IOException, SBOLConversionException, FileNotFoundException, XMLStreamException {
+    public static void testConvertReduced0toSBOL() throws SBOLValidationException, URISyntaxException, IOException, SBOLConversionException, FileNotFoundException, XMLStreamException {
         String ucfFP = Utilities.getTestedCircuitsFilepath() + "ucf" + Utilities.getSeparater() +  "reducedUCF0.json";
         String outputfp = Utilities.getTestedCircuitsFilepath() + "ucf" + Utilities.getSeparater() + "reducedUCF0" + Utilities.getSeparater();
         JSONObject ucf = new JSONObject(Utilities.getFileContentAsString(ucfFP)); 
         SBOLDocument doc = SBOLAdaptor.convertUCFtoSBOL(ucf,outputfp);
     }
     
-    static final String AB = "ATGC";
-    static SecureRandom rnd = new SecureRandom();
-
-    private static String randomString(int len) {
-        StringBuilder sb = new StringBuilder(len);
-        for (int i = 0; i < len; i++) {
-            sb.append(AB.charAt(rnd.nextInt(AB.length())));
-        }
-        return sb.toString();
-    }
-    
-    //@Test
-    public void testCreateRandomSequences(){
-        int maxlen = 12;
-        for(int i=0;i<20;i++){
-            String seq = randomString(rnd.nextInt(maxlen));
-            while(seq.length() < 10){
-                seq = randomString(rnd.nextInt(maxlen));
-            }
-            System.out.println(seq);
-        }
+    public static void main(String[] args) throws SBOLValidationException, URISyntaxException, IOException, SBOLConversionException, FileNotFoundException, XMLStreamException {
+        
+        testConvertSampleUCFtoSBOL();
+        testConvertUCFtoSBOL();
+        testConvertReduced0toSBOL();
     }
 }

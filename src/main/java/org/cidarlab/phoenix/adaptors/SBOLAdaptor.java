@@ -71,11 +71,10 @@ public class SBOLAdaptor {
     private static final String sbmlO = "http://identifiers.org/edam/format_2585";
     private static final String frameworkSBO = "http://www.ebi.ac.uk/sbo/main/SBO:0000062";
     
-    private static String provNS = "http://www.w3.org/ns/prov#";	
-    private static String dcNS = "http://purl.org/dc/elements/1.1/";
-    private static String dcTermsNS = "http://purl.org/dc/terms/";
-    private static String celloNS = "http://cellocad.org/Terms/cello#";
-
+    private static final String provNS = "http://www.w3.org/ns/prov#";	
+    private static final String dcNS = "http://purl.org/dc/elements/1.1/";
+    private static final String dcTermsNS = "http://purl.org/dc/terms/";
+    
     private static URI activityURI;
     private static String createdDate;
 

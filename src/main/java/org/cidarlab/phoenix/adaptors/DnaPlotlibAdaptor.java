@@ -162,6 +162,7 @@ public class DnaPlotlibAdaptor {
         
         int maxArcs = 0;
         
+        List<String> cdsNames = new ArrayList<>();
         for(Component c:m.getComponents()){
             if (c.isCDS()) {
                 int iCount = 0;
@@ -169,9 +170,11 @@ public class DnaPlotlibAdaptor {
                     if(p.isPromoter()){
                         if (ioc.containsKey(c.getName()) && ioc.containsKey(p.getName())) {
                             if (ioc.get(c.getName()).equals(ioc.get(p.getName()))) {
+                                cdsNames.add(c.getName());
+                                iCount = (cdsNames.size() -1);
                                 double arcHeight = 20.0 + (5 * iCount);
                                 arcName = "reg" + arcCount++;
-                                iCount++;
+                                //iCount++;
                                 scr += arcName + " = " + createArcString(partNameMap.get(c.getName()), partNameMap.get(p.getName()), getInteractionType(assignment.get(p.getName()).getCandidate(),library), arcHeight) + "\n";
                                 arcList.add(arcName);
                             }
@@ -179,11 +182,12 @@ public class DnaPlotlibAdaptor {
                         
                     }
                 }
-                if(iCount > maxArcs){
+                /*if(iCount > maxArcs){
                     maxArcs = iCount;
-                }
+                }*/
             }
         }
+        maxArcs = cdsNames.size();
         if(!arcList.isEmpty()){
             regString += arcList.get(0);
             for(int i=1;i<arcCount;i++){
@@ -217,7 +221,7 @@ public class DnaPlotlibAdaptor {
                "ax_dna.set_aspect('equal')\n" +
                "ax_dna.axis('off')\n\n";
         
-        scr += "fig.savefig('" + filename + ".png', dpi=300)\n" +
+        scr += "fig.savefig('" + filename + ".png', dpi=1200)\n" +
                "plt.close('all')";
         
         
@@ -637,11 +641,11 @@ public class DnaPlotlibAdaptor {
             case CDS:
             case CDS_REPRESSOR:
             case CDS_ACTIVATOR:
-            case CDS_LINKER:
-            case CDS_TAG:
-            case CDS_RESISTANCE:
+            //case CDS_LINKER:
+            //case CDS_TAG:
+            //case CDS_RESISTANCE:
             case CDS_FLUORESCENT:
-            case CDS_FLUORESCENT_FUSION:
+            //case CDS_FLUORESCENT_FUSION:
                 return 'c';
             case GENERIC_TERMINATOR:
             case TERMINATOR:
@@ -657,37 +661,6 @@ public class DnaPlotlibAdaptor {
         }
     }
     
-    public static void runScript(String filepath) throws InterruptedException, IOException{
-        //System.out.println("Running python script for : " + filepath);
-        StringBuilder commandBuilder = null;
-        if(Utilities.isLinux()){
-            commandBuilder = new StringBuilder("/usr/bin/python " + filepath);
-        } 
-        else {
-            commandBuilder = new StringBuilder("python \"" + filepath + "\"");
-            //System.out.println("Not supported yet. Program exiting");
-            //System.exit(-1);
-        }
-        String[] clist = new String[2];
-        String command = commandBuilder.toString();
-        //clist[0] = ("cd " + Utilities.getFilepath() + "lib" + Utilities.getSeparater() + "dnaFigures" + Utilities.getSeparater() + "plots" + Utilities.getSeparater());
-        //clist[1] = (command);
-        clist[0] = command;
-        Runtime runtime = Runtime.getRuntime();
-        Process proc = null;
-        proc = runtime.exec(command);
-        proc.waitFor();
-        
-        InputStream is = proc.getInputStream();
-        InputStream es = proc.getErrorStream();
-        OutputStream os = proc.getOutputStream();
-        is.close();
-        es.close();
-        os.close();
-        
-        
-        //System.out.println("Script completed.");
-    }
     
     
     public static void runWebAppScript(String filepath) throws InterruptedException, IOException{

@@ -54,10 +54,6 @@ public class Module {
     
     @Getter
     @Setter
-    private Module parent; //Should this be a list as well?
-    
-    @Getter
-    @Setter
     private List<Component> components = new ArrayList<>();
         
     @Getter

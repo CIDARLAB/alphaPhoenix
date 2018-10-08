@@ -17,7 +17,7 @@ import lombok.Getter;
 public class PromoterComponent extends LibraryComponent{
     
     @Getter
-    List<LibraryComponent> transcriptionFactors;
+    private List<LibraryComponent> transcriptionFactors;
     
     public PromoterComponent(String _name, String _displayId, URI _cd) {
         this.name = _name;
