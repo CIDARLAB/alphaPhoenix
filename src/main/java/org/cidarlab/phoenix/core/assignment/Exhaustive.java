@@ -18,8 +18,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.stream.XMLStreamException;
 import org.cidarlab.gridtli.dom.TLIException;
 import org.cidarlab.phoenix.dom.AssignmentNode;
@@ -47,7 +45,7 @@ public class Exhaustive extends AbstractAssignment {
     //@Override
     public List<AssignmentNode> solve(List<Module> modules, Library library, TreeNode stl, Args args) throws URISyntaxException, XMLStreamException, FileNotFoundException, IOException, MalformedURLException, TLIException, InterruptedException {
         
-        String jobfp = args.getProjectFolder() + "DeterministicRed0" + Utilities.getSeparater();
+        String jobfp = args.getProjectFolder() + "results" + Utilities.getSeparater();
         Utilities.makeDirectory(jobfp);
         
         for(Module m:modules){
