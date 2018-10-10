@@ -14,6 +14,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.stream.XMLStreamException;
 import org.apache.commons.io.FileUtils;
@@ -575,18 +577,22 @@ public class MainController {
         Session session = Session.findByCredentials(sessionId, token);
         if(session != null) {
             User user = Session.getUser(session);
-            
-            PrintWriter writer;
+
+            ZipOutputStream zipOutputStream;
+            response.setStatus(HttpServletResponse.SC_OK);
             try {
                 response.setStatus(HttpServletResponse.SC_OK);
-                writer = response.getWriter();
+                zipOutputStream = new ZipOutputStream(response.getOutputStream());
                 String zipfp = PhoenixProject.downloadAssignment(user.getId().toString(), projectId, moduleId, assignmentId);
-                
-                response.setStatus(HttpServletResponse.SC_OK);
-                InputStream in = new FileInputStream(new File(zipfp));
-                IOUtils.copy(in, response.getOutputStream());
-                
-                writer.flush();
+                File file = new File(zipfp);
+                zipOutputStream.putNextEntry(new ZipEntry(file.getName()));
+                FileInputStream fileInputStream = new FileInputStream(file);
+
+                IOUtils.copy(fileInputStream, zipOutputStream);
+                fileInputStream.close();
+                zipOutputStream.closeEntry();
+
+                zipOutputStream.close();
             } catch (IOException ex) {
                 response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
                 Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
