@@ -315,7 +315,7 @@ public class AnalyticsTest {
                     }
                 }
             }
-            
+            found = true;
             if(found){
                 System.out.println("Concave :: " + tu + " :: " + f.getName());
                 
@@ -374,7 +374,7 @@ public class AnalyticsTest {
         File[] pulselist = (new File(pulseresults)).listFiles();
         printConcaves(pulseconcavefp, "pulse",pulselist);
         
-        copySimulations();
+        //copySimulations();
         
         //analytics.findConcaves();
     }

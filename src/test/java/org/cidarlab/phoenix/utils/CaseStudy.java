@@ -66,8 +66,11 @@ public class CaseStudy {
         //caseStudyPulse();
         
         
-        caseStudySimulatedAnnealing("twoTU");
+        //caseStudySimulatedAnnealing("twoTU");
         //caseStudySimulatedAnnealing("threeTU");
+        
+        CrawlerTest ct = new CrawlerTest();
+        
         
     }
     
@@ -179,6 +182,9 @@ public class CaseStudy {
         stlplot.addAll(alwaysPlotScript(new AlwaysNode(end,240,300),1));
         
         ConjunctionNode stl = new ConjunctionNode(start,en);
+        
+        Utilities.writeToFile(pulsefp + "stl.txt", stl.toString());
+                
         
         ct.getSTLScores(pulsefp, stl, stlplot,0,300,0,5000);
         

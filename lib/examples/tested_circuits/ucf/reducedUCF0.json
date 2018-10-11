@@ -61,35 +61,35 @@
 		},
 		{
             		"id":"GFP",
-            		"k_loss":0.017179401454748944,
+            		"k_loss":0.00443383612441,
             		"part":"cds",
             		"type":"reporter",
 	    		"sequence":"CTCAAGCG"
         	},
 		{
             		"id":"LasR",
-            		"k_loss":0.017179401454748944,
+            		"k_loss":0.00443383612441,
             		"part":"cds",
             		"type":"connector",
 	    		"sequence":"TCTCG"
         	},
 		{
             		"id":"LuxR",
-            		"k_loss":0.017179401454748944,
+            		"k_loss":0.00443383612441,
             		"part":"cds",
             		"type":"connector",
 	 	   	"sequence":"AGATT"
         	},
  	    {
             		"id":"RhlR",
-            		"k_loss":0.017179401454748944,
+            		"k_loss":0.00443383612441,
             		"part":"cds",
             		"type":"connector",
 	 	   	"sequence":"AGATT"
         	},
         {
             		"id":"PhlF",
-            		"k_loss":0.017179401454748944,
+            		"k_loss":0.00443383612441,
             		"part":"cds",
             		"type":"connector",
 	 	   	"sequence":"AGATT"
