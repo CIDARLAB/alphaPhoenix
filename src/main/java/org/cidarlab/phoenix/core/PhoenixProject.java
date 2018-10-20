@@ -535,8 +535,8 @@ public class PhoenixProject {
         if((!Utilities.validFilepath(projectfp + "library.json")) || (!Utilities.validFilepath(projectfp + "structure.eug")) || (!Utilities.validFilepath(projectfp + "stl.txt"))){
             return null;
         }
-        
-        JSONObject lib = new JSONObject(projectfp + "library.json");
+        String libJsonText = Utilities.getFileContentAsString(projectfp + "library.json").trim();
+        JSONObject lib = new JSONObject(libJsonText);
         obj.put("registry", lib.get("registry"));
         obj.put("collection", lib.get("collection"));
         obj.put("database", lib.get("database"));

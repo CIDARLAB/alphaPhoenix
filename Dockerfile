@@ -27,7 +27,7 @@ RUN python -c 'import dnaplotlib'
 # Install External Dependencies
 RUN cd lib/externalDependencies && sh installDependencies.sh
 
-RUN mvn clean install
+RUN mvn clean install -DskipTests
 
 # Open Port
 EXPOSE 9090
