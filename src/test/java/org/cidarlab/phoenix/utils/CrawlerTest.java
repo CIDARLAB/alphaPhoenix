@@ -75,11 +75,11 @@ public class CrawlerTest {
         onetudet = getIndexAssignmentMap(oneTUdetfp);
         twotudet = getIndexAssignmentMap(twoTUdetfp);
         //threetudet = getIndexAssignmentMap(threeTUdetfp);
-        //pulsedet = getIndexAssignmentMap(pulsedetfp);
-        generateAssignmentsFile(onetudet, oneTUfp + "DeterministicRed0.csv");
-        generateAssignmentsFile(twotudet, twoTUfp + "DeterministicRed0.csv");
+        pulsedet = getIndexAssignmentMap(pulsedetfp);
+        //generateAssignmentsFile(onetudet, oneTUfp + "DeterministicRed0.csv");
+        //generateAssignmentsFile(twotudet, twoTUfp + "DeterministicRed0.csv");
         //generateAssignmentsFile(threetudet, threeTUfp + "DeterministicRed0.csv");
-        //generateAssignmentsFile(pulsedet, pulsefp + "DeterministicRed0.csv");
+        generateAssignmentsFile(pulsedet, pulsefp + "DeterministicRed0.csv");
         
     }
 

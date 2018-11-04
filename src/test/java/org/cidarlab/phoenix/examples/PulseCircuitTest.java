@@ -23,7 +23,7 @@ import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.library.Library;
 import org.cidarlab.phoenix.utils.Args;
 import org.cidarlab.phoenix.utils.Utilities;
-import static org.junit.Assert.assertEquals;
+import org.junit.Assert;
 import org.junit.Test;
 import org.sbolstandard.core2.SBOLDocument;
 import org.sbolstandard.core2.SBOLValidationException;
@@ -51,8 +51,8 @@ public class PulseCircuitTest {
         List<Module> modules = MiniEugeneAdaptor.getStructures(eugfp, eugCircSize, "pulse");
         Module module = modules.get(0);
         
-        assertEquals(modules.size(),1);
-        assertEquals(module.getComponents().size(),16);
+        Assert.assertEquals(modules.size(),1);
+        Assert.assertEquals(module.getComponents().size(),16);
         
         System.out.println("Components :");
         System.out.println(module.getComponentString());

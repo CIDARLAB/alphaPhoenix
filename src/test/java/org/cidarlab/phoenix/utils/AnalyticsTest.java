@@ -246,68 +246,28 @@ public class AnalyticsTest {
             
             Signal s = Utilities.readSignalsFromCSV(fp + "out0.csv").get(0);
             List<Point> points = new ArrayList<>(s.getPoints());
-            /*List<Point> points = new ArrayList<>();
-            for(Point p:s.getPoints()){
-                if(p.getX() >= 600){
-                    points.add(p);
-                }
-            }*/
-            
-            
             boolean found = false;
-            /*
-            for(int i=0;i<points.size()-1;i++){
-                if(points.get(i+1).getY() < points.get(i).getY()){
-                    found = true;
-                    break;
-                }
-            }
-            if(found){
-                System.out.println("Decreasing :: " + tu + " :: " + f.getName());
-                
-                List<String> script = new ArrayList<>();
-                script.add("import matplotlib\n" 
-                        + "matplotlib.use('agg',warn=False, force=True)\n" 
-                        + "from matplotlib import pyplot as plt\n" 
-                        + "from matplotlib import patches as patches\n" 
-                        + "\n" 
-                        + "fig = plt.figure()");
-                String x = "sx = [";
-                String y = "sy = [";
-                
-                for(int i=0;i<points.size()-1;i++){
-                    x += points.get(i).getX() + ",";
-                    y += points.get(i).getY() + ",";
-                }
-                Point last = points.get(points.size()-1);
-                x += last.getX() + "]";
-                y += last.getY() + "]";
-                
-                script.add(x);
-                script.add(y);
-                script.add("plt.plot(sx,sy,color='black',linestyle='solid')");
-                
-                script.add("plt.xlabel(\"time\")\n" 
-                        + "plt.ylabel(\"out0\")");
-                script.add("plt.xlim(600.0,1500.0)");
-                
-                script.add("fig.savefig('" + concavefp + tu + "_" + f.getName() + ".png', dpi=300)");
-                
-                Utilities.writeToFile(concavefp + tu + "_" + f.getName() + ".py", script);
-                Utilities.runPythonScript(concavefp + tu + "_" + f.getName() + ".py");
-            }*/
-            
-            
-            
-            found = false;
             
             boolean increasing = false;
+            double startVal = 0;
+            double peakTime = points.get(0).getX();
+            double peakVal = points.get(0).getY();
+            double endVal = 0;
             for(int i=0;i<points.size()-1;i++){
+                
+                if(points.get(i).getX() <= 330){
+                    endVal = points.get(i).getY();
+                }
+                
+                if(points.get(i).getY() > peakVal){
+                    peakVal = points.get(i).getY();
+                    peakTime = points.get(i).getX();
+                }
                 
                 if(increasing){
                     if (points.get(i + 1).getY() < points.get(i).getY()) {
                         found = true;
-                        break;
+                        //break;
                     }
                 } else {
                     if (points.get(i + 1).getY() > points.get(i).getY()) {
@@ -315,10 +275,30 @@ public class AnalyticsTest {
                     }
                 }
             }
-            found = true;
+            
+            boolean lims = false;
             if(found){
-                System.out.println("Concave :: " + tu + " :: " + f.getName());
+                startVal = points.get(0).getY();
+                if( (peakVal-startVal) > 1000 ){
+                    if(peakTime < 250){
+                        System.out.println("Peak Val " + peakVal);
+                        System.out.println("End Val " + endVal);
+                        lims = true;
+                        
+                        /*if( (peakVal - endVal) > 100){
+                        }*/
+                    }
+                }
                 
+            }
+            
+            if(found && lims){
+                System.out.println("Concave   :: " + tu + " :: " + f.getName());
+                System.out.println("Peak time :: " + peakTime);
+                System.out.println("Start Val :: " + startVal);
+                System.out.println("Peak Val  :: " + peakVal);
+                System.out.println("End Val   :: " + endVal);
+                System.out.println("------------------------");
                 List<String> script = new ArrayList<>();
                 script.add("import matplotlib\n" 
                         + "matplotlib.use('agg',warn=False, force=True)\n" 
