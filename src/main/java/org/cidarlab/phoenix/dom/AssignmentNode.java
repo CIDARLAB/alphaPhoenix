@@ -19,6 +19,7 @@ import java.util.Objects;
 import javax.xml.stream.XMLStreamException;
 import lombok.Getter;
 import lombok.Setter;
+import org.cidarlab.gridtli.adaptors.PyPlotAdaptor;
 import org.cidarlab.gridtli.dom.Signal;
 import org.cidarlab.gridtli.dom.TLIException;
 import org.cidarlab.phoenix.adaptors.IBioSimAdaptor;
@@ -258,7 +259,7 @@ public class AssignmentNode {
         this.concs.put(sm, conc);
     }
     
-    public double robustness(Module module, TreeNode stl, Library library, Map<URI,SBMLDocument> modelmap, Args.Decomposition decomposition, String fp) throws URISyntaxException, MalformedURLException, XMLStreamException, FileNotFoundException, IOException, TLIException{
+    public double robustness(Module module, TreeNode stl, Library library, Map<URI,SBMLDocument> modelmap, Args.Decomposition decomposition, String fp) throws URISyntaxException, MalformedURLException, XMLStreamException, FileNotFoundException, IOException, TLIException, InterruptedException{
         double rob = 0.0;
         
         double stlmaxtime = (STLAdaptor.getMaxTime(stl));
@@ -309,6 +310,17 @@ public class AssignmentNode {
             List<Signal> writesignals = new ArrayList<>();
             writesignals.add(allsignals.get(key));
             Utilities.writeSignalsToCSV(writesignals, fp + key + ".csv");
+            List<Signal> signalsToPlot = new ArrayList<>();
+            signalsToPlot.add(allsignals.get(key));
+            
+            String title = "";
+            if(!this.concs.isEmpty()){
+                title = this.concs.toString();
+            }
+            
+            List<String> pylines = PyPlotAdaptor.generateSignalPlotScript(signalsToPlot, fp + key + ".png", 0, stlmaxtime, 0, 1000000, PyPlotAdaptor.Axis.LINEAR, PyPlotAdaptor.Axis.SYMLOG, "MEFL", this.concs.toString());
+            Utilities.writeToFile(fp + key + "_signals.py", pylines);
+            Utilities.runPythonScript(fp + key + "_signals.py");
         }
         
         

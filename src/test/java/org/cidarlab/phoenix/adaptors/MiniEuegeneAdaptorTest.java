@@ -39,10 +39,19 @@ public class MiniEuegeneAdaptorTest {
     public void tearDown() {
     }
     
-    @Test
-    public void modulesFromEugeneTest(){
-        System.out.println("modulesFromEugeneTest :: Empty Test");
+   
+    public static void main(String[] args) {
+    
+        String basefp = Utilities.getLibFilepath() + "examples" + Utilities.getSeparater() + "miniEugeneScripts" + Utilities.getSeparater();
+        
+        String example1fp = basefp + "example1.eug";
+        
+        
+        List<Module> modules = MiniEugeneAdaptor.getStructures(example1fp, 8, "inverter");
+        System.out.println("Example 1 size = " + modules.size());
     }
+    
+    
     
     
 }

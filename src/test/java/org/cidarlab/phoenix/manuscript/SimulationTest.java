@@ -22,9 +22,6 @@ import org.cidarlab.gridtli.dom.TLIException;
 import org.cidarlab.phoenix.adaptors.IBioSimAdaptor;
 import org.cidarlab.phoenix.adaptors.STLAdaptor;
 import org.cidarlab.phoenix.core.simulation.AbstractSimulation;
-import static org.cidarlab.phoenix.utils.Args.Simulation.DETERMINISTIC;
-import static org.cidarlab.phoenix.utils.Args.Simulation.STOCHASTIC;
-import org.cidarlab.phoenix.utils.CrawlerTest;
 import org.cidarlab.phoenix.utils.Utilities;
 
 /**

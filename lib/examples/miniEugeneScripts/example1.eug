@@ -1,0 +1,6 @@
+//Size=8
+
+sequence [p|cp0], r, c, t, p, r, c, t
+
+//ORIENTATION
+ALL_FORWARD

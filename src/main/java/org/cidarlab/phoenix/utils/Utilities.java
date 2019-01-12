@@ -374,7 +374,7 @@ public class Utilities {
     public static void runPythonScript(String filepath) throws InterruptedException, IOException {
         StringBuilder commandBuilder = null;
         if (Utilities.isLinux()) {
-            commandBuilder = new StringBuilder("/usr/bin/python " + filepath);
+            commandBuilder = new StringBuilder("/home/prash/anaconda2/bin/python " + filepath);
         } else {
             commandBuilder = new StringBuilder("python \"" + filepath + "\"");
         }

@@ -69,8 +69,10 @@ public class CaseStudy {
         //caseStudySimulatedAnnealing("twoTU");
         //caseStudySimulatedAnnealing("threeTU");
         
-        CrawlerTest ct = new CrawlerTest();
+        //CrawlerTest ct = new CrawlerTest();
         
+        
+        getSTLlines();
         
     }
     
@@ -155,6 +157,35 @@ public class CaseStudy {
         }
                 
     }
+    
+    
+    public static void getSTLlines(){
+        double[] lowmin = {350};
+        double[] lowmax = {450};
+
+        double[] highmin = {5000};
+        double[] highmax = {10000};
+        
+         for(int i=0;i<lowmin.length;i++){
+            
+            ConjunctionNode low = new ConjunctionNode(new LinearPredicateLeaf(RelOperation.LE,"out0",lowmax[i]),new LinearPredicateLeaf(RelOperation.GE,"out0",lowmin[i]));
+            for(int j=0;j<highmin.length;j++){
+                AlwaysNode an1 = new AlwaysNode(new ConjunctionNode(new LinearPredicateLeaf(RelOperation.LE,"out0",highmax[j]),new LinearPredicateLeaf(RelOperation.GE,"out0",highmin[j])),0,120);
+                EventNode en1 = new EventNode(an1,60,180);
+                ConjunctionNode stl = new ConjunctionNode(low,en1);
+                
+                AlwaysNode an0 = new AlwaysNode(low,0,1);
+                List<String> stlplot = new ArrayList<>();
+                stlplot.addAll(alwaysPlotScript(an0,0));
+                stlplot.addAll(eventAlwaysPlotScript(en1,1));
+                for(String s:stlplot){
+                    System.out.println(s);
+                }
+            }
+         }
+        
+    }
+    
     
     public static void caseStudyPulse() throws TLIException, InterruptedException, IOException{
         
@@ -266,7 +297,7 @@ public class CaseStudy {
         
         
         String synbiohuburl = "https://synbiohub.programmingbiology.org";
-        String phoenixliburl = "https://synbiohub.programmingbiology.org/public/PhoenixParts/PhoenixParts_collection/1";
+        String phoenixliburl = "https://synbiohub.programmingbiology.org/public/PhoenixReduced/PhoenixReduced_collection/1";
 
         SynBioHubFrontend shub = new SynBioHubFrontend(synbiohuburl);
         URI u = new URI(phoenixliburl);
@@ -309,8 +340,8 @@ public class CaseStudy {
                     resultsfp = CrawlerTest.pulsedetfp;
                     eugfp = safp + "pulseCircuitSpecific.eug";
                 }
-                Map<Integer, Double> exhaustiveResults = Crawler.getRobustness(stl, resultsfp);
                 
+                Map<Integer, Double> exhaustiveResults = Crawler.getRobustness(stl, resultsfp);
                 List<Integer> keys = new ArrayList<>(exhaustiveResults.keySet());
                 
                 double maxScore = exhaustiveResults.get(keys.get(0));
@@ -326,7 +357,7 @@ public class CaseStudy {
                 List<Module> decomposed;
                 
                 for (int k = 0; k < threads; k++) {
-                    Args args = new Args(Args.Decomposition.PR_C_T, Args.Simulation.STOCHASTIC, runCount, 0.99, 0.5, Args.Assignment.SIMULATED_ANNEALING);
+                    Args args = new Args(Args.Decomposition.PR_C_T, Args.Simulation.DETERMINISTIC, runCount, 0.99, 0.5, Args.Assignment.SIMULATED_ANNEALING);
                     String iterationfp = fp + "iteration" + k + Utilities.getSeparater();
                     Utilities.makeDirectory(iterationfp);
                     args.setProjectFolder(iterationfp);
@@ -370,25 +401,25 @@ public class CaseStudy {
                 assignmentcount = resultlines.size();
                 
                 String x = "sx" + filecount  +" = [0";
-                String y = "sy" + filecount  +" = [" + Double.valueOf(resultlines.get(0)[1]);
+                String y = "sy" + filecount  +" = [" + Double.valueOf(resultlines.get(0)[0]);
                 
                 for(int i=1;i<resultlines.size();i++){
                     x += (","  + i); 
-                    y += ("," + Double.valueOf(resultlines.get(i)[1]));
+                    y += ("," + Double.valueOf(resultlines.get(i)[0]));
                 }
                 x += "]";
                 y += "]";
                 
                 lines.add(x);
                 lines.add(y);
-                lines.add("plt.plot(sx" + filecount + ",sy" + filecount +  ", linewidth=0.5, color='#0000FF',linestyle='solid')");
+                lines.add("plt.plot(sx" + filecount + ",sy" + filecount +  ", linewidth=0.2, color='#000000',linestyle='solid')");
                 
                 filecount++;
             }
         }
         
         
-        lines.add("plt.plot([0," + (assignmentcount-1) + "],[" + maxScore + "," + maxScore + "],'k-')");
+        lines.add("plt.plot([0," + (assignmentcount-1) + "],[" + maxScore + "," + maxScore + "], 'k-', color='#0000FF', linewidth=0.5)");
         
         lines.add("plt.xlabel(\"Assignment Index\")\n" 
                 + "plt.ylabel(\"Robustness\")\n");

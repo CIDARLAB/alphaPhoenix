@@ -108,7 +108,7 @@ public class DnaPlotlibAdaptor {
         
         int colorCount = 0;
         
-        for(Component c:m.getComponents()){
+        /*for(Component c:m.getComponents()){
             if(!colorMap.containsKey(c.getName())){
                 if(c.isRBS() || c.isTerminator()){
                     colorMap.put(c.getName(), "(0.00, 0.00, 0.00)");
@@ -129,9 +129,24 @@ public class DnaPlotlibAdaptor {
                     }
                 }
             }
-        }
+        }*/
+        colorMap.put("pLacIq018", "'black'");
+        colorMap.put("pLacI017", "'black'");
+        colorMap.put("pLas007", "'red'");
+        colorMap.put("pLux050", "'slateblue'");
+        colorMap.put("pRhl046", "'deepskyblue'");
+        colorMap.put("pPhl081", "'orange'");
+        colorMap.put("RBS30", "'dimgray'");
+        colorMap.put("RBS31", "'lightgrey'");
+        colorMap.put("RBS33", "'whitesmoke'");
+        colorMap.put("GFP", "'green'");
+        colorMap.put("LasR", "'red'");
+        colorMap.put("LuxR", "'slateblue'");
+        colorMap.put("RhlR", "'deepskyblue'");
+        colorMap.put("PhlF", "'orange'");
+        colorMap.put("Ter1", "'black'");
         
-        
+	
         
         Map<String,String> partNameMap = new HashMap<>();
         int partCount = 0;
@@ -143,7 +158,7 @@ public class DnaPlotlibAdaptor {
         for(Component c:m.getComponents()){
             partName = "part" + partCount++;
             String id = getId(c, assignment.get(c.getName()), library);
-            scr += partName + " = " + createPartString(id, true, c.getRole(), colorMap.get(c.getName()), c.getOrientation()) + "\n";
+            scr += partName + " = " + createPartString(id, false, c.getRole(), colorMap.get(id), c.getOrientation()) + "\n";
             partNameMap.put(c.getName(), partName);
             designString += partName;
             if(partCount < m.getComponents().size()){
@@ -221,8 +236,8 @@ public class DnaPlotlibAdaptor {
                "ax_dna.set_aspect('equal')\n" +
                "ax_dna.axis('off')\n\n";
         
-        scr += "fig.savefig('" + filename + ".png', dpi=1200)\n" +
-               "plt.close('all')";
+        scr += "fig.savefig('" + filename + ".png', dpi=900)";
+               //"plt.close('all')";
         
         
         
@@ -516,7 +531,7 @@ public class DnaPlotlibAdaptor {
                 scr += "RBS', 'fwd':" + oString + ", 'opts':{'linewidth':lw," + labelString + " 'color':" + color + ", 'edge_color':(0.00, 0.00, 0.00)}}";
                 break;
             case 'c':
-                scr += "CDS', 'fwd':" + oString + ", 'opts':{'linewidth':lw," + labelString + " 'color':" + color + ", 'edge_color':(0.00, 0.00, 0.00),'x_extent':20}}";
+                scr += "CDS', 'fwd':" + oString + ", 'opts':{'linewidth':lw," + labelString + " 'color':" + color + ", 'edge_color':(0.00, 0.00, 0.00),'x_extent':25}}";
                 break;
             case 't':
                 scr += "Terminator', 'fwd':" + oString + ", 'opts':{'linewidth':lw," + labelString + " 'color':" + color + ", 'edge_color':(0.00, 0.00, 0.00)}}";

@@ -14,13 +14,11 @@ import java.util.List;
 import org.cidarlab.phoenix.adaptors.MiniEugeneAdaptor;
 import org.cidarlab.phoenix.adaptors.STLAdaptor;
 import org.cidarlab.phoenix.core.Controller;
-import org.cidarlab.phoenix.core.assignment.Exhaustive;
 import org.cidarlab.phoenix.core.assignment.SimulatedAnnealing;
 import org.cidarlab.phoenix.dom.Module;
 import org.cidarlab.phoenix.dom.library.Library;
 import org.cidarlab.phoenix.utils.Args;
 import org.cidarlab.phoenix.utils.Utilities;
-import org.junit.Test;
 import org.sbolstandard.core2.SBOLDocument;
 import org.sbolstandard.core2.SBOLValidationException;
 import org.synbiohub.frontend.SynBioHubException;
@@ -44,7 +42,7 @@ public class Circuit2tuTest {
     private static final int runCount = 20;
     private static final int threads = 20;
     
-    public void testSimulatedAnnealing() throws URISyntaxException, SBOLValidationException, SynBioHubException, MalformedURLException {
+    public void testSimulatedAnnealing() throws URISyntaxException, SBOLValidationException, SynBioHubException, MalformedURLException, InterruptedException {
         
         Utilities.makeDirectory(two_tu_results);
         
@@ -76,7 +74,7 @@ public class Circuit2tuTest {
             Utilities.makeDirectory(iterationfp);
             args.setProjectFolder(iterationfp);
             
-            modules = MiniEugeneAdaptor.getStructures(two_tu_eug, size, "threetu");
+            modules = MiniEugeneAdaptor.getStructures(two_tu_eug, size, "twotu");
             decomposed = new ArrayList<>();
             for (Module m : modules) {
                 decomposed.add(Controller.decompose(m, Args.Decomposition.PR_C_T));
@@ -87,7 +85,7 @@ public class Circuit2tuTest {
         }
     }
     
-    public static void main(String[] args) throws URISyntaxException, SBOLValidationException, SynBioHubException, MalformedURLException {
+    public static void main(String[] args) throws URISyntaxException, SBOLValidationException, SynBioHubException, MalformedURLException, InterruptedException {
         Circuit2tuTest circ = new Circuit2tuTest();
         circ.testSimulatedAnnealing();
     }

@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+  <model>
+    <listOfCompartments>
+      <compartment constant="false" id="cell" name="cell" size="1"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species boundaryCondition="false" compartment="cell" constant="false" hasOnlySubstanceUnits="true" id="out0" initialAmount="0" name="out0" sboTerm="SBO:0000601"/>
+      <species boundaryCondition="false" compartment="cell" constant="false" hasOnlySubstanceUnits="true" id="conn0" initialAmount="0" name="conn0"/>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction fast="false" id="out_expression" name="out_expression" reversible="false" sboTerm="SBO:0000589">
+                <listOfProducts>
+          <speciesReference constant="true" species="out0" stoichiometry="1"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference sboTerm="SBO:0000020" species="conn0"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <plus/>
+              <ci> basal </ci>
+              <apply>
+                <divide/>
+                <ci> max </ci>
+                <apply>
+                  <plus/>
+                  <cn type="integer"> 1 </cn>
+                  <apply>
+                    <power/>
+                    <apply>
+                      <divide/>
+                      <ci> conn0 </ci>
+                      <ci> K_d </ci>
+                    </apply>
+                    <ci> n </ci>
+                  </apply>
+                </apply>
+              </apply>
+            </apply>
+          </math>
+                  <listOfLocalParameters>
+            <localParameter id="max" name="max" value="928.567"/>
+            <localParameter id="basal" name="basal" value="0.969"/>
+            <localParameter id="K_d" name="K_d" value="57.191"/>
+            <localParameter id="n" name="n" value="1.337"/>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction fast="false" id="out_degradation" name="out_degradation" reversible="false" sboTerm="SBO:0000179">
+        <listOfReactants>
+          <speciesReference constant="true" species="out0" stoichiometry="1"/>
+        </listOfReactants>
+                        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> k_loss </ci>
+              <ci> out0 </ci>
+            </apply>
+          </math>
+                  <listOfLocalParameters>
+            <localParameter id="k_loss" name="k_loss" value="0.00443383612441"/>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction fast="false" id="out_expression1" name="out_expression" reversible="false" sboTerm="SBO:0000589">
+                <listOfProducts>
+          <speciesReference constant="true" species="conn0" stoichiometry="1"/>
+        </listOfProducts>
+                <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <ci> k_express </ci>
+          </math>
+                  <listOfLocalParameters>
+            <localParameter id="k_express" name="k_express" value="12.880496"/>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction fast="false" id="conn_degradation" name="conn_degradation" reversible="false" sboTerm="SBO:0000179">
+        <listOfReactants>
+          <speciesReference constant="true" species="conn0" stoichiometry="1"/>
+        </listOfReactants>
+                        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> k_loss </ci>
+              <ci> conn0 </ci>
+            </apply>
+          </math>
+                  <listOfLocalParameters>
+            <localParameter id="k_loss" name="k_loss" value="0.00443383612441"/>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

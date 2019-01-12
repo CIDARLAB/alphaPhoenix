@@ -70,8 +70,8 @@ public class ExhaustiveSimulation extends AbstractSimulation {
             if(indSMmap.isEmpty()){
                 
                 noSM++;
-                //System.out.println("Current Assignment : " + count + " has no small molecules.");
-                //printAssignment(module,assignment);
+                System.out.println("Current Assignment : " + count + " has no small molecules.");
+                printAssignment(module,assignment);
                 
                 String ifp = fp + count + Utilities.getSeparater();
                 Utilities.makeDirectory(ifp);
@@ -82,7 +82,7 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                 
                 //double score = 0;
                 double score = runSimulation(module, assignment, ioc, library, stl, modelFile, args, ifp);
-                //System.out.println("Score = " + score);
+                System.out.println("Score = " + score);
                 boolean result = (score >= args.getThreshold());
                 if(result){
                     AssignmentNode an = new AssignmentNode(module, assignment, ioc, library);
@@ -90,14 +90,14 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                     an.setAssignmentIndex(count);
                     an.setScore(score);
                     
-                    Utilities.writeToFile(ifp + "assignmentDetails.json", an.getDetails(library).toString());
+                    //Utilities.writeToFile(ifp + "assignmentDetails.json", an.getDetails(library).toString());
                     
                     //an.setFilepath(ifp);
                     nodes.add(an);
-                    System.out.println("Current Assignment : " + count);
-                    System.out.println(an.toString(library));
+                    //System.out.println("Current Assignment : " + count);
+                    //System.out.println(an.toString(library));
                 } else {
-                    FileUtils.deleteDirectory(new File(ifp));
+                    //FileUtils.deleteDirectory(new File(ifp));
                 }
                 
                 
@@ -107,7 +107,7 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                 hasSM++;
                 
                 if(!smCounts.containsKey(indSMmap.size())){
-                    smCounts.put(indSMmap.size(), 0);
+                    smCounts.put(indSMmap.size(), 1);
                 } else {
                     int smcount = smCounts.get(indSMmap.size());
                     smcount++;
@@ -150,11 +150,11 @@ public class ExhaustiveSimulation extends AbstractSimulation {
                     
                         //an.setFilepath(ifp);
                         nodes.add(an);
-                        System.out.println("Current Assignment : " + count);
-                        System.out.println(an.toString(library));
+                        //System.out.println("Current Assignment : " + count);
+                        //System.out.println(an.toString(library));
                 
                     } else {
-                        FileUtils.deleteDirectory(new File(ifp));
+                        //FileUtils.deleteDirectory(new File(ifp));
                     }
                     
                     count++;
@@ -171,6 +171,8 @@ public class ExhaustiveSimulation extends AbstractSimulation {
         }
         return nodes;
     }
+    
+    
     
     
     

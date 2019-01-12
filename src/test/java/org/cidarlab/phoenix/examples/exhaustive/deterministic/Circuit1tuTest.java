@@ -140,7 +140,9 @@ public class Circuit1tuTest {
         Module tu = m1.getChildren().get(0);
         
         Module pr = tu.getChildren().get(0);
-        System.out.println("PR candidate assignment : " + pr.getCandidates().size());
+        
+        
+        /*System.out.println("PR candidate assignment : " + pr.getCandidates().size());
         Module c = tu.getChildren().get(1);
         System.out.println("C candidate assignment  : " + c.getCandidates().size());
         Module t = tu.getChildren().get(2);
@@ -148,7 +150,7 @@ public class Circuit1tuTest {
         
         System.out.println("TU candidate assignment : " + tu.getAssignments().size());
         System.out.println("###############################");
-        System.out.println("Final Number of assignments  :: " + m1.getAssignments().size());
+        System.out.println("Final Number of assignments  :: " + m1.getAssignments().size());*/
         
     }
     

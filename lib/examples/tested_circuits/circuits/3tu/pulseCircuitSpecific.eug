@@ -1,0 +1,6 @@
+//Size=16
+
+sequence cp1, r, ac1, t, ap1, r, rc1, t, rp1, r, ac2, t, ap2, r, fc1, t
+
+//ORIENTATION
+ALL_FORWARD

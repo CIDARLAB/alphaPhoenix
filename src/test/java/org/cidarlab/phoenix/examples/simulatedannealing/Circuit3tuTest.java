@@ -43,7 +43,7 @@ public class Circuit3tuTest {
     
     private static final int threads = 20;
     
-    public void testSimulatedAnnealing() throws URISyntaxException, SBOLValidationException, SynBioHubException, MalformedURLException {
+    public void testSimulatedAnnealing() throws URISyntaxException, SBOLValidationException, SynBioHubException, MalformedURLException, InterruptedException {
         
         Utilities.makeDirectory(three_tu_results);
         
@@ -87,7 +87,7 @@ public class Circuit3tuTest {
         
     }
     
-    public static void main(String[] args) throws URISyntaxException, SBOLValidationException, SynBioHubException, MalformedURLException {
+    public static void main(String[] args) throws URISyntaxException, SBOLValidationException, SynBioHubException, MalformedURLException, InterruptedException {
         Circuit3tuTest circ = new Circuit3tuTest();
         circ.testSimulatedAnnealing();
     }

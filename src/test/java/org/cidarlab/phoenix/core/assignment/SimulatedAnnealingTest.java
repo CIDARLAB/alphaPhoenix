@@ -252,7 +252,7 @@ public class SimulatedAnnealingTest {
      */
     
     
-    public void testSolve() {
+    public void testSolve() throws InterruptedException {
         
         System.out.println("########################################################");
         System.out.println("Module 0 - Library--------------------------------------");
@@ -495,7 +495,7 @@ public class SimulatedAnnealingTest {
     }
     
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         SimulatedAnnealingTest sa = new SimulatedAnnealingTest();
         sa.testAcceptanceProbability();
         sa.testSolve();

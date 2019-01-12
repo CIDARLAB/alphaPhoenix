@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.stream.XMLStreamException;
 import org.cidarlab.gridtli.dom.TLIException;
+import org.cidarlab.phoenix.adaptors.DnaPlotlibAdaptor;
 import org.cidarlab.phoenix.core.simulation.AbstractSimulation;
 import org.cidarlab.phoenix.dom.AssignmentNode;
 import org.cidarlab.phoenix.dom.CandidateComponent;
@@ -47,11 +48,11 @@ import org.sbml.jsbml.SBMLDocument;
  */
 public class SimulatedAnnealing extends AbstractAssignment {
 
-    private double coolingRate = 0.0045;
+    private double coolingRate = 0.045;
     private double temperature = 10000;
 
     //@Override
-    public void solve(List<Module> modules, Library library, TreeNode stl, Args args) {
+    public void solve(List<Module> modules, Library library, TreeNode stl, Args args) throws InterruptedException {
 
         long start = System.currentTimeMillis();
         for (int i = 0; i < modules.size(); i++) {
@@ -70,7 +71,11 @@ public class SimulatedAnnealing extends AbstractAssignment {
 
     }
 
-    private void solve(Module module, Library library, TreeNode stl, Args args, int moduleindex) throws URISyntaxException, MalformedURLException, XMLStreamException, FileNotFoundException, IOException, TLIException {
+    private void solve(Module module, Library library, TreeNode stl, Args args, int moduleindex) throws URISyntaxException, MalformedURLException, XMLStreamException, FileNotFoundException, IOException, TLIException, InterruptedException {
+        
+        List<String> scoreLines = new ArrayList<>();
+        
+        String resultsFolderName = "saResults";
         this.assignLeafCandidates(module, library);
 
         int count = 0;
@@ -84,10 +89,11 @@ public class SimulatedAnnealing extends AbstractAssignment {
         }
 
         if (candidateCount < 40000) {
+            System.out.println("Candidate count is less than 40000");
             setCoolingRate(candidateCount);
         }
 
-        String resultsfp = args.getProjectFolder() + "saResults" + Utilities.getSeparater();
+        String resultsfp = args.getProjectFolder() + resultsFolderName + Utilities.getSeparater();
         Utilities.makeDirectory(resultsfp);
         Map<URI, SBMLDocument> modelmap = AbstractSimulation.downloadAllModels(library, resultsfp);
 
@@ -103,18 +109,31 @@ public class SimulatedAnnealing extends AbstractAssignment {
 
         double maxScore = currentScore;
         AssignmentNode bestnode = currentNode;
-
+        
+        List<Double> maxScores = new ArrayList<>();
         List<String> lines = new ArrayList<>();
-
-        lines.add(currentNode.toString(library) + "," + currentScore);
-        System.out.println("First Assignment : " + currentNode.toString(library));
-        System.out.println("Current Score : " + currentScore);
-        System.out.println("----------------------------------------------------");
-        System.out.println("----------------------------------------------------");
+        
+        
+        
+        lines.add(currentScore + "," + currentNode.toString(library));
+        //System.out.println("First Assignment : " + currentNode.toString(library));
+        //System.out.println("Current Score : " + currentScore);
+        //System.out.println("----------------------------------------------------");
+        //System.out.println("----------------------------------------------------");
         int loopThreshold = 1000;
         int loopCount = 0;
         boolean cooledDown = true;
+        //Map<String,String> ioc = AbstractSimulation.getIOCmap(module, currentAssignment, library);
+        //String plotScript = DnaPlotlibAdaptor.generateScript(module, currentAssignment, ioc, new HashMap<String,String>(), library, simfp + "sbol");
+        //Utilities.writeToFile(simfp + "sbol.py", plotScript);
+        //Utilities.runPythonScript(simfp + "sbol.py");
+        
+        maxScores.add(currentScore);
+        
+        scoreLines.add(count + "," + currentScore + "," + currentScore);
+        //plotMaxScores(maxScores,simfp);
         while (temperature > 1) {
+            count++;
             //System.out.println("Temperature :: " + temperature);
             AssignmentNode newNode;
             loopCount = 0;
@@ -129,48 +148,108 @@ public class SimulatedAnnealing extends AbstractAssignment {
                 break;
             }
 
-            simfp = resultsfp + (count + 1) + Utilities.getSeparater();
+            simfp = resultsfp + (count) + Utilities.getSeparater();
             Utilities.makeDirectory(simfp);
 
             newNode.updateConcentrations(module, currentNode.getConcs(), library);
             newScore = newNode.robustness(module, stl, library, modelmap, args.getDecomposition(), simfp);
 
-            lines.add(newNode.toString(library) + "," + newScore);
+            //ioc = AbstractSimulation.getIOCmap(module, newNode.getAssignment(), library);
+            //plotScript = DnaPlotlibAdaptor.generateScript(module, newNode.getAssignment(), ioc, new HashMap<String, String>(), library, simfp + "sbol");
+            //Utilities.writeToFile(simfp + "sbol.py", plotScript);
+            //Utilities.runPythonScript(simfp + "sbol.py");
+            
+            lines.add(newScore + "," + newNode.toString(library));
             if (newScore > maxScore) {
                 maxScore = newScore;
                 bestnode = newNode;
             }
-
+            maxScores.add(maxScore);
+            scoreLines.add(count + "," + newScore + "," + maxScore);
+        
+            //plotMaxScores(maxScores,simfp);
+            
             int hammingDistance = currentNode.hammingDistance(newNode);
+            //int hammingDistance = 1;
             double ap = acceptanceProbability(currentScore, newScore, temperature, hammingDistance);
             double random = Math.random();
 
-            System.out.println("Current Node  : " + currentNode.toString(library));
-            System.out.println("Current Score : " + currentScore);
-            System.out.println("Next Node     : " + newNode.toString(library));
-            System.out.println("New Score     : " + newScore);
-            System.out.println("Acceptance    : " + ap);
+            //System.out.println("Current Node  : " + currentNode.toString(library));
+            //System.out.println("Current Score : " + currentScore);
+            //System.out.println("Next Node     : " + newNode.toString(library));
+            //System.out.println("New Score     : " + newScore);
+            //System.out.println("Acceptance    : " + ap);
             if (ap > random) {
-                System.out.println("Status        : Accepted");
+                //System.out.println("Status        : Accepted");
                 currentScore = newScore;
                 currentNode = newNode; // or make this new AssignmentNode(newNode);
             } else {
-                System.out.println("Status        : Rejected");
+                //System.out.println("Status        : Rejected");
             }
-            System.out.println("----------------------------------------------------");
+            //System.out.println("----------------------------------------------------");
             temperature *= (1 - coolingRate);
-            count++;
+            
         }
 
         if (!cooledDown) {
             System.out.println("Current thread was able to reach " + count + " nodes. This could be due to Random Number Generation. Please try again to check for better results");
         }
 
-        Utilities.writeToFile(resultsfp + "results.csv", lines);
-
+        Utilities.writeToFile(args.getProjectFolder() + "scores.csv", scoreLines);
+        
+        
+        /*
+        String xmaxScores = "[0" ;
+        String ymaxScores = "[" + maxScores.get(0);
+        for(int i=1;i<maxScores.size();i++){
+            xmaxScores += "," + i;
+            ymaxScores += "," + maxScores.get(i);
+        }
+        xmaxScores += "]";
+        ymaxScores += "]";
+        List<String> maxScoreLines = new ArrayList<>();
+        maxScoreLines.add(xmaxScores);
+        maxScoreLines.add(ymaxScores);
+        Utilities.writeToFile(resultsfp + "maxScores.txt", maxScoreLines);
+        
+        
+        Utilities.writeToFile(resultsfp + "results.csv", lines);*/
+        
         System.out.println("Total :: " + count);
     }
 
+    
+    private void plotMaxScores(List<Double> maxScores, String fp) throws InterruptedException, IOException{
+        List<String> lines = new ArrayList<>();
+        lines.add("import matplotlib\n" +
+            "matplotlib.use('agg',warn=False, force=True)\n" +
+            "from matplotlib import pyplot as plt\n" +
+            "from matplotlib import patches as patches\n" +
+            "\n" +
+            "fig = plt.figure()");
+        
+        String x = "x = [" + 0;
+        String y = "y = [" + maxScores.get(0);
+        
+        for(int i=1;i<maxScores.size();i++){
+            x += "," + i;
+            y += "," + maxScores.get(i);
+        }
+        x += "]";
+        y += "]";
+        lines.add(x);
+        lines.add(y);
+        lines.add("plt.plot(x, y, linewidth=2.0, color='#000000',linestyle='solid')\n" +
+            "plt.xlabel(\"Assignment Index\")\n" +
+            "plt.ylabel(\"Max Score\")");
+        
+        lines.add("plt.xlim(0,102)\n" +
+            "plt.ylim(-100000,1000)");
+        lines.add("fig.savefig('" + fp + "maxScore.png', dpi=300)");
+        Utilities.writeToFile(fp+ "maxScores.py", lines);
+        Utilities.runPythonScript(fp+ "maxScores.py");
+    }
+    
     private boolean repeatRandom(int pos, Module module, AssignmentNode current, Library lib) {
 
         if (pos < current.getComponents().size()) {
